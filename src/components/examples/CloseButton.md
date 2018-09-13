@@ -1,5 +1,5 @@
 CloseButton
 
 ```js
-<CloseButton />
+  <CloseButton />
 ```

@@ -9,6 +9,16 @@ import '../styles/AttachedActivity.css';
  */
 export default class AttachedActivity extends React.Component {
   render() {
-    return <React.Fragment>{this.props.children}</React.Fragment>;
+    let { author, content } = this.props;
+    return (
+      <div className="raf-attached-activity">
+        {author ? (
+          <p className="raf-attached-activity__author">
+            <strong>{author}</strong>
+          </p>
+        ) : null}
+        <p className="raf-attached-activity__content">{content}</p>
+      </div>
+    );
   }
 }

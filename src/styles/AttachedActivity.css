@@ -1,0 +1,9 @@
+.raf-attached-activity {
+  background: #ffffff;
+  padding: 10px 10px 12px;
+  border-radius: 3px;
+}
+.raf-attached-activity__author,  .raf-attached-activity__content {
+  color: #414D54;
+  margin: 0;
+}

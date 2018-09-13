@@ -4,10 +4,10 @@
     New Post
   </PanelHeading>
   <PanelContent>
-    <p>Hello world</p>
+    <p>Panel Content</p>
   </PanelContent>
   <PanelFooter>
-    <p>Hello world</p>
+    <p>Panel Footer</p>
   </PanelFooter>
 </Panel>
 ```

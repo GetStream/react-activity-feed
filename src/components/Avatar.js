@@ -1,14 +1,23 @@
 import React from 'react';
-import '../App.css';
 import '../styles/Avatar.css';
+import placeholder from '../images/placeholder.png';
 
 /**
- * Component is described here.
  *
  * @example ./examples/Avatar.md
  */
 export default class Avatar extends React.Component {
   render() {
-    return <React.Fragment>{this.props.children}</React.Fragment>;
+    let { size, image, alt } = this.props;
+    return (
+      <React.Fragment>
+        <img
+          className={`raf-avatar`}
+          style={size ? { width: `${size}px`, height: `${size}px` } : {}}
+          src={image ? image : placeholder}
+          alt={alt || ''}
+        />
+      </React.Fragment>
+    );
   }
 }

@@ -1,3 +1,3 @@
 ```js
-<StreamLink to="https://google.com">Google</StreamLink>
+<Link to="https://google.com">Google</Link>
 ```

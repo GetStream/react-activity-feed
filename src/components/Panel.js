@@ -8,6 +8,6 @@ import '../styles/Panel.css';
  */
 export default class Panel extends React.Component {
   render() {
-    return <div className="StreamPanel">{this.props.children}</div>;
+    return <div className="raf-panel">{this.props.children}</div>;
   }
 }

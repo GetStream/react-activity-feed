@@ -1,5 +1,8 @@
 Avatar
 
 ```js
-<Avatar />
+<Avatar
+  size={50}
+  circle
+/>
 ```

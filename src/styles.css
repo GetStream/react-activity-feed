@@ -6,3 +6,8 @@
   border: 2px solid #000;
   font-size: 2em;
 }
+
+
+[class^="raf-"], [class*="raf-"] {
+  font-family: Avenir, Arial, Helvetica, sans-serif;
+}

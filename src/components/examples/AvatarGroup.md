@@ -1,5 +1,9 @@
 AvatarGroup
 
 ```js
-<AvatarGroup />
+<AvatarGroup>
+  <Avatar size={50} />
+  <Avatar size={50} />
+  <Avatar size={50} />
+</AvatarGroup>
 ```

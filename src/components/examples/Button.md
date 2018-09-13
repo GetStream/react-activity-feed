@@ -1,5 +1,5 @@
 Button
 
 ```js
-<Button />
+<Button>Button</Button>
 ```

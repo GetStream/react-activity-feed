@@ -9,6 +9,6 @@ import '../styles/AvatarGroup.css';
  */
 export default class AvatarGroup extends React.Component {
   render() {
-    return <React.Fragment>{this.props.children}</React.Fragment>;
+    return <div className="raf-avatar-group">{this.props.children}</div>;
   }
 }
