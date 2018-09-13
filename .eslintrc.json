@@ -22,7 +22,7 @@
       "always"
     ],
     "flowtype/require-valid-file-annotation": [
-      2,
+      0,
       "always", {
         "annotationStyle": "line"
       }
