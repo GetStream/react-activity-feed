@@ -2,7 +2,7 @@
 
 > React components to create activity and notification feeds
 
-[![NPM](https://img.shields.io/npm/v/react-activity-feed.svg)](https://www.npmjs.com/package/react-activity-feed) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/react-activity-feed.svg)](https://www.npmjs.com/package/react-activity-feed)
 
 ## Install
 
@@ -28,4 +28,4 @@ class Example extends Component {
 
 ## License
 
-BSD-3-Clause © [GetStream](https://github.com/GetStream)
+BSD-3-Clause © [Stream.io Inc.](https://getstream.io)
