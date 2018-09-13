@@ -2,7 +2,8 @@
   "name": "react-activity-feed-example",
   "homepage": "https://GetStream.github.io/react-activity-feed",
   "version": "0.0.0",
-  "license": "MIT",
+  "author": "GetStream",
+  "license": "BSD-3-Clause",
   "private": true,
   "dependencies": {
     "prop-types": "^15.6.2",

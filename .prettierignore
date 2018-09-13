@@ -1,0 +1,7 @@
+**/*{.,-}min.js
+/lib/
+/dist/
+/flow-typed/
+/docs/
+/.git/
+**/*.sh

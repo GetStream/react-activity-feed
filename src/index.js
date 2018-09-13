@@ -1,17 +1,12 @@
-import React, { Component } from 'react'
+// @flow
+import React, { Component } from 'react';
 
-import styles from './styles.css'
+import styles from './styles.css';
 
-export default class ExampleComponent extends Component {
+export default class ExampleComponent extends Component<{text: string}> {
   render() {
-    const {
-      text
-    } = this.props
+    const { text } = this.props;
 
-    return (
-      <div className={styles.test}>
-        Example Component: {text}
-      </div>
-    )
+    return <div className={styles.test}>Example Component: {text}</div>;
   }
 }
