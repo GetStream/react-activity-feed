@@ -1,8 +1,9 @@
 [ignore]
 <PROJECT_ROOT>/example/
-<PROJECT_ROOT>/node_modules/*/test/
-<PROJECT_ROOT>/node_modules/*/tests/
+<PROJECT_ROOT>/node_modules/.*/test/
+<PROJECT_ROOT>/node_modules/.*/tests/
 <PROJECT_ROOT>/docs/
+
 
 [include]
 

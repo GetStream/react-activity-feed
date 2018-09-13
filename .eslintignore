@@ -1,6 +1,7 @@
 *.md
 **/*{.,-}min.js
 node_modules/
+/example/build/
 /lib/
 /dist/
 /flow-typed/
