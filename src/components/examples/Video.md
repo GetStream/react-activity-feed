@@ -1,0 +1,5 @@
+Video
+
+```js
+<Video />
+```

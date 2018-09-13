@@ -1,0 +1,5 @@
+NewActivitiesNotification
+
+```js
+<NewActivitiesNotification />
+```

@@ -1,0 +1,5 @@
+PanelFooter
+
+```js
+<PanelFooter />
+```

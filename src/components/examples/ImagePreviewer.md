@@ -1,0 +1,5 @@
+ImagePreviewer
+
+```js
+<ImagePreviewer />
+```

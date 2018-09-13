@@ -1,0 +1,5 @@
+Thumbnail
+
+```js
+<Thumbnail />
+```

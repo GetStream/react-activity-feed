@@ -1,0 +1,5 @@
+Avatar
+
+```js
+<Avatar />
+```

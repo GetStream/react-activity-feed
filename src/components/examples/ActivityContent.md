@@ -1,0 +1,5 @@
+ActivityContent
+
+```js
+<ActivityContent />
+```

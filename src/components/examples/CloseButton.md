@@ -1,0 +1,5 @@
+CloseButton
+
+```js
+<CloseButton />
+```

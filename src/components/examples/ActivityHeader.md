@@ -1,0 +1,5 @@
+ActivityHeader
+
+```js
+<ActivityHeader />
+```

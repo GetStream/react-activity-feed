@@ -1,0 +1,5 @@
+EmojiPicker
+
+```js
+<EmojiPicker />
+```

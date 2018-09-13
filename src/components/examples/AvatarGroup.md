@@ -1,0 +1,5 @@
+AvatarGroup
+
+```js
+<AvatarGroup />
+```

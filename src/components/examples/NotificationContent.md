@@ -1,0 +1,5 @@
+NotificationContent
+
+```js
+<NotificationContent />
+```

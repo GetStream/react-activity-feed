@@ -1,0 +1,5 @@
+PanelContent
+
+```js
+<PanelContent />
+```

@@ -1,0 +1,5 @@
+ReactionToggleIcon
+
+```js
+<ReactionToggleIcon />
+```

@@ -1,0 +1,5 @@
+Timestamp
+
+```js
+<Timestamp />
+```

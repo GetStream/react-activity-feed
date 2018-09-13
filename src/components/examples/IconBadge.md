@@ -1,0 +1,5 @@
+IconBadge
+
+```js
+<IconBadge />
+```

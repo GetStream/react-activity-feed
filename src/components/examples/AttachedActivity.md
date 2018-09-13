@@ -1,0 +1,5 @@
+AttachedActivity
+
+```js
+<AttachedActivity />
+```
