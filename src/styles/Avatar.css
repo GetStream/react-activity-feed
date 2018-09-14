@@ -1,0 +1,7 @@
+/* .raf-avatar {} */
+.raf-avatar--rounded {
+  border-radius: 4px;
+}
+.raf-avatar--circle {
+  border-radius: 100%;
+}

@@ -8,12 +8,14 @@ import placeholder from '../images/placeholder.png';
  */
 export default class Avatar extends React.Component {
   render() {
-    let { size, image, alt } = this.props;
+    let { size, image, alt, rounded, circle } = this.props;
     return (
       <React.Fragment>
         <img
-          className={`raf-avatar`}
           style={size ? { width: `${size}px`, height: `${size}px` } : {}}
+          className={`raf-avatar ${rounded ? 'raf-avatar--rounded' : ''} ${
+            circle ? 'raf-avatar--circle' : ''
+          }`}
           src={image ? image : placeholder}
           alt={alt || ''}
         />

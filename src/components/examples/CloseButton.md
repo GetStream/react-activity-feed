@@ -1,5 +1,6 @@
 CloseButton
 
 ```js
-  <CloseButton />
+  <CloseButton
+    clickHandler={() => console.log('CloseButton clicked!')}/>
 ```

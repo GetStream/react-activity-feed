@@ -21,8 +21,8 @@ export default class Button extends React.Component {
     return (
       <div
         className="raf-button"
-        onClick={this.handleClick}
-        onKeyPress={this.handleKeyPress}
+        onClick={this.props.handleClick || this.handleClick}
+        onKeyPress={this.props.handleKeyPress || this.handleKeyPress}
         role="button"
       >
         {children || null}

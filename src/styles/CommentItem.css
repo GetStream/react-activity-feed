@@ -1,0 +1,11 @@
+.raf-comment-item {
+  display: flex;
+  margin: 8px 0;
+}
+.raf-comment-item__content {
+  margin: 4px 0 0 8px;
+}
+.raf-comment-item__author {
+  color: #0BA8E0;
+  font-weight: 700;
+}

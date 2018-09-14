@@ -1,5 +1,4 @@
 import React from 'react';
-import '../App.css';
 import '../styles/CommentList.css';
 
 /**
@@ -9,6 +8,13 @@ import '../styles/CommentList.css';
  */
 export default class CommentList extends React.Component {
   render() {
-    return <React.Fragment>{this.props.children}</React.Fragment>;
+    let { data, renderCommentItem } = this.props;
+    return (
+      <div>
+        {data && renderCommentItem
+          ? data.map((item) => renderCommentItem(item))
+          : null}
+      </div>
+    );
   }
 }

@@ -6,10 +6,12 @@ import '../styles/CloseButton.css';
  */
 export default class CloseButton extends React.Component {
   render() {
+    let { clickHandler } = this.props;
     return (
       <svg
         className="raf-close-button"
         role="button"
+        onClick={clickHandler}
         width="14"
         height="14"
         viewBox="0 0 14 14"

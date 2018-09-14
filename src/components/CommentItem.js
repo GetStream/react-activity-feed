@@ -1,5 +1,5 @@
 import React from 'react';
-import '../App.css';
+import Avatar from './Avatar';
 import '../styles/CommentItem.css';
 
 /**
@@ -9,6 +9,14 @@ import '../styles/CommentItem.css';
  */
 export default class CommentItem extends React.Component {
   render() {
-    return <React.Fragment>{this.props.children}</React.Fragment>;
+    let { author, content } = this.props;
+    return (
+      <div className="raf-comment-item">
+        <Avatar circle size={30} />
+        <p className="raf-comment-item__content">
+          <span className="raf-comment-item__author">{author}</span> {content}
+        </p>
+      </div>
+    );
   }
 }
