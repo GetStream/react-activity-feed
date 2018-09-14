@@ -74,5 +74,8 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "emoji-mart": "^2.8.1"
+  }
 }

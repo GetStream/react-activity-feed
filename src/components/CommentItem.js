@@ -1,5 +1,6 @@
 import React from 'react';
 import Avatar from './Avatar';
+import placeholder from '../images/placeholder.png';
 import '../styles/CommentItem.css';
 
 /**
@@ -9,10 +10,10 @@ import '../styles/CommentItem.css';
  */
 export default class CommentItem extends React.Component {
   render() {
-    let { author, content } = this.props;
+    let { author, content, image } = this.props;
     return (
       <div className="raf-comment-item">
-        <Avatar circle size={30} />
+        <Avatar image={image || placeholder} circle size={30} />
         <p className="raf-comment-item__content">
           <span className="raf-comment-item__author">{author}</span> {content}
         </p>

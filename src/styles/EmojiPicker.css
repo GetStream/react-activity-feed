@@ -1,0 +1,8 @@
+.raf-emoji-picker {
+  position: relative;
+}
+.raf-emoji-picker__container {
+  position: absolute;
+  top: 0px;
+  left: 40px;
+}

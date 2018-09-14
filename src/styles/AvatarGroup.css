@@ -1,0 +1,14 @@
+.raf-avatar-group__avatar {
+  display: inline-block;
+  /* position: relative; */
+  /* transform: translateX(-50%); */
+  padding: 0;
+  margin: 0 -15px;
+}
+
+.raf-avatar-group__avatar:first-of-type {
+  margin: 0 -15px 0 0 ;
+}
+.raf-avatar-group__avatar .raf-avatar--circle {
+  border: 3px solid #ffffff;
+}

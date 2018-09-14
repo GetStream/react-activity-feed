@@ -16,9 +16,9 @@ export default class Card extends React.Component {
           <img src={image || placeholder} alt={alt || ''} />
         </div>
         <div className="raf-card__content">
-          <div className="raf-card__title">Title</div>
-          <div className="raf-card__url">url</div>
-          <div className="raf-card__description">description</div>
+          <p className="raf-card__title">Title</p>
+          <p className="raf-card__url">url</p>
+          <p className="raf-card__description">description</p>
         </div>
       </div>
     );

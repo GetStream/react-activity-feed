@@ -1,5 +1,5 @@
 import React from 'react';
-import '../App.css';
+import Avatar from './Avatar';
 import '../styles/AvatarGroup.css';
 
 /**
@@ -9,6 +9,21 @@ import '../styles/AvatarGroup.css';
  */
 export default class AvatarGroup extends React.Component {
   render() {
-    return <div className="raf-avatar-group">{this.props.children}</div>;
+    return (
+      <div className="raf-avatar-group">
+        {this.props.users &&
+          this.props.users.map((user, i) => {
+            return (
+              <div className="raf-avatar-group__avatar" key={`avatar-${i}`}>
+                <Avatar
+                  image={(user && user.image) || null}
+                  size={this.props.avatarSize}
+                  circle
+                />
+              </div>
+            );
+          })}
+      </div>
+    );
   }
 }

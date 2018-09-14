@@ -17,10 +17,10 @@ export default class Button extends React.Component {
     }
   };
   render() {
-    let { children } = this.props;
+    let { children, buttonStyle } = this.props;
     return (
       <div
-        className="raf-button"
+        className={`raf-button ${buttonStyle}`}
         onClick={this.props.handleClick || this.handleClick}
         onKeyPress={this.props.handleKeyPress || this.handleKeyPress}
         role="button"

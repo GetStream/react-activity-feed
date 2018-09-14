@@ -1,5 +1,6 @@
 Button
 
 ```js
-<Button>Button</Button>
+<Button buttonStyle="faded">Cancel</Button>
+<Button buttonStyle="primary">Post</Button>
 ```
