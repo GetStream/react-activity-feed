@@ -12,7 +12,7 @@ export default class CommentList extends React.Component {
     return (
       <div>
         {data && renderCommentItem
-          ? data.map((item) => renderCommentItem(item))
+          ? data.map((item, i) => renderCommentItem(item, i))
           : null}
       </div>
     );

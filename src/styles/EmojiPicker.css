@@ -1,5 +1,6 @@
 .raf-emoji-picker {
   position: relative;
+  cursor: pointer;
 }
 .raf-emoji-picker__container {
   position: absolute;

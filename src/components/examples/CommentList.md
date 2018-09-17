@@ -20,8 +20,8 @@ const data = [
   },
 ]
 
-const renderCommentItem = ({author, content, image}) => {
-  return <CommentItem image={image} author={author} content={content} />
+const renderCommentItem = ({author, content, image}, i) => {
+  return <CommentItem image={image} author={author} content={content} key={`CommentItem-${i}`} />
 }
 
 <CommentList
