@@ -1,9 +1,11 @@
 .raf-emoji-picker {
   position: relative;
+  z-index: 9;
   cursor: pointer;
 }
 .raf-emoji-picker__container {
   position: absolute;
+  z-index: 9;
   top: 0px;
   left: 40px;
 }
