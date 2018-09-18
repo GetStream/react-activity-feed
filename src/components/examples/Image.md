@@ -1,5 +1,5 @@
 Image
 
 ```js
-<Image />
+<Image source="http://placehold.it/4000x3000" />
 ```

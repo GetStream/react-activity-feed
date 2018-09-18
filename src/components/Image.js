@@ -1,14 +1,29 @@
+// @flow
 import React from 'react';
-import '../App.css';
+import placeholder from '../images/placeholder.png';
 import '../styles/Image.css';
 
+export type Props = {|
+  source?: string,
+  alt?: string,
+|};
+
 /**
- * Component is described here.
+ * Responsive Image.
  *
  * @example ./examples/Image.md
  */
-export default class Image extends React.Component {
+export default class Image extends React.Component<Props> {
   render() {
-    return <React.Fragment>{this.props.children}</React.Fragment>;
+    let { source, alt } = this.props;
+    return (
+      <div className="raf-image">
+        <img
+          className="raf-image__image"
+          src={source ? source : placeholder}
+          alt={alt ? alt : ''}
+        />
+      </div>
+    );
   }
 }
