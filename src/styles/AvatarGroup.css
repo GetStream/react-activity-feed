@@ -11,4 +11,7 @@
 }
 .raf-avatar-group__avatar .raf-avatar--circle {
   border: 3px solid #ffffff;
+
+  /* firefox fix for 1px shine translucent gap between image and border*/
+  background: #ffffff;
 }
