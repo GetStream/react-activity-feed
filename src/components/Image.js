@@ -15,7 +15,7 @@ export type Props = {|
  */
 export default class Image extends React.Component<Props> {
   render() {
-    let { source, alt } = this.props;
+    const { source, alt } = this.props;
     return (
       <div className="raf-image">
         <img

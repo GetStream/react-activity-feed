@@ -10,7 +10,7 @@ import '../styles/CommentItem.css';
  */
 export default class CommentItem extends React.Component {
   render() {
-    let { author, content, image } = this.props;
+    const { author, content, image } = this.props;
     return (
       <div className="raf-comment-item">
         <Avatar image={image || placeholder} circle size={30} />

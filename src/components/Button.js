@@ -17,7 +17,7 @@ export default class Button extends React.Component {
     }
   };
   render() {
-    let { children, buttonStyle } = this.props;
+    const { children, buttonStyle } = this.props;
     return (
       <div
         className={`raf-button ${buttonStyle}`}

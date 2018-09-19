@@ -10,7 +10,7 @@ import placeholder from '../images/placeholder.png';
  */
 export default class Thumbnail extends React.Component {
   render() {
-    let { image, closeButtonHandler } = this.props;
+    const { image, closeButtonHandler } = this.props;
     return (
       <div className="raf-thumbnail__wrapper">
         <div className="raf-thumbnail__overlay">

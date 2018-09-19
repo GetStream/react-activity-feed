@@ -17,7 +17,7 @@ module.exports = {
         // 'src/components/FlatFeed.js',
         // 'src/components/NotificationFeed.js',
         // 'src/components/SinglePost.js',
-        // 'src/Context.js',
+        'src/Context.js',
       ],
       exampleMode: 'collapse',
       usageMode: 'expand',

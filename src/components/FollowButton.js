@@ -26,7 +26,7 @@ export default class FollowButton extends React.Component<Props, State> {
   }
 
   render() {
-    let { clicked, followed } = this.props;
+    const { clicked, followed } = this.props;
     return (
       <div
         className={`raf-follow-button ${

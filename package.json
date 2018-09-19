@@ -46,10 +46,12 @@
     "@babel/core": "^7.0.0",
     "@babel/plugin-external-helpers": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
+    "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "babel-eslint": "^8.2.5",
     "cross-env": "^5.1.4",
     "eslint": "^5.0.1",
+    "eslint-plugin-babel": "^5.2.0",
     "eslint-plugin-flowtype": "^2.50.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-jest": "^21.22.0",
@@ -69,8 +71,7 @@
     "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-peer-deps-external": "^2.2.0",
     "rollup-plugin-postcss": "^1.6.2",
-    "rollup-plugin-url": "^1.4.0",
-    "@babel/preset-flow": "^7.0.0"
+    "rollup-plugin-url": "^1.4.0"
   },
   "files": [
     "dist"

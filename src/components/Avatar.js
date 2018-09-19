@@ -17,7 +17,7 @@ export type Props = {|
  */
 export default class Avatar extends React.Component<Props> {
   render() {
-    let { size, image, alt, rounded, circle } = this.props;
+    const { size, image, alt, rounded, circle } = this.props;
     return (
       <React.Fragment>
         <img

@@ -92,7 +92,7 @@ export class StreamApp extends React.Component<
               'This component should be a child of a StreamApp component',
             );
           }
-          let Child = props.children;
+          const Child = props.children;
           return Child(appCtx);
         }}
       </StreamContext.Consumer>
@@ -102,13 +102,13 @@ export class StreamApp extends React.Component<
   constructor(props: StreamAppProps<Object>) {
     super(props);
 
-    let client: StreamCloudClient<Object> = stream.connectCloud(
+    const client: StreamCloudClient<Object> = stream.connectCloud(
       this.props.apiKey,
       this.props.appId,
       this.props.options || {},
     );
 
-    let session = client.createUserSession(this.props.token);
+    const session = client.createUserSession(this.props.token);
 
     let analyticsClient;
     if (this.props.analyticsToken) {
@@ -119,18 +119,18 @@ export class StreamApp extends React.Component<
       analyticsClient.setUser(session.userId);
     }
     this.state = {
-      session: session,
+      session,
       user: session.user,
       userData: session.user.data,
       changedUserData: () => {
         this.setState({ userData: this.state.user.data });
       },
-      analyticsClient: analyticsClient,
+      analyticsClient,
       sharedFeedManagers: {},
       errorHandler: this.props.errorHandler,
     };
-    for (let feedProps of this.props.sharedFeeds) {
-      let manager = new FeedManager({
+    for (const feedProps of this.props.sharedFeeds) {
+      const manager = new FeedManager({
         ...feedProps,
         ...this.state,
       });
@@ -138,8 +138,8 @@ export class StreamApp extends React.Component<
     }
   }
 
-  async componentDidUpdate(prevProps: StreamAppProps<Object>) {
-    let appIdDifferent = this.props.appId !== prevProps.appId;
+  componentDidUpdate(prevProps: StreamAppProps<Object>) {
+    const appIdDifferent = this.props.appId !== prevProps.appId;
     if (appIdDifferent) {
       //TODO: Implement
     }
@@ -217,10 +217,6 @@ type FeedManagerState = {|
   reactionsBeingToggled: { [kind: string]: { [activityId: string]: boolean } },
 |};
 
-type FeedState = {|
-  manager: FeedManager,
-|};
-
 class FeedManager {
   props: FeedInnerProps;
   state: FeedManagerState = {
@@ -254,7 +250,7 @@ class FeedManager {
   }
 
   triggerUpdate() {
-    for (let callback of this.registeredCallbacks) {
+    for (const callback of this.registeredCallbacks) {
       callback();
     }
   }
@@ -272,16 +268,19 @@ class FeedManager {
     activity: BaseActivityResponse,
     track: ?boolean,
   ) => {
-    let analyticsClient = this.props.analyticsClient;
+    const analyticsClient = this.props.analyticsClient;
 
     if (!track || !analyticsClient) {
       return;
     }
 
-    let feed = this.props.session.feed(this.props.feedGroup, this.props.userId);
+    const feed = this.props.session.feed(
+      this.props.feedGroup,
+      this.props.userId,
+    );
 
     analyticsClient.trackEngagement({
-      label: label,
+      label,
       feed_id: feed.id,
       content: {
         foreign_id: activity.foreign_id,
@@ -291,7 +290,7 @@ class FeedManager {
   };
 
   _getActivityPath(activity, ...rest) {
-    let activityPath = this.state.activityIdToPath[activity.id];
+    const activityPath = this.state.activityIdToPath[activity.id];
     if (activityPath === undefined) {
       return [activity.id, ...rest];
     }
@@ -316,13 +315,13 @@ class FeedManager {
       return;
     }
     this.trackAnalytics(kind, activity, options.trackAnalytics);
-    let enrichedReaction = immutable.fromJS({
+    const enrichedReaction = immutable.fromJS({
       ...reaction,
       user: this.props.user.full,
     });
 
     this.setState((prevState) => {
-      let activities = prevState.activities
+      const activities = prevState.activities
         .updateIn(
           this._getActivityPath(activity, 'reaction_counts', kind),
           (v = 0) => v + 1,
@@ -360,7 +359,7 @@ class FeedManager {
     this.trackAnalytics('un' + kind, activity, options.trackAnalytics);
 
     return this.setState((prevState) => {
-      let activities = prevState.activities
+      const activities = prevState.activities
         .updateIn(
           this._getActivityPath(activity, 'reaction_counts', kind),
           (v = 0) => v - 1,
@@ -384,19 +383,19 @@ class FeedManager {
     activity: BaseActivityResponse,
     options: { trackAnalytics?: boolean } & ReactionRequestOptions<{}> = {},
   ) => {
-    let togglingReactions = this.state.reactionsBeingToggled[kind] || {};
+    const togglingReactions = this.state.reactionsBeingToggled[kind] || {};
     if (togglingReactions[activity.id]) {
       return;
     }
     togglingReactions[activity.id] = true;
     this.state.reactionsBeingToggled[kind] = togglingReactions;
 
-    let currentReactions = this.state.activities.getIn(
+    const currentReactions = this.state.activities.getIn(
       this._getActivityPath(activity, 'own_reactions', kind),
       immutable.List(),
     );
 
-    let last = currentReactions.last();
+    const last = currentReactions.last();
     if (last) {
       await this.onRemoveReaction(kind, activity, last.get('id'), options);
     } else {
@@ -413,7 +412,7 @@ class FeedManager {
     ...extraOptions,
   });
 
-  doFeedRequest = async (options: FeedRequestOptions) => {
+  doFeedRequest = (options: FeedRequestOptions) => {
     if (this.props.doFeedRequest) {
       return this.props.doFeedRequest(
         this.props.session,
@@ -425,18 +424,15 @@ class FeedManager {
     return this.feed().get(options);
   };
 
-  feed = () => {
-    return this.props.session.feed(this.props.feedGroup, this.props.userId);
-  };
+  feed = () => this.props.session.feed(this.props.feedGroup, this.props.userId);
 
-  responseToActivityMap = (response) => {
-    return immutable.fromJS(
+  responseToActivityMap = (response) =>
+    immutable.fromJS(
       response.results.reduce((map, a) => {
         map[a.id] = a;
         return map;
       }, {}),
     );
-  };
 
   responseToActivityIdToPath = (response) => {
     if (
@@ -445,8 +441,8 @@ class FeedManager {
     ) {
       return {};
     }
-    let map = {};
-    for (let group of response.results) {
+    const map = {};
+    for (const group of response.results) {
       group.activities.forEach((act, i) => {
         map[act.id] = [group.id, 'activities', i];
       });
@@ -455,7 +451,7 @@ class FeedManager {
   };
 
   refresh = async (extraOptions) => {
-    let options = this.getOptions(extraOptions);
+    const options = this.getOptions(extraOptions);
 
     await this.setState({ refreshing: true });
     let response;
@@ -469,7 +465,7 @@ class FeedManager {
       });
       return;
     }
-    let newState = {
+    const newState = {
       activityOrder: response.results.map((a) => a.id),
       activities: this.responseToActivityMap(response),
       activityIdToPath: this.responseToActivityIdToPath(response),
@@ -493,14 +489,14 @@ class FeedManager {
 
   subscribe = async () => {
     if (this.props.notify) {
-      let feed = this.feed();
+      const feed = this.feed();
       await this.setState((prevState) => {
         if (prevState.subscription) {
           return {};
         }
-        let subscription = feed.subscribe((data) => {
+        const subscription = feed.subscribe((data) => {
           this.setState((prevState) => {
-            let numActivityDiff = data.new.length - data.deleted.length;
+            const numActivityDiff = data.new.length - data.deleted.length;
             return {
               realtimeAdds: prevState.realtimeAdds.concat(data.new),
               realtimeDeletes: prevState.realtimeDeletes.concat(data.deleted),
@@ -526,12 +522,12 @@ class FeedManager {
   };
 
   unsubscribe = async () => {
-    let { subscription } = this.state;
+    const { subscription } = this.state;
     if (!subscription) {
       return;
     }
     await subscription;
-    if (this.registeredCallbacks.length == 0) {
+    if (this.registeredCallbacks.length === 0) {
       try {
         await subscription.cancel();
         console.log(
@@ -544,7 +540,7 @@ class FeedManager {
   };
 
   loadNextPage = async () => {
-    let lastResponse = this.state.lastResponse;
+    const lastResponse = this.state.lastResponse;
     if (!lastResponse || !lastResponse.next) {
       return;
     }
@@ -561,8 +557,8 @@ class FeedManager {
       return;
     }
 
-    let nextURL = new URL(lastResponse.next, true);
-    let options = this.getOptions(nextURL.query);
+    const nextURL = new URL(lastResponse.next, true);
+    const options = this.getOptions(nextURL.query);
 
     let response;
     try {
@@ -576,10 +572,10 @@ class FeedManager {
       return;
     }
     return this.setState((prevState) => {
-      let activities = prevState.activities.merge(
+      const activities = prevState.activities.merge(
         this.responseToActivityMap(response),
       );
-      let activityIdToPath = {
+      const activityIdToPath = {
         ...prevState.activityIdToPath,
         ...this.responseToActivityIdToPath(response),
       };
@@ -587,8 +583,8 @@ class FeedManager {
         activityOrder: prevState.activityOrder.concat(
           response.results.map((a) => a.id),
         ),
-        activities: activities,
-        activityIdToPath: activityIdToPath,
+        activities,
+        activityIdToPath,
         refreshing: false,
         lastResponse: response,
       };
@@ -613,12 +609,16 @@ class FeedManager {
   };
 }
 
+type FeedState = {|
+  manager: FeedManager,
+|};
+
 export class Feed extends React.Component<FeedProps, FeedState> {
   // Used to avoid unmount-remount behaviour, which causes
   // unsubscribe-subscribe behaviour.
-  _appCtxWrapperFunc = (appCtx: AppCtx<any>) => {
-    return <FeedInner {...this.props} {...appCtx} />;
-  };
+  _appCtxWrapperFunc = (appCtx: AppCtx<any>) => (
+    <FeedInner {...this.props} {...appCtx} />
+  );
 
   render() {
     return <StreamApp.Consumer>{this._appCtxWrapperFunc}</StreamApp.Consumer>;
@@ -629,31 +629,31 @@ type FeedInnerProps = {| ...FeedProps, ...BaseAppCtx |};
 class FeedInner extends React.Component<FeedInnerProps, FeedState> {
   constructor(props: FeedInnerProps) {
     super(props);
-    let feedId = props.session.feed(props.feedGroup, props.userId).id;
+    const feedId = props.session.feed(props.feedGroup, props.userId).id;
     let manager = props.sharedFeedManagers[feedId];
     if (!manager) {
       manager = new FeedManager(props);
     }
 
     this.state = {
-      manager: manager,
+      manager,
     };
   }
   boundForceUpdate = () => this.forceUpdate();
 
-  async componentDidMount() {
-    this.state.manager.register(this.boundForceUpdate);
+  componentDidMount() {
+    return this.state.manager.register(this.boundForceUpdate);
   }
 
-  async componentDidUpdate(prevProps) {
-    let sessionDifferent = this.props.session !== prevProps.session;
-    let notifyDifferent = this.props.notify != prevProps.notify;
-    let feedDifferent =
-      this.props.userId != prevProps.userId ||
-      this.props.feedGroup != prevProps.feedGroup;
-    let optionsDifferent = !_.isEqual(this.props.options, prevProps.options);
-    let doFeedRequestDifferent =
-      this.props.doFeedRequest !== this.props.doFeedRequest;
+  componentDidUpdate(prevProps) {
+    const sessionDifferent = this.props.session !== prevProps.session;
+    const notifyDifferent = this.props.notify !== prevProps.notify;
+    const feedDifferent =
+      this.props.userId !== prevProps.userId ||
+      this.props.feedGroup !== prevProps.feedGroup;
+    const optionsDifferent = !_.isEqual(this.props.options, prevProps.options);
+    const doFeedRequestDifferent =
+      this.props.doFeedRequest !== prevProps.doFeedRequest;
 
     if (
       sessionDifferent ||
@@ -668,13 +668,13 @@ class FeedInner extends React.Component<FeedInnerProps, FeedState> {
     }
   }
 
-  async componentWillUnmount() {
-    this.state.manager.unregister(this.boundForceUpdate);
+  componentWillUnmount() {
+    return this.state.manager.unregister(this.boundForceUpdate);
   }
 
   getCtx = () => {
-    let { manager } = this.state;
-    let state = manager.state;
+    const { manager } = this.state;
+    const state = manager.state;
     return {
       onToggleReaction: manager.onToggleReaction,
       onAddReaction: manager.onAddReaction,
