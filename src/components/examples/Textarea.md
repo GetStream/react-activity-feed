@@ -1,5 +1,5 @@
 InputField
 
 ```js
-<InputField />
+<Textarea />
 ```

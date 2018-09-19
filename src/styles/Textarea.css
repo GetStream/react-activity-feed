@@ -1,0 +1,32 @@
+.raf-textarea {
+  display: flex;
+  width: 100%;
+  color: #414D54;
+  font-size: 16px;
+  line-height: 30px;
+  font-weight: 500;
+  border-color: transparent;
+  border-radius: 6px;
+  padding: 8px;
+  transition: background 0.4s;
+}
+.raf-textarea:focus {
+  background: #efefef;
+  outline: none;
+}
+
+.raf-textarea::-webkit-input-placeholder {
+  opacity: 0.5;
+}
+
+.raf-textarea:-moz-placeholder { /* Firefox 18- */
+  opacity: 0.5;
+}
+
+.raf-textarea::-moz-placeholder {  /* Firefox 19+ */
+  opacity: 0.5;
+}
+
+.raf-textarea:-ms-input-placeholder {
+  opacity: 0.5;
+}
