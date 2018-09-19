@@ -9,22 +9,49 @@ import '../styles/EmojiPicker.css';
  * @example ./examples/EmojiPicker.md
  */
 export default class EmojiPicker extends React.Component {
-  state = {
-    displayPicker: false,
+  constructor(props) {
+    super(props);
+    this.showMenu = this.showMenu.bind(this);
+    this.hideMenu = this.hideMenu.bind(this);
+    this.emojiPicker = React.createRef();
+    this.state = {
+      open: false,
+    };
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.hideMenu);
+  }
+
+  hideMenu = (e) => {
+    if (!this.emojiPicker.current.contains(e.target)) {
+      this.setState({ open: false }, () => {
+        document.removeEventListener('click', this.hideMenu);
+      });
+    } else {
+      console.log('j');
+    }
   };
+
+  showMenu = (e) => {
+    e.preventDefault();
+
+    this.setState({ open: true }, () => {
+      document.addEventListener('click', this.hideMenu);
+    });
+  };
+
   render() {
     return (
       <div className="raf-emoji-picker">
-        {this.state.displayPicker && (
-          <div className="raf-emoji-picker__container">
+        {this.state.open && (
+          <div className="raf-emoji-picker__container" ref={this.emojiPicker}>
             <Picker showPreview={false} />
           </div>
         )}
         <div
           role="button"
-          onClick={() =>
-            this.setState({ displayPicker: !this.state.displayPicker })
-          }
+          onClick={this.showMenu}
           className="raf-emoji-picker__button"
         >
           <svg

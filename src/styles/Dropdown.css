@@ -1,0 +1,25 @@
+.raf-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.raf-dropdown__button {
+  cursor: pointer;
+}
+.raf-dropdown__box {
+  /* Menu BG: */
+  position: absolute;
+  top: 20px;
+  right: 0px;
+  display: inline-block;
+  background: #313E47;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.30);
+  border-radius: 2px;
+  padding: 10px 20px;
+  min-width: 120px;
+}
+
+.raf-dropdown__box ul {
+  margin: 0; padding: 0;
+  list-style-type: none;
+}

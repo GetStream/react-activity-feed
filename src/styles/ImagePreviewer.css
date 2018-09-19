@@ -1,0 +1,9 @@
+.raf-image-previewer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.raf-image-previewer .raf-thumbnail__wrapper {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
