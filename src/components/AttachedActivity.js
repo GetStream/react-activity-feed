@@ -9,7 +9,7 @@ import '../styles/AttachedActivity.css';
  */
 export default class AttachedActivity extends React.Component {
   render() {
-    let { author, content } = this.props;
+    const { author, content } = this.props;
     return (
       <div className="raf-attached-activity">
         {author ? (

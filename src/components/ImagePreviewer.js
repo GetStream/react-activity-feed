@@ -17,7 +17,7 @@ export type Props = {|
  */
 export default class ImagePreviewer extends React.Component<Props> {
   render() {
-    let { images, closeButtonHandler, placeholderButtonHandler } = this.props;
+    const { images, closeButtonHandler, placeholderButtonHandler } = this.props;
     return (
       <div className="raf-image-previewer">
         {images &&

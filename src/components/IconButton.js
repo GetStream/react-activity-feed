@@ -13,7 +13,7 @@ export type Props = {|
  */
 export default class IconButton extends React.Component<Props> {
   render() {
-    let { clickHandler, children } = this.props;
+    const { clickHandler, children } = this.props;
     return (
       <div className="raf-icon-button" role="button" onClick={clickHandler}>
         {children}

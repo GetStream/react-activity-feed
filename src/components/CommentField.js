@@ -9,7 +9,7 @@ import '../styles/CommentField.css';
  */
 export default class CommentField extends React.Component {
   render() {
-    let { name, placeholder } = this.props;
+    const { name, placeholder } = this.props;
     return (
       <div className="raf-comment-field">
         <Avatar circle size={21} />

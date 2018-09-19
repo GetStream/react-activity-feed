@@ -35,6 +35,7 @@ export const handleError = (
     case 'delete-reaction':
       text += ' when removing your ' + detail.kind;
       break;
+    default:
   }
 
   text += '. Is your internet working?' + suffix;

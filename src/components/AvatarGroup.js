@@ -12,17 +12,15 @@ export default class AvatarGroup extends React.Component {
     return (
       <div className="raf-avatar-group">
         {this.props.users &&
-          this.props.users.map((user, i) => {
-            return (
-              <div className="raf-avatar-group__avatar" key={`avatar-${i}`}>
-                <Avatar
-                  image={(user && user.image) || null}
-                  size={this.props.avatarSize}
-                  circle
-                />
-              </div>
-            );
-          })}
+          this.props.users.map((user, i) => (
+            <div className="raf-avatar-group__avatar" key={`avatar-${i}`}>
+              <Avatar
+                image={(user && user.image) || null}
+                size={this.props.avatarSize}
+                circle
+              />
+            </div>
+          ))}
       </div>
     );
   }

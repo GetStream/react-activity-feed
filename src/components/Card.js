@@ -9,7 +9,7 @@ import '../styles/Card.css';
  */
 export default class Card extends React.Component {
   render() {
-    let { image, alt } = this.props;
+    const { image, alt } = this.props;
     return (
       <div className="raf-card">
         <div className="raf-card__image">

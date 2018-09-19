@@ -8,7 +8,7 @@ import '../styles/CommentList.css';
  */
 export default class CommentList extends React.Component {
   render() {
-    let { data, renderCommentItem } = this.props;
+    const { data, renderCommentItem } = this.props;
     return (
       <div>
         {data && renderCommentItem

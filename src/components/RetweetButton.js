@@ -18,7 +18,7 @@ type Props = {|
  */
 export default class RetweetButton extends React.Component<Props> {
   render() {
-    let { activity, onToggleReaction } = this.props;
+    const { activity, onToggleReaction } = this.props;
 
     return (
       <ReactionToggleIcon

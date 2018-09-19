@@ -24,14 +24,14 @@ export default class ReactionIcon extends React.Component<Props> {
       count = this.props.counts[this.props.kind] || 0;
     }
 
-    let dimensions = {};
+    const dimensions = {};
     if (this.props.height !== undefined) {
       dimensions.height = this.props.height;
     }
     if (this.props.width !== undefined) {
       dimensions.width = this.props.width;
     }
-    let label = count === 1 ? this.props.labelSingle : this.props.labelPlural;
+    const label = count === 1 ? this.props.labelSingle : this.props.labelPlural;
 
     return (
       <div className="raf-reaction-icon" onClick={this.props.onPress}>
