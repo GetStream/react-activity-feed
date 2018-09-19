@@ -1,4 +1,4 @@
-h1, h2, h3, h4 h5, h6  {
+.raf-title, .raf-title * {
   color: #414D54;
   font-size: 18px;
   font-family: Avenir, Arial, Helvetica, sans-serif;

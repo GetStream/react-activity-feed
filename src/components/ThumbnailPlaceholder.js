@@ -1,7 +1,17 @@
+// @flow
 import React from 'react';
 import '../styles/ThumbnailPlaceholder.css';
 
-export default class ThumbnailPlaceholder extends React.Component {
+export type Props = {|
+  placeholderButtonHandler?: () => mixed,
+|};
+
+/**
+ * Component is described here.
+ *
+ * @example ./examples/ThumbnailPlaceholder.md
+ */
+export default class ThumbnailPlaceholder extends React.Component<Props> {
   render() {
     return (
       <div

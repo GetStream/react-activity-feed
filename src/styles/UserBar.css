@@ -1,0 +1,25 @@
+.raf-user-bar {
+  display: flex;
+  align-items: center;
+}
+.raf-user-bar__details {
+  flex: 1;
+}
+
+.raf-user-bar__username, .raf-user-bar__subtitle {
+  margin: 0;
+}
+
+.raf-user-bar__username {
+  font-weight: 700;
+  color: #313E47;
+}
+
+.raf-user-bar__subtitle {
+  font-size: 14px;
+  color: #6F7E82;
+}
+
+.raf-user-bar .raf-avatar {
+  margin-right: 12px;
+}

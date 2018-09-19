@@ -1,14 +1,24 @@
-import React from 'react';
-import '../App.css';
+// @flow
+import * as React from 'react';
+import Title from './Title';
 import '../styles/TimeHeader.css';
+
+export type Props = {|
+  children: React.Node,
+|};
 
 /**
  * Component is described here.
  *
  * @example ./examples/TimeHeader.md
  */
-export default class TimeHeader extends React.Component {
+export default class TimeHeader extends React.Component<Props> {
   render() {
-    return <React.Fragment>{this.props.children}</React.Fragment>;
+    return (
+      <div className="raf-time-header">
+        <Title>{this.props.children}</Title>
+        <div className="raf-time-header__line" />
+      </div>
+    );
   }
 }
