@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import { humanizeTimestamp } from '../utils';
 import Avatar from './Avatar';
 import '../styles/UserBar.css';
 
@@ -21,14 +22,26 @@ export type Props = {|
  */
 export default class UserBar extends React.Component<Props> {
   render() {
+    let time = this.props.time;
+    if (time === undefined && this.props.timestamp != null) {
+      time = humanizeTimestamp(this.props.timestamp);
+    }
     return (
       <div className="raf-user-bar">
-        <Avatar size={50} circle />
+        {this.props.avatar ? (
+          <Avatar size={50} circle image={this.props.avatar} />
+        ) : null}
         <div className="raf-user-bar__details">
-          <p className="raf-user-bar__username">Username</p>
-          <p className="raf-user-bar__subtitle">Subtitle</p>
+          <p className="raf-user-bar__username">{this.props.username}</p>
+          {this.props.icon !== undefined ? (
+            <img src={this.props.icon} alt="icon" />
+          ) : null}
+          {this.props.subtitle ? (
+            <p className="raf-user-bar__subtitle">{this.props.subtitle}</p>
+          ) : null}
         </div>
-        <div className="raf-user-bar__extra">time</div>
+        {time && <div className="raf-user-bar__extra">{time}</div>}
+        {this.props.follow && <div className="raf-user-bar__extra">time</div>}
       </div>
     );
   }

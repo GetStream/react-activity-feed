@@ -20,6 +20,12 @@
   color: #6F7E82;
 }
 
+.raf-user-bar__extra {
+  font-size: 12px;
+  color: rgba(0,0,0,0.6)
+}
+
 .raf-user-bar .raf-avatar {
   margin-right: 12px;
 }
+
