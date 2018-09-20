@@ -33,7 +33,10 @@ export default class Card extends React.Component<Props> {
     return (
       <div className="raf-card">
         <div className="raf-card__image">
-          <img src={image === null ? placeholder : image} alt={alt || ''} />
+          <img
+            src={image === null ? placeholder : image}
+            alt={alt || this.props.title || this.props.description || ''}
+          />
         </div>
         <div className="raf-card__content">
           <p className="raf-card__title">{this.props.title}</p>

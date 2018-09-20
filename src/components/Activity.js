@@ -41,14 +41,16 @@ export default class Activity extends React.Component<Props> {
     }
 
     return (
-      <UserBar
-        username={actor.data.name}
-        avatar={actor.data.profileImage}
-        subtitle={this.props.sub}
-        timestamp={this.props.activity.time}
-        icon={this.props.icon}
-        // onPressAvatar={this._getOnPressAvatar()}
-      />
+      <div style={{ padding: '8px 16px' }}>
+        <UserBar
+          username={actor.data.name}
+          avatar={actor.data.profileImage}
+          subtitle={this.props.sub}
+          timestamp={this.props.activity.time}
+          icon={this.props.icon}
+          // onPressAvatar={this._getOnPressAvatar()}
+        />
+      </div>
     );
   };
 
@@ -68,7 +70,7 @@ export default class Activity extends React.Component<Props> {
     return (
       <div>
         {Boolean(text) && (
-          <div>
+          <div style={{ padding: '8px 16px' }}>
             <p>{text}</p>
           </div>
         )}
@@ -79,34 +81,40 @@ export default class Activity extends React.Component<Props> {
           )}
 
         {Boolean(this.props.activity.image) && (
-          <Image
-            source={this.props.activity.image}
-            // resizeMethod="resize"
-          />
+          <div style={{ padding: '8px 0' }}>
+            <Image
+              source={this.props.activity.image}
+              // resizeMethod="resize"
+            />
+          </div>
         )}
 
         {this.props.activity.attachments &&
           this.props.activity.attachments.images &&
           Boolean(this.props.activity.attachments.images.length) && (
-            <Image
-              source={this.props.activity.attachments.images[0]}
-              // resizeMethod="resize"
-            />
+            <div style={{ padding: '8px 0' }}>
+              <Image
+                source={this.props.activity.attachments.images[0]}
+                // resizeMethod="resize"
+              />
+            </div>
           )}
 
         {this.props.activity.attachments &&
           this.props.activity.attachments.og &&
           Object.keys(this.props.activity.attachments.og).length > 0 && (
-            <Card
-              title={this.props.activity.attachments.og.title}
-              description={this.props.activity.attachments.og.description}
-              image={
-                this.props.activity.attachments.og.images
-                  ? this.props.activity.attachments.og.images[0].image
-                  : null
-              }
-              url={this.props.activity.attachments.og.url}
-            />
+            <div style={{ padding: '8px 16px' }}>
+              <Card
+                title={this.props.activity.attachments.og.title}
+                description={this.props.activity.attachments.og.description}
+                image={
+                  this.props.activity.attachments.og.images
+                    ? this.props.activity.attachments.og.images[0].image
+                    : null
+                }
+                url={this.props.activity.attachments.og.url}
+              />
+            </div>
           )}
       </div>
     );

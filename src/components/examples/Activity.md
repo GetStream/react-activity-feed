@@ -13,10 +13,17 @@ const activity = {
   time: new Date()
 };
 
-
-<Activity
-  activity={activity}
-/>
+<div style={{backgroundColor: '#ccc', padding: '8px'}}>
+  <Activity
+    activity={activity}
+  />
+  <Activity
+    activity={activity}
+  />
+  <Activity
+    activity={activity}
+  />
+</div>
 ```
 
 
