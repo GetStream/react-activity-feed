@@ -17,6 +17,12 @@ type Props = {|
   labelPlural?: string,
 |};
 
+/**
+ * Component is described here.
+ *
+ * @example ./examples/ReactionIcon.md
+ */
+
 export default class ReactionIcon extends React.Component<Props> {
   render() {
     let count = null;
@@ -35,11 +41,13 @@ export default class ReactionIcon extends React.Component<Props> {
 
     return (
       <div className="raf-reaction-icon" onClick={this.props.onPress}>
-        <img
-          className="raf-reaction-icon__image"
-          src={this.props.icon}
-          alt=""
-        />
+        {this.props.icon ? (
+          <img
+            className="raf-reaction-icon__image"
+            src={this.props.icon}
+            alt=""
+          />
+        ) : null}
         {count != null ? (
           <p className="raf-reaction-icon__label">
             {count}

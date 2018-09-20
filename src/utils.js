@@ -34,3 +34,8 @@ export const smartRender = (
   }
   return <ComponentOrLiteral {...props} />;
 };
+
+export const getRetinaImage = (images: string) => images
+    .split('|')
+    .map((item, i) => `${item} ${i + 1}x`)
+    .join(', ');

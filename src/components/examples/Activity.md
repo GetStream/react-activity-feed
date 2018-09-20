@@ -16,12 +16,15 @@ const activity = {
 <div style={{backgroundColor: '#ccc', padding: '8px'}}>
   <Activity
     activity={activity}
-  />
-  <Activity
-    activity={activity}
-  />
-  <Activity
-    activity={activity}
+    Footer={<ActivityFooter>
+      <LikeButton
+        // this is just a mock of the data to render the example
+        activity={{
+            reaction_counts:{'like': 0},
+        }}
+        onToggleReaction={() => console.log('test')}
+      />
+    </ActivityFooter>}
   />
 </div>
 ```

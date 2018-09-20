@@ -19,7 +19,6 @@ type Props = {
   sub?: string,
   icon?: string,
   activity: ActivityData,
-  imageWidth?: number,
 };
 
 /**

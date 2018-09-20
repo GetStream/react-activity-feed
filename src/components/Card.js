@@ -31,7 +31,7 @@ export default class Card extends React.Component<Props> {
   render() {
     const { image, alt } = this.props;
     return (
-      <div className="raf-card">
+      <a href={this.props.url} className="raf-card">
         <div className="raf-card__image">
           <img
             src={image === null ? placeholder : image}
@@ -43,7 +43,7 @@ export default class Card extends React.Component<Props> {
           <p className="raf-card__url">{this.trimUrl(this.props.url || '')}</p>
           <p className="raf-card__description">{this.props.description}</p>
         </div>
-      </div>
+      </a>
     );
   }
 }

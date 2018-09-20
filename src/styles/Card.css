@@ -1,10 +1,11 @@
 .raf-card {
-
+  display: block;
+  text-decoration: none;
 }
 
 .raf-card__image {
   width: 100%;
-  height: 252px;
+  height: 177px;
 }
 .raf-card__image img {
   width: inherit; height: inherit;
