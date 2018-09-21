@@ -80,6 +80,7 @@
     "emoji-mart": "^2.8.1",
     "getstream": "^3.21.0-beta.9",
     "immutable": "^4.0.0-rc.9",
+    "moment": "^2.22.2",
     "stream-analytics": "^2.7.1"
   }
 }
