@@ -28,8 +28,8 @@ export default class RepostButton extends React.Component<Props> {
         onPress={() => onToggleReaction('repost', activity, {})}
         activeIcon={require('../images/repost-active@1x.png')}
         inactiveIcon={require('../images/repost@1x.png')}
-        labelSingle="retweet"
-        labelPlural="retweets"
+        labelSingle="repost"
+        labelPlural="reposts"
       />
     );
   }
