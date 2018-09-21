@@ -14,9 +14,9 @@ type Props = {|
 
 /**
  * Like button ready to be embedded as Activity footer
- * @example ./examples/RetweetButton.md
+ * @example ./examples/RepostButton.md
  */
-export default class RetweetButton extends React.Component<Props> {
+export default class RepostButton extends React.Component<Props> {
   render() {
     const { activity, onToggleReaction } = this.props;
 
@@ -24,10 +24,10 @@ export default class RetweetButton extends React.Component<Props> {
       <ReactionToggleIcon
         counts={activity.reaction_counts}
         own_reactions={activity.own_reactions}
-        kind="retweet"
-        onPress={() => onToggleReaction('retweet', activity, {})}
-        activeIcon={'https://placehold.it/50x50'}
-        inactiveIcon={'https://placehold.it/50x50'}
+        kind="repost"
+        onPress={() => onToggleReaction('repost', activity, {})}
+        activeIcon={require('../images/repost-active@1x.png')}
+        inactiveIcon={require('../images/repost@1x.png')}
         labelSingle="retweet"
         labelPlural="retweets"
       />

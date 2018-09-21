@@ -44,6 +44,7 @@ export default class EmojiPicker extends React.Component {
   render() {
     return (
       <div className="raf-emoji-picker">
+        {' '}
         {this.state.open && (
           <div className="raf-emoji-picker__container" ref={this.emojiPicker}>
             <Picker showPreview={false} />

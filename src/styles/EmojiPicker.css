@@ -2,6 +2,11 @@
   position: relative;
   z-index: 9;
   cursor: pointer;
+  display: inline-block;
+}
+
+.raf-emoji-picker__button {
+  display: inline-block;
 }
 .raf-emoji-picker__container {
   position: absolute;
