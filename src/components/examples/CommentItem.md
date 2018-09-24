@@ -1,8 +1,20 @@
 CommentItem
 
 ```js
+const comment = {
+  user: {
+    data: {
+      name: 'Rosemary',
+      subtitle: 'likes playing fresbee in the park',
+      profileImage: 'https://randomuser.me/api/portraits/women/20.jpg',
+    }
+  },
+  data: {
+    text: 'Snowboarding is awesome!'
+  }
+};
+
 <CommentItem
-  author={'Curious Kangaroo'}
-  content={'It was at that moment Amanda knew she was done'}
-  />
+  comment={comment}
+/>
 ```

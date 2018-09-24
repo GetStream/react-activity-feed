@@ -1,20 +1,27 @@
+//@flow
 import React from 'react';
 import '../styles/CommentList.css';
+import type { Comment } from '../types';
+
+export type Props = {|
+  data: Comment[],
+  renderCommentItem: (item: Comment, i: number) => mixed,
+|};
 
 /**
  * Component is described here.
  *
  * @example ./examples/CommentList.md
  */
-export default class CommentList extends React.Component {
+export default class CommentList extends React.Component<Props> {
   render() {
     const { data, renderCommentItem } = this.props;
     return (
-      <div>
+      <React.Fragment>
         {data && renderCommentItem
           ? data.map((item, i) => renderCommentItem(item, i))
           : null}
-      </div>
+      </React.Fragment>
     );
   }
 }
