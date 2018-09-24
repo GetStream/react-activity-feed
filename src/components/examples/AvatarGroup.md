@@ -1,7 +1,10 @@
 AvatarGroup
 
 ```js
-const users = [1,2,3];
+const users = [
+  { name: 'Jaap Bakker', profileImage: 'https://randomuser.me/api/portraits/men/1.jpg'},
+  { name: 'Sloan Humfrey', profileImage: 'https://randomuser.me/api/portraits/women/1.jpg'}
+];
 
 <div style={{background: '#000', padding: '8px', borderRadius: '4px'}}>
   <AvatarGroup
