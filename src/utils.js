@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react';
 import type { Renderable, RenderableButNotElement } from './types';
+// import type { UserResponse } from 'getstream';
 import moment from 'moment';
 
 export function humanizeTimestamp(timestamp: string | number): string {
@@ -40,3 +41,13 @@ export const getRetinaImage = (images: string) =>
     .split('|')
     .map((item, i) => `${item} ${i + 1}x`)
     .join(', ');
+// $FlowFixMe
+export function userOrDefault(user: any | 'NotFound') {
+  if (user === 'NotFound') {
+    return {
+      id: 'NotFound',
+      data: { name: 'Unknown', profileImage: undefined },
+    };
+  }
+  return user;
+}
