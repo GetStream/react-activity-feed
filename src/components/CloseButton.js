@@ -1,10 +1,16 @@
+// @flow
+
 import React from 'react';
 import '../styles/CloseButton.css';
+
+export type Props = {|
+  clickHandler?: () => mixed,
+|};
 
 /**
  * @example ./examples/CloseButton.md
  */
-export default class CloseButton extends React.Component {
+export default class CloseButton extends React.Component<Props> {
   render() {
     const { clickHandler } = this.props;
     return (

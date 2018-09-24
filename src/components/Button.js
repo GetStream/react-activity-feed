@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react';
-import '../App.css';
 import '../styles/Button.css';
 
 export type Props = {|

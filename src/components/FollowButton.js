@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import '../App.css';
 import '../styles/FollowButton.css';
 
 export type Props = {|
