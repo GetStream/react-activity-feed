@@ -1,27 +1,41 @@
-import React from 'react';
+// @flow
+import * as React from 'react';
 import '../styles/Dropdown.css';
+
+export type Props = {|
+  children?: React.Node,
+|};
+
+export type State = {|
+  open: boolean,
+|};
 
 /**
  * Component is described here.
  *
  * @example ./examples/Dropdown.md
  */
-export default class Dropdown extends React.Component {
-  constructor(props) {
+export default class Dropdown extends React.Component<Props, State> {
+  dropdownBox: { current: null | HTMLDivElement };
+
+  constructor(props: Props) {
     super(props);
     this.showMenu = this.showMenu.bind(this);
     this.hideMenu = this.hideMenu.bind(this);
     this.dropdownBox = React.createRef();
+
     this.state = {
       open: false,
     };
   }
 
   componentWillUnmount() {
+    // $FlowFixMe
     document.removeEventListener('click', this.hideMenu);
   }
-
+  // $FlowFixMe
   hideMenu = (e) => {
+    // $FlowFixMe
     if (!this.dropdownBox.current.contains(e.target)) {
       this.setState({ open: false }, () => {
         document.removeEventListener('click', this.hideMenu);
@@ -29,6 +43,7 @@ export default class Dropdown extends React.Component {
     }
   };
 
+  // $FlowFixMe
   showMenu = (e) => {
     e.preventDefault();
 
