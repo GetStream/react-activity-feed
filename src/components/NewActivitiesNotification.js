@@ -5,9 +5,11 @@ import Link from './Link';
 import '../styles/NewActivitiesNotification.css';
 
 export type Props = {|
+  adds: Array<{}>,
+  deletes: Array<{}>,
   labelSingle?: string,
   labelPlural?: string,
-  count?: number,
+  onPress?: () => mixed,
 |};
 
 /**
@@ -16,10 +18,21 @@ export type Props = {|
  * @example ./examples/NewActivitiesNotification.md
  */
 export default class NewActivitiesNotification extends React.Component<Props> {
+  static defaultProps = {
+    labelSingle: 'notification',
+    labelPlural: 'notifications',
+  };
   render() {
+    const addCount = (this.props.adds || []).length;
+    const deleteCount = (this.props.deletes || []).length;
+    const count = addCount + deleteCount;
+
     return (
       <div className="raf-new-activities-notification" role="button">
-        <Link>{this.props.count || 1} new activity</Link>
+        <Link>
+          {count || 0} new{' '}
+          {count !== 1 ? this.props.labelPlural : this.props.labelSingle}
+        </Link>
       </div>
     );
   }
