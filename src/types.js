@@ -93,3 +93,6 @@ export type CommentData = {
 };
 
 export type Comment = EnrichedReactionResponse<UserData, CommentData>;
+
+export type NotificationActivity = ActivityResponse<UserData, {}>;
+export type NotificationActivities = Array<ActivityResponse<UserData, {}>>;

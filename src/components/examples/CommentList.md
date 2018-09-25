@@ -4,24 +4,33 @@ CommentList
 
 const data = [
   {
-    author: 'Matthew Garner',
-    content: 'It was at that moment Amanda knew she was done',
-    image: 'https://randomuser.me/api/portraits/men/86.jpg'
+    user: {
+      data: {
+        name: 'Rosemary',
+        subtitle: 'likes playing fresbee in the park',
+        profileImage: 'https://randomuser.me/api/portraits/women/20.jpg',
+      }
+    },
+    data: {
+      text: 'Snowboarding is awesome!'
+    }
   },
   {
-    author: 'Katherine Hughes',
-    content: 'YES YES YES YES I LOVE THIS 😂😂😂😂😂😂',
-    image: 'https://randomuser.me/api/portraits/women/44.jpg'
-  },
-  {
-    author: 'Clayton Ramirez',
-    content: 'what did I just see this is straigh boss all the way through - a h m a z i n g 💦💦💦💦💦💦💦💦💦💦💦💦💦💦',
-    image: 'https://randomuser.me/api/portraits/men/57.jpg'
-  },
-]
+    user: {
+      data: {
+        name: 'Dean',
+        subtitle: 'Woah, livin\' on a prayer ',
+        profileImage: 'https://randomuser.me/api/portraits/men/20.jpg',
+      }
+    },
+    data: {
+      text: 'Wakeboarding is awesome!'
+    }
+  }
+];
 
-const renderCommentItem = ({author, content, image}, i) => {
-  return <CommentItem image={image} author={author} content={content} key={`CommentItem-${i}`} />
+const renderCommentItem = (comment, i) => {
+  return <CommentItem comment={comment} key={`CommentItem-${i}`} />
 }
 
 <CommentList

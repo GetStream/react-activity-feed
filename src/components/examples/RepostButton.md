@@ -1,4 +1,3 @@
-RetweetButton
 
 ```js
 <RepostButton

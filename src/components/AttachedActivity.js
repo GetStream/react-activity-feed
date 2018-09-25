@@ -1,5 +1,4 @@
 import React from 'react';
-import '../App.css';
 import '../styles/AttachedActivity.css';
 
 /**
@@ -9,16 +8,25 @@ import '../styles/AttachedActivity.css';
  */
 export default class AttachedActivity extends React.Component {
   render() {
-    const { author, content } = this.props;
-    return (
-      <div className="raf-attached-activity">
-        {author ? (
-          <p className="raf-attached-activity__author">
-            <strong>{author}</strong>
-          </p>
-        ) : null}
-        <p className="raf-attached-activity__content">{content}</p>
-      </div>
-    );
+    const { activity } = this.props;
+
+    if (
+      activity.verb === 'repost' ||
+      activity.verb === 'post' ||
+      activity.verb === 'comment'
+    ) {
+      return (
+        <div className="raf-attached-activity">
+          {activity.author ? (
+            <p className="raf-attached-activity__author">
+              <strong>{activity.author}</strong>
+            </p>
+          ) : null}
+          <p className="raf-attached-activity__content">{activity.content}</p>
+        </div>
+      );
+    }
+
+    return null;
   }
 }

@@ -13,18 +13,47 @@ const activity = {
   time: new Date()
 };
 
+const Footer = () => {
+  return (
+    <ActivityFooter>
+      <div style={{display: 'flex', alignItems: 'center'}}>
+        <div style={{flex: '1'}}>
+          <ReactionIcon
+            icon="https://placehold.it/22x22"
+            labelSingle="comment"
+            labelPlural="comments"
+            kind="comment"
+            counts={{'comment': 899892}}
+            own_reactions={{'comment': [1]}}
+            onToggleReaction={() => console.log('test')}
+          />
+        </div>
+        <div style={{display: 'flex'}}>
+          <LikeButton
+            // this is just a mock of the data to render the example
+            activity={{
+              reaction_counts:{'like': 39},
+            }}
+            onToggleReaction={() => console.log('test')}
+          />
+          <RepostButton
+            // this is just a mock of the data to render the example
+            activity={{
+              reaction_counts:{'repost': 17},
+              own_reactions: {'repost': [1]}
+            }}
+            onToggleReaction={() => console.log('test')}
+          />
+        </div>
+      </div>
+    </ActivityFooter>
+  );
+}
+
 <div style={{backgroundColor: '#ccc', padding: '8px'}}>
   <Activity
     activity={activity}
-    Footer={<ActivityFooter>
-      <LikeButton
-        // this is just a mock of the data to render the example
-        activity={{
-            reaction_counts:{'like': 0},
-        }}
-        onToggleReaction={() => console.log('test')}
-      />
-    </ActivityFooter>}
+    Footer={Footer}
   />
 </div>
 ```

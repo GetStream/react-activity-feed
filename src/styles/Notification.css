@@ -1,0 +1,36 @@
+.raf-notification {
+  display: flex;
+  border-bottom: 1px solid rgba(160,178,184, 0.3);
+  padding: 18px;
+}
+
+.raf-notification .raf-avatar {
+  margin-right: 16px;
+}
+
+.raf-notification p {
+  font-size: 14px;
+  margin-top: 0px;
+  margin-bottom: 0;
+  color: #6F7E82;
+  font-weight: 350;
+  line-height: 16px;
+}
+
+.raf-notification p strong {
+  color: #414D54;
+  font-weight: 900;
+}
+
+.raf-notification p small {
+  font-size: 12px;
+}
+
+.raf-notification__content {
+  flex: 1;
+}
+
+.raf-notification__extra {
+  margin-left: 16px;
+  align-self: center;
+}

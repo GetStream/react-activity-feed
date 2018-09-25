@@ -6,6 +6,9 @@ import type {
   ToggleReactionCallbackFunction,
 } from '../types';
 
+import likebuttonActive from '../images/like-active@1x.png';
+import likebuttonInactive from '../images/like@1x.png';
+
 type Props = {|
   activity: BaseActivityResponse,
   onToggleReaction: ToggleReactionCallbackFunction,
@@ -26,8 +29,8 @@ export default class LikeButton extends React.Component<Props> {
         own_reactions={activity.own_reactions}
         kind="like"
         onPress={() => onToggleReaction('like', activity, {})}
-        activeIcon={require('../images/like-active@1x.png')}
-        inactiveIcon={require('../images/like@1x.png')}
+        activeIcon={likebuttonActive}
+        inactiveIcon={likebuttonInactive}
         labelSingle="like"
         labelPlural="likes"
       />

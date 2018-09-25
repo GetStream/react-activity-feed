@@ -79,7 +79,9 @@
   "dependencies": {
     "emoji-mart": "^2.8.1",
     "getstream": "^3.21.0-beta.9",
+    "image-exists": "^1.1.0",
     "immutable": "^4.0.0-rc.9",
+    "is-retina": "^1.0.3",
     "moment": "^2.22.2",
     "stream-analytics": "^2.7.1"
   }

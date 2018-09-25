@@ -2,6 +2,7 @@
 import * as React from 'react';
 import moment from 'moment';
 import type { Renderable, RenderableButNotElement } from './types';
+// import type { UserResponse } from 'getstream';
 
 export function humanizeTimestamp(timestamp: string | number): string {
   const time = moment.utc(timestamp); // parse time as UTC
@@ -40,3 +41,13 @@ export const getRetinaImage = (images: string) =>
     .split('|')
     .map((item, i) => `${item} ${i + 1}x`)
     .join(', ');
+// $FlowFixMe
+export function userOrDefault(user: any | 'NotFound') {
+  if (user === 'NotFound') {
+    return {
+      id: 'NotFound',
+      data: { name: 'Unknown', profileImage: undefined },
+    };
+  }
+  return user;
+}
