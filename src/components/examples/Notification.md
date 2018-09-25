@@ -29,10 +29,28 @@ const activities = [
     object: {
       verb: 'post'
     }
+  },
+  {
+    actor: {
+      data: {
+        name: 'Jaap Bakker',
+        profileImage: 'https://randomuser.me/api/portraits/women/7.jpg'
+      }
+    },
+    verb: 'heart',
+    object: {
+      verb: 'post'
+    }
   }
 ];
 
-<div style={{backgroundColor: '#f2f2f2', padding: '8px'}}>
+<DropdownPanel>
+    <NewActivitiesNotification
+      adds={[{}, {}]}
+  />
   <Notification activities={activities}/>
-</div>
+  <Notification read activities={activities}/>
+  <Notification read activities={activities}/>
+  <Notification activities={activities}/>
+</DropdownPanel>
 ```
