@@ -2,8 +2,9 @@
 import React from 'react';
 import '../styles/Notification.css';
 import Avatar from './Avatar';
+import AvatarGroup from './AvatarGroup';
 import Link from './Link';
-// import AttachedActivity from './AttachedActivity';
+import AttachedActivity from './AttachedActivity';
 
 import type { NotificationActivities } from '../types';
 import { humanizeTimestamp, userOrDefault } from '../utils';
@@ -18,8 +19,14 @@ type Props = {
  * @example ./examples/Notification.md
  */
 export default class Notification extends React.Component<Props> {
+  // $FlowFixMe
+  getUsers = (activities: any) => {
+    const users = [];
+    activities.forEach((item) => users.push(item.actor.data));
+    return users;
+  };
+
   render() {
-    // START PASTED FROM RN LIB
     let headerText, headerSubtext;
     const lastActivity = this.props.activities[0];
     const lastActor = userOrDefault(lastActivity.actor);
@@ -39,17 +46,22 @@ export default class Notification extends React.Component<Props> {
 
     if (lastActivity.verb === 'heart') {
       headerSubtext = 'liked';
+      headerSubtext += ` your ${lastActivity.object.verb}`;
       // icon = HeartIcon;
     } else if (lastActivity.verb === 'repost') {
       headerSubtext = `reposted`;
+      headerSubtext += ` your ${lastActivity.object.verb}`;
+      // icon = RepostIcon;
+    } else if (lastActivity.verb === 'follow') {
+      headerSubtext = `followed`;
+      headerSubtext += ` you`;
       // icon = RepostIcon;
     } else {
       return null;
     }
 
-    headerSubtext += ` your ${lastActivity.object.verb}`;
+    this.getUsers(this.props.activities);
 
-    // END PASTED FROM RN LIB
     return (
       <div className="raf-notification">
         <Avatar image={lastActor.data.profileImage} circle size={30} />
@@ -60,17 +72,27 @@ export default class Notification extends React.Component<Props> {
           <p>
             <small>{humanizeTimestamp(lastActivity.time)}</small>
           </p>
-          {/* { this.props.attachedActivity ? (
-            <AttachedActivity
-              author={'Josh'}
-              content="Winds 2 is the Open Source megalocosmos flat earth effect on anti-gravity food chemicals..."
-            />
-          ) : null} */}
+          {this.props.activities[0].verb !== 'follow' ? (
+            <AttachedActivity activity={lastActivity.object} />
+          ) : null}
         </div>
         <div className="raf-notification__extra">
-          <p>
-            <Link>Follow</Link>
-          </p>
+          {this.props.activities.length > 1 &&
+          this.props.activities[0].verb === 'follow' ? (
+            <AvatarGroup
+              avatarSize={40}
+              users={this.getUsers(this.props.activities)}
+            />
+          ) : (
+            <p>
+              {this.props.activities.length === 1 &&
+              this.props.activities[0].verb === 'follow' ? (
+                <Link>Follow</Link>
+              ) : (
+                <Link>View</Link>
+              )}
+            </p>
+          )}
         </div>
       </div>
     );
