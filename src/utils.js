@@ -1,8 +1,8 @@
 // @flow
 import * as React from 'react';
+import moment from 'moment';
 import type { Renderable, RenderableButNotElement } from './types';
 // import type { UserResponse } from 'getstream';
-import moment from 'moment';
 
 export function humanizeTimestamp(timestamp: string | number): string {
   const time = moment.utc(timestamp); // parse time as UTC
@@ -50,4 +50,8 @@ export function userOrDefault(user: any | 'NotFound') {
     };
   }
   return user;
+}
+
+export function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
