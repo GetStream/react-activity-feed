@@ -37,6 +37,11 @@ type Props = {|
   children?: React.Node,
 |};
 
+/**
+ * Renders a notificationfeed, this component is a StreamApp consumer and must
+ * always be a child of the `<StreamApp>` element.
+ * @example ./examples/NotificationFeed.md
+ */
 export default class NotificationFeed extends React.Component<Props> {
   static defaultProps = {
     feedGroup: 'notification',

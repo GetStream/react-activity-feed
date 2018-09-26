@@ -13,8 +13,12 @@ const activities = [
     verb: 'follow',
     object: {
       verb: 'post',
-      content: 'Winds 2 is the Open Source megalocosmos flat earth effect of anti-gravity food chemicals...',
-      author: 'Josh'
+      object: 'Winds 2 is the Open Source megalocosmos flat earth effect of anti-gravity food chemicals...',
+      actor: {
+        data: {
+          name: 'Josh'
+        }
+      }
     },
     time: Date.now() - 1000000
   },
@@ -43,8 +47,19 @@ const activities = [
     }
   }
 ];
+
+const unreadGroup = {
+  read: false,
+  activities,
+};
+
+const readGroup = {
+  read: true,
+  activities,
+};
+
 <React.Fragment>
-  <Notification activities={activities}/>
-  <Notification read activities={activities}/>
+  <Notification activityGroup={unreadGroup}/>
+  <Notification activityGroup={readGroup}/>
 </React.Fragment>
 ```

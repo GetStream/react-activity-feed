@@ -7,6 +7,8 @@ const faker = require('faker');
 const dotenv = require('dotenv');
 dotenv.config();
 
+const exampleUserId = 'example-user';
+
 async function main() {
   const apiKey = process.env.STREAM_API_KEY;
   const apiSecret = process.env.STREAM_API_SECRET;
@@ -25,17 +27,35 @@ async function main() {
     console.error('STREAM_SECRET should be set');
     return;
   }
-  console.log(apiSecret);
   const client = stream.connect(
     apiKey,
     apiSecret,
   );
-  const exampleUserId = 'example-user';
+
+  const exampleRef = client.collections.createUserReference(exampleUserId);
+  const userFeed = client.feed('user', exampleUserId);
+  const act = await userFeed.addActivity({
+    actor: exampleRef,
+    verb: 'post',
+    object:
+      'Winds 2 is the Open Source megalocosmos flat earth effect of anti-gravity food chemicals...',
+  });
   const users = getUsers();
-  await client.collections.upsert('user', users);
-  const timeline = client.feed('timeline', exampleUserId);
   const acts = getActivities(client, users);
+  const notificationActs = getNotifications(client, users, act);
+  const timeline = client.feed('timeline', exampleUserId);
+  const notification = client.feed('notification', exampleUserId);
+
+  await client.collections.upsert('user', users);
+  await client.collections.upsert('user', [
+    {
+      id: exampleUserId,
+      name: 'Curious Dev',
+    },
+  ]);
   await timeline.addActivities(acts);
+  await notification.addActivities(notificationActs);
+
   const token = client.createUserSessionToken(exampleUserId);
   console.log(`apiKey="${apiKey}"`);
   console.log(`appId="${appId}"`);
@@ -43,7 +63,6 @@ async function main() {
 }
 
 const getUsers = (n = 10) => {
-  console.log('getting users');
   const users = [];
   for (let i = 0; i < n; i++) {
     users.push({
@@ -136,5 +155,53 @@ const getActivities = (client, users) => [
     object: "@ken let's get coffee one these days ☕",
   },
 ];
+
+const getNotifications = (client, users, activity) => {
+  const ref = (i) => client.collections.createUserReference(users[i].id);
+  const exampleRef = client.collections.createUserReference(exampleUserId);
+  const activityRef = `SA:${activity.id}`;
+  return [
+    {
+      actor: ref(0),
+      verb: 'follow',
+      object: exampleRef,
+    },
+    {
+      actor: ref(1),
+      verb: 'follow',
+      object: exampleRef,
+    },
+    {
+      actor: ref(2),
+      verb: 'follow',
+      object: exampleRef,
+    },
+    {
+      actor: ref(3),
+      verb: 'follow',
+      object: exampleRef,
+    },
+    {
+      actor: ref(5),
+      verb: 'like',
+      object: activityRef,
+    },
+    {
+      actor: ref(6),
+      verb: 'like',
+      object: activityRef,
+    },
+    {
+      actor: ref(7),
+      verb: 'like',
+      object: activityRef,
+    },
+    {
+      actor: ref(8),
+      verb: 'like',
+      object: activityRef,
+    },
+  ];
+};
 
 main();

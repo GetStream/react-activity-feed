@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/AttachedActivity.css';
+import { userOrDefault } from '../utils';
 
 /**
  * Component is described here.
@@ -9,6 +10,7 @@ import '../styles/AttachedActivity.css';
 export default class AttachedActivity extends React.Component {
   render() {
     const { activity } = this.props;
+    const actor = userOrDefault(activity.actor);
 
     if (
       activity.verb === 'repost' ||
@@ -17,12 +19,10 @@ export default class AttachedActivity extends React.Component {
     ) {
       return (
         <div className="raf-attached-activity">
-          {activity.author ? (
-            <p className="raf-attached-activity__author">
-              <strong>{activity.author}</strong>
-            </p>
-          ) : null}
-          <p className="raf-attached-activity__content">{activity.content}</p>
+          <p className="raf-attached-activity__author">
+            <strong>{actor.data.name}</strong>
+          </p>
+          <p className="raf-attached-activity__content">{activity.object}</p>
         </div>
       );
     }

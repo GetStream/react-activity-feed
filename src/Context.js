@@ -56,7 +56,7 @@ type StreamAppProps<UserData> = {|
   options?: {},
   analyticsToken?: string,
   sharedFeeds: Array<FeedProps>,
-  defaultUserData?: UserData,
+  defaultUserData: UserData,
   errorHandler: ErrorHandler,
   children?: React.Node,
 |};
@@ -75,6 +75,7 @@ export class StreamApp extends React.Component<
         options: { mark_seen: true },
       },
     ],
+    defaultUserData: { name: 'Unknown' },
     errorHandler: handleError,
   };
 
@@ -147,7 +148,7 @@ export class StreamApp extends React.Component<
 
   async componentDidMount() {
     try {
-      await this.state.user.getOrCreate(this.props.defaultUserData || {});
+      await this.state.user.getOrCreate(this.props.defaultUserData);
     } catch (e) {
       this.props.errorHandler(e, 'get-user-info', {
         userId: this.state.user.id,

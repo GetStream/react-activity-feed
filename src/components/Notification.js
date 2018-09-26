@@ -6,12 +6,10 @@ import AvatarGroup from './AvatarGroup';
 import Link from './Link';
 import AttachedActivity from './AttachedActivity';
 
-import type { NotificationActivities } from '../types';
 import { humanizeTimestamp, userOrDefault } from '../utils';
 
 type Props = {
-  activities: NotificationActivities,
-  read: boolean,
+  activityGroup: any,
 };
 
 /**
@@ -20,9 +18,6 @@ type Props = {
  * @example ./examples/Notification.md
  */
 export default class Notification extends React.Component<Props> {
-  static defaultProps = {
-    read: false,
-  };
   // $FlowFixMe
   getUsers = (activities: any) => {
     const users = [];
@@ -32,18 +27,16 @@ export default class Notification extends React.Component<Props> {
 
   render() {
     let headerText, headerSubtext;
-    const lastActivity = this.props.activities[0];
+    const activities = this.props.activityGroup.activities;
+    const lastActivity = activities[0];
     const lastActor = userOrDefault(lastActivity.actor);
 
-    if (this.props.activities.length === 1) {
+    if (activities.length === 1) {
       headerText = lastActor.data.name;
-    } else if (
-      this.props.activities.length > 1 &&
-      this.props.activities.length < 1 + 1 + 1
-    ) {
+    } else if (activities.length > 1 && activities.length < 1 + 1 + 1) {
       headerText = `${lastActor.data.name} and 1 other `;
     } else {
-      headerText = `${lastActor.data.name} and ${this.props.activities.length -
+      headerText = `${lastActor.data.name} and ${activities.length -
         1} others `;
     }
 
@@ -51,7 +44,7 @@ export default class Notification extends React.Component<Props> {
       return null;
     }
 
-    if (lastActivity.verb === 'heart') {
+    if (lastActivity.verb === 'like') {
       headerSubtext = 'liked';
       headerSubtext += ` your ${lastActivity.object.verb}`;
       // icon = HeartIcon;
@@ -67,13 +60,13 @@ export default class Notification extends React.Component<Props> {
       return null;
     }
 
-    this.getUsers(this.props.activities);
+    this.getUsers(activities);
 
     return (
       <div
         className={
           'raf-notification' +
-          (this.props.read ? ' raf-notification--read' : '')
+          (this.props.activityGroup.read ? ' raf-notification--read' : '')
         }
       >
         <Avatar image={lastActor.data.profileImage} circle size={30} />
@@ -84,21 +77,16 @@ export default class Notification extends React.Component<Props> {
           <p>
             <small>{humanizeTimestamp(lastActivity.time)}</small>
           </p>
-          {this.props.activities[0].verb !== 'follow' ? (
+          {lastActivity.verb !== 'follow' ? (
             <AttachedActivity activity={lastActivity.object} />
           ) : null}
         </div>
         <div className="raf-notification__extra">
-          {this.props.activities.length > 1 &&
-          this.props.activities[0].verb === 'follow' ? (
-            <AvatarGroup
-              avatarSize={30}
-              users={this.getUsers(this.props.activities)}
-            />
+          {activities.length > 1 && lastActivity.verb === 'follow' ? (
+            <AvatarGroup avatarSize={30} users={this.getUsers(activities)} />
           ) : (
             <p>
-              {this.props.activities.length === 1 &&
-              this.props.activities[0].verb === 'follow' ? (
+              {activities.length === 1 && lastActivity.verb === 'follow' ? (
                 <Link>Follow</Link>
               ) : (
                 <Link>View</Link>

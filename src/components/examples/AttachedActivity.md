@@ -12,8 +12,12 @@ const activity = {
   verb: 'heart',
   object: {
     verb: 'post',
-    author: 'Dean Blunt',
-    content: 'hello world'
+    actor: {
+      data: {
+        name: 'Dean Blunt',
+      }
+    },
+    object: 'hello world'
   }
 };
 
