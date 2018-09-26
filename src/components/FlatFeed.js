@@ -41,7 +41,7 @@ type Props = {|
 
 /**
  * Renders a feed of activities, this component is a StreamApp consumer
- * and must always be a child of the <StreamApp> element
+ * and must always be a child of the `<StreamApp>` element
  * @example ./examples/FlatFeed.md
  */
 export default class FlatFeed extends React.Component<Props> {
@@ -89,7 +89,7 @@ class FlatFeedInner extends React.Component<PropsInner> {
       item={item}
       feedGroup={this.props.feedGroup}
       userId={this.props.userId}
-      key={item.id}
+      key={item.get('id')}
     />
   );
 
