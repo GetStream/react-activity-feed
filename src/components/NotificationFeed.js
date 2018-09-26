@@ -1,55 +1,48 @@
 // @flow
 import * as React from 'react';
 
-import Activity from './Activity';
+import { Feed, FeedContext } from '../Context';
 import NewActivitiesNotification from './NewActivitiesNotification';
 import LoadingIndicator from './LoadingIndicator';
 import InfiniteScroll from './InfiniteScroll';
+import Notification from './Notification';
 
-import { Feed, FeedContext } from '../Context';
 import { smartRender } from '../utils';
 
-import type { BaseFeedCtx, BaseUserSession, Renderable } from '../types';
 import type {
-  FeedRequestOptions,
-  FeedResponse,
-  ActivityResponse,
-} from 'getstream';
+  BaseActivityResponse,
+  BaseFeedCtx,
+  BaseUserSession,
+  Renderable,
+} from '../types';
+import type { FeedRequestOptions, FeedResponse } from 'getstream';
 
 type Props = {|
   feedGroup: string,
   userId?: string,
-  /** read options for the API client (eg. limit, ranking, ...) */
   options?: FeedRequestOptions,
-  Activity: Renderable,
+  Group: Renderable,
+  /** if true, feed shows the NewActivitiesNotification component when new activities are added */
+  notify: boolean,
   /** the component to use to render new activities notification */
   Notifier: Renderable,
-  /** if true, feed shows the Notifier component when new activities are added */
-  notify: boolean,
-  //** the feed read hander (change only for advanced/complex use-cases) */
   doFeedRequest?: (
     session: BaseUserSession,
     feedGroup: string,
     userId?: string,
     options?: FeedRequestOptions,
   ) => Promise<FeedResponse<{}, {}>>,
-  //** turns off pagination */
-  noPagination?: boolean,
   analyticsLocation?: string,
-  onRefresh?: () => mixed,
+  noPagination?: boolean,
+  children?: React.Node,
 |};
 
-/**
- * Renders a feed of activities, this component is a StreamApp consumer
- * and must always be a child of the `<StreamApp>` element
- * @example ./examples/FlatFeed.md
- */
-export default class FlatFeed extends React.Component<Props> {
+export default class NotificationFeed extends React.Component<Props> {
   static defaultProps = {
-    feedGroup: 'timeline',
-    notify: false,
-    Activity,
+    feedGroup: 'notification',
     Notifier: NewActivitiesNotification,
+    Group: Notification,
+    notify: false,
   };
 
   render() {
@@ -57,23 +50,31 @@ export default class FlatFeed extends React.Component<Props> {
       <Feed
         feedGroup={this.props.feedGroup}
         userId={this.props.userId}
-        options={this.props.options}
+        options={makeDefaultOptions(this.props.options)}
         notify={this.props.notify}
         doFeedRequest={this.props.doFeedRequest}
       >
         <FeedContext.Consumer>
-          {(feedCtx) => <FlatFeedInner {...this.props} {...feedCtx} />}
+          {(feedCtx) => <NotificationFeedInner {...this.props} {...feedCtx} />}
         </FeedContext.Consumer>
       </Feed>
     );
   }
 }
 
+const makeDefaultOptions = (options) => {
+  const copy = { ...options };
+  if (copy.mark_seen === undefined) {
+    copy.mark_seen = true;
+  }
+  return copy;
+};
+
 type PropsInner = {| ...Props, ...BaseFeedCtx |};
-class FlatFeedInner extends React.Component<PropsInner> {
+class NotificationFeedInner extends React.Component<PropsInner> {
   listRef = React.createRef();
   _refresh = async () => {
-    await this.props.refresh(this.props.options);
+    await this.props.refresh(makeDefaultOptions(this.props.options));
     const ref = this.listRef;
     if (ref && ref.current) {
       ref.current.scrollToOffset({ offset: 0 });
@@ -83,9 +84,9 @@ class FlatFeedInner extends React.Component<PropsInner> {
     await this._refresh();
   }
 
-  _renderWrappedActivity = ({ item }: { item: any }) => (
+  _renderWrappedGroup = ({ item }: { item: any }) => (
     <ImmutableItemWrapper
-      renderItem={this._renderActivity}
+      renderItem={this._renderGroup}
       item={item}
       feedGroup={this.props.feedGroup}
       userId={this.props.userId}
@@ -93,21 +94,16 @@ class FlatFeedInner extends React.Component<PropsInner> {
     />
   );
 
-  _childProps = () => ({
-    onToggleReaction: this.props.onToggleReaction,
-    onAddReaction: this.props.onAddReaction,
-    onRemoveReaction: this.props.onRemoveReaction,
-    feedGroup: this.props.feedGroup,
-    userId: this.props.userId,
-  });
-
-  _renderActivity = (item: ActivityResponse<Object, Object>) => {
+  _renderGroup = (item: BaseActivityResponse) => {
     const args = {
-      activity: item,
-      ...this._childProps(),
+      activityGroup: item,
+      feedGroup: this.props.feedGroup,
+      userId: this.props.userId,
+      onToggleReaction: this.props.onToggleReaction,
+      onAddReaction: this.props.onAddReaction,
+      onRemoveReaction: this.props.onRemoveReaction,
     };
-
-    return smartRender(this.props.Activity, { ...args });
+    return smartRender(this.props.Group, args);
   };
 
   render() {
@@ -116,7 +112,6 @@ class FlatFeedInner extends React.Component<PropsInner> {
       deletes: this.props.realtimeDeletes,
       onPress: this._refresh,
     };
-
     return (
       <React.Fragment>
         {smartRender(this.props.Notifier, notifierProps)}
@@ -127,7 +122,7 @@ class FlatFeedInner extends React.Component<PropsInner> {
           loader={<LoadingIndicator key={0} />}
         >
           {this.props.activityOrder.map((id) =>
-            this._renderWrappedActivity({
+            this._renderWrappedGroup({
               item: this.props.activities.get(id),
             }),
           )}
