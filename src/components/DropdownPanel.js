@@ -4,6 +4,9 @@ import '../styles/DropdownPanel.css';
 
 export type Props = {|
   children?: React.Node,
+  Header?: React.Node,
+  Footer?: React.Node,
+
   arrow: boolean,
 |};
 
@@ -18,6 +21,12 @@ export default class DropdownPanel extends React.Component<Props> {
   };
 
   render() {
-    return <div className="raf-dropdown-panel">{this.props.children}</div>;
+    return (
+      <div className="raf-dropdown-panel raf-dropdown-panel--arrow">
+        <div className="raf-dropdown-panel__header">{this.props.Header}</div>
+        <div className="raf-dropdown-panel__content">{this.props.children}</div>
+        <div className="raf-dropdown-panel__footer">{this.props.Footer}</div>
+      </div>
+    );
   }
 }

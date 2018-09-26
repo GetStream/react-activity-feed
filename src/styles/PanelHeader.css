@@ -1,7 +1,16 @@
 .raf-panel-header {
+  position: relative;
   border-bottom: 2px solid #F5F5F5;
   padding: 15px 30px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+}
+
+.raf-panel-header .raf-close-button {
+  position: absolute;
+  right: 30px;
+}
+
+.raf-panel-header .raf-title {
+  display: flex; align-items: center;
 }

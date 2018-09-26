@@ -1,19 +1,22 @@
 // @flow
 import * as React from 'react';
 import '../styles/PanelHeader.css';
-import Title from './Title';
 import CloseButton from './CloseButton';
 
 export type Props = {|
   children: React.Node,
+  closeButton: boolean,
 |};
 
 export default class PanelHeading extends React.Component<Props> {
+  static defaultProps = {
+    closeButton: false,
+  };
   render() {
     return (
       <div className="raf-panel-header">
-        <Title>{this.props.children}</Title>
-        <CloseButton />
+        {this.props.children}
+        {this.props.closeButton && <CloseButton />}
       </div>
     );
   }

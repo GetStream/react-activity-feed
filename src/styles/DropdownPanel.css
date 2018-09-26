@@ -1,6 +1,30 @@
 .raf-dropdown-panel {
-  background-color: #F7F7F7;
+  background-color: #fff;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.30);
   border-radius: 4px;
-  overflow: hidden;
+  /* overflow: hidden; */
+}
+
+.raf-dropdown-panel--arrow {
+  position: relative;
+}
+
+.raf-dropdown-panel--arrow:after {
+	bottom: 100%;
+	left: 20px;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(247, 247, 247, 0);
+	border-bottom-color: #fff;
+	border-width: 12px;
+	margin-left: -12px;
+}
+
+.raf-dropdown-panel__content {
+  max-height: 425px;
+  overflow: scroll;
 }

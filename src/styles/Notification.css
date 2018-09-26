@@ -2,6 +2,7 @@
   display: flex;
   border-bottom: 1px solid rgba(160,178,184, 0.3);
   padding: 18px;
+  background: #f7f7f7;
 }
 
 .raf-notification .raf-avatar {

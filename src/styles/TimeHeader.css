@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   opacity: 0.5;
+  margin: 5px 0;;
 }
 .raf-time-header .raf-title {
   color: #6F7E82;

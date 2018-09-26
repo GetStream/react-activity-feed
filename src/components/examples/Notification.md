@@ -43,14 +43,8 @@ const activities = [
     }
   }
 ];
-
-<DropdownPanel>
-    <NewActivitiesNotification
-      adds={[{}, {}]}
-  />
+<React.Fragment>
   <Notification activities={activities}/>
   <Notification read activities={activities}/>
-  <Notification read activities={activities}/>
-  <Notification activities={activities}/>
-</DropdownPanel>
+</React.Fragment>
 ```
