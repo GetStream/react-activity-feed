@@ -41,10 +41,23 @@ const activities = [
     }
   }
 ];
-
+<div style={{padding: 20, backgroundColor: 'grey'}}>
 <DropdownPanel
+  arrow
   Header={
-    <NewActivitiesNotification adds={[{},{},{},{},{},]} />
+    <React.Fragment>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding:10}}
+      >
+        <Title size={14}>Notifications</Title>
+        <Link>Mark as read</Link>
+      </div>
+      <NewActivitiesNotification adds={[{},{},{},{},{},]} />
+    </React.Fragment>
   }
   Footer={
     <div style={{display: 'flex', padding: 10, alignItems: 'center', justifyContent: 'center' }}><Link to="#">View All Notifications</Link></div>
@@ -59,4 +72,5 @@ const activities = [
   <Notification read activities={activities} />
   <Notification read activities={activities} />
 </DropdownPanel>
+</div>
 ```

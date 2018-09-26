@@ -11,7 +11,7 @@
 
 .raf-dropdown-panel--arrow:after {
 	bottom: 100%;
-	left: 20px;
+	left: 30px;
 	border: solid transparent;
 	content: " ";
 	height: 0;
@@ -20,8 +20,13 @@
 	pointer-events: none;
 	border-color: rgba(247, 247, 247, 0);
 	border-bottom-color: #fff;
-	border-width: 12px;
-	margin-left: -12px;
+	border-width: 8px;
+	margin-left: -8px;
+}
+
+.raf-dropdown-panel__header {
+  overflow: hidden;
+  border-radius: 4px 4px 0 0;
 }
 
 .raf-dropdown-panel__content {
