@@ -14,10 +14,10 @@ module.exports = {
       name: 'Top Level Components',
       // content: 'docs/top-level-components.md',
       components: [
+        'src/Context.js',
         'src/components/FlatFeed.js',
         'src/components/NotificationFeed.js',
         // 'src/components/SinglePost.js',
-        'src/Context.js',
       ],
       exampleMode: 'collapse',
       usageMode: 'expand',

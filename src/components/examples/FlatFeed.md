@@ -2,9 +2,10 @@ FlatFeed
 
 ```js
 <StreamApp
-    apiKey="5rqsbgqvqphs"
-    appId="40273"
-    token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiNTc5NTlkZDAtMzU2My00ZDZiLWFkMWEtZDZiNTNjN2JhY2E1In0.WwlE9MBS1kicvU6fkTvAC3crssGRaTGk5D19zg2XD9k"
+    apiKey="3fjzn67nznwt"
+    appId="41814"
+    token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZXhhbXBsZS11c2VyIn0.XEKjtzD2AIQMLXH6kfJlL8P_JV4CBYvcMsmQCFjyY2U"
+
 >
     <FlatFeed />
 </StreamApp>

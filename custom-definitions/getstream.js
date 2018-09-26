@@ -220,6 +220,13 @@ declare module 'getstream' {
     keepAlive?: boolean,
   };
 
+  declare function connect(
+    apiKey: string,
+    apiSecret: ?string,
+    appId?: number,
+    options?: Object,
+  ): any;
+
   declare function connectCloud<UserData>(
     apiKey: any,
     appId: any,

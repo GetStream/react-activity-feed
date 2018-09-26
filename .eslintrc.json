@@ -19,7 +19,6 @@
     "no-self-compare": 2,
     "prefer-const": 2,
     "no-underscore-dangle": [2, { "allowAfterThis": true }],
-    "no-magic-numbers": [2, {"ignore": [0, 1]}],
     "object-shorthand": 1,
     "babel/no-invalid-this": 2,
     "valid-typeof": 2,

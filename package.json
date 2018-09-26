@@ -43,7 +43,9 @@
     "react-dom": "^15.0.0 || ^16.0.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.1.0",
     "@babel/core": "^7.0.0",
+    "@babel/node": "^7.0.0",
     "@babel/plugin-external-helpers": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-flow": "^7.0.0",
@@ -58,6 +60,7 @@
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-promise": "^4.0.0",
     "eslint-plugin-react": "^7.10.0",
+    "faker": "^4.1.0",
     "flow-bin": "^0.80.0",
     "gh-pages": "^1.2.0",
     "prettier": "^1.13.7",
@@ -78,7 +81,7 @@
   ],
   "dependencies": {
     "emoji-mart": "^2.8.1",
-    "getstream": "^3.21.0-beta.9",
+    "getstream": "^3.21.0",
     "image-exists": "^1.1.0",
     "immutable": "^4.0.0-rc.9",
     "is-retina": "^1.0.3",
