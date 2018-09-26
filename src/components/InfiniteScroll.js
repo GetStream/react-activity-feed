@@ -96,7 +96,11 @@ export default class InfiniteScroll extends Component {
   }
 
   attachScrollListener() {
-    if (!this.props.hasMore || !this.getParentElement(this.scrollComponent)) {
+    if (
+      !this.props.hasMore ||
+      this.props.isLoading ||
+      !this.getParentElement(this.scrollComponent)
+    ) {
       return;
     }
 
@@ -204,6 +208,7 @@ export default class InfiniteScroll extends Component {
       threshold,
       useCapture,
       useWindow,
+      isLoading,
       ...props
     } = renderProps;
 
@@ -215,7 +220,7 @@ export default class InfiniteScroll extends Component {
     };
 
     const childrenArray = [children];
-    if (hasMore) {
+    if (isLoading) {
       if (loader) {
         isReverse ? childrenArray.unshift(loader) : childrenArray.push(loader);
       } else if (this.defaultLoader) {
