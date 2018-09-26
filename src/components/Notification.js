@@ -11,6 +11,7 @@ import { humanizeTimestamp, userOrDefault } from '../utils';
 
 type Props = {
   activities: NotificationActivities,
+  read: boolean,
 };
 
 /**
@@ -19,6 +20,9 @@ type Props = {
  * @example ./examples/Notification.md
  */
 export default class Notification extends React.Component<Props> {
+  static defaultProps = {
+    read: false,
+  };
   // $FlowFixMe
   getUsers = (activities: any) => {
     const users = [];
@@ -33,8 +37,11 @@ export default class Notification extends React.Component<Props> {
 
     if (this.props.activities.length === 1) {
       headerText = lastActor.data.name;
-    } else if (this.props.activities.length > 1 + 1) {
-      headerText = `${lastActor.data.name} and 1 other`;
+    } else if (
+      this.props.activities.length > 1 &&
+      this.props.activities.length < 1 + 1 + 1
+    ) {
+      headerText = `${lastActor.data.name} and 1 other `;
     } else {
       headerText = `${lastActor.data.name} and ${this.props.activities.length -
         1} others `;
@@ -63,7 +70,12 @@ export default class Notification extends React.Component<Props> {
     this.getUsers(this.props.activities);
 
     return (
-      <div className="raf-notification">
+      <div
+        className={
+          'raf-notification' +
+          (this.props.read ? ' raf-notification--read' : '')
+        }
+      >
         <Avatar image={lastActor.data.profileImage} circle size={30} />
         <div className="raf-notification__content">
           <p>
@@ -80,7 +92,7 @@ export default class Notification extends React.Component<Props> {
           {this.props.activities.length > 1 &&
           this.props.activities[0].verb === 'follow' ? (
             <AvatarGroup
-              avatarSize={40}
+              avatarSize={30}
               users={this.getUsers(this.props.activities)}
             />
           ) : (

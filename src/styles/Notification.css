@@ -34,3 +34,7 @@
   margin-left: 16px;
   align-self: center;
 }
+
+.raf-notification--read {
+  background: white;
+}
