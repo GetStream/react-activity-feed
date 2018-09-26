@@ -8,6 +8,7 @@
 You can also use it with your own custom icon
 ```js
 <IconBadge
+  onClick={() => console.log('hellowo rld.')}
   showNumber={true}
   unseen={3}
   hidden={false}>

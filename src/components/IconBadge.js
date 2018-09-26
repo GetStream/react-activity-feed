@@ -9,6 +9,7 @@ export type Props = {|
   feedGroup?: string,
   userId?: string,
   unseen: number,
+  onClick?: () => mixed,
 |};
 
 /**
@@ -19,7 +20,11 @@ export type Props = {|
 export default class IconBadge extends React.Component<Props> {
   render() {
     return (
-      <div className="raf-icon-badge">
+      <div
+        className="raf-icon-badge"
+        role="button"
+        onClick={this.props.onClick}
+      >
         {this.props.children ? (
           this.props.children
         ) : (
