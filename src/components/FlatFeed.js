@@ -3,9 +3,11 @@ import * as React from 'react';
 
 import Activity from './Activity';
 import NewActivitiesNotification from './NewActivitiesNotification';
+import LoadingIndicator from './LoadingIndicator';
 
 import { Feed, FeedContext } from '../Context';
 import { smartRender } from '../utils';
+import InfiniteScroll from './InfiniteScroll';
 
 import type { BaseFeedCtx, BaseUserSession, Renderable } from '../types';
 import type {
@@ -118,9 +120,18 @@ class FlatFeedInner extends React.Component<PropsInner> {
     return (
       <React.Fragment>
         {smartRender(this.props.Notifier, notifierProps)}
-        {this.props.activityOrder.map((id) =>
-          this._renderWrappedActivity({ item: this.props.activities.get(id) }),
-        )}
+        <InfiniteScroll
+          loadMore={this.props.loadNextPage}
+          hasMore={this.props.hasNextPage}
+          isLoading={this.props.refreshing}
+          loader={<LoadingIndicator key={0} />}
+        >
+          {this.props.activityOrder.map((id) =>
+            this._renderWrappedActivity({
+              item: this.props.activities.get(id),
+            }),
+          )}
+        </InfiniteScroll>
       </React.Fragment>
     );
   }

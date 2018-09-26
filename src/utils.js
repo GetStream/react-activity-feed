@@ -51,3 +51,7 @@ export function userOrDefault(user: any | 'NotFound') {
   }
   return user;
 }
+
+export function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

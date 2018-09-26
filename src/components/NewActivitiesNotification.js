@@ -21,16 +21,21 @@ export default class NewActivitiesNotification extends React.Component<Props> {
   static defaultProps = {
     labelSingle: 'notification',
     labelPlural: 'notifications',
+    adds: [],
+    deletes: [],
   };
   render() {
-    const addCount = (this.props.adds || []).length;
-    const deleteCount = (this.props.deletes || []).length;
+    const addCount = this.props.adds.length;
+    const deleteCount = this.props.deletes.length;
     const count = addCount + deleteCount;
+    if (count === 0) {
+      return null;
+    }
 
     return (
       <div className="raf-new-activities-notification" role="button">
         <Link>
-          {count || 0} new{' '}
+          {count} new{' '}
           {count !== 1 ? this.props.labelPlural : this.props.labelSingle}
         </Link>
       </div>
