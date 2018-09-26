@@ -1,7 +1,7 @@
 .raf-panel {
-  /* placeholder: */
   background: #FFFFFF;
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.05);
+  margin: 16px 0;
 }
 
 .raf-panel--rounded { border-radius: 6px; }

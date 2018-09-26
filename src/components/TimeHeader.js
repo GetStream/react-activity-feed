@@ -16,7 +16,7 @@ export default class TimeHeader extends React.Component<Props> {
   render() {
     return (
       <div className="raf-time-header">
-        <Title>{this.props.children}</Title>
+        <Title size={14}>{this.props.children}</Title>
         <div className="raf-time-header__line" />
       </div>
     );
