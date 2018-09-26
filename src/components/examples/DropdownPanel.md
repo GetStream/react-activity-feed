@@ -60,7 +60,9 @@ const activities = [
     </React.Fragment>
   }
   Footer={
-    <div style={{display: 'flex', padding: 10, alignItems: 'center', justifyContent: 'center' }}><Link to="#">View All Notifications</Link></div>
+    <div style={{display: 'flex', padding: 10, alignItems: 'center', justifyContent: 'center' }}>
+      <Link to="#">View All Notifications</Link>
+    </div>
   }
   >
   <Notification activities={activities} />
