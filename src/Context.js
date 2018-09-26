@@ -178,6 +178,7 @@ export type FeedCtx = {|
   refresh: (extraOptions?: FeedRequestOptions) => Promise<mixed>,
   refreshUnreadUnseen: () => Promise<mixed>,
   loadNextPage: () => Promise<mixed>,
+  hasNextPage: boolean,
   refreshing: boolean,
   realtimeAdds: Array<{}>,
   realtimeDeletes: Array<{}>,
@@ -539,6 +540,11 @@ class FeedManager {
     }
   };
 
+  hasNextPage = () => {
+    const lastResponse = this.state.lastResponse;
+    return Boolean(lastResponse && lastResponse.next);
+  };
+
   loadNextPage = async () => {
     const lastResponse = this.state.lastResponse;
     if (!lastResponse || !lastResponse.next) {
@@ -682,6 +688,7 @@ class FeedInner extends React.Component<FeedInnerProps, FeedState> {
       refresh: manager.refresh,
       refreshUnreadUnseen: manager.refreshUnreadUnseen,
       loadNextPage: manager.loadNextPage,
+      hasNextPage: manager.hasNextPage(),
       feedGroup: this.props.feedGroup,
       userId: this.props.userId,
       activityOrder: state.activityOrder,
