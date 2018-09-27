@@ -6,8 +6,10 @@ import '../styles/Button.css';
 export type Props = {|
   children: React.Node,
   buttonStyle: string,
-  handleClick?: () => mixed,
-  handleKeyPress?: () => mixed,
+  type: 'button' | 'submit' | 'reset',
+  onClick?: (SyntheticEvent<HTMLButtonElement>) => mixed,
+  onKeyPress?: (SyntheticEvent<HTMLButtonElement>) => mixed,
+  disabled: boolean,
 |};
 
 /**
@@ -17,28 +19,22 @@ export type Props = {|
 export default class Button extends React.Component<Props> {
   static defaultProps = {
     buttonStyle: 'info',
+    type: 'button',
+    disabled: false,
   };
 
-  handleClick = () => {
-    console.log('button clicked');
-  };
-  handleKeyPress = (e: SyntheticKeyboardEvent<HTMLButtonElement>) => {
-    if (e.key === ' ' || e.key === 'Enter') {
-      e.preventDefault();
-      console.log('button keypressed');
-    }
-  };
   render() {
     const { children, buttonStyle } = this.props;
     return (
-      <div
+      <button
         className={`raf-button ${buttonStyle}`}
-        onClick={this.props.handleClick || this.handleClick}
-        onKeyPress={this.props.handleKeyPress || this.handleKeyPress}
-        role="button"
+        onClick={this.props.onClick}
+        onKeyPress={this.props.onKeyPress}
+        type={this.props.type}
+        disabled={this.props.disabled}
       >
-        {children || null}
-      </div>
+        {children}
+      </button>
     );
   }
 }

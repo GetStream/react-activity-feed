@@ -5,6 +5,8 @@ import '../styles/Textarea.css';
 export type Props = {|
   rows: number,
   placeholder: string,
+  onChange: (event: SyntheticEvent<HTMLButtonElement>) => mixed,
+  value?: string,
 |};
 
 /**
@@ -24,6 +26,8 @@ export default class Textarea extends React.Component<Props> {
         rows={this.props.rows}
         className="raf-textarea"
         placeholder={this.props.placeholder}
+        onChange={this.props.onChange}
+        value={this.props.value}
       />
     );
   }

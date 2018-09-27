@@ -102,16 +102,7 @@ export default class Activity extends React.Component<Props> {
           this.props.activity.attachments.og &&
           Object.keys(this.props.activity.attachments.og).length > 0 && (
             <div style={{ padding: '8px 16px' }}>
-              <Card
-                title={this.props.activity.attachments.og.title}
-                description={this.props.activity.attachments.og.description}
-                image={
-                  this.props.activity.attachments.og.images
-                    ? this.props.activity.attachments.og.images[0].image
-                    : null
-                }
-                url={this.props.activity.attachments.og.url}
-              />
+              <Card {...this.props.activity.attachments.og} />
             </div>
           )}
       </div>

@@ -6,6 +6,7 @@ import '../styles/Card.css';
 
 export type Props = {|
   image?: ?string,
+  images?: Array<{ image: string }>,
   alt?: ?string,
   title?: ?string,
   url?: string,
@@ -29,12 +30,16 @@ export default class Card extends React.Component<Props> {
   };
 
   render() {
-    const { image, alt } = this.props;
+    const { alt, images } = this.props;
+    let image = this.props.image;
+    if (!image && images && images.length) {
+      image = images[0].image;
+    }
     return (
       <a href={this.props.url} className="raf-card">
         <div className="raf-card__image">
           <img
-            src={image === null ? placeholder : image}
+            src={image == null ? placeholder : image}
             alt={alt || this.props.title || this.props.description || ''}
           />
         </div>
