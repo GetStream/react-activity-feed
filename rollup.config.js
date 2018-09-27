@@ -6,6 +6,8 @@ import postcss from 'rollup-plugin-postcss';
 import resolve from 'rollup-plugin-node-resolve';
 import url from 'rollup-plugin-url';
 import atImport from 'postcss-easy-import';
+import cssnext from 'postcss-cssnext';
+import nested from 'postcss-nested';
 
 import pkg from './package.json';
 
@@ -26,7 +28,7 @@ export default {
   plugins: [
     external(),
     postcss({
-      plugins: [atImport()],
+      plugins: [atImport(), nested(), cssnext()],
       modules: false,
       extract: true,
     }),
