@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import '../styles/Activity.css';
 
 import UserBar from './UserBar';
 import Card from './Card';
