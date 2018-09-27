@@ -9,7 +9,7 @@ export type Props = {|
   deletes: Array<{}>,
   labelSingle?: string,
   labelPlural?: string,
-  onPress?: () => mixed,
+  onClick?: () => mixed,
 |};
 
 /**
@@ -33,12 +33,16 @@ export default class NewActivitiesNotification extends React.Component<Props> {
     }
 
     return (
-      <div className="raf-new-activities-notification" role="button">
+      <button
+        className="raf-new-activities-notification"
+        type="button"
+        onClick={this.props.onClick}
+      >
         <Link>
           {count} new{' '}
           {count !== 1 ? this.props.labelPlural : this.props.labelSingle}
         </Link>
-      </div>
+      </button>
     );
   }
 }

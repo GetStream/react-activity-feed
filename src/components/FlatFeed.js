@@ -114,7 +114,7 @@ class FlatFeedInner extends React.Component<PropsInner> {
     const notifierProps = {
       adds: this.props.realtimeAdds,
       deletes: this.props.realtimeDeletes,
-      onPress: this._refresh,
+      onClick: this._refresh,
     };
 
     return (
