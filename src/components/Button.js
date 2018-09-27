@@ -27,7 +27,9 @@ export default class Button extends React.Component<Props> {
     const { children, buttonStyle } = this.props;
     return (
       <button
-        className={`raf-button ${buttonStyle}`}
+        className={`raf-button${
+          buttonStyle ? ' raf-button--' + buttonStyle : ''
+        }`}
         onClick={this.props.onClick}
         onKeyPress={this.props.onKeyPress}
         type={this.props.type}

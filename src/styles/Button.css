@@ -1,36 +1,53 @@
 .raf-button {
-  padding: 8px 16px;
-  min-width: 70px;
-  display: inline-flex; align-items: center; justify-content: center;
-  border-radius: 5px;
-  color: white;
-  font-size: 14px;
-  font-weight: 800;
-  margin: 3px;
-  cursor: pointer;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+    /* reset */
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    overflow: visible;
+    background: transparent;
+    /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+    line-height: normal;
+    /* Corrects font smoothing for webkit */
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+    /* Corrects inability to style clickable `input` types in iOS */
+    -webkit-appearance: none;
+    outline: none;
+    /* endreset */
+
+    padding: 8px 16px;
+    min-width: 70px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 5px;
+    color: white;
+    font-size: 14px;
+    font-weight: 800;
+    margin: 3px;
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-.raf-button.primary {background-color: #00D46A;}
-.raf-button.info {background-color: #0BA8E0;}
-.raf-button.faded {background-color: #DDDDDD;}
+.raf-button.raf-button--primary {background-color: #00D46A;}
+.raf-button.raf-button--info {background-color: #0BA8E0;}
+.raf-button.raf-button--faded {background-color: #DDDDDD;}
 
-.raf-button.primary:focus, .raf-button.primary:active {
+.raf-button.raf-button--primary:active {
   /* background: #00AE57; */
   box-shadow: 0px 0px 0px 3px #00AE57;
 }
 
-.raf-button.faded:focus, .raf-button.faded:active {
+.raf-button.raf-button--faded:active {
   /* background: #00AE57; */
   box-shadow: 0px 0px 0px 3px #aeaeae;
 }
 
-.raf-button.info:focus, .raf-button.info:active {
+.raf-button.raf-button--info:active {
   /* background: #00AE57; */
   box-shadow: 0px 0px 0px 3px #0A8BB9;
 }
