@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react';
-import '../styles/PanelHeader.css';
 import CloseButton from './CloseButton';
 
 export type Props = {|

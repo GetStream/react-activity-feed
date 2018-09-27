@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import '../styles/ThumbnailPlaceholder.css';
 
 export type Props = {|
   placeholderButtonHandler?: () => mixed,

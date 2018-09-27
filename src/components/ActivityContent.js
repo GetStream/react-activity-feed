@@ -1,6 +1,4 @@
 import React from 'react';
-import '../App.css';
-import '../styles/ActivityContent.css';
 
 /**
  * Component is described here.

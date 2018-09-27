@@ -2,7 +2,6 @@
 
 import React from 'react';
 import placeholder from '../images/placeholder.png';
-import '../styles/Card.css';
 
 export type Props = {|
   image?: ?string,

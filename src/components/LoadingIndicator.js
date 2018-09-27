@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../styles/LoadingIndicator.css';
 
 /**
  * Component is described here.

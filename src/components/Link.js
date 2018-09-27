@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react';
-import '../styles/Link.css';
 
 export type Props = {|
   children: React.Node,

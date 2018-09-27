@@ -2,7 +2,6 @@
 import React from 'react';
 import 'emoji-mart/css/emoji-mart.css';
 import { Picker } from 'emoji-mart';
-import '../styles/EmojiPicker.css';
 
 type Emoji = {
   // The actual unicode emoji (e.g. 👍)

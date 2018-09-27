@@ -1,5 +1,4 @@
 import React from 'react';
-import '../styles/ImageUploadButton.css';
 
 /**
  * Component is described here.

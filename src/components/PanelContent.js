@@ -1,5 +1,4 @@
 import React from 'react';
-import '../styles/PanelContent.css';
 
 export default class PanelContent extends React.Component {
   render() {

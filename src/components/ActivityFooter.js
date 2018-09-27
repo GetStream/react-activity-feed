@@ -1,7 +1,5 @@
 // @flow
-
 import * as React from 'react';
-import '../styles/ActivityFooter.css';
 
 export type Props = {|
   children: React.Node,

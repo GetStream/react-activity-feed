@@ -1,6 +1,5 @@
 //@flow
 import React from 'react';
-import '../styles/CommentList.css';
 import type { Comment } from '../types';
 
 export type Props = {|

@@ -2,7 +2,6 @@
 import React from 'react';
 import Thumbnail from './Thumbnail';
 import ThumbnailPlaceholder from './ThumbnailPlaceholder';
-import '../styles/ImagePreviewer.css';
 
 export type Props = {|
   images?: string[],

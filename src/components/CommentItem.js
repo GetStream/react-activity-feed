@@ -2,7 +2,6 @@
 import React from 'react';
 import Avatar from './Avatar';
 import placeholder from '../images/placeholder.png';
-import '../styles/CommentItem.css';
 import type { Comment } from '../types';
 
 export type Props = {|

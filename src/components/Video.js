@@ -1,5 +1,4 @@
 import React from 'react';
-import '../styles/Video.css';
 
 /**
  * Component is described here.

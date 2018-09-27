@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import '../styles/Textarea.css';
 
 export type Props = {|
   rows: number,

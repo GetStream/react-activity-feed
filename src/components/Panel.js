@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react';
-import '../styles/Panel.css';
 
 type PanelStyle = 'rounded' | 'square';
 

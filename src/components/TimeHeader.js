@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react';
 import Title from './Title';
-import '../styles/TimeHeader.css';
 
 export type Props = {|
   children: React.Node,

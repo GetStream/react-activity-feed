@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import '../styles/FollowButton.css';
 
 export type Props = {|
   /** callback function used on click */

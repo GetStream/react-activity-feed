@@ -2,7 +2,6 @@
 
 import React from 'react';
 import IconButton from './IconButton';
-import '../styles/Thumbnail.css';
 import placeholder from '../images/placeholder.png';
 
 export type Props = {|

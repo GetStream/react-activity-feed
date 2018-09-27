@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import Avatar from './Avatar';
-import '../styles/AvatarGroup.css';
 import type { UserData } from '../types';
 
 export type Props = {|

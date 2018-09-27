@@ -1,5 +1,4 @@
 import React from 'react';
-import '../styles/AttachedActivity.css';
 import { userOrDefault } from '../utils';
 
 /**

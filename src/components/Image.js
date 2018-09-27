@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import placeholder from '../images/placeholder.png';
-import '../styles/Image.css';
 
 export type Props = {|
   source?: string,

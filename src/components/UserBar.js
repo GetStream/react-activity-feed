@@ -2,7 +2,6 @@
 import React from 'react';
 import { humanizeTimestamp } from '../utils';
 import Avatar from './Avatar';
-import '../styles/UserBar.css';
 
 export type Props = {|
   username: ?string,

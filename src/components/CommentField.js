@@ -24,7 +24,7 @@ export default class CommentField extends React.Component<Props> {
   render() {
     return (
       <div className="raf-comment-field">
-        <Avatar image={this.props.user.profileImage} circle size={21} />
+        <Avatar image={this.props.user.profileImage} circle size={39} />
         <input
           type="text"
           placeholder={this.props.placeholder}

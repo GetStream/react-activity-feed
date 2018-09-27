@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react';
-import '../styles/ReactionIcon.css';
 import type { ReactionCounts, ReactionKindMap } from 'getstream';
 
 type Props = {|

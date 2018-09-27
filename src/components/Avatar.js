@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import '../styles/Avatar.css';
 import placeholder from '../images/placeholder.png';
 
 export type Props = {|

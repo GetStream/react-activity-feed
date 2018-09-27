@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import '../styles/Notification.css';
 import Avatar from './Avatar';
 import AvatarGroup from './AvatarGroup';
 import Link from './Link';

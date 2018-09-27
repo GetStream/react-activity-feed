@@ -50,7 +50,7 @@ const Footer = () => {
   );
 }
 
-<div style={{backgroundColor: '#ccc', padding: '8px'}}>
+<div style={{backgroundColor: '#f7f7f7f', padding: '8px'}}>
   <Activity
     activity={activity}
     Footer={Footer}

@@ -1,6 +1,6 @@
 // @noflow
 /* eslint-env commonjs*/
-
+const path = require('path');
 module.exports = {
   title: 'React Activity Feed - Docs',
   styleguideDir: 'docs',
@@ -43,4 +43,5 @@ module.exports = {
       href: './dist/index.css',
     },
   },
+  require: [path.join(path.resolve(path.dirname('')), 'dist/index.css')],
 };

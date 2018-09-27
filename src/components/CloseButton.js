@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import '../styles/CloseButton.css';
 
 export type Props = {|
   clickHandler?: () => mixed,

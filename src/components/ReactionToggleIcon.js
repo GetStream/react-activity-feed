@@ -3,7 +3,6 @@
 import React from 'react';
 import ReactionIcon from './ReactionIcon';
 import type { ReactionCounts, ReactionKindMap } from 'getstream';
-import '../styles/ReactionToggleIcon.css';
 
 type Props = {|
   activeIcon: string,
