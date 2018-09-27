@@ -59,7 +59,7 @@ type State = {|
   og: ?OgData,
   ogScraping: boolean,
   ogLink: ?string,
-  textFromInput: string,
+  text: string,
   clearInput: boolean,
   focused: boolean,
   urls: Array<string>,
@@ -79,7 +79,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     og: null,
     ogScraping: false,
     ogLink: null,
-    textFromInput: '',
+    text: '',
     clearInput: false,
     focused: false,
     urls: [],
@@ -141,7 +141,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     });
   }
 
-  _text = () => this.state.textFromInput.trim();
+  _text = () => this.state.text.trim();
 
   _object = () => {
     if (this.state.imageUrl) {
@@ -196,11 +196,48 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       og: null,
       ogScraping: false,
       ogLink: null,
-      textFromInput: '',
+      text: '',
       focused: false,
       urls: [],
       dismissedUrls: [],
     });
+  };
+  _getTextAreaElement = () => {
+    const currentTextArea = this.textInputRef.current;
+    if (!currentTextArea) {
+      return null;
+    }
+
+    return currentTextArea.element.current;
+  };
+
+  _onSelectEmoji = async (emoji) => {
+    let newCursorPosition;
+
+    await this.setState((prevState) => {
+      const prevText = prevState.text;
+      const textareaElement = this._getTextAreaElement();
+      if (!textareaElement) {
+        return { text: prevText + emoji.native };
+      }
+      // Insert emoji at previous cursor position
+      const { selectionStart, selectionEnd } = textareaElement;
+      newCursorPosition = selectionStart + emoji.native.length;
+      return {
+        text:
+          prevText.slice(0, selectionStart) +
+          emoji.native +
+          prevText.slice(selectionEnd),
+      };
+    });
+
+    const textareaElement = this._getTextAreaElement();
+    if (!textareaElement || newCursorPosition == null) {
+      return;
+    }
+    // Update cursorPosition
+    textareaElement.selectionStart = newCursorPosition;
+    textareaElement.selectionEnd = newCursorPosition;
   };
 
   render() {
@@ -214,15 +251,15 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                 <Avatar size={50} circle />
               </div>
               <Textarea
+                ref={this.textInputRef}
                 placeholder="Type your post... "
-                value={this.state.textFromInput}
+                value={this.state.text}
                 onChange={(event) => {
                   if (!event || !event.currentTarget) {
                     return;
                   }
                   const text = event.currentTarget.value;
-                  console.log(text);
-                  this.setState({ textFromInput: text });
+                  this.setState({ text });
                   this._handleOgDebounced(text);
                 }}
               />
@@ -235,7 +272,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                 <div style={{ marginRight: '32px', display: 'inline-block' }}>
                   <ImageUploadButton />
                 </div>
-                <EmojiPicker />
+                <EmojiPicker onSelect={this._onSelectEmoji} />
               </div>
               <Button
                 type="submit"

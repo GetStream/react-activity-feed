@@ -5,7 +5,7 @@ import '../styles/Textarea.css';
 export type Props = {|
   rows: number,
   placeholder: string,
-  onChange: (event: SyntheticEvent<HTMLButtonElement>) => mixed,
+  onChange: (event: SyntheticEvent<HTMLTextAreaElement>) => mixed,
   value?: string,
 |};
 
@@ -15,6 +15,7 @@ export type Props = {|
  * @example ./examples/Textarea.md
  */
 export default class Textarea extends React.Component<Props> {
+  element = React.createRef();
   static defaultProps = {
     rows: 3,
     placeholder: 'Share your opinion',
@@ -23,6 +24,7 @@ export default class Textarea extends React.Component<Props> {
   render() {
     return (
       <textarea
+        ref={this.element}
         rows={this.props.rows}
         className="raf-textarea"
         placeholder={this.props.placeholder}

@@ -1,39 +1,56 @@
+// @flow
 import React from 'react';
 import 'emoji-mart/css/emoji-mart.css';
 import { Picker } from 'emoji-mart';
 import '../styles/EmojiPicker.css';
+
+type Emoji = {
+  // The actual unicode emoji (e.g. 👍)
+  native: string,
+  // Colon representation (e.g. ":+1:")
+  colons: string,
+  // Colon representation (e.g. "+1")
+  id: string,
+  // Colon representation (e.g. Thumbs Up Sign)
+  name: string,
+  emoticons: Array<string>,
+  skin: ?number,
+  unified: string,
+};
+
+type Props = {|
+  onSelect?: (emoji: Emoji) => mixed,
+|};
+
+type State = {|
+  open: boolean,
+|};
 
 /**
  * Component is described here.
  *
  * @example ./examples/EmojiPicker.md
  */
-export default class EmojiPicker extends React.Component {
-  constructor(props) {
-    super(props);
-    this.showMenu = this.showMenu.bind(this);
-    this.hideMenu = this.hideMenu.bind(this);
-    this.emojiPicker = React.createRef();
-    this.state = {
-      open: false,
-    };
-  }
+export default class EmojiPicker extends React.Component<Props, State> {
+  emojiPicker = React.createRef();
+  state = {
+    open: false,
+  };
 
   componentWillUnmount() {
     document.removeEventListener('click', this.hideMenu);
   }
 
-  hideMenu = (e) => {
-    if (!this.emojiPicker.current.contains(e.target)) {
+  hideMenu = (e: MouseEvent) => {
+    const { current } = this.emojiPicker;
+    if (current && !current.contains(e.target)) {
       this.setState({ open: false }, () => {
         document.removeEventListener('click', this.hideMenu);
       });
-    } else {
-      console.log('j');
     }
   };
 
-  showMenu = (e) => {
+  showMenu = (e: SyntheticMouseEvent<HTMLElement>) => {
     e.preventDefault();
 
     this.setState({ open: true }, () => {
@@ -47,7 +64,11 @@ export default class EmojiPicker extends React.Component {
         {' '}
         {this.state.open && (
           <div className="raf-emoji-picker__container" ref={this.emojiPicker}>
-            <Picker showPreview={false} />
+            <Picker
+              emoji="point_up"
+              title="Pick your emoji…"
+              onSelect={this.props.onSelect}
+            />
           </div>
         )}
         <div
