@@ -1,5 +1,2 @@
-[class^="raf-"], [class*="raf-"] {
-  font-family: Avenir, Arial, Helvetica, sans-serif;
-}
-
-@import './styles/Activity.css'
+@import './App.css';
+@import './styles/*.css';

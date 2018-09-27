@@ -26,10 +26,10 @@ export default {
   plugins: [
     external(),
     postcss({
-      modules: true,
+      plugins: [atImport()],
+      modules: false,
       extract: true,
     }),
-    atImport({}),
     url(),
     babel({
       exclude: 'node_modules/**',

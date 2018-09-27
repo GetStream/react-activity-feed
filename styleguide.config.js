@@ -37,5 +37,10 @@ module.exports = {
   ],
   template: {
     favicon: 'https://getstream.imgix.net/images/favicons/favicon-96x96.png',
+    link: {
+      rel: 'stylesheet',
+      type: 'text/css',
+      href: './dist/index.css',
+    },
   },
 };
