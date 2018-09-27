@@ -71,7 +71,7 @@ declare module 'getstream' {
   };
 
   declare class StreamImageStore {
-    upload: (uri: string, name?: string) => Promise<{ file: string }>;
+    upload: (uri: string | File, name?: string) => Promise<{ file: string }>;
     delete: (uri: string) => Promise<{}>;
     process: (uri: string, options?: {}) => Promise<{}>;
     thumbnail: (

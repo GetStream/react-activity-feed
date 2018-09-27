@@ -10,10 +10,12 @@ import Avatar from './Avatar';
 import Card from './Card';
 import EmojiPicker from './EmojiPicker';
 import ImageUploadButton from './ImageUploadButton';
+import ImagePreviewer from './ImagePreviewer';
 import Button from './Button';
 import _ from 'lodash';
 
 import { StreamApp } from '../Context';
+import { generateRandomId } from '../utils';
 import type { BaseAppCtx, OgData, CustomActivityArgData } from '../types';
 
 const ImageState = Object.freeze({
@@ -52,10 +54,17 @@ export default class StatusUpdateForm extends React.Component<Props> {
   }
 }
 
+type Image = {
+  id: string,
+  file: File,
+  url?: string,
+  previewUri?: string,
+  state: $Values<typeof ImageState>,
+};
+
 type State = {|
-  image: ?string,
-  imageUrl: ?string,
-  imageState: $Values<typeof ImageState>,
+  images: { [string]: Image },
+  imageOrder: Array<string>,
   og: ?OgData,
   ogScraping: boolean,
   ogLink: ?string,
@@ -73,9 +82,8 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   textInputRef = React.createRef();
 
   state = {
-    image: null,
-    imageUrl: null,
-    imageState: ImageState.NO_IMAGE,
+    images: {},
+    imageOrder: [],
     og: null,
     ogScraping: false,
     ogLink: null,
@@ -144,15 +152,29 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   _text = () => this.state.text.trim();
 
   _object = () => {
-    if (this.state.imageUrl) {
-      return this.state.imageUrl;
+    for (const image of this._orderedImages()) {
+      console.log(image.url);
+      if (image.url) {
+        return image.url;
+      }
     }
     return this._text();
   };
 
-  _canSubmit = () => Boolean(this._object());
+  _orderedImages = () =>
+    this.state.imageOrder.map((id) => this.state.images[id]);
+
+  _uploadedImages = (): Array<Image> =>
+    this._orderedImages().filter((image) => image.url);
+
+  _canSubmit = () =>
+    Boolean(this._object()) &&
+    this._orderedImages().every(
+      (image) => image.state !== ImageState.UPLOADING,
+    );
 
   async addActivity() {
+    const uploadedImages = this._uploadedImages();
     const activity: CustomActivityArgData = {
       actor: this.props.session.user,
       verb: this.props.activityVerb,
@@ -165,8 +187,10 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       attachments.og = this.state.og;
     }
 
-    if (this.state.imageUrl) {
-      attachments.images = [this.state.imageUrl];
+    if (uploadedImages) {
+      attachments.images = uploadedImages
+        .map((image) => image.url)
+        .filter(Boolean);
       activity.text = this._text();
     }
 
@@ -190,9 +214,8 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       return;
     }
     this.setState({
-      image: null,
-      imageUrl: null,
-      imageState: ImageState.NO_IMAGE,
+      images: {},
+      imageOrder: [],
       og: null,
       ogScraping: false,
       ogLink: null,
@@ -240,6 +263,55 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     textareaElement.selectionEnd = newCursorPosition;
   };
 
+  _uploadImage = async (file) => {
+    const id = generateRandomId();
+
+    await this.setState((prevState) => {
+      prevState.images[id] = {
+        id,
+        file,
+        state: ImageState.UPLOADING,
+      };
+      return {
+        imageOrder: prevState.imageOrder.concat(id),
+        images: prevState.images,
+      };
+    });
+    if (FileReader) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        this.setState((prevState) => {
+          prevState.images[id].previewUri = event.target.result;
+          return { images: prevState.images };
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+
+    let response = {};
+    response = {};
+    try {
+      response = await this.props.session.images.upload(file);
+    } catch (e) {
+      console.warn(e);
+      await this.setState((prevState) => {
+        prevState.images[id].state = ImageState.UPLOAD_FAILED;
+        return { images: prevState.images };
+      });
+
+      this.props.errorHandler(e, 'upload-image', {
+        feedGroup: this.props.feedGroup,
+        userId: this.props.userId,
+      });
+      return;
+    }
+    await this.setState((prevState) => {
+      prevState.images[id].state = ImageState.UPLOADED;
+      prevState.images[id].url = response.file;
+      return { images: prevState.images };
+    });
+  };
+
   render() {
     return (
       <Panel>
@@ -265,12 +337,29 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
               />
             </div>
             {this.state.og && <Card {...this.state.og} />}
+            {this.state.imageOrder.length > 0 && (
+              <ImagePreviewer
+                images={this.state.imageOrder
+                  .map((id) => {
+                    const image = this.state.images[id];
+                    return image.url || image.previewUri;
+                  })
+                  .filter(Boolean)}
+              />
+            )}
           </PanelContent>
           <PanelFooter>
             <div style={{ display: 'flex' }}>
               <div style={{ flex: 1 }}>
                 <div style={{ marginRight: '32px', display: 'inline-block' }}>
-                  <ImageUploadButton />
+                  <ImageUploadButton
+                    handleFiles={(files) => {
+                      for (const file of files) {
+                        this._uploadImage(file);
+                      }
+                    }}
+                    multiple
+                  />
                 </div>
                 <EmojiPicker onSelect={this._onSelectEmoji} />
               </div>
