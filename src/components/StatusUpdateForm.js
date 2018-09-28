@@ -11,6 +11,7 @@ import Card from './Card';
 import EmojiPicker from './EmojiPicker';
 import ImageUploadButton from './ImageUploadButton';
 import ImagePreviewer from './ImagePreviewer';
+import ImageDropzone from './ImageDropzone';
 import Button from './Button';
 import _ from 'lodash';
 
@@ -143,7 +144,6 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
 
   _object = () => {
     for (const image of this._orderedImages()) {
-      console.log(image.url);
       if (image.url) {
         return image.url;
       }
@@ -338,58 +338,60 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     return (
       <Panel>
         <form onSubmit={this.onSubmitForm}>
-          <PanelHeading>New Post</PanelHeading>
-          <PanelContent>
-            <div style={{ display: 'flex' }}>
-              <div style={{ marginRight: '16px' }}>
-                <Avatar size={50} circle />
-              </div>
-              <Textarea
-                ref={this.textInputRef}
-                placeholder="Type your post... "
-                value={this.state.text}
-                onChange={(event) => {
-                  if (!event || !event.currentTarget) {
-                    return;
-                  }
-                  const text = event.currentTarget.value;
-                  this.setState({ text });
-                  this._handleOgDebounced(text);
-                }}
-              />
-            </div>
-            {this.state.og && <Card {...this.state.og} />}
-            {this.state.imageOrder.length > 0 && (
-              <ImagePreviewer
-                images={this.state.imageOrder.map(
-                  (id) => this.state.images[id],
-                )}
-                handleRemove={this._removeImage}
-                handleRetry={this._uploadImage}
-                handleFiles={this._uploadNewImages}
-              />
-            )}
-          </PanelContent>
-          <PanelFooter>
-            <div style={{ display: 'flex' }}>
-              <div style={{ flex: 1 }}>
-                <div style={{ marginRight: '32px', display: 'inline-block' }}>
-                  <ImageUploadButton
-                    handleFiles={this._uploadNewImages}
-                    multiple
-                  />
+          <ImageDropzone handleFiles={this._uploadNewImages}>
+            <PanelHeading>New Post</PanelHeading>
+            <PanelContent>
+              <div style={{ display: 'flex' }}>
+                <div style={{ marginRight: '16px' }}>
+                  <Avatar size={50} circle />
                 </div>
-                <EmojiPicker onSelect={this._onSelectEmoji} />
+                <Textarea
+                  ref={this.textInputRef}
+                  placeholder="Type your post... "
+                  value={this.state.text}
+                  onChange={(event) => {
+                    if (!event || !event.currentTarget) {
+                      return;
+                    }
+                    const text = event.currentTarget.value;
+                    this.setState({ text });
+                    this._handleOgDebounced(text);
+                  }}
+                />
               </div>
-              <Button
-                type="submit"
-                buttonStyle="primary"
-                disabled={!this._canSubmit()}
-              >
-                Post
-              </Button>
-            </div>
-          </PanelFooter>
+              {this.state.og && <Card {...this.state.og} />}
+              {this.state.imageOrder.length > 0 && (
+                <ImagePreviewer
+                  images={this.state.imageOrder.map(
+                    (id) => this.state.images[id],
+                  )}
+                  handleRemove={this._removeImage}
+                  handleRetry={this._uploadImage}
+                  handleFiles={this._uploadNewImages}
+                />
+              )}
+            </PanelContent>
+            <PanelFooter>
+              <div style={{ display: 'flex' }}>
+                <div style={{ flex: 1 }}>
+                  <div style={{ marginRight: '32px', display: 'inline-block' }}>
+                    <ImageUploadButton
+                      handleFiles={this._uploadNewImages}
+                      multiple
+                    />
+                  </div>
+                  <EmojiPicker onSelect={this._onSelectEmoji} />
+                </div>
+                <Button
+                  type="submit"
+                  buttonStyle="primary"
+                  disabled={!this._canSubmit()}
+                >
+                  Post
+                </Button>
+              </div>
+            </PanelFooter>
+          </ImageDropzone>
         </form>
       </Panel>
     );
