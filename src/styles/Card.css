@@ -27,9 +27,9 @@
   text-overflow: ellipsis;
   width: 100%;
   margin: 0;
-  color: #414D54;
+  color: $fontColor;
 }
 
 .raf-card__title { font-size: 16px; }
-.raf-card__url { font-size: 12px; color: #00D46A }
+.raf-card__url { font-size: 12px; color: $primary }
 .raf-card__description { font-size: 12px; }

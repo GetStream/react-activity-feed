@@ -4,7 +4,7 @@
 .raf-comment-field__input {
   flex: 1;
   background: #F7F7F7;
-  color: #6F7E82;
+  color: $fontColor;
   font-size: 14px;
   font-weight: 500;
   border-radius: 100px;
@@ -12,4 +12,7 @@
   border: 0;
   margin-left: 8px;
   position: relative;
+  &::placeholder {
+    color: color($fontColor tint(50%));
+  }
 }

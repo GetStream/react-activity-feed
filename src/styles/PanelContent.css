@@ -5,5 +5,5 @@
 .raf-panel-content p {
   font-size: 14px;
   font-weight: 500;
-  color: #414D54;
+  color: $fontColor;
 }

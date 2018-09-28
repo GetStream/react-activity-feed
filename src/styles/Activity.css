@@ -1,9 +1,5 @@
 .raf-activity {
-  background-color: #fff;
+  background-color: $white;
   border-radius: 4px;
   margin: 8px 0;
-}
-
-body {
-  background-color: color(red a(90%))!important;
 }

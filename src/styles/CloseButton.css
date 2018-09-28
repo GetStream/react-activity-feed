@@ -1,4 +1,4 @@
 .raf-close-button[role="button"]:active, .raf-close-button[role="button"]:focus {
   outline-offset: 5px;
-  outline: 3px solid #0BA8E030;
+  outline: 3px solid color($info a(20%));
 }

@@ -1,32 +1,20 @@
 .raf-textarea {
   display: flex;
   width: 100%;
-  color: #414D54;
+  color: color($fontColor tint(3%));
   font-size: 16px;
   line-height: 30px;
   font-weight: 500;
-  border-color: transparent;
-  border-radius: 6px;
+  border-color: $transparent;
+  border-radius: $borderRadius;
   padding: 8px;
   transition: background 0.4s;
+
+  &::placeholder {
+    color: color($fontColor tint(65%))
+  }
 }
 .raf-textarea:focus {
-  background: #efefef;
+  background: color($black tint(95%));
   outline: none;
-}
-
-.raf-textarea::-webkit-input-placeholder {
-  opacity: 0.5;
-}
-
-.raf-textarea:-moz-placeholder { /* Firefox 18- */
-  opacity: 0.5;
-}
-
-.raf-textarea::-moz-placeholder {  /* Firefox 19+ */
-  opacity: 0.5;
-}
-
-.raf-textarea:-ms-input-placeholder {
-  opacity: 0.5;
 }

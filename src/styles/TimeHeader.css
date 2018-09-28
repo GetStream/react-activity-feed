@@ -1,19 +1,17 @@
 .raf-time-header {
   display: flex;
   align-items: center;
-  opacity: 0.5;
   margin: 5px 0;;
 }
 .raf-time-header .raf-title {
-  color: #6F7E82;
+  color: color($fontColor tint(80%));
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 1.13px;
 }
 .raf-time-header__line {
   height: 1px;
-  background: #6F7E82;
+  background: color($fontColor tint(80%));
   flex: 1;
   margin-left: 10px;
-  opacity: 0.5;
 }

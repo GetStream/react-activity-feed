@@ -1,7 +1,7 @@
 .raf-thumbnail__wrapper {
   width: 100px;
   height: 100px;
-  border-radius: 4px;
+  border-radius: $borderRadius;
   overflow: hidden;
   position: relative;
 }

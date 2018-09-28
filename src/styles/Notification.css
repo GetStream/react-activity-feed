@@ -1,8 +1,8 @@
 .raf-notification {
   display: flex;
-  border-bottom: 1px solid rgba(160,178,184, 0.3);
+  border-bottom: 1px solid color($black tint(93%));
   padding: 18px;
-  background: #f7f7f7;
+  background: color($black tint(97%));
 }
 
 .raf-notification .raf-avatar {
@@ -13,13 +13,13 @@
   font-size: 14px;
   margin-top: 0px;
   margin-bottom: 0;
-  color: #6F7E82;
+  color: color($fontColor tint(10%));
   font-weight: 350;
   line-height: 16px;
 }
 
 .raf-notification p strong {
-  color: #414D54;
+  color: $fontColor;
   font-weight: 900;
 }
 

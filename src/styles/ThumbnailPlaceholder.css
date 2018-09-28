@@ -4,6 +4,6 @@
   justify-content: center;
   width: 100px;
   height: 100px;
-  border: 1px dashed #A0B2B8;
-  border-radius: 4px;
+  border: 1px dashed color($black tint(75%));
+  border-radius: $borderRadius;
 }

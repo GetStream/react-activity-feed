@@ -7,7 +7,7 @@
   position: absolute;
   top: -4px;
   left: 60%;
-  min-width: 14px; height: 13px; background-color: #FF0000;
+  min-width: 14px; height: 13px; background-color: $error;
   border-radius: 4px;
   display: flex;
   align-content: center;

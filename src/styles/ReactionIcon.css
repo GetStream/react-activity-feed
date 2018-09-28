@@ -9,6 +9,6 @@
 }
 .raf-reaction-icon__label {
   font-size: 14px;
-  color: #6F7E82;
+  color: $fontColor;
   font-weight: 800;
 }
