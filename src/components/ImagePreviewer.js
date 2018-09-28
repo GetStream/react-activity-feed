@@ -5,7 +5,7 @@ import LoadingIndicator from './LoadingIndicator';
 import ThumbnailPlaceholder from './ThumbnailPlaceholder';
 import type { Image } from '../types';
 
-export type Props = {|
+type Props = {|
   images?: Image[],
   handleRemove?: (id: string) => mixed,
   handleRetry?: (id: string) => mixed,

@@ -1,0 +1,16 @@
+.raf-dropzone .raf-dropzone-notifier {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 1000000;
+  display: none;
+}
+.raf-dropzone-accept .raf-dropzone-notifier {
+  background: green;
+  display: block;
+}
+
+.raf-dropzone-reject .raf-dropzone-notifier {
+  background: red;
+  display: block;
+}
