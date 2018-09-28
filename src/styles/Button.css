@@ -34,25 +34,21 @@
     user-select: none;
 
     &:disabled {
-      opacity: 0.9;
       cursor: not-allowed;
     }
     &--primary {
-      background-color: #00D46A;
-      &:active {
-        box-shadow: 0px 0px 0px 3px #00AE57;
-      }
+      background-color: $primary;
+      &:disabled { background-color: color($primary tint(35%)); }
+      &:active { box-shadow: 0px 0px 0px 3px color($primary shade(10%)); }
     }
     &--info {
-      background-color: #0BA8E0;
-      &:active {
-        box-shadow: 0px 0px 0px 3px #aeaeae;
-      }
+      background-color: $info;
+      &:disabled { background-color: color($info tint(35%)); }
+      &:active { box-shadow: 0px 0px 0px 3px color($info shade(10%)); }
     }
     &--faded {
-      background-color: #DDDDDD;
-      &:active {
-        box-shadow: 0px 0px 0px 3px #0A8BB9;
-      }
+      background-color: $faded;
+      &:disabled { background-color: color($faded tint(35%)); }
+      &:active { box-shadow: 0px 0px 0px 3px color($faded shade(10%)); }
     }
 }

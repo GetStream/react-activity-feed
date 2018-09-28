@@ -9,9 +9,15 @@ import atImport from 'postcss-easy-import';
 import cssnext from 'postcss-cssnext';
 import nested from 'postcss-nested';
 import colorFunction from 'postcss-color-function';
-import simpleVars from 'postcss-simple-vars';
+import vars from 'postcss-simple-vars';
 
 import pkg from './package.json';
+
+const colors = {
+  primary: '#00D46A',
+  info: '#0BA8E0',
+  faded: '#DDDDDD',
+};
 
 export default {
   input: 'src/index.js',
@@ -30,7 +36,13 @@ export default {
   plugins: [
     external(),
     postcss({
-      plugins: [atImport(), nested(), simpleVars(), colorFunction(), cssnext()],
+      plugins: [
+        atImport(),
+        nested(),
+        vars({ variables: colors }),
+        colorFunction(),
+        cssnext(),
+      ],
       modules: false,
       extract: true,
     }),
