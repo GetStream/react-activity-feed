@@ -5,9 +5,10 @@ import IconButton from './IconButton';
 import placeholder from '../images/placeholder.png';
 
 export type Props = {|
-  closeButtonHandler?: () => mixed,
+  handleClose?: (id?: string) => mixed,
   size: number,
   image: string,
+  id?: string,
 |};
 
 /**
@@ -15,22 +16,28 @@ export type Props = {|
  *
  * @example ./examples/Thumbnail.md
  */
-export default class Thumbnail extends React.Component<Props> {
+export default class Thumbnail extends React.PureComponent<Props> {
   static defaultProps = {
     size: 100,
     image: placeholder,
   };
 
+  _handleClose = () => {
+    if (this.props.handleClose) {
+      this.props.handleClose(this.props.id);
+    }
+  };
+
   render() {
-    const { image, closeButtonHandler, size } = this.props;
+    const { image, handleClose, size } = this.props;
     return (
       <div
         className="raf-thumbnail__wrapper"
         style={{ width: size, height: size }}
       >
         <div className="raf-thumbnail__overlay">
-          {closeButtonHandler ? (
-            <IconButton clickHandler={closeButtonHandler}>
+          {handleClose ? (
+            <IconButton onClick={this._handleClose}>
               <svg
                 width="20"
                 height="20"

@@ -23,6 +23,16 @@ export type FlowRequestTypes =
   | 'add-reaction'
   | 'delete-reaction';
 
+export type UploadState = 'uploading' | 'finished' | 'failed';
+
+export type Image = {
+  id: string,
+  file: File,
+  url?: string,
+  previewUri?: string,
+  state: UploadState,
+};
+
 export type ErrorHandler = (
   error: Error,
   type: FlowRequestTypes,
