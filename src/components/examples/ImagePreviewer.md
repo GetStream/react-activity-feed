@@ -13,6 +13,9 @@ ImagePreviewer
   ]}
   handleRemove={(id) => console.log('Removed image ' + id)}
   handleRetry={(id) => console.log('Retried image ' + id)}
-  placeholderButtonHandler={() => console.log('ThumbnailPlaceholder clicked')}
+  handleFiles={(files) => {
+    console.log('Selected files');
+    console.log(files);
+  }}
 />
 ```

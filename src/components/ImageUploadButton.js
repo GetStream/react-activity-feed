@@ -1,8 +1,9 @@
 // @flow
 import React from 'react';
+import ImageInput from './ImageInput';
 
 type Props = {|
-  handleFiles?: (Array<File>) => mixed,
+  handleFiles: (File[]) => mixed,
   multiple: boolean,
 |};
 
@@ -18,15 +19,7 @@ export default class ImageUploadButton extends React.Component<Props> {
   render() {
     return (
       <React.Fragment>
-        <input
-          type="file"
-          onChange={(event) => {
-            if (this.props.handleFiles) {
-              this.props.handleFiles(event.currentTarget.files);
-            }
-          }}
-          multiple={this.props.multiple}
-        />
+        <ImageInput {...this.props} />
         <svg
           role="button"
           width="20"

@@ -251,6 +251,12 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     textareaElement.selectionEnd = newCursorPosition;
   };
 
+  _uploadNewImages = (files: File[]) => {
+    for (const file of files) {
+      this._uploadNewImage(file);
+    }
+  };
+
   _uploadNewImage = async (file) => {
     const id = generateRandomId();
 
@@ -360,6 +366,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                 )}
                 handleRemove={this._removeImage}
                 handleRetry={this._uploadImage}
+                handleFiles={this._uploadNewImages}
               />
             )}
           </PanelContent>
@@ -368,11 +375,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
               <div style={{ flex: 1 }}>
                 <div style={{ marginRight: '32px', display: 'inline-block' }}>
                   <ImageUploadButton
-                    handleFiles={(files) => {
-                      for (const file of files) {
-                        this._uploadNewImage(file);
-                      }
-                    }}
+                    handleFiles={this._uploadNewImages}
                     multiple
                   />
                 </div>

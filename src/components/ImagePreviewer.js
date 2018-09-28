@@ -9,7 +9,7 @@ export type Props = {|
   images?: Image[],
   handleRemove?: (id: string) => mixed,
   handleRetry?: (id: string) => mixed,
-  placeholderButtonHandler?: () => mixed,
+  handleFiles?: (files: File[]) => mixed,
 |};
 
 /**
@@ -29,12 +29,7 @@ export default class ImagePreviewer extends React.Component<Props> {
   };
 
   render() {
-    const {
-      images,
-      handleRemove,
-      handleRetry,
-      placeholderButtonHandler,
-    } = this.props;
+    const { images, handleRemove, handleRetry, handleFiles } = this.props;
     return (
       <div className="raf-image-previewer">
         {images &&
@@ -53,9 +48,9 @@ export default class ImagePreviewer extends React.Component<Props> {
               />
             </div>
           ))}
-        <ThumbnailPlaceholder
-          placeholderButtonHandler={placeholderButtonHandler}
-        />
+        {handleFiles && (
+          <ThumbnailPlaceholder handleFiles={handleFiles} multiple />
+        )}
       </div>
     );
   }
