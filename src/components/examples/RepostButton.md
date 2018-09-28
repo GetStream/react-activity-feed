@@ -1,4 +1,3 @@
-
 ```js
 <RepostButton
   // this is just a mock of the data to render the example
