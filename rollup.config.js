@@ -8,6 +8,8 @@ import url from 'rollup-plugin-url';
 import atImport from 'postcss-easy-import';
 import cssnext from 'postcss-cssnext';
 import nested from 'postcss-nested';
+import colorFunction from 'postcss-color-function';
+import simpleVars from 'postcss-simple-vars';
 
 import pkg from './package.json';
 
@@ -28,7 +30,7 @@ export default {
   plugins: [
     external(),
     postcss({
-      plugins: [atImport(), nested(), cssnext()],
+      plugins: [atImport(), nested(), simpleVars(), colorFunction(), cssnext()],
       modules: false,
       extract: true,
     }),

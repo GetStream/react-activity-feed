@@ -86,10 +86,12 @@
     "immutable": "^4.0.0-rc.9",
     "is-retina": "^1.0.3",
     "moment": "^2.22.2",
+    "postcss-color-function": "^4.0.1",
     "postcss-cssnext": "^3.1.0",
     "postcss-easy-import": "^3.0.0",
     "postcss-import": "^12.0.0",
     "postcss-nested": "^4.1.0",
+    "postcss-simple-vars": "^5.0.1",
     "remove": "^0.1.5",
     "stream-analytics": "^2.7.1"
   }

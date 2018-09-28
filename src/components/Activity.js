@@ -5,6 +5,7 @@ import React from 'react';
 import UserBar from './UserBar';
 import Card from './Card';
 import Image from './Image';
+import Gallery from './Gallery';
 
 import type { ActivityData, Renderable } from '../types';
 import { smartRender } from '../utils';
@@ -91,10 +92,14 @@ export default class Activity extends React.Component<Props> {
           this.props.activity.attachments.images &&
           Boolean(this.props.activity.attachments.images.length) && (
             <div style={{ padding: '8px 0' }}>
-              <Image
-                source={this.props.activity.attachments.images[0]}
-                // resizeMethod="resize"
-              />
+              {this.props.activity.attachments.images.length > 1 ? (
+                <Gallery images={this.props.activity.attachments.images} />
+              ) : (
+                <Image
+                  source={this.props.activity.attachments.images[0]}
+                  // resizeMethod="resize"
+                />
+              )}
             </div>
           )}
 
