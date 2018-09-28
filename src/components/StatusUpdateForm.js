@@ -16,14 +16,12 @@ import _ from 'lodash';
 
 import { StreamApp } from '../Context';
 import { generateRandomId } from '../utils';
-import type { BaseAppCtx, OgData, CustomActivityArgData } from '../types';
-
-const ImageState = Object.freeze({
-  NO_IMAGE: Symbol('no_image'),
-  UPLOADING: Symbol('uploading'),
-  UPLOADED: Symbol('uploaded'),
-  UPLOAD_FAILED: Symbol('upload_failed'),
-});
+import type {
+  BaseAppCtx,
+  OgData,
+  CustomActivityArgData,
+  Image,
+} from '../types';
 
 const urlRegex = /(https?:\/\/[^\s]+)/gi;
 
@@ -53,14 +51,6 @@ export default class StatusUpdateForm extends React.Component<Props> {
     );
   }
 }
-
-type Image = {
-  id: string,
-  file: File,
-  url?: string,
-  previewUri?: string,
-  state: $Values<typeof ImageState>,
-};
 
 type State = {|
   images: { [string]: Image },
@@ -169,9 +159,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
 
   _canSubmit = () =>
     Boolean(this._object()) &&
-    this._orderedImages().every(
-      (image) => image.state !== ImageState.UPLOADING,
-    );
+    this._orderedImages().every((image) => image.state !== 'uploading');
 
   async addActivity() {
     const uploadedImages = this._uploadedImages();
@@ -263,14 +251,20 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     textareaElement.selectionEnd = newCursorPosition;
   };
 
-  _uploadImage = async (file) => {
+  _uploadNewImages = (files: File[]) => {
+    for (const file of files) {
+      this._uploadNewImage(file);
+    }
+  };
+
+  _uploadNewImage = async (file) => {
     const id = generateRandomId();
 
     await this.setState((prevState) => {
       prevState.images[id] = {
         id,
         file,
-        state: ImageState.UPLOADING,
+        state: 'uploading',
       };
       return {
         imageOrder: prevState.imageOrder.concat(id),
@@ -287,6 +281,20 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       };
       reader.readAsDataURL(file);
     }
+    return this._uploadImage(id);
+  };
+
+  _uploadImage = async (id: string) => {
+    const img = this.state.images[id];
+    if (!img) {
+      return;
+    }
+    const { file } = img;
+
+    await this.setState((prevState) => {
+      prevState.images[id].state = 'uploading';
+      return { images: prevState.images };
+    });
 
     let response = {};
     response = {};
@@ -295,7 +303,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     } catch (e) {
       console.warn(e);
       await this.setState((prevState) => {
-        prevState.images[id].state = ImageState.UPLOAD_FAILED;
+        prevState.images[id].state = 'failed';
         return { images: prevState.images };
       });
 
@@ -306,9 +314,23 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       return;
     }
     await this.setState((prevState) => {
-      prevState.images[id].state = ImageState.UPLOADED;
+      prevState.images[id].state = 'finished';
       prevState.images[id].url = response.file;
       return { images: prevState.images };
+    });
+  };
+
+  _removeImage = (id: string) => {
+    this.setState((prevState) => {
+      const img = prevState.images[id];
+      if (!img) {
+        return {};
+      }
+      delete prevState.images[id];
+      return {
+        images: prevState.images,
+        imageOrder: prevState.imageOrder.filter((_id) => id !== _id),
+      };
     });
   };
 
@@ -339,12 +361,12 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
             {this.state.og && <Card {...this.state.og} />}
             {this.state.imageOrder.length > 0 && (
               <ImagePreviewer
-                images={this.state.imageOrder
-                  .map((id) => {
-                    const image = this.state.images[id];
-                    return image.url || image.previewUri;
-                  })
-                  .filter(Boolean)}
+                images={this.state.imageOrder.map(
+                  (id) => this.state.images[id],
+                )}
+                handleRemove={this._removeImage}
+                handleRetry={this._uploadImage}
+                handleFiles={this._uploadNewImages}
               />
             )}
           </PanelContent>
@@ -353,11 +375,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
               <div style={{ flex: 1 }}>
                 <div style={{ marginRight: '32px', display: 'inline-block' }}>
                   <ImageUploadButton
-                    handleFiles={(files) => {
-                      for (const file of files) {
-                        this._uploadImage(file);
-                      }
-                    }}
+                    handleFiles={this._uploadNewImages}
                     multiple
                   />
                 </div>
