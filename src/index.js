@@ -19,7 +19,7 @@ import './styles/Dropdown.css';
 import './styles/DropdownPanel.css';
 import './styles/EmojiPicker.css';
 import './styles/FollowButton.css';
-// import './styles/Gallery.css';
+import './styles/Gallery.css';
 import './styles/IconBadge.css';
 // import './styles/IconButton.css';
 import './styles/Image.css';
