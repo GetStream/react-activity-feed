@@ -13,15 +13,13 @@ npm install --save react-activity-feed
 ## Usage
 
 ```jsx
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import MyComponent from 'react-activity-feed'
+import MyComponent from 'react-activity-feed';
 
 class Example extends Component {
-  render () {
-    return (
-      <MyComponent />
-    )
+  render() {
+    return <MyComponent />;
   }
 }
 ```

@@ -1,49 +1,49 @@
 ```js
-
 const activities = [
   {
     actor: {
       data: {
         name: 'Jaap Bakker',
-        profileImage: 'https://randomuser.me/api/portraits/men/72.jpg'
-      }
+        profileImage: 'https://randomuser.me/api/portraits/men/72.jpg',
+      },
     },
     verb: 'follow',
     object: {
       verb: 'post',
-      object: 'Winds 2 is the Open Source megalocosmos flat earth effect of anti-gravity food chemicals...',
+      object:
+        'Winds 2 is the Open Source megalocosmos flat earth effect of anti-gravity food chemicals...',
       actor: {
         data: {
-          name: 'Josh'
-        }
-      }
+          name: 'Josh',
+        },
+      },
     },
-    time: Date.now() - 1000000
+    time: Date.now() - 1000000,
   },
   {
     actor: {
       data: {
         name: 'Jaap Bakker',
-        profileImage: 'https://randomuser.me/api/portraits/women/72.jpg'
-      }
+        profileImage: 'https://randomuser.me/api/portraits/women/72.jpg',
+      },
     },
     verb: 'heart',
     object: {
-      verb: 'post'
-    }
+      verb: 'post',
+    },
   },
   {
     actor: {
       data: {
         name: 'Jaap Bakker',
-        profileImage: 'https://randomuser.me/api/portraits/women/7.jpg'
-      }
+        profileImage: 'https://randomuser.me/api/portraits/women/7.jpg',
+      },
     },
     verb: 'heart',
     object: {
-      verb: 'post'
-    }
-  }
+      verb: 'post',
+    },
+  },
 ];
 
 const unreadGroup = {
@@ -56,7 +56,7 @@ const readGroup = {
   activities,
 };
 
-<div style={{padding: 20, backgroundColor: 'grey'}}>
+<div style={{ padding: 20, backgroundColor: 'grey' }}>
   <DropdownPanel
     arrow
     Header={
@@ -66,30 +66,38 @@ const readGroup = {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            padding:10}}
+            padding: 10,
+          }}
         >
           <Title size={14}>Notifications</Title>
           <Link>Mark as read</Link>
         </div>
-        <NewActivitiesNotification adds={[{},{},{},{},{},]} />
+        <NewActivitiesNotification adds={[{}, {}, {}, {}, {}]} />
       </React.Fragment>
     }
     Footer={
-      <div style={{display: 'flex', padding: 10, alignItems: 'center', justifyContent: 'center' }}>
+      <div
+        style={{
+          display: 'flex',
+          padding: 10,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
         <Link to="#">View All Notifications</Link>
       </div>
     }
-    >
-    <Notification activityGroup={unreadGroup}/>
-    <Notification activityGroup={unreadGroup}/>
-    <Notification activityGroup={unreadGroup}/>
-    <Notification activityGroup={unreadGroup}/>
-    <Notification activityGroup={unreadGroup}/>
-    <Notification activityGroup={unreadGroup}/>
-    <Notification activityGroup={readGroup}/>
-    <Notification activityGroup={readGroup}/>
-    <Notification activityGroup={readGroup}/>
-    <Notification activityGroup={readGroup}/>
+  >
+    <Notification activityGroup={unreadGroup} />
+    <Notification activityGroup={unreadGroup} />
+    <Notification activityGroup={unreadGroup} />
+    <Notification activityGroup={unreadGroup} />
+    <Notification activityGroup={unreadGroup} />
+    <Notification activityGroup={unreadGroup} />
+    <Notification activityGroup={readGroup} />
+    <Notification activityGroup={readGroup} />
+    <Notification activityGroup={readGroup} />
+    <Notification activityGroup={readGroup} />
   </DropdownPanel>
-</div>
+</div>;
 ```

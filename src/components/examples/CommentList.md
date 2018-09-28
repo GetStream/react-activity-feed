@@ -1,7 +1,6 @@
 CommentList
 
 ```js
-
 const data = [
   {
     user: {
