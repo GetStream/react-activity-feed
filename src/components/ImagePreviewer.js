@@ -8,6 +8,7 @@ import type { Image } from '../types';
 export type Props = {|
   images?: Image[],
   handleRemove?: (id: string) => mixed,
+  handleRetry?: (id: string) => mixed,
   placeholderButtonHandler?: () => mixed,
 |};
 
@@ -28,13 +29,23 @@ export default class ImagePreviewer extends React.Component<Props> {
   };
 
   render() {
-    const { images, handleRemove, placeholderButtonHandler } = this.props;
+    const {
+      images,
+      handleRemove,
+      handleRetry,
+      placeholderButtonHandler,
+    } = this.props;
     return (
       <div className="raf-image-previewer">
         {images &&
           images.map((image) => (
             <div key={image.id}>
               {image.state === 'uploading' && <LoadingIndicator />}
+              {image.state === 'failed' && (
+                <div onClick={handleRetry && (() => handleRetry(image.id))}>
+                  Retry?
+                </div>
+              )}
               <Thumbnail
                 handleClose={handleRemove && this._handleClose}
                 image={image.previewUri || image.url}

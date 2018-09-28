@@ -9,9 +9,10 @@ ImagePreviewer
       state: 'uploading',
     },
     { id: '2', url: 'https://placeimg.com/480/480/any', state: 'finished' },
-    { id: '2', url: 'https://placeimg.com/100/100/any', state: 'failed' },
+    { id: '3', url: 'https://placeimg.com/100/100/any', state: 'failed' },
   ]}
-  handleRemove={() => console.log('IconButton clicked')}
+  handleRemove={(id) => console.log('Removed image ' + id)}
+  handleRetry={(id) => console.log('Retried image ' + id)}
   placeholderButtonHandler={() => console.log('ThumbnailPlaceholder clicked')}
 />
 ```
