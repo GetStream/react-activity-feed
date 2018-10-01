@@ -1,6 +1,5 @@
-.raf-image-upload-button {
+.raf-icon-button {
   cursor: pointer;
-
   svg {
     fill: #A0B2B8;
   }
@@ -9,8 +8,5 @@
     svg {
       fill: color(#A0B2B8 shade(15%));
     }
-  }
-  label {
-    cursor: pointer;
   }
 }

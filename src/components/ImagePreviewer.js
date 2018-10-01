@@ -34,7 +34,7 @@ export default class ImagePreviewer extends React.Component<Props> {
       <div className="raf-image-previewer">
         {images &&
           images.map((image) => (
-            <div key={image.id}>
+            <div key={image.id} className="raf-image-previewer__image">
               {image.state === 'uploading' && <LoadingIndicator />}
               {image.state === 'failed' && (
                 <div onClick={handleRetry && (() => handleRetry(image.id))}>

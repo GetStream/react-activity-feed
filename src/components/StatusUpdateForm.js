@@ -13,6 +13,7 @@ import ImageUploadButton from './ImageUploadButton';
 import ImagePreviewer from './ImagePreviewer';
 import ImageDropzone from './ImageDropzone';
 import Button from './Button';
+import Title from './Title';
 import _ from 'lodash';
 
 import { StreamApp } from '../Context';
@@ -339,7 +340,9 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       <Panel>
         <form onSubmit={this.onSubmitForm}>
           <ImageDropzone handleFiles={this._uploadNewImages}>
-            <PanelHeading>New Post</PanelHeading>
+            <PanelHeading>
+              <Title>New Post</Title>
+            </PanelHeading>
             <PanelContent>
               <div style={{ display: 'flex' }}>
                 <div style={{ marginRight: '16px' }}>

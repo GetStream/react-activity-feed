@@ -1,9 +1,26 @@
 .raf-image-previewer {
   display: flex;
   flex-wrap: wrap;
+  margin-top: 16px;
+  &__image {
+    width: 100px; height: 100px;
+    position: relative;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & .raf-thumbnail__wrapper {
+      position: absolute;
+    }
+
+    & .raf-loading-indicator {
+      position: absolute;
+      z-index: $z9;
+    }
+  }
+
 }
 
-.raf-image-previewer .raf-thumbnail__wrapper {
-  margin-right: 8px;
-  margin-bottom: 8px;
-}
+

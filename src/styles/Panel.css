@@ -1,6 +1,6 @@
 .raf-panel {
   background: #FFFFFF;
-  box-shadow: 0 2px 5px 0 colorr($black a(5%));
+  box-shadow: 0 2px 5px 0 color($black a(15%));
   margin: 16px 0;
 }
 

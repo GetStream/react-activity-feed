@@ -21,7 +21,7 @@ import './styles/EmojiPicker.css';
 import './styles/FollowButton.css';
 import './styles/Gallery.css';
 import './styles/IconBadge.css';
-// import './styles/IconButton.css';
+import './styles/IconButton.css';
 import './styles/Image.css';
 import './styles/ImageDropzone.css';
 import './styles/ImageInput.css';
