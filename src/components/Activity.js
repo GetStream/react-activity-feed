@@ -92,14 +92,7 @@ export default class Activity extends React.Component<Props> {
           this.props.activity.attachments.images &&
           Boolean(this.props.activity.attachments.images.length) && (
             <div style={{ padding: '8px 0' }}>
-              {this.props.activity.attachments.images.length > 1 ? (
-                <Gallery images={this.props.activity.attachments.images} />
-              ) : (
-                <Image
-                  source={this.props.activity.attachments.images[0]}
-                  // resizeMethod="resize"
-                />
-              )}
+              <Gallery images={this.props.activity.attachments.images} />
             </div>
           )}
 

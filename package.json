@@ -85,6 +85,7 @@
     "image-exists": "^1.1.0",
     "immutable": "^4.0.0-rc.9",
     "is-retina": "^1.0.3",
+    "lightbox-react": "^0.3.6",
     "moment": "^2.22.2",
     "postcss-color-function": "^4.0.1",
     "postcss-cssnext": "^3.1.0",
@@ -93,6 +94,7 @@
     "postcss-nested": "^4.1.0",
     "postcss-simple-vars": "^5.0.1",
     "react-dropzone": "^5.1.1",
+    "react-images": "^0.5.19",
     "remove": "^0.1.5",
     "stream-analytics": "^2.7.1"
   }

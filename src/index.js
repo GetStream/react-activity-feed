@@ -24,6 +24,7 @@ import './styles/IconBadge.css';
 // import './styles/IconButton.css';
 import './styles/Image.css';
 import './styles/ImageDropzone.css';
+import './styles/ImageInput.css';
 import './styles/ImagePreviewer.css';
 import './styles/ImageUploadButton.css';
 import './styles/LikeButton.css';
