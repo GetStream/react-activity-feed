@@ -85,9 +85,6 @@ export default class Gallery extends React.Component<Props, State> {
           onClickNext={this.gotoNext}
           onClose={this.closeLightbox}
           currentImage={this.state.currentImage}
-          backdropClosesModal={true}
-          preloadNextImage={false}
-          showThumbnails={true}
         />
       </React.Fragment>
     );

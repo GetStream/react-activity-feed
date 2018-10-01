@@ -1,13 +1,19 @@
 // @flow
 import React, { Component } from 'react';
 
-import ExampleComponent from 'react-activity-feed';
+import { Gallery } from 'react-activity-feed';
 
 export default class App extends Component {
   render() {
     return (
       <div>
-        <ExampleComponent text="Modern React component module" />
+        <Gallery
+          images={[
+            'https://www.w3schools.com/w3images/fjords.jpg',
+            'https://placehold.it/600x400',
+            'https://placehold.it/600x600',
+          ]}
+        />
       </div>
     );
   }
