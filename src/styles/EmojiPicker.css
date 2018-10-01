@@ -1,6 +1,6 @@
 .raf-emoji-picker {
   position: relative;
-  z-index: $z9;
+  z-index: $z8;
   cursor: pointer;
   display: inline-block;
 }

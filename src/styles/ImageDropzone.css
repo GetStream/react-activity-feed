@@ -1,16 +1,37 @@
-.raf-dropzone .raf-dropzone-notifier {
+.raf-dropzone .raf-dropzone__notifier {
   position: absolute;
   height: 100%;
   width: 100%;
-  z-index: 1000000;
+  padding: 30px;
+  z-index: $z9;
   display: none;
+  border-radius: $borderRadius;
 }
-.raf-dropzone-accept .raf-dropzone-notifier {
-  background: green;
+.raf-dropzone--accept .raf-dropzone__notifier {
+  background: color($primary a(83%));
   display: block;
 }
 
-.raf-dropzone-reject .raf-dropzone-notifier {
-  background: red;
+.raf-dropzone--reject .raf-dropzone__notifier {
+  background: color($error a(83%));
   display: block;
 }
+
+.raf-dropzone__inner {
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+  border: 1px dashed $white;
+  border-radius: $borderRadius;
+  box-sizing: border-box;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: $white;
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.raf-dropzone--reject .raf-dropzone__inner { display: none; }

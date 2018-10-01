@@ -2,7 +2,6 @@
   background: #FFFFFF;
   box-shadow: 0 2px 5px 0 color($black a(15%));
   margin: 16px 0;
+  &--rounded { border-radius: $borderRadius; }
+  &--square { border-radius: 0px; box-shadow: 0 2px 4px 0 color($black a(30%)); }
 }
-
-.raf-panel--rounded { border-radius: $borderRadius; }
-.raf-panel--square { border-radius: 0px; box-shadow: 0 2px 4px 0 color($black a(30%)); }
