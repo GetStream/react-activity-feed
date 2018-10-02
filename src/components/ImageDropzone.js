@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone';
 
 type Props = {|
   children?: React.Node,
-  handleFiles?: (files: File[]) => mixed,
+  handleFiles?: (files: Blob[]) => mixed,
 |};
 
 export default class ImageDropzone extends React.PureComponent<Props> {
@@ -14,12 +14,12 @@ export default class ImageDropzone extends React.PureComponent<Props> {
       <Dropzone
         onDrop={handleFiles}
         disableClick
+        disablePreview
         //style={{position: 'absolute', height: '100%', width: '100%', zIndex: -1000000}}
         className="raf-dropzone"
         style={{ position: 'relative' }}
         acceptClassName="raf-dropzone--accept"
         rejectClassName="raf-dropzone--reject"
-        accept="image/*"
       >
         <div className="raf-dropzone__notifier" style={{}}>
           <div className="raf-dropzone__inner">

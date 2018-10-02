@@ -3,7 +3,7 @@ import React from 'react';
 import ImageInput from './ImageInput';
 
 type Props = {|
-  handleFiles: (File[]) => mixed,
+  handleFiles: (Blob[]) => mixed,
   multiple: boolean,
 |};
 

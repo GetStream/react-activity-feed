@@ -27,7 +27,7 @@ export type UploadState = 'uploading' | 'finished' | 'failed';
 
 export type Image = {
   id: string,
-  file: File,
+  file: Blob,
   url?: string,
   previewUri?: string,
   state: UploadState,
