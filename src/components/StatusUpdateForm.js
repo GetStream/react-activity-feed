@@ -337,6 +337,15 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     });
   };
 
+  _onChange = (event) => {
+    if (!event || !event.currentTarget) {
+      return '';
+    }
+    const text = event.currentTarget.value;
+    this.setState({ text });
+    this._handleOgDebounced(text);
+  };
+
   render() {
     return (
       <Panel>
@@ -354,14 +363,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                   ref={this.textInputRef}
                   placeholder="Type your post... "
                   value={this.state.text}
-                  onChange={(event) => {
-                    if (!event || !event.currentTarget) {
-                      return;
-                    }
-                    const text = event.currentTarget.value;
-                    this.setState({ text });
-                    this._handleOgDebounced(text);
-                  }}
+                  onChange={this._onChange}
                 />
               </div>
               {this.state.og && <Card {...this.state.og} />}

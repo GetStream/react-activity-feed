@@ -80,6 +80,7 @@
     "dist"
   ],
   "dependencies": {
+    "@webscopeio/react-textarea-autocomplete": "^2.3.5",
     "emoji-mart": "^2.8.1",
     "getstream": "^3.21.0",
     "image-exists": "^1.1.0",

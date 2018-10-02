@@ -2,20 +2,7 @@
 import React from 'react';
 import 'emoji-mart/css/emoji-mart.css';
 import { Picker } from 'emoji-mart';
-
-type Emoji = {
-  // The actual unicode emoji (e.g. 👍)
-  native: string,
-  // Colon representation (e.g. ":+1:")
-  colons: string,
-  // Colon representation (e.g. "+1")
-  id: string,
-  // Colon representation (e.g. Thumbs Up Sign)
-  name: string,
-  emoticons: Array<string>,
-  skin: ?number,
-  unified: string,
-};
+import type { Emoji } from '../types';
 
 type Props = {|
   onSelect?: (emoji: Emoji) => mixed,
