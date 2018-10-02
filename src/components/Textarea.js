@@ -12,6 +12,7 @@ export type Props = {|
   placeholder: string,
   onChange: (event: SyntheticEvent<HTMLTextAreaElement>) => mixed,
   value?: string,
+  innerRef?: any,
 |};
 
 const AutocompleteItem = ({ entity: { id, native } }) => (
@@ -26,13 +27,13 @@ const AutocompleteItem = ({ entity: { id, native } }) => (
  * @example ./examples/Textarea.md
  */
 export default class Textarea extends React.Component<Props> {
-  element = React.createRef();
   static defaultProps = {
     rows: 3,
     placeholder: 'Share your opinion',
   };
 
   render() {
+    const { innerRef } = this.props;
     return (
       <ReactTextareaAutocomplete
         loadingComponent={LoadingIndicator}
@@ -50,7 +51,12 @@ export default class Textarea extends React.Component<Props> {
             }),
           },
         }}
-        ref={this.element}
+        innerRef={
+          innerRef &&
+          ((ref) => {
+            innerRef.current = ref;
+          })
+        }
         rows={this.props.rows}
         className="raf-textarea"
         placeholder={this.props.placeholder}

@@ -214,14 +214,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       dismissedUrls: [],
     });
   };
-  _getTextAreaElement = () => {
-    const currentTextArea = this.textInputRef.current;
-    if (!currentTextArea) {
-      return null;
-    }
-
-    return currentTextArea.element.current;
-  };
+  _getTextAreaElement = () => this.textInputRef.current;
 
   _onSelectEmoji = async (emoji) => {
     let newCursorPosition;
@@ -360,7 +353,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                   <Avatar size={50} circle />
                 </div>
                 <Textarea
-                  ref={this.textInputRef}
+                  innerRef={this.textInputRef}
                   placeholder="Type your post... "
                   value={this.state.text}
                   onChange={this._onChange}
