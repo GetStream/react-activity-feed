@@ -8,11 +8,59 @@ type Props = {|
 |};
 
 export default class ImageDropzone extends React.PureComponent<Props> {
+  _handleFiles = async (accepted: Blob[], rejected: DataTransferItem[]) => {
+    const { handleFiles } = this.props;
+    if (!handleFiles) {
+      return;
+    }
+
+    if (accepted && accepted.length) {
+      // Normal case
+      return handleFiles(accepted);
+    }
+
+    if (!rejected || !rejected.length) {
+      return;
+    }
+
+    // Website-to-website image drag+drop
+    const blobPromises = [];
+    for (const item of rejected) {
+      if (item.type === 'text/html') {
+        blobPromises.push(
+          new Promise((accept) => {
+            item.getAsString(async (s) => {
+              // Extract image src attribute from html
+              const match = s.match(/src\s*=\s*"(.+?)"/);
+              if (match) {
+                const res = await fetch(match[1]);
+                const contentType =
+                  res.headers.get('Content-type') || 'application/octet-stream';
+                const buf = await res.arrayBuffer();
+                accept(new Blob([buf], { type: contentType }));
+              } else {
+                accept();
+              }
+            });
+          }),
+        );
+      }
+    }
+    const blobs = [];
+    for (const blob of await Promise.all(blobPromises)) {
+      if (blob) {
+        blobs.push(blob);
+      }
+    }
+    if (blobs.length) {
+      return handleFiles(blobs);
+    }
+  };
   render() {
     const { handleFiles, children } = this.props;
     return (
       <Dropzone
-        onDrop={handleFiles}
+        onDrop={handleFiles && this._handleFiles}
         disableClick
         disablePreview
         //style={{position: 'absolute', height: '100%', width: '100%', zIndex: -1000000}}

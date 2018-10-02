@@ -252,33 +252,9 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     textareaElement.selectionEnd = newCursorPosition;
   };
 
-  _uploadNewImages = (files: Blob[], rejected?: DataTransferItem[]) => {
+  _uploadNewImages = (files: Blob[]) => {
     for (const file of files) {
       this._uploadNewImage(file);
-    }
-    //return a promise that resolves with a Blob instance
-    async function urlToBlob(url) {
-      const res = await fetch(url);
-      const contentType =
-        res.headers.get('Content-type') || 'application/octet-stream';
-      const buf = await res.arrayBuffer();
-      return new Blob([buf], { type: contentType });
-    }
-
-    if (!rejected) {
-      return;
-    }
-    for (const item of rejected) {
-      if (item.type === 'text/html') {
-        item.getAsString(async (s) => {
-          const match = s.match(/src\s*=\s*"(.+?)"/);
-          if (match) {
-            const blob = await urlToBlob(match[1]);
-            console.log(blob);
-            this._uploadNewImage(blob);
-          }
-        });
-      }
     }
   };
 
