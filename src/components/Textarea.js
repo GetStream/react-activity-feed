@@ -55,6 +55,7 @@ export default class Textarea extends React.Component<Props> {
         className="raf-textarea"
         placeholder={this.props.placeholder}
         onChange={this.props.onChange}
+        onSelect={this.props.onChange}
         value={this.props.value}
       />
     );
