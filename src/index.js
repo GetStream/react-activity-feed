@@ -57,5 +57,3 @@ export default class ExampleComponent extends Component<{ text: string }> {
     return <div>Example Component: {text}</div>;
   }
 }
-
-export { default as Gallery } from './components/Gallery';
