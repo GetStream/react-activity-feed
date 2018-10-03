@@ -1,20 +1,38 @@
 .raf-textarea {
   display: flex;
-  width: 100%;
-  color: color($fontColor tint(3%));
-  font-size: 16px;
-  line-height: 30px;
-  font-weight: 500;
-  border-color: $transparent;
-  border-radius: $borderRadius;
-  padding: 8px;
-  transition: background 0.4s;
 
-  &::placeholder {
-    color: color($fontColor tint(65%))
+
+  .raf-textarea__textarea {
+    width: 100%;
+    color: color($fontColor tint(3%));
+    font-size: 16px;
+    line-height: 30px;
+    font-weight: 500;
+    border-color: $transparent;
+    border-radius: $borderRadius;
+    padding: 8px;
+    transition: background 0.4s;
+    &:focus {
+      background: color($black tint(95%));
+      outline: none;
+    }
+    &::placeholder {
+      color: color($fontColor tint(65%))
+    }
   }
+
 }
-.raf-textarea:focus {
-  background: color($black tint(95%));
-  outline: none;
+
+.raf-emojisearch {
+  &__list {
+    border-radius: $borderRadius;
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 30px;
+  }
+  &__item {
+    div {
+      padding: 0 10px 0 5px;
+    }
+  }
 }

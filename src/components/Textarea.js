@@ -58,7 +58,11 @@ export default class Textarea extends React.Component<Props> {
           })
         }
         rows={this.props.rows}
-        className="raf-textarea"
+        className="raf-textarea__textarea"
+        containerClassName="raf-textarea"
+        dropdownClassName="raf-emojisearch"
+        listClassName="raf-emojisearch__list"
+        itemClassName="raf-emojisearch__item"
         placeholder={this.props.placeholder}
         onChange={this.props.onChange}
         onSelect={this.props.onChange}
