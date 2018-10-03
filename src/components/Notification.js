@@ -82,7 +82,10 @@ export default class Notification extends React.Component<Props> {
         </div>
         <div className="raf-notification__extra">
           {activities.length > 1 && lastActivity.verb === 'follow' ? (
-            <AvatarGroup avatarSize={30} users={this.getUsers(activities)} />
+            <AvatarGroup
+              avatarSize={30}
+              users={this.getUsers(activities.slice(1, activities.length))}
+            />
           ) : (
             <p>
               {activities.length === 1 && lastActivity.verb === 'follow' ? (
