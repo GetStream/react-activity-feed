@@ -1,6 +1,9 @@
 .raf-icon-button {
   cursor: pointer;
+  position: relative;
   svg {
+    position: relative;
+    z-index: $z5;
     fill: #A0B2B8;
   }
 
