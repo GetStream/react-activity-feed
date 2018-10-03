@@ -1,0 +1,42 @@
+.raf-modal {
+  width: 100vw;
+  height: 100vh;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+
+  background-color: color($black a(75%));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &__inner {
+    width: 100%;
+    max-width: 800px;
+  }
+  & .raf-icon-button {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+  }
+}
+
+.raf-modal__transition-enter {
+  opacity: 0.01;
+}
+
+.raf-modal__transition-enter.raf-modal__transition-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.raf-modal__transition-leave {
+  opacity: 1;
+}
+
+.raf-modal__transition-leave.raf-modal__transition-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}

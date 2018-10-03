@@ -30,6 +30,7 @@ import './styles/ImageUploadButton.css';
 import './styles/LikeButton.css';
 import './styles/Link.css';
 import './styles/LoadingIndicator.css';
+import './styles/Modal.css';
 import './styles/NewActivitiesNotification.css';
 import './styles/Notification.css';
 import './styles/NotificationActions.css';
