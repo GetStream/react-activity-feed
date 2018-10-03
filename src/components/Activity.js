@@ -4,7 +4,6 @@ import React from 'react';
 
 import UserBar from './UserBar';
 import Card from './Card';
-import Image from './Image';
 import Gallery from './Gallery';
 
 import type { ActivityData, Renderable } from '../types';
@@ -79,14 +78,15 @@ export default class Activity extends React.Component<Props> {
             <Card {...this.props.activity.object.data} />
           )}
 
-        {Boolean(this.props.activity.image) && (
+        {Boolean(this.props.activity.image) &&
+        this.props.activity.image !== undefined ? (
           <div style={{ padding: '8px 0' }}>
-            <Image
-              source={this.props.activity.image}
+            <Gallery
+              images={[this.props.activity.image]}
               // resizeMethod="resize"
             />
           </div>
-        )}
+        ) : null}
 
         {this.props.activity.attachments &&
           this.props.activity.attachments.images &&
