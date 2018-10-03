@@ -1,4 +1,8 @@
+.raf-close-button {
+  cursor: pointer;
+}
 .raf-close-button[role="button"]:active, .raf-close-button[role="button"]:focus {
   outline-offset: 5px;
   outline: 3px solid color($info a(20%));
+  cursor: pointer;
 }
