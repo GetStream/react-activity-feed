@@ -24,16 +24,16 @@ export default class Gallery extends React.Component<Props, State> {
     };
   }
 
-  gotoPrevious() {
+  gotoPrevious = () => {
     this.setState({
       currentImage: this.state.currentImage - 1,
     });
-  }
-  gotoNext() {
+  };
+  gotoNext = () => {
     this.setState({
       currentImage: this.state.currentImage + 1,
     });
-  }
+  };
   openLightbox = (image?: number) => {
     this.setState({
       lightboxIsOpen: true,
@@ -66,12 +66,12 @@ export default class Gallery extends React.Component<Props, State> {
                   ? 'raf-gallery__image-wrapper--last'
                   : ''
               }`}
-              key={image}
+              key={`image-${i}`}
               onClick={() => this.openLightbox(i)}
             >
               {i === 3 && images.length > 5 ? (
                 <div className="raf-gallery__image-overlay">
-                  {images.length - 4} more
+                  {images.length - 3} more
                 </div>
               ) : null}
               <img src={image} className="raf-gallery__image" alt="asdf" />
