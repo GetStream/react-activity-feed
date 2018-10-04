@@ -1,0 +1,28 @@
+.raf-b2btimeline {
+  display: flex;
+  position: relative;
+  &__icon {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    border: 1px solid #A0B2B8;
+    border-radius: 70px;
+    background-color: #F0F0F0;
+    z-index: $z9;
+  }
+  &__line {
+    position: relative;
+    margin: 35px 64.5px 35px 35px;
+    .line {
+      position: absolute;
+      z-index: $z1;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      width: 1px;
+      background: #A0B2B8;
+      height: 100%;
+    }
+  }
+}

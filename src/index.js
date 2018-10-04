@@ -10,6 +10,7 @@ import './styles/AttachedActivity.css';
 import './styles/Avatar.css';
 import './styles/AvatarGroup.css';
 import './styles/Button.css';
+import './styles/B2BTimeline.css';
 import './styles/Card.css';
 import './styles/CloseButton.css';
 import './styles/CommentField.css';
