@@ -4,6 +4,7 @@ const path = require('path');
 module.exports = {
   title: 'React Activity Feed - Docs',
   styleguideDir: 'docs',
+  assetsDir: 'src/assets',
   sortProps: (props) => props,
   sections: [
     // {

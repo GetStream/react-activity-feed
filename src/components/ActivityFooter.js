@@ -3,6 +3,7 @@ import * as React from 'react';
 // import ReactionIcon from './ReactionIcon';
 import LikeButton from './LikeButton';
 import RepostButton from './RepostButton';
+import Flex from './Flex';
 
 export type Props = {|
   children: React.Node,
@@ -18,7 +19,7 @@ export default class ActivityFooter extends React.Component<Props> {
   render() {
     return (
       <div className="raf-activity-footer">
-        <div className="raf-activity-footer__left" style={{ flex: '1' }}>
+        <div className="raf-activity-footer__left">
           {/* <ReactionIcon
             icon="https://placehold.it/22x22"
             inactiveIcon="https://placehold.it/22x22"
@@ -31,15 +32,17 @@ export default class ActivityFooter extends React.Component<Props> {
             onToggleReaction={() => console.log('test')}
           /> */}
         </div>
-        <div className="raf-activity-footer__right" style={{ display: 'flex' }}>
-          <LikeButton
-            activity={this.props.activity}
-            onToggleReaction={() => console.log('test')}
-          />
-          <RepostButton
-            activity={this.props.activity}
-            onToggleReaction={() => console.log('test')}
-          />
+        <div className="raf-activity-footer__right">
+          <Flex vcenter>
+            <LikeButton
+              activity={this.props.activity}
+              onToggleReaction={() => console.log('test')}
+            />
+            <RepostButton
+              activity={this.props.activity}
+              onToggleReaction={() => console.log('test')}
+            />
+          </Flex>
         </div>
       </div>
     );
