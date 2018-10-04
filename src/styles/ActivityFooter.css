@@ -2,4 +2,32 @@
   margin: 8px 16px;
   padding: 16px 0;
   border-top: 2px solid #E6F0F2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &__left {
+    flex: 1;
+    & >div {
+      margin: 0 8px;
+      &:first-child {
+        margin-left: 0;
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &__right {
+    display: flex;
+    & >div {
+      margin: 0 8px;
+      &:first-child {
+        margin-left: 0;
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
 }

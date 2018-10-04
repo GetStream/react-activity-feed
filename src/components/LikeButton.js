@@ -12,7 +12,6 @@ import likebuttonInactive from '../images/like@1x.png';
 type Props = {|
   activity: BaseActivityResponse,
   onToggleReaction: ToggleReactionCallbackFunction,
-  styles: any,
 |};
 
 /**

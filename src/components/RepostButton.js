@@ -9,7 +9,6 @@ import type {
 type Props = {|
   activity: BaseActivityResponse,
   onToggleReaction: ToggleReactionCallbackFunction,
-  styles: any,
 |};
 
 /**

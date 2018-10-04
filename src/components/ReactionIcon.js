@@ -14,6 +14,7 @@ type Props = {|
   onPress?: (kind: ?string) => any,
   labelSingle?: string,
   labelPlural?: string,
+  onToggleReaction?: () => mixed,
 |};
 
 /**

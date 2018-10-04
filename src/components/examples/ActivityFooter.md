@@ -1,5 +1,2 @@
-ActivityFooter
-
 ```js
-<ActivityFooter />
 ```
