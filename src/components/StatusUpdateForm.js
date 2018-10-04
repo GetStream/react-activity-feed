@@ -11,6 +11,7 @@ import Card from './Card';
 import EmojiPicker from './EmojiPicker';
 import ImageUploadButton from './ImageUploadButton';
 import ImagePreviewer from './ImagePreviewer';
+import FilePreviewer from './FilePreviewer';
 import ImageDropzone from './ImageDropzone';
 import Button from './Button';
 import Title from './Title';
@@ -23,6 +24,7 @@ import type {
   OgData,
   CustomActivityArgData,
   Image,
+  FileUpload,
 } from '../types';
 
 const urlRegex = /(https?:\/\/[^\s]+)/gi;
@@ -57,6 +59,8 @@ export default class StatusUpdateForm extends React.Component<Props> {
 type State = {|
   images: { [string]: Image },
   imageOrder: Array<string>,
+  files: { [string]: FileUpload },
+  fileOrder: Array<string>,
   og: ?OgData,
   ogScraping: boolean,
   ogLink: ?string,
@@ -76,6 +80,8 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   state = {
     images: {},
     imageOrder: [],
+    files: {},
+    fileOrder: [],
     og: null,
     ogScraping: false,
     ogLink: null,
@@ -245,9 +251,13 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     textareaElement.selectionEnd = newCursorPosition;
   };
 
-  _uploadNewImages = (files: Blob[]) => {
+  _uploadNewFiles = (files: Blob[]) => {
     for (const file of files) {
-      this._uploadNewImage(file);
+      if (file.type.startsWith('image/')) {
+        this._uploadNewImage(file);
+      } else {
+        this._uploadNewFile(file);
+      }
     }
   };
 
@@ -278,6 +288,24 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       reader.readAsDataURL(file);
     }
     return this._uploadImage(id);
+  };
+
+  _uploadNewFile = async (file) => {
+    const id = generateRandomId();
+
+    await this.setState((prevState) => {
+      prevState.files[id] = {
+        id,
+        file,
+        state: 'uploading',
+      };
+      return {
+        fileOrder: prevState.fileOrder.concat(id),
+        files: prevState.files,
+      };
+    });
+
+    return this._uploadFile(id);
   };
 
   _uploadImage = async (id: string) => {
@@ -316,6 +344,42 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     });
   };
 
+  _uploadFile = async (id: string) => {
+    const upload = this.state.files[id];
+    if (!upload) {
+      return;
+    }
+    const { file } = upload;
+
+    await this.setState((prevState) => {
+      prevState.files[id].state = 'uploading';
+      return { files: prevState.files };
+    });
+
+    let response = {};
+    response = {};
+    try {
+      response = await this.props.session.files.upload(file);
+    } catch (e) {
+      console.warn(e);
+      await this.setState((prevState) => {
+        prevState.files[id].state = 'failed';
+        return { files: prevState.files };
+      });
+
+      this.props.errorHandler(e, 'upload-image', {
+        feedGroup: this.props.feedGroup,
+        userId: this.props.userId,
+      });
+      return;
+    }
+    await this.setState((prevState) => {
+      prevState.files[id].state = 'finished';
+      prevState.files[id].url = response.file;
+      return { files: prevState.files };
+    });
+  };
+
   _removeImage = (id: string) => {
     this.setState((prevState) => {
       const img = prevState.images[id];
@@ -326,6 +390,20 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       return {
         images: prevState.images,
         imageOrder: prevState.imageOrder.filter((_id) => id !== _id),
+      };
+    });
+  };
+
+  _removeFile = (id: string) => {
+    this.setState((prevState) => {
+      const upload = prevState.files[id];
+      if (!upload) {
+        return {};
+      }
+      delete prevState.files[id];
+      return {
+        files: prevState.files,
+        fileOrder: prevState.fileOrder.filter((_id) => id !== _id),
       };
     });
   };
@@ -343,7 +421,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     return (
       <Panel>
         <form onSubmit={this.onSubmitForm}>
-          <ImageDropzone handleFiles={this._uploadNewImages}>
+          <ImageDropzone handleFiles={this._uploadNewFiles}>
             <PanelHeading>
               <Title>New Post</Title>
             </PanelHeading>
@@ -367,7 +445,17 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                   )}
                   handleRemove={this._removeImage}
                   handleRetry={this._uploadImage}
-                  handleFiles={this._uploadNewImages}
+                  handleFiles={this._uploadNewFiles}
+                />
+              )}
+              {this.state.fileOrder.length > 0 && (
+                <FilePreviewer
+                  uploads={this.state.fileOrder.map(
+                    (id) => this.state.files[id],
+                  )}
+                  handleRemove={this._removeFile}
+                  handleRetry={this._uploadFile}
+                  handleFiles={this._uploadNewFiles}
                 />
               )}
             </PanelContent>
@@ -376,7 +464,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                 <div style={{ flex: 1 }}>
                   <div style={{ marginRight: '32px', display: 'inline-block' }}>
                     <ImageUploadButton
-                      handleFiles={this._uploadNewImages}
+                      handleFiles={this._uploadNewFiles}
                       multiple
                     />
                   </div>
