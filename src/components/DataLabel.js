@@ -3,8 +3,8 @@ import * as React from 'react';
 
 type Props = {|
   label: string,
-  data: string | number
-|}
+  data: string | number,
+|};
 
 /**
  * Component is described here.
@@ -14,8 +14,8 @@ type Props = {|
 export default class DataLabel extends React.Component<Props> {
   static defaultProps = {
     label: 'label',
-    data: 'data'
-  }
+    data: 'data',
+  };
 
   render() {
     return (
