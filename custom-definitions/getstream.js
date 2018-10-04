@@ -60,6 +60,7 @@ declare module 'getstream' {
       data?: ReactionRequestOptions<ReactionData>,
     ): Promise<ReactionResponse<ReactionData>>;
     images: StreamImageStore;
+    files: StreamFileStore;
     og: (url: string) => Promise<OgData>;
   }
 
@@ -85,6 +86,13 @@ declare module 'getstream' {
     ) => Promise<{}>;
   }
 
+  declare class StreamFileStore {
+    upload: (
+      uri: string | Blob | File,
+      name?: string,
+    ) => Promise<{ file: string }>;
+    delete: (uri: string) => Promise<{}>;
+  }
   declare class StreamObjectStore<ObjectData> {
     collection: string;
     object(id: ?string, data: ObjectData): StreamObject<ObjectData>;

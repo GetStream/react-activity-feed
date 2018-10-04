@@ -25,13 +25,17 @@ export type FlowRequestTypes =
 
 export type UploadState = 'uploading' | 'finished' | 'failed';
 
-export type Image = {
+export type FileUpload = {|
   id: string,
-  file: Blob,
+  file: Blob | File,
   url?: string,
-  previewUri?: string,
   state: UploadState,
-};
+|};
+
+export type Image = {|
+  ...FileUpload,
+  previewUri?: string,
+|};
 
 export type ErrorHandler = (
   error: Error,
