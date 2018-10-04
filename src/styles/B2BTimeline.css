@@ -1,6 +1,7 @@
 .raf-b2btimeline {
   display: flex;
   position: relative;
+  background: #F0F0F0;
   &__icon {
     position: relative;
     width: 70px;
@@ -9,10 +10,14 @@
     border-radius: 70px;
     background-color: #F0F0F0;
     z-index: $z9;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   &__line {
     position: relative;
-    margin: 35px 64.5px 35px 35px;
+    margin: 35px 35px 35px 35px;
     .line {
       position: absolute;
       z-index: $z1;
@@ -24,5 +29,9 @@
       background: #A0B2B8;
       height: 100%;
     }
+  }
+  &__feed {
+    flex: 1;
+    padding-right: 35px;
   }
 }
