@@ -7,7 +7,7 @@ type Props = {|
   id?: string,
 |};
 
-export default class ImageInput extends React.PureComponent<Props> {
+export default class FileInput extends React.PureComponent<Props> {
   static defaultProps = {
     multiple: false,
   };
