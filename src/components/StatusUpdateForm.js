@@ -327,20 +327,28 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       response = await this.props.session.images.upload(file);
     } catch (e) {
       console.warn(e);
+      let alreadyRemoved = false;
       await this.setState((prevState) => {
-        prevState.images[id].state = 'failed';
+        const image = prevState.images[id];
+        if (!image) {
+          alreadyRemoved = true;
+          return {};
+        }
+        image.state = 'failed';
         return { images: prevState.images };
       });
 
-      this.props.errorHandler(e, 'upload-image', {
-        feedGroup: this.props.feedGroup,
-        userId: this.props.userId,
-      });
+      if (!alreadyRemoved) {
+        this.props.errorHandler(e, 'upload-image', {
+          feedGroup: this.props.feedGroup,
+          userId: this.props.userId,
+        });
+      }
       return;
     }
     await this.setState((prevState) => {
-      prevState.images[id].state = 'finished';
-      prevState.images[id].url = response.file;
+      img.state = 'finished';
+      img.url = response.file;
       return { images: prevState.images };
     });
   };
@@ -382,6 +390,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   };
 
   _removeImage = (id: string) => {
+    // TODO: cancel upload if still uploading
     this.setState((prevState) => {
       const img = prevState.images[id];
       if (!img) {
@@ -396,6 +405,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   };
 
   _removeFile = (id: string) => {
+    // TODO: cancel upload if still uploading
     this.setState((prevState) => {
       const upload = prevState.files[id];
       if (!upload) {
