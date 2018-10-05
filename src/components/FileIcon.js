@@ -4,11 +4,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faFileWord,
   faFileExcel,
+  faFilePowerpoint,
   faFileArchive,
+  faFileCode,
   faFileAudio,
   faFileVideo,
   faFileImage,
+  faFilePdf,
   faFileAlt,
+  faFile,
 } from '@fortawesome/free-regular-svg-icons';
 
 export type Props = {|
@@ -76,6 +80,36 @@ const excelMimeTypes = [
   // NOTE: firefox doesn't know mimetype so maybe ignore
 ];
 
+const powerpointMimeTypes = [
+  // Microsoft Word
+  // .ppt .pot .pps .ppa (no test for .ppa)
+  'application/vnd.ms-powerpoint',
+  // .pptx
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  // .potx (no test)
+  'application/vnd.openxmlformats-officedocument.presentationml.template',
+  // .ppsx
+  'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+  // .ppam
+  'application/vnd.ms-powerpoint.addin.macroEnabled.12',
+  // .pptm
+  'application/vnd.ms-powerpoint.presentation.macroEnabled.12',
+  // .potm
+  'application/vnd.ms-powerpoint.template.macroEnabled.12',
+  // .ppsm
+  'application/vnd.ms-powerpoint.slideshow.macroEnabled.12',
+
+  // LibreOffice/OpenOffice Writer
+  // .odp
+  'application/vnd.oasis.opendocument.presentation',
+  // .otp
+  'application/vnd.oasis.opendocument.presentation-template',
+  // .fodp
+  'application/vnd.oasis.opendocument.presentation-flat-xml',
+  // .uop
+  // NOTE: firefox doesn't know mimetype so maybe ignore
+];
+
 const archiveFileTypes = [
   // .zip
   'application/zip',
@@ -103,9 +137,48 @@ const archiveFileTypes = [
   'application/x-xz',
   // .war
   'application/x-webarchive',
+  // .rar
+  'application/vnd.rar',
 ];
 
-const mimeTypeToIconMap = {};
+const codeFileTypes = [
+  // .html .htm
+  'text/html',
+  // .css
+  'text/css',
+  // .js
+  'application/x-javascript',
+  // .json
+  'application/json',
+  // .py
+  'text/x-python',
+  // .go
+  'text/x-go',
+  // .c
+  'text/x-csrc',
+  // .cpp
+  'text/x-c++src',
+  // .rb
+  'application/x-ruby',
+  // .rust
+  'text/rust',
+  // .java
+  'text/x-java',
+  // .php
+  'application/x-php',
+  // .cs
+  'text/x-csharp',
+  // .scala
+  'text/x-scala',
+  // .erl
+  'text/x-erlang',
+  // .sh
+  'application/x-shellscript',
+];
+
+const mimeTypeToIconMap: { [string]: string } = {
+  'application/pdf': faFilePdf,
+};
 
 for (const type of wordMimeTypes) {
   mimeTypeToIconMap[type] = faFileWord;
@@ -115,9 +188,22 @@ for (const type of excelMimeTypes) {
   mimeTypeToIconMap[type] = faFileExcel;
 }
 
+for (const type of powerpointMimeTypes) {
+  mimeTypeToIconMap[type] = faFilePowerpoint;
+}
+
+for (const type of powerpointMimeTypes) {
+  mimeTypeToIconMap[type] = faFilePowerpoint;
+}
+
 for (const type of archiveFileTypes) {
   mimeTypeToIconMap[type] = faFileArchive;
 }
+
+for (const type of codeFileTypes) {
+  mimeTypeToIconMap[type] = faFileCode;
+}
+
 function mimeTypeToIcon(mimeType: string) {
   const icon = mimeTypeToIconMap[mimeType];
   if (icon) {
@@ -132,7 +218,10 @@ function mimeTypeToIcon(mimeType: string) {
   if (mimeType.startsWith('image/')) {
     return faFileImage;
   }
-  return faFileAlt;
+  if (mimeType.startsWith('text/')) {
+    return faFileAlt;
+  }
+  return faFile;
 }
 
 /**
