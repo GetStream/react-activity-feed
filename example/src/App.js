@@ -2,8 +2,9 @@
 import React, { Component } from 'react';
 
 import { Gallery } from 'react-activity-feed';
+import 'react-activity-feed/dist/index.es.css';
 
-export default class App extends Component {
+export default class App extends Component<{}> {
   render() {
     return (
       <div>
