@@ -13,6 +13,7 @@ import ImageUploadButton from './ImageUploadButton';
 import ImagePreviewer from './ImagePreviewer';
 import FilePreviewer from './FilePreviewer';
 import ImageDropzone from './ImageDropzone';
+import LoadingIndicator from './LoadingIndicator';
 import Button from './Button';
 import Title from './Title';
 import _ from 'lodash';
@@ -437,6 +438,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                   onChange={this._onChange}
                 />
               </div>
+              {this.state.ogScraping && <LoadingIndicator />}
               {this.state.og && <Card {...this.state.og} />}
               {this.state.imageOrder.length > 0 && (
                 <ImagePreviewer
