@@ -4,7 +4,7 @@
   background: #F0F0F0;
   &__icon {
     position: relative;
-    width: 70px;
+    min-width: 70px;
     height: 70px;
     border: 1px solid #A0B2B8;
     border-radius: 70px;
@@ -14,24 +14,34 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-basis: 70px;
   }
   &__line {
-    position: relative;
-    margin: 35px 35px 35px 35px;
+    position: absolute;
+    left: 35px;
+    height: 100%;
+    padding: 35px;
+    display: flex;
     .line {
-      position: absolute;
+      flex: 1;
       z-index: $z1;
-      top: 0;
-      left: 0;
-      right: 0;
-      margin: auto;
       width: 1px;
       background: #A0B2B8;
-      height: 100%;
     }
   }
   &__feed {
+    position: relative;
     flex: 1;
-    padding-right: 35px;
+    padding: 0 35px 0 35px;
+  }
+  &__post {
+    display: flex;
+  }
+  &__time {
+    padding-left: 100px;
+  }
+  &__post-content {
+    flex: 1;
+    padding-left: 30px;
   }
 }

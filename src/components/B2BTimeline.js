@@ -1,6 +1,6 @@
 import * as React from 'react';
 import TimeHeader from './TimeHeader';
-// import B2BActivity from './B2BActivity';
+import B2BActivity from './B2BActivity';
 
 const MONTHS = {
   1: 'January',
@@ -16,6 +16,9 @@ const MONTHS = {
   11: 'November',
   12: 'December',
 };
+
+const icon =
+  '<svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg"><path d="M14 8H8v6H6V8H0V6h6V0h2v6h6z" fill="#A0B2B8" fill-rule="evenodd"/></svg>';
 
 /**
  * Component is described here.
@@ -43,7 +46,7 @@ export default class B2BTimeline extends React.Component {
     return newActivities;
   }
 
-  timeline(activities) {
+  timeline = (activities, icons) => {
     const sorted = this.sortByYearMonth(activities);
     return Object.keys(sorted)
       .sort((a, b) => b - a)
@@ -53,40 +56,37 @@ export default class B2BTimeline extends React.Component {
           .map(function(month, i) {
             return (
               <React.Fragment key={`month-${month}-${i}`}>
-                <TimeHeader>{`${MONTHS[month]} ${year}`}</TimeHeader>
-                {sorted[year][month].map((
-                  post,
-                  i, // map over posts in month
-                ) => (
-                  <p key={`post-${i}`}>
-                    <code>{JSON.stringify(post)}</code>
-                  </p>
+                <div className="raf-b2btimeline__time">
+                  <TimeHeader>{`${MONTHS[month]} ${year}`}</TimeHeader>
+                </div>
+                {sorted[year][month].map((post, i) => (
+                  <div className="raf-b2btimeline__post" key={`post-${i}`}>
+                    <div
+                      className="raf-b2btimeline__icon"
+                      dangerouslySetInnerHTML={{
+                        __html: icons[post.verb] || icon,
+                      }}
+                    />
+                    <div className="raf-b2btimeline__post-content">
+                      <B2BActivity activity={post} />
+                    </div>
+                  </div>
                 ))}
               </React.Fragment>
             );
           });
       });
-  }
+  };
 
   render() {
-    const icon =
-      '<svg width="20" height="19" viewBox="0 0 20 19" xmlns="http://www.w3.org/2000/svg"><path d="M19.99 7c0-.72-.37-1.35-.94-1.7L10 0 .95 5.3C.38 5.65 0 6.28 0 7v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2l-.01-10zM10 12L1.74 6.84 10 2l8.26 4.84L10 12z" fill="#A0B2B8" fill-rule="evenodd"/></svg>';
     return (
       <div className="raf-b2btimeline">
-        <div className="raf-b2btimeline__line">
-          <div className="line" />
-
-          <div
-            className="raf-b2btimeline__icon"
-            dangerouslySetInnerHTML={{ __html: icon }}
-          />
-          <div
-            className="raf-b2btimeline__icon"
-            dangerouslySetInnerHTML={{ __html: icon }}
-          />
-        </div>
         <div className="raf-b2btimeline__feed">
-          {this.timeline(this.props.activities)}
+          <div className="raf-b2btimeline__line">
+            <div className="line" />
+          </div>
+
+          {this.timeline(this.props.activities, this.props.icons)}
         </div>
       </div>
     );

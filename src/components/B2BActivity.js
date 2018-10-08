@@ -1,3 +1,5 @@
+// @flow
+
 import * as React from 'react';
 import Panel from './Panel';
 import PanelHeading from './PanelHeader';
@@ -10,87 +12,131 @@ import Title from './Title';
 import ReactionToggleIcon from './ReactionToggleIcon';
 import ReactionIcon from './ReactionIcon';
 import Link from './Link';
+import type { Renderable } from '../types';
+import { smartRender } from '../utils';
+
+export type Props = {|
+  Header: Renderable,
+  Content: Renderable,
+  Footer: Renderable,
+  activity: any,
+|};
 
 /**
  * Component is described here.
  *
  * @example ./examples/B2BActivity.md
  */
-export default class B2BActivity extends React.Component {
-  render() {
+export default class B2BActivity extends React.Component<Props> {
+  renderHeader = () => {
+    const { activity } = this.props;
     return (
-      <Panel panelStyle="square">
-        <PanelHeading closeButton={false}>
-          <Flex vcenter style={{ flex: 1 }}>
-            <Avatar rounded size={30} />
-            <svg
-              width="19"
-              height="8"
-              viewBox="0 0 19 8"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M19 4l-4-4v3H0v2h15v3z"
-                fill="#02D4B1"
-                fillRule="evenodd"
+      <PanelHeading closeButton={false}>
+        <Flex vcenter style={{ flex: 1 }}>
+          <Avatar rounded size={30} />
+          {activity.object.type === 'email' && (
+            <React.Fragment>
+              <svg
+                width="19"
+                height="8"
+                viewBox="0 0 19 8"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M19 4l-4-4v3H0v2h15v3z"
+                  fill="#02D4B1"
+                  fillRule="evenodd"
+                />
+              </svg>
+              <Avatar
+                rounded
+                image={activity.object.actor.profileImage}
+                size={30}
               />
-            </svg>
-            <Avatar rounded size={30} />
+            </React.Fragment>
+          )}
+
+          {activity.object.type === 'email' && (
             <p style={{ fontSize: 12 }}>
               You sent a tracked email to{' '}
-              <strong>Cindy Smith (cindy@example.com)</strong>
+              <strong>{activity.object.actor.name}</strong>{' '}
+              <em>({activity.object.actor.email})</em>
             </p>
-          </Flex>
+          )}
+        </Flex>
+
+        {activity.object.type === 'email' ? (
           <Flex>
-            <DataLabel label="status" data="Sent" />
-            <DataLabel label="opens" data={1} />
-            <DataLabel label="clicks" data={12} />
+            <DataLabel label="status" data={activity.object.status} />
+            <DataLabel label="opens" data={activity.object.opens} />
+            <DataLabel label="clicks" data={activity.object.clicks} />
           </Flex>
-        </PanelHeading>
+        ) : null}
+      </PanelHeading>
+    );
+  };
+
+  renderContent = () => {
+    const { activity } = this.props;
+    if (activity.object && activity.object.type === 'email') {
+      return (
         <PanelContent>
           <Panel panelStyle="square">
             <PanelContent>
-              <Title>Subject: Hello</Title>
-              <p>Hi Cindy,</p>
-              <p>
-                I hope I am not bothering you. Could you please refer me to the
-                person in charge of [something that is relevant to my product]?
-              </p>
-              <p>Thanks for your time,</p>
-              <p>Tom</p>
+              <Title>Subject: {activity.object.subject}</Title>
+              {activity.object.content}
             </PanelContent>
           </Panel>
         </PanelContent>
-        <PanelFooter>
-          <Flex vcenter>
-            <Flex vcenter style={{ flex: 1 }}>
-              <ReactionToggleIcon
-                counts={{ reaction_counts: {} }}
-                own_reactions={{ own_reactions: {} }}
-                kind="like"
-                onPress={() => console.log('hello world')}
-                activeIcon="/images/thumb.svg"
-                inactiveIcon="/images/thumb-filled.svg"
-                labelSingle="like"
-                labelPlural="likes"
-              />
-              <ReactionIcon
-                counts={{ reaction_counts: {} }}
-                own_reactions={{ own_reactions: {} }}
-                kind="comment"
-                onPress={() => console.log('hello world')}
-                activeIcon="/images/thumb-filled.svg"
-                inactiveIcon="/images/thumb.svg"
-                icon="/images/comment.svg"
-                labelSingle="comment"
-                labelPlural="comments"
-              />
-            </Flex>
-            <Flex>
-              <Link>Details</Link>
-            </Flex>
+      );
+    }
+    return null;
+  };
+
+  renderFooter = () => {
+    const { activity } = this.props;
+    return (
+      <PanelFooter>
+        <Flex vcenter>
+          <Flex vcenter style={{ flex: 1 }}>
+            <ReactionToggleIcon
+              counts={activity.reaction_counts}
+              own_reactions={activity.own_reactions}
+              kind="like"
+              onPress={() => console.log('hello world')}
+              activeIcon="/images/thumb-filled.svg"
+              inactiveIcon="/images/thumb.svg"
+              labelSingle="like"
+              labelPlural="likes"
+            />
+            <ReactionIcon
+              counts={activity.reaction_counts}
+              kind="comment"
+              own_reactions={{}}
+              onPress={() => console.log('hello world')}
+              icon="/images/comment.svg"
+              activeIcon="/images/comment.svg"
+              inactiveIcon="/images/comment.svg"
+              labelSingle="comment"
+              labelPlural="comments"
+            />
           </Flex>
-        </PanelFooter>
+          <Flex>
+            <Link>Details</Link>
+          </Flex>
+        </Flex>
+      </PanelFooter>
+    );
+  };
+
+  render() {
+    return (
+      <Panel panelStyle="square">
+        <React.Fragment>
+          {smartRender(this.props.Header, {}, this.renderHeader)}
+          {smartRender(this.props.Content, {}, this.renderContent)}
+          {smartRender(this.props.Footer, {}, this.renderFooter)}
+        </React.Fragment>
       </Panel>
     );
   }
