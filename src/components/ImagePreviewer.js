@@ -9,7 +9,7 @@ type Props = {|
   imageUploads?: ImageUpload[],
   handleRemove?: (id: string) => mixed,
   handleRetry?: (id: string) => mixed,
-  handleFiles?: (files: Blob[]) => mixed,
+  handleFiles?: (files: File[]) => mixed,
 |};
 
 /**

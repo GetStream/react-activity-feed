@@ -16,7 +16,7 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 
 export type Props = {|
-  mimeType: string,
+  mimeType: ?string,
 |};
 
 // Partially based on:
@@ -204,7 +204,11 @@ for (const type of codeFileTypes) {
   mimeTypeToIconMap[type] = faFileCode;
 }
 
-function mimeTypeToIcon(mimeType: string) {
+function mimeTypeToIcon(mimeType: ?string) {
+  if (mimeType == null) {
+    return faFile;
+  }
+
   const icon = mimeTypeToIconMap[mimeType];
   if (icon) {
     return icon;

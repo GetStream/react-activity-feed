@@ -21,6 +21,7 @@
     "no-underscore-dangle": [2, { "allowAfterThis": true }],
     "object-shorthand": 1,
     "babel/no-invalid-this": 2,
+    "array-callback-return": 2,
     "valid-typeof": 2,
     "arrow-body-style": 2,
     "require-await": 2,

@@ -27,6 +27,7 @@ import type {
   CustomActivityArgData,
   ImageUpload,
   FileUpload,
+  FileLike,
 } from '../types';
 
 const urlRegex = /(https?:\/\/[^\s]+)/gi;
@@ -198,9 +199,13 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
         .filter(Boolean);
       activity.text = this._text();
     }
+    console.log(uploadedFiles);
     if (uploadedFiles) {
       attachments.files = uploadedFiles.map((upload) => ({
-        file: upload.url,
+        // url will never actually be empty string because _uploadedFiles
+        // filters those out.
+        url: upload.url || '',
+        name: upload.file.name,
         mimeType: upload.file.type,
       }));
     }
@@ -227,6 +232,8 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     this.setState({
       imageUploads: {},
       imageOrder: [],
+      fileUploads: {},
+      fileOrder: [],
       og: null,
       ogScraping: false,
       ogLink: null,
@@ -267,11 +274,11 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     textareaElement.selectionEnd = newCursorPosition;
   };
 
-  _uploadNewFiles = (files: Blob[]) => {
+  _uploadNewFiles = (files: $ReadOnlyArray<FileLike>) => {
     for (const file of files) {
       if (file.type.startsWith('image/')) {
         this._uploadNewImage(file);
-      } else {
+      } else if (file instanceof File) {
         this._uploadNewFile(file);
       }
     }
@@ -306,7 +313,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     return this._uploadImage(id);
   };
 
-  _uploadNewFile = async (file) => {
+  _uploadNewFile = async (file: File) => {
     const id = generateRandomId();
 
     await this.setState((prevState) => {
