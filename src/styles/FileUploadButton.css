@@ -1,0 +1,16 @@
+.raf-file-upload-button {
+  cursor: pointer;
+
+  svg {
+    fill: #A0B2B8;
+  }
+
+  &:hover {
+    svg {
+      fill: color(#A0B2B8 shade(15%));
+    }
+  }
+  label {
+    cursor: pointer;
+  }
+}

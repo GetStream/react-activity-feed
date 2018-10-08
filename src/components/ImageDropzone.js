@@ -83,7 +83,7 @@ export default class ImageDropzone extends React.PureComponent<Props> {
                 fillRule="nonzero"
               />
             </svg>
-            <p>Drag photos here to add to your post</p>
+            <p>Drag your files here to add to your post</p>
           </div>
         </div>
         {children}
