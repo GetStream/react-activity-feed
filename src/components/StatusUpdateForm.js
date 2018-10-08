@@ -486,7 +486,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
               )}
             </PanelContent>
             <PanelFooter>
-              <div style={{ display: 'flex' }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
                 <div style={{ flex: 1 }}>
                   <div style={{ marginRight: '32px', display: 'inline-block' }}>
                     <ImageUploadButton

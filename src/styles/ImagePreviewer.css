@@ -1,7 +1,7 @@
 .raf-image-previewer {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 16px;
+  margin: 8px 0;
   &__image {
     width: 100px; height: 100px;
     position: relative;
