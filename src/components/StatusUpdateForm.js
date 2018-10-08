@@ -10,6 +10,7 @@ import Avatar from './Avatar';
 import Card from './Card';
 import EmojiPicker from './EmojiPicker';
 import ImageUploadButton from './ImageUploadButton';
+import FileUploadButton from './FileUploadButton';
 import ImagePreviewer from './ImagePreviewer';
 import FilePreviewer from './FilePreviewer';
 import ImageDropzone from './ImageDropzone';
@@ -486,10 +487,16 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
               )}
             </PanelContent>
             <PanelFooter>
-              <div style={{ display: 'flex' }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
                 <div style={{ flex: 1 }}>
                   <div style={{ marginRight: '32px', display: 'inline-block' }}>
                     <ImageUploadButton
+                      handleFiles={this._uploadNewFiles}
+                      multiple
+                    />
+                  </div>
+                  <div style={{ marginRight: '32px', display: 'inline-block' }}>
+                    <FileUploadButton
                       handleFiles={this._uploadNewFiles}
                       multiple
                     />
