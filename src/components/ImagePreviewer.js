@@ -3,10 +3,10 @@ import React from 'react';
 import Thumbnail from './Thumbnail';
 import LoadingIndicator from './LoadingIndicator';
 import ThumbnailPlaceholder from './ThumbnailPlaceholder';
-import type { Image } from '../types';
+import type { ImageUpload } from '../types';
 
 type Props = {|
-  images?: Image[],
+  imageUploads?: ImageUpload[],
   handleRemove?: (id: string) => mixed,
   handleRetry?: (id: string) => mixed,
   handleFiles?: (files: Blob[]) => mixed,
@@ -29,11 +29,11 @@ export default class ImagePreviewer extends React.Component<Props> {
   };
 
   render() {
-    const { images, handleRemove, handleRetry, handleFiles } = this.props;
+    const { imageUploads, handleRemove, handleRetry, handleFiles } = this.props;
     return (
       <div className="raf-image-previewer">
-        {images &&
-          images.map((image) => (
+        {imageUploads &&
+          imageUploads.map((image) => (
             <div key={image.id} className="raf-image-previewer__image">
               {image.state === 'uploading' && <LoadingIndicator />}
               {image.state === 'failed' && (

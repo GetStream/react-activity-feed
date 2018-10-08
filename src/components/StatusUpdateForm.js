@@ -24,7 +24,7 @@ import type {
   BaseAppCtx,
   OgData,
   CustomActivityArgData,
-  Image,
+  ImageUpload,
   FileUpload,
 } from '../types';
 
@@ -58,9 +58,9 @@ export default class StatusUpdateForm extends React.Component<Props> {
 }
 
 type State = {|
-  images: { [string]: Image },
+  imageUploads: { [string]: ImageUpload },
   imageOrder: Array<string>,
-  files: { [string]: FileUpload },
+  fileUploads: { [string]: FileUpload },
   fileOrder: Array<string>,
   og: ?OgData,
   ogScraping: boolean,
@@ -79,9 +79,9 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   textInputRef = React.createRef();
 
   state = {
-    images: {},
+    imageUploads: {},
     imageOrder: [],
-    files: {},
+    fileUploads: {},
     fileOrder: [],
     og: null,
     ogScraping: false,
@@ -160,22 +160,30 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   };
 
   _orderedImages = () =>
-    this.state.imageOrder.map((id) => this.state.images[id]);
+    this.state.imageOrder.map((id) => this.state.imageUploads[id]);
 
-  _uploadedImages = (): Array<Image> =>
-    this._orderedImages().filter((image) => image.url);
+  _uploadedImages = (): Array<ImageUpload> =>
+    this._orderedImages().filter((upload) => upload.url);
+
+  _orderedFiles = () =>
+    this.state.fileOrder.map((id) => this.state.fileUploads[id]);
+
+  _uploadedFiles = (): Array<FileUpload> =>
+    this._orderedFiles().filter((upload) => upload.url);
 
   _canSubmit = () =>
     Boolean(this._object()) &&
-    this._orderedImages().every((image) => image.state !== 'uploading');
+    this._orderedImages().every((upload) => upload.state !== 'uploading') &&
+    this._orderedFiles().every((upload) => upload.state !== 'uploading');
 
   async addActivity() {
-    const uploadedImages = this._uploadedImages();
     const activity: CustomActivityArgData = {
       actor: this.props.session.user,
       verb: this.props.activityVerb,
       object: this._object(),
     };
+    const uploadedImages = this._uploadedImages();
+    const uploadedFiles = this._uploadedFiles();
 
     const attachments = {};
 
@@ -188,6 +196,12 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
         .map((image) => image.url)
         .filter(Boolean);
       activity.text = this._text();
+    }
+    if (uploadedFiles) {
+      attachments.files = uploadedFiles.map((upload) => ({
+        file: upload.url,
+        mimeType: upload.file.type,
+      }));
     }
 
     if (Object.keys(attachments).length > 0) {
@@ -210,7 +224,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       return;
     }
     this.setState({
-      images: {},
+      imageUploads: {},
       imageOrder: [],
       og: null,
       ogScraping: false,
@@ -266,14 +280,14 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     const id = generateRandomId();
 
     await this.setState((prevState) => {
-      prevState.images[id] = {
+      prevState.imageUploads[id] = {
         id,
         file,
         state: 'uploading',
       };
       return {
         imageOrder: prevState.imageOrder.concat(id),
-        images: prevState.images,
+        imageUploads: prevState.imageUploads,
       };
     });
     if (FileReader) {
@@ -282,8 +296,8 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       const reader = new FileReader();
       reader.onload = (event) => {
         this.setState((prevState) => {
-          prevState.images[id].previewUri = event.target.result;
-          return { images: prevState.images };
+          prevState.imageUploads[id].previewUri = event.target.result;
+          return { imageUploads: prevState.imageUploads };
         });
       };
       reader.readAsDataURL(file);
@@ -295,14 +309,14 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     const id = generateRandomId();
 
     await this.setState((prevState) => {
-      prevState.files[id] = {
+      prevState.fileUploads[id] = {
         id,
         file,
         state: 'uploading',
       };
       return {
         fileOrder: prevState.fileOrder.concat(id),
-        files: prevState.files,
+        fileUploads: prevState.fileUploads,
       };
     });
 
@@ -310,15 +324,15 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   };
 
   _uploadImage = async (id: string) => {
-    const img = this.state.images[id];
+    const img = this.state.imageUploads[id];
     if (!img) {
       return;
     }
     const { file } = img;
 
     await this.setState((prevState) => {
-      prevState.images[id].state = 'uploading';
-      return { images: prevState.images };
+      prevState.imageUploads[id].state = 'uploading';
+      return { imageUploads: prevState.imageUploads };
     });
 
     let response = {};
@@ -329,13 +343,13 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       console.warn(e);
       let alreadyRemoved = false;
       await this.setState((prevState) => {
-        const image = prevState.images[id];
+        const image = prevState.imageUploads[id];
         if (!image) {
           alreadyRemoved = true;
           return {};
         }
         image.state = 'failed';
-        return { images: prevState.images };
+        return { imageUploads: prevState.imageUploads };
       });
 
       if (!alreadyRemoved) {
@@ -349,20 +363,20 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     await this.setState((prevState) => {
       img.state = 'finished';
       img.url = response.file;
-      return { images: prevState.images };
+      return { imageUploads: prevState.imageUploads };
     });
   };
 
   _uploadFile = async (id: string) => {
-    const upload = this.state.files[id];
+    const upload = this.state.fileUploads[id];
     if (!upload) {
       return;
     }
     const { file } = upload;
 
     await this.setState((prevState) => {
-      prevState.files[id].state = 'uploading';
-      return { files: prevState.files };
+      prevState.fileUploads[id].state = 'uploading';
+      return { fileUploads: prevState.fileUploads };
     });
 
     let response = {};
@@ -372,8 +386,8 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     } catch (e) {
       console.warn(e);
       await this.setState((prevState) => {
-        prevState.files[id].state = 'failed';
-        return { files: prevState.files };
+        prevState.fileUploads[id].state = 'failed';
+        return { fileUploads: prevState.fileUploads };
       });
 
       this.props.errorHandler(e, 'upload-image', {
@@ -383,22 +397,22 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       return;
     }
     await this.setState((prevState) => {
-      prevState.files[id].state = 'finished';
-      prevState.files[id].url = response.file;
-      return { files: prevState.files };
+      prevState.fileUploads[id].state = 'finished';
+      prevState.fileUploads[id].url = response.file;
+      return { fileUploads: prevState.fileUploads };
     });
   };
 
   _removeImage = (id: string) => {
     // TODO: cancel upload if still uploading
     this.setState((prevState) => {
-      const img = prevState.images[id];
+      const img = prevState.imageUploads[id];
       if (!img) {
         return {};
       }
-      delete prevState.images[id];
+      delete prevState.imageUploads[id];
       return {
-        images: prevState.images,
+        imageUploads: prevState.imageUploads,
         imageOrder: prevState.imageOrder.filter((_id) => id !== _id),
       };
     });
@@ -407,13 +421,13 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   _removeFile = (id: string) => {
     // TODO: cancel upload if still uploading
     this.setState((prevState) => {
-      const upload = prevState.files[id];
+      const upload = prevState.fileUploads[id];
       if (!upload) {
         return {};
       }
-      delete prevState.files[id];
+      delete prevState.fileUploads[id];
       return {
-        files: prevState.files,
+        fileUploads: prevState.fileUploads,
         fileOrder: prevState.fileOrder.filter((_id) => id !== _id),
       };
     });
@@ -452,8 +466,8 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
               {this.state.og && <Card {...this.state.og} />}
               {this.state.imageOrder.length > 0 && (
                 <ImagePreviewer
-                  images={this.state.imageOrder.map(
-                    (id) => this.state.images[id],
+                  imageUploads={this.state.imageOrder.map(
+                    (id) => this.state.imageUploads[id],
                   )}
                   handleRemove={this._removeImage}
                   handleRetry={this._uploadImage}
@@ -463,7 +477,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
               {this.state.fileOrder.length > 0 && (
                 <FilePreviewer
                   uploads={this.state.fileOrder.map(
-                    (id) => this.state.files[id],
+                    (id) => this.state.fileUploads[id],
                   )}
                   handleRemove={this._removeFile}
                   handleRetry={this._uploadFile}

@@ -32,7 +32,7 @@ export type FileUpload = {|
   state: UploadState,
 |};
 
-export type Image = {|
+export type ImageUpload = {|
   ...FileUpload,
   previewUri?: string,
 |};
