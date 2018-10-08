@@ -18,6 +18,7 @@ import './styles/DataLabel.css';
 import './styles/Dropdown.css';
 import './styles/DropdownPanel.css';
 import './styles/EmojiPicker.css';
+import './styles/FilePreviewer.css';
 import './styles/Flex.css';
 import './styles/FollowButton.css';
 import './styles/Gallery.css';

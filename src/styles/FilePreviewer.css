@@ -1,0 +1,49 @@
+.raf-file-previewer {
+  border: 1px solid color($black a(10%));
+  border-radius: 4px;
+  overflow: hidden;
+  ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    li {
+      padding: 8px 16px;
+      border-bottom: 1px solid color($black a(10%));
+      &:last-child {
+        border-color: transparent;
+      }
+    }
+  }
+  &__image {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    &--uploading {
+      opacity: 0.4;
+    }
+    &:hover {
+      background: #fafafa;
+    }
+    a {
+      flex: 1;
+      margin: 0 8px;
+      color: $fontColor;
+      text-decoration: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .fa-file-excel { color: #207245 }
+  .fa-file-powerpoint { color: #CB4A32 }
+  .fa-file-word { color: #2C599D }
+  .fa-file-archive {}
+  .fa-file-code {}
+  .fa-file-audio {}
+  .fa-file-video {}
+  .fa-file-image {}
+  .fa-file-pdf { color: #F82903; }
+  .fa-file-alt {  }
+  .fa-file {  }
+
+}
