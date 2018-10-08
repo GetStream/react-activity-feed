@@ -1,6 +1,4 @@
 // @flow
-import React, { Component } from 'react';
-
 import './styles.css';
 import './App.css';
 import './styles/Activity.css';
@@ -54,10 +52,4 @@ import './styles/Title.css';
 import './styles/UserBar.css';
 import './styles/Video.css';
 
-export default class ExampleComponent extends Component<{ text: string }> {
-  render() {
-    const { text } = this.props;
-
-    return <div>Example Component: {text}</div>;
-  }
-}
+export { default as Gallery } from './components/Gallery';

@@ -5,5 +5,8 @@
     }],
     "@babel/react",
     "@babel/flow"
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-class-properties"
   ]
 }

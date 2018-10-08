@@ -12,12 +12,7 @@ type Props = {|
   handleFiles?: (files: Blob[]) => mixed,
 |};
 
-/**
- * Component is described here.
- *
- * @example ./examples/ImagePreviewer.md
- */
-export default class ImagePreviewer extends React.Component<Props> {
+export default class FilePreviewer extends React.Component<Props> {
   render() {
     const { uploads, handleRemove, handleRetry, handleFiles } = this.props;
     return (
