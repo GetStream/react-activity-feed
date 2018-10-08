@@ -3,7 +3,7 @@ import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import external from 'rollup-plugin-peer-deps-external';
 import postcss from 'rollup-plugin-postcss';
-import resolve from 'rollup-plugin-node-resolve';
+import json from 'rollup-plugin-json';
 import url from 'rollup-plugin-url';
 
 import atImport from 'postcss-easy-import';
@@ -53,12 +53,30 @@ export default {
       file: pkg.main,
       format: 'cjs',
       sourcemap: true,
+      browser: true,
     },
     {
       file: pkg.module,
       format: 'es',
       sourcemap: true,
     },
+  ],
+  external: [
+    'moment',
+    'getstream',
+    'react-images',
+    'lodash',
+    'emoji-mart',
+    '@webscopeio/react-textarea-autocomplete',
+    '@webscopeio/react-textarea-autocomplete/style.css',
+    'emoji-mart/css/emoji-mart.css',
+    'react-dropzone',
+    'immutable',
+    'url-parse',
+    'stream-analytics',
+    'prop-types',
+    '@fortawesome/react-fontawesome',
+    '@fortawesome/free-regular-svg-icons',
   ],
   plugins: [
     external(),
@@ -77,7 +95,7 @@ export default {
     babel({
       exclude: 'node_modules/**',
     }),
-    resolve(),
     commonjs(),
+    json(),
   ],
 };
