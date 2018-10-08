@@ -52,4 +52,5 @@ import './styles/Title.css';
 import './styles/UserBar.css';
 import './styles/Video.css';
 
-export { default as Gallery } from './components/Gallery';
+// export { default as Gallery } from './components/Gallery';
+export function test() {}
