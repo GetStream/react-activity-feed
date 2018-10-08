@@ -26,27 +26,43 @@ export default class FilePreviewer extends React.Component<Props> {
             uploads.map((upload, i) => (
               <li
                 key={upload.id}
-                className={`raf-file-previewer__image ${
+                className={`raf-file-previewer__file ${
                   upload.state === 'uploading'
-                    ? 'raf-file-previewer__image--uploading'
+                    ? 'raf-file-previewer__file--uploading'
+                    : ''
+                } ${
+                  upload.state === 'failed'
+                    ? 'raf-file-previewer__file--failed'
                     : ''
                 }`}
               >
-                {upload.state === 'failed' && (
-                  <div
-                    className="raf-file-previewer__file"
-                    dangerouslySetInnerHTML={{
-                      __html:
-                        '<svg width="22" height="20" viewBox="0 0 22 20" xmlns="http://www.w3.org/2000/svg"><path d="M20 5.535V2a1 1 0 0 1 2 0v6a1 1 0 0 1-1 1h-6a1 1 0 0 1 0-2h3.638l-2.975-2.653a8 8 0 1 0 1.884 8.32 1 1 0 1 1 1.886.666A10 10 0 1 1 5.175 1.245c3.901-2.15 8.754-1.462 11.88 1.667L20 5.535z" fill="#FFF" fill-rule="nonzero"/></svg>',
-                    }}
-                    onClick={handleRetry && (() => handleRetry(upload.id))}
-                  />
-                )}
                 <FileIcon mimeType={upload.file.type} />
+
                 <a href={upload.url} download>
                   {upload.file instanceof File ? upload.file.name : 'file' + i}
+                  {upload.state === 'failed' && (
+                    <React.Fragment>
+                      <div
+                        className="raf-file-previewer__failed"
+                        onClick={handleRetry && (() => handleRetry(upload.id))}
+                      >
+                        failed
+                      </div>
+                      <div
+                        className="raf-file-previewer__retry"
+                        onClick={handleRetry && (() => handleRetry(upload.id))}
+                      >
+                        retry
+                      </div>
+                    </React.Fragment>
+                  )}
                 </a>
-                {upload.state === 'uploading' && <LoadingIndicator />}
+
+                {upload.state === 'uploading' && (
+                  <div className="raf-file-previewer__loading-indicator">
+                    <LoadingIndicator />
+                  </div>
+                )}
                 <span onClick={handleRemove && (() => handleRemove(upload.id))}>
                   ✘
                 </span>
