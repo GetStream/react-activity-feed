@@ -20,7 +20,11 @@ import Title from './Title';
 import _ from 'lodash';
 
 import { StreamApp } from '../Context';
-import { generateRandomId } from '../utils';
+import {
+  generateRandomId,
+  dataTransferItemsToFiles,
+  dataTransferItemsHaveFiles,
+} from '../utils';
 import type {
   BaseAppCtx,
   OgData,
@@ -254,22 +258,24 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   };
   _getTextAreaElement = () => this.textInputRef.current;
 
-  _onSelectEmoji = async (emoji) => {
+  _onSelectEmoji = (emoji) => this._insertText(emoji.native);
+
+  _insertText = async (insertedText) => {
     let newCursorPosition;
 
     await this.setState((prevState) => {
       const prevText = prevState.text;
       const textareaElement = this._getTextAreaElement();
       if (!textareaElement) {
-        return { text: prevText + emoji.native };
+        return { text: prevText + insertedText };
       }
       // Insert emoji at previous cursor position
       const { selectionStart, selectionEnd } = textareaElement;
-      newCursorPosition = selectionStart + emoji.native.length;
+      newCursorPosition = selectionStart + insertedText.length;
       return {
         text:
           prevText.slice(0, selectionStart) +
-          emoji.native +
+          insertedText +
           prevText.slice(selectionEnd),
       };
     });
@@ -477,6 +483,42 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                   placeholder="Type your post... "
                   value={this.state.text}
                   onChange={this._onChange}
+                  onPaste={async (event) => {
+                    const { items } = event.clipboardData;
+                    if (!dataTransferItemsHaveFiles(items)) {
+                      return;
+                    }
+
+                    event.preventDefault();
+                    // Get a promise for the plain text in case no files are
+                    // found. This needs to be done here because chrome cleans
+                    // up the DataTransferItems after resolving of a promise.
+                    let plainTextPromise;
+                    for (const item of items) {
+                      if (
+                        item.kind === 'string' &&
+                        item.type === 'text/plain'
+                      ) {
+                        plainTextPromise = new Promise((resolve) => {
+                          item.getAsString((s) => {
+                            resolve(s);
+                          });
+                        });
+                        break;
+                      }
+                    }
+
+                    const fileLikes = await dataTransferItemsToFiles(items);
+                    if (fileLikes.length) {
+                      this._uploadNewFiles(fileLikes);
+                      return;
+                    }
+                    // fallback to regular text paste
+                    if (plainTextPromise) {
+                      const s = await plainTextPromise;
+                      this._insertText(s);
+                    }
+                  }}
                 />
               </div>
               {this.state.ogScraping && <LoadingIndicator />}

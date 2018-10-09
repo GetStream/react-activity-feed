@@ -1,16 +1,17 @@
 // @flow
 import * as React from 'react';
 import Dropzone from 'react-dropzone';
+import { dataTransferItemsToFiles } from '../utils';
 
 import type { FileLike } from '../types';
 
 type Props = {|
   children?: React.Node,
-  handleFiles?: (files: FileLike[]) => mixed,
+  handleFiles?: (files: $ReadOnlyArray<FileLike>) => mixed,
 |};
 
 export default class ImageDropzone extends React.PureComponent<Props> {
-  _handleFiles = async (accepted: Blob[], rejected: DataTransferItem[]) => {
+  _handleFiles = async (accepted: File[], rejected: DataTransferItem[]) => {
     const { handleFiles } = this.props;
     if (!handleFiles) {
       return;
@@ -21,41 +22,11 @@ export default class ImageDropzone extends React.PureComponent<Props> {
       return handleFiles(accepted);
     }
 
-    if (!rejected || !rejected.length) {
-      return;
-    }
+    const fileLikes = await dataTransferItemsToFiles(rejected);
 
     // Website-to-website image drag+drop
-    const blobPromises = [];
-    for (const item of rejected) {
-      if (item.type === 'text/html') {
-        blobPromises.push(
-          new Promise((accept) => {
-            item.getAsString(async (s) => {
-              // Extract image src attribute from html
-              const match = s.match(/src\s*=\s*"(.+?)"/);
-              if (match) {
-                const res = await fetch(match[1]);
-                const contentType =
-                  res.headers.get('Content-type') || 'application/octet-stream';
-                const buf = await res.arrayBuffer();
-                accept(new Blob([buf], { type: contentType }));
-              } else {
-                accept();
-              }
-            });
-          }),
-        );
-      }
-    }
-    const blobs = [];
-    for (const blob of await Promise.all(blobPromises)) {
-      if (blob) {
-        blobs.push(blob);
-      }
-    }
-    if (blobs.length) {
-      return handleFiles(blobs);
+    if (fileLikes.length) {
+      return handleFiles(fileLikes);
     }
   };
   render() {

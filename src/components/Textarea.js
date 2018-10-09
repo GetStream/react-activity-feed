@@ -11,6 +11,7 @@ export type Props = {|
   rows: number,
   placeholder: string,
   onChange: (event: SyntheticEvent<HTMLTextAreaElement>) => mixed,
+  onPaste: (event: SyntheticClipboardEvent<HTMLTextAreaElement>) => mixed,
   value?: string,
   innerRef?: any,
 |};
@@ -66,6 +67,7 @@ export default class Textarea extends React.Component<Props> {
         placeholder={this.props.placeholder}
         onChange={this.props.onChange}
         onSelect={this.props.onChange}
+        onPaste={this.props.onPaste}
         value={this.props.value}
       />
     );
