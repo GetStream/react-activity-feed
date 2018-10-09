@@ -25,15 +25,22 @@ export type FlowRequestTypes =
 
 export type UploadState = 'uploading' | 'finished' | 'failed';
 
-export type FileUpload = {|
+export type FileLike = Blob | File;
+
+export type UploadInfo = {|
   id: string,
-  file: Blob | File,
   url?: string,
   state: UploadState,
 |};
 
+export type FileUpload = {|
+  ...UploadInfo,
+  file: File,
+|};
+
 export type ImageUpload = {|
-  ...FileUpload,
+  ...UploadInfo,
+  file: Blob | File,
   previewUri?: string,
 |};
 
@@ -69,6 +76,11 @@ export type UserData = {
 };
 
 export type OgData = OgDataGetStream;
+export type FileInfo = {
+  name: string,
+  url: string,
+  mimeType: string,
+};
 export type CustomActivityData = {
   text?: string,
   link?: boolean,
@@ -76,6 +88,7 @@ export type CustomActivityData = {
   attachments?: {
     images?: Array<string>,
     og?: OgData,
+    files?: Array<FileInfo>,
   },
 };
 

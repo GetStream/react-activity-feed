@@ -8,7 +8,7 @@ type Props = {|
   uploads?: FileUpload[],
   handleRemove?: (id: string) => mixed,
   handleRetry?: (id: string) => mixed,
-  handleFiles?: (files: Blob[]) => mixed,
+  handleFiles?: (files: File[]) => mixed,
 |};
 
 /**
@@ -23,7 +23,7 @@ export default class FilePreviewer extends React.Component<Props> {
       <div className="raf-file-previewer">
         <ol>
           {uploads &&
-            uploads.map((upload, i) => (
+            uploads.map((upload) => (
               <li
                 key={upload.id}
                 className={`raf-file-previewer__file ${
@@ -39,7 +39,7 @@ export default class FilePreviewer extends React.Component<Props> {
                 <FileIcon mimeType={upload.file.type} />
 
                 <a href={upload.url} download>
-                  {upload.file instanceof File ? upload.file.name : 'file' + i}
+                  {upload.file.name}
                   {upload.state === 'failed' && (
                     <React.Fragment>
                       <div

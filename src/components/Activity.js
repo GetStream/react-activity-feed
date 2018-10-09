@@ -4,6 +4,7 @@ import React from 'react';
 
 import UserBar from './UserBar';
 import Card from './Card';
+import FileIcon from './FileIcon';
 import Gallery from './Gallery';
 
 import type { ActivityData, Renderable } from '../types';
@@ -99,6 +100,7 @@ export default class Activity extends React.Component<Props> {
       }
     }
     text = text.trim();
+    const { attachments = {} } = this.props.activity;
 
     return (
       <div>
@@ -121,19 +123,29 @@ export default class Activity extends React.Component<Props> {
           </div>
         ) : null}
 
-        {this.props.activity.attachments &&
-          this.props.activity.attachments.images &&
-          Boolean(this.props.activity.attachments.images.length) && (
+        {attachments.images &&
+          Boolean(attachments.images.length) && (
             <div style={{ padding: '8px 0' }}>
-              <Gallery images={this.props.activity.attachments.images} />
+              <Gallery images={attachments.images} />
             </div>
           )}
 
-        {this.props.activity.attachments &&
-          this.props.activity.attachments.og &&
-          Object.keys(this.props.activity.attachments.og).length > 0 && (
+        {attachments.files &&
+          Boolean(attachments.files.length) && (
+            <ol>
+              {attachments.files.map(({ name, url, mimeType }, i) => (
+                <li key={i}>
+                  <FileIcon mimeType={mimeType} /> <a href={url}>{name}</a>
+                </li>
+              ))}
+            </ol>
+          )}
+
+        {attachments &&
+          attachments.og &&
+          Object.keys(attachments.og).length > 0 && (
             <div style={{ padding: '8px 16px' }}>
-              <Card {...this.props.activity.attachments.og} />
+              <Card {...attachments.og} />
             </div>
           )}
       </div>

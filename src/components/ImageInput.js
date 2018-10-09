@@ -2,7 +2,7 @@
 import React from 'react';
 
 type Props = {|
-  handleFiles: (Blob[]) => mixed,
+  handleFiles: (File[]) => mixed,
   multiple: boolean,
   name: string,
 |};

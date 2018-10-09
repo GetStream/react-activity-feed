@@ -2,9 +2,11 @@
 import * as React from 'react';
 import Dropzone from 'react-dropzone';
 
+import type { FileLike } from '../types';
+
 type Props = {|
   children?: React.Node,
-  handleFiles?: (files: Blob[]) => mixed,
+  handleFiles?: (files: FileLike[]) => mixed,
 |};
 
 export default class ImageDropzone extends React.PureComponent<Props> {
