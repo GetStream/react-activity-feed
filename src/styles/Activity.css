@@ -19,25 +19,28 @@
     border-radius: 4px;
     overflow: hidden;
     margin: 8px 0;
-  }
-  &__file {
-    padding: 8px 16px;
-    border-bottom: 1px solid color($black a(10%));
-    &:last-child {
-      border-color: transparent;
-    }
-    &:hover {
-      background: #fafafa;
-    }
     a {
-      flex: 1;
-      margin: 0 8px;
+      display: block;
       color: $fontColor;
+      border-bottom: 1px solid color($black a(10%));
       text-decoration: none;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      &:last-child {
+        border-color: transparent;
+      }
     }
+  }
+
+  &__file {
+    padding: 8px 16px;
+    text-decoration: none;
+
+    &:hover {
+      background: #fafafa;
+    }
+
     svg {
       min-width: 25px;
     }

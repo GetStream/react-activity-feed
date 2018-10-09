@@ -136,12 +136,11 @@ export default class Activity extends React.Component<Props> {
           Boolean(attachments.files.length) && (
             <ol className="raf-activity__attachments">
               {attachments.files.map(({ name, url, mimeType }, i) => (
-                <li className="raf-activity__file" key={i}>
-                  <FileIcon mimeType={mimeType} />{' '}
-                  <a href={url} download>
-                    {name}
-                  </a>
-                </li>
+                <a href={url} key={i}>
+                  <li className="raf-activity__file">
+                    <FileIcon mimeType={mimeType} /> {name}
+                  </li>
+                </a>
               ))}
             </ol>
           )}
