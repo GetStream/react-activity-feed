@@ -63,19 +63,21 @@ export default class StatusUpdateForm extends React.Component<Props> {
   }
 }
 
+type OgState = {|
+  scrapingActive: boolean,
+  data: ?OgData,
+  dismissed: boolean,
+|};
+
 type State = {|
+  text: string,
   imageUploads: { [string]: ImageUpload },
   imageOrder: Array<string>,
   fileUploads: { [string]: FileUpload },
   fileOrder: Array<string>,
-  og: ?OgData,
-  ogScraping: boolean,
-  ogLink: ?string,
-  text: string,
-  clearInput: boolean,
-  focused: boolean,
-  urls: Array<string>,
-  dismissedUrls: Array<string>,
+  ogUrlOrder: string[],
+  ogStateByUrl: { [string]: OgState },
+  ogActiveUrl: ?string,
 |};
 
 type PropsInner = {| ...Props, ...BaseAppCtx |};
@@ -85,18 +87,14 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   textInputRef = React.createRef();
 
   state = {
+    text: '',
     imageUploads: {},
     imageOrder: [],
     fileUploads: {},
     fileOrder: [],
-    og: null,
-    ogScraping: false,
-    ogLink: null,
-    text: '',
-    clearInput: false,
-    focused: false,
-    urls: [],
-    dismissedUrls: [],
+    ogUrlOrder: [],
+    ogStateByUrl: {},
+    ogActiveUrl: null,
   };
 
   constructor(props) {
@@ -105,60 +103,99 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   }
 
   handleOG(text) {
-    if (this.state.ogScraping) {
-      return;
-    }
-    const urls = text.match(urlRegex);
-
-    if (!urls) {
-      this.setState({
-        og: null,
-        ogLink: null,
-      });
-      return;
-    }
-
-    urls.forEach((url) => {
-      if (
-        url !== this.state.ogLink &&
-        !(this.state.dismissedUrls.indexOf(url) > -1) &&
-        !this.state.og &&
-        urls.indexOf(url) > -1
-      ) {
-        this.setState({
-          ogScraping: true,
-          ogLink: url,
-          og: url === this.state.ogLink ? this.state.og : null,
-        });
-        this.props.session
-          .og(url)
-          .then((resp) => {
-            const oldStateUrls = this.state.urls;
-            this.setState(
-              {
-                og: Object.keys(resp).length > 0 ? { ...resp, url } : null, // Added url manually from the entered URL
-                ogScraping: false,
-                urls: [...oldStateUrls, url],
-              },
-              () => text.replace(url, ''),
-            );
-          })
-          .catch((err) => {
-            console.warn(err);
-            this.setState({
-              ogScraping: false,
-              og: null,
-            });
+    let newUrls;
+    let removedUrls;
+    const urls = _.uniq(text.match(urlRegex) || []);
+    this.setState(
+      (prevState) => {
+        const oldUrls = prevState.ogUrlOrder;
+        newUrls = _.difference(urls, oldUrls);
+        removedUrls = _.difference(oldUrls, urls);
+        const newState: $Shape<State> = {
+          ogUrlOrder: urls,
+        };
+        if (!urls.includes(prevState.ogActiveUrl)) {
+          newState.ogActiveUrl = null;
+          for (const url of urls) {
+            const ogState = prevState.ogStateByUrl[url];
+            if (ogState && ogState.data && !ogState.dismissed) {
+              newState.ogActiveUrl = url;
+              break;
+            }
+          }
+        }
+        return newState;
+      },
+      () => {
+        if (removedUrls.length > 0) {
+          this.setState((prevState) => {
+            for (const url of removedUrls) {
+              delete prevState.ogStateByUrl[url];
+            }
+            return { ogStateByUrl: prevState.ogStateByUrl };
           });
-      }
-    });
+        }
+
+        newUrls.forEach(async (url) => {
+          this.setState((prevState) => {
+            prevState.ogStateByUrl[url] = {
+              scrapingActive: true,
+              dismissed: false,
+            };
+            return { ogStateByUrl: prevState.ogStateByUrl };
+          });
+
+          let resp;
+          try {
+            resp = await this.props.session.og(url);
+          } catch (e) {
+            console.warn(e);
+            this.setState((prevState) => {
+              prevState.ogStateByUrl[url] = {
+                scrapingActive: false,
+              };
+              return { ogStateByUrl: prevState.ogStateByUrl };
+            });
+            return;
+          }
+          resp.url = url;
+          this.setState((prevState) => {
+            prevState.ogStateByUrl[url] = {
+              scrapingActive: false,
+              data: resp,
+            };
+            const newState: $Shape<State> = {
+              ogStateByUrl: prevState.ogStateByUrl,
+            };
+            if (!prevState.ogActiveUrl) {
+              newState.ogActiveUrl = url;
+            }
+
+            return newState;
+          });
+        });
+      },
+    );
   }
 
   _dismissOg = (og) => {
-    if (og && (og.url !== null || og.url !== undefined)) {
-      this.setState({
-        og: null,
-        dismissedUrls: [...this.state.dismissedUrls, og.url],
+    if (og && og.url != null) {
+      this.setState((prevState) => {
+        let ogActiveUrl = null;
+        const { ogStateByUrl } = prevState;
+        ogStateByUrl[og.url].dismissed = true;
+
+        for (const url of prevState.ogUrlOrder) {
+          const ogState = prevState.ogStateByUrl[url];
+          if (ogState && ogState.data && !ogState.dismissed) {
+            ogActiveUrl = url;
+          }
+        }
+
+        return {
+          ogActiveUrl,
+          ogStateByUrl,
+        };
       });
     }
   };
@@ -186,6 +223,27 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   _uploadedFiles = (): Array<FileUpload> =>
     this._orderedFiles().filter((upload) => upload.url);
 
+  _orderedOgStates = (): OgState[] =>
+    this.state.ogUrlOrder
+      .map((url) => this.state.ogStateByUrl[url])
+      .filter(Boolean);
+
+  _isOgScraping = () =>
+    this._orderedOgStates().some((state) => state.scrapingActive);
+
+  _availableOg = (): OgData[] =>
+    this._orderedOgStates()
+      .map((state) => state.data)
+      .filter(Boolean);
+
+  _activeOg = (): ?OgData => {
+    const { ogActiveUrl } = this.state;
+
+    if (ogActiveUrl) {
+      return this.state.ogStateByUrl[ogActiveUrl].data;
+    }
+  };
+
   _canSubmit = () =>
     Boolean(this._object()) &&
     this._orderedImages().every((upload) => upload.state !== 'uploading') &&
@@ -201,10 +259,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     const uploadedFiles = this._uploadedFiles();
 
     const attachments = {};
-
-    if (this.state.og && Object.keys(this.state.og).length > 0) {
-      attachments.og = this.state.og;
-    }
+    attachments.og = this._activeOg();
 
     if (uploadedImages) {
       attachments.images = uploadedImages
@@ -212,7 +267,6 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
         .filter(Boolean);
       activity.text = this._text();
     }
-    console.log(uploadedFiles);
     if (uploadedFiles) {
       attachments.files = uploadedFiles.map((upload) => ({
         // url will never actually be empty string because _uploadedFiles
@@ -243,17 +297,11 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       return;
     }
     this.setState({
+      text: '',
       imageUploads: {},
       imageOrder: [],
       fileUploads: {},
       fileOrder: [],
-      og: null,
-      ogScraping: false,
-      ogLink: null,
-      text: '',
-      focused: false,
-      urls: [],
-      dismissedUrls: [],
     });
   };
   _getTextAreaElement = () => this.textInputRef.current;
@@ -466,6 +514,8 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   };
 
   render() {
+    const activeOg = this._activeOg();
+    const availableOg = this._availableOg();
     return (
       <Panel>
         <form onSubmit={this.onSubmitForm}>
@@ -521,18 +571,46 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                   }}
                 />
               </div>
-              {this.state.ogScraping && <LoadingIndicator />}
-              {this.state.og && (
+              {this._isOgScraping() && <LoadingIndicator />}
+              {activeOg && (
                 <div style={{ margin: '8px 0' }}>
                   <Card
-                    {...this.state.og}
+                    {...activeOg}
                     handleClose={(e: any) => {
                       e.preventDefault();
-                      this._dismissOg(this.state.og);
+                      this._dismissOg(activeOg);
                     }}
                   />
                 </div>
               )}
+              {availableOg &&
+                availableOg.length > 1 && (
+                  <ol>
+                    {availableOg.map(({ url }) => (
+                      <li
+                        onClick={() =>
+                          this.setState((prevState) => {
+                            const ogState = prevState.ogStateByUrl[url];
+                            if (ogState) {
+                              ogState.dismissed = false;
+                            }
+                            return {
+                              ogActiveUrl: url,
+                              ogStateByUrl: prevState.ogStateByUrl,
+                            };
+                          })
+                        }
+                        key={url}
+                        style={{
+                          color:
+                            url === this.state.ogActiveUrl ? 'blue' : 'black',
+                        }}
+                      >
+                        {url}
+                      </li>
+                    ))}
+                  </ol>
+                )}
               {this.state.imageOrder.length > 0 && (
                 <ImagePreviewer
                   imageUploads={this.state.imageOrder.map(

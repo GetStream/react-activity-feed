@@ -87,7 +87,7 @@ export type CustomActivityData = {
   image?: string,
   attachments?: {
     images?: Array<string>,
-    og?: OgData,
+    og?: ?OgData,
     files?: Array<FileInfo>,
   },
 };
