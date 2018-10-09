@@ -8,4 +8,7 @@
   &__mention {
     color: #095482;
   }
+  &__link {
+    color: $info;
+  }
 }

@@ -76,15 +76,9 @@ export default class Activity extends React.Component<Props> {
               {word}
             </a>
           );
-        } else if (
-          (this.props.activity.attachments !== undefined &&
-            this.props.activity.attachments.og !== undefined &&
-            this.props.activity.attachments.og.url !== undefined &&
-            word === this.props.activity.attachments.og.url) ||
-          this.isUrl(word)
-        ) {
+        } else if (this.isUrl(word)) {
           return (
-            <a href="" className="raf-activity__link">
+            <a href={word} className="raf-activity__link">
               {word}
             </a>
           );
