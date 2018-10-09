@@ -2,7 +2,7 @@
   padding: 15px 30px;
 }
 
-.raf-panel-content p {
+.raf-panel-content >p {
   font-size: 14px;
   font-weight: 500;
   color: $fontColor;

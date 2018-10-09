@@ -53,6 +53,7 @@ export default class Gallery extends React.Component<Props, State> {
       src: item,
     }));
 
+  //  TODO: Provide way to add alt tags.
   render() {
     const { images } = this.props;
 
@@ -74,18 +75,20 @@ export default class Gallery extends React.Component<Props, State> {
                   {images.length - 3} more
                 </div>
               ) : null}
-              <img src={image} className="raf-gallery__image" alt="asdf" />
+              <img src={image} className="raf-gallery__image" alt="" />
             </div>
           ))}
+
+          <Lightbox
+            backdropClosesModal
+            images={this.getImages(images)}
+            isOpen={this.state.lightboxIsOpen}
+            onClickPrev={this.gotoPrevious}
+            onClickNext={this.gotoNext}
+            onClose={this.closeLightbox}
+            currentImage={this.state.currentImage}
+          />
         </div>
-        <Lightbox
-          images={this.getImages(images)}
-          isOpen={this.state.lightboxIsOpen}
-          onClickPrev={this.gotoPrevious}
-          onClickNext={this.gotoNext}
-          onClose={this.closeLightbox}
-          currentImage={this.state.currentImage}
-        />
       </React.Fragment>
     );
   }

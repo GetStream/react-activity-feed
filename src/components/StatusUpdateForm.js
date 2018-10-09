@@ -150,6 +150,15 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     });
   }
 
+  _dismissOg = (og) => {
+    if (og && (og.url !== null || og.url !== undefined)) {
+      this.setState({
+        og: null,
+        dismissedUrls: [...this.state.dismissedUrls, og.url],
+      });
+    }
+  };
+
   _text = () => this.state.text.trim();
 
   _object = () => {
@@ -471,7 +480,17 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                 />
               </div>
               {this.state.ogScraping && <LoadingIndicator />}
-              {this.state.og && <Card {...this.state.og} />}
+              {this.state.og && (
+                <div style={{ margin: '8px 0' }}>
+                  <Card
+                    {...this.state.og}
+                    handleClose={(e: any) => {
+                      e.preventDefault();
+                      this._dismissOg(this.state.og);
+                    }}
+                  />
+                </div>
+              )}
               {this.state.imageOrder.length > 0 && (
                 <ImagePreviewer
                   imageUploads={this.state.imageOrder.map(
