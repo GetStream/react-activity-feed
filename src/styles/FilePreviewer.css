@@ -15,7 +15,7 @@
       }
     }
   }
-  &__file{
+  &__file {
     position: relative;
     display: flex;
     align-items: center;
@@ -27,8 +27,8 @@
       flex: 1;
       margin: 0 8px;
       color: $fontColor;
-      text-decoration: none;\
-      white-space: nowrap;
+      text-decoration: none;
+      \white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
@@ -45,7 +45,6 @@
         color: color($fontColor tint(39%));
         &:after {
           text-decoration: none;
-
         }
       }
     }
@@ -85,16 +84,30 @@
   .svg-inline--fa {
     color: $fontColor;
   }
-  .fa-file-excel { color: #207245 }
-  .fa-file-powerpoint { color: #CB4A32 }
-  .fa-file-word { color: #2C599D }
-  .fa-file-archive {}
-  .fa-file-code {}
-  .fa-file-audio {}
-  .fa-file-video {}
-  .fa-file-image {}
-  .fa-file-pdf { color: #F82903; }
-  .fa-file-alt {  }
-  .fa-file {  }
-
+  .fa-file-excel {
+    color: #207245;
+  }
+  .fa-file-powerpoint {
+    color: #cb4a32;
+  }
+  .fa-file-word {
+    color: #2c599d;
+  }
+  .fa-file-archive {
+  }
+  .fa-file-code {
+  }
+  .fa-file-audio {
+  }
+  .fa-file-video {
+  }
+  .fa-file-image {
+  }
+  .fa-file-pdf {
+    color: #f82903;
+  }
+  .fa-file-alt {
+  }
+  .fa-file {
+  }
 }

@@ -7,7 +7,7 @@
 }
 
 .raf-avatar-group__avatar:first-of-type {
-  margin: 0 -15px 0 0 ;
+  margin: 0 -15px 0 0;
 }
 .raf-avatar-group__avatar .raf-avatar--circle {
   border: 1px solid $white;

@@ -3,7 +3,8 @@
   flex-wrap: wrap;
   margin: 8px 0;
   &__image {
-    width: 100px; height: 100px;
+    width: 100px;
+    height: 100px;
     position: relative;
     margin-right: 8px;
     margin-bottom: 8px;
@@ -25,5 +26,3 @@
     z-index: $z9;
   }
 }
-
-

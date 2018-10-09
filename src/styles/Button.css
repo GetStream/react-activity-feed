@@ -1,59 +1,72 @@
 .raf-button {
-    /* reset */
-    border: none;
-    margin: 0;
-    padding: 0;
-    width: auto;
-    overflow: visible;
-    background: transparent;
-    /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
-    line-height: normal;
-    /* Corrects font smoothing for webkit */
-    -webkit-font-smoothing: inherit;
-    -moz-osx-font-smoothing: inherit;
-    text-align: inherit;
-    /* Corrects inability to style clickable `input` types in iOS */
-    -webkit-appearance: none;
-    outline: none;
-    /* endreset */
+  /* reset */
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  overflow: visible;
+  background: transparent;
+  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+  line-height: normal;
+  /* Corrects font smoothing for webkit */
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+  text-align: inherit;
+  /* Corrects inability to style clickable `input` types in iOS */
+  -webkit-appearance: none;
+  outline: none;
+  /* endreset */
 
-    padding: 8px 16px;
-    min-width: 70px;
-    display: inline-flex; align-items: center; justify-content: center;
-    border-radius: 5px;
-    color: white;
-    font-size: 14px;
-    font-weight: 800;
-    margin: 3px;
-    cursor: pointer;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  padding: 8px 16px;
+  min-width: 70px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  color: white;
+  font-size: 14px;
+  font-weight: 800;
+  margin: 3px;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 
+  &:disabled {
+    cursor: not-allowed;
+    &:active {
+      box-shadow: none;
+    }
+  }
+
+  &--primary {
+    background-color: $primary;
     &:disabled {
-      cursor: not-allowed;
-      &:active {
-        box-shadow: none;
-      }
+      background-color: color($primary tint(35%));
     }
-
-    &--primary {
-      background-color: $primary;
-      &:disabled { background-color: color($primary tint(35%)); }
-      &:active { box-shadow: 0px 0px 0px 3px color($primary shade(10%)); }
+    &:active {
+      box-shadow: 0px 0px 0px 3px color($primary shade(10%));
     }
-    &--info {
-      background-color: $info;
-      &:disabled { background-color: color($info tint(35%)); }
-      &:active { box-shadow: 0px 0px 0px 3px color($info shade(10%)); }
+  }
+  &--info {
+    background-color: $info;
+    &:disabled {
+      background-color: color($info tint(35%));
     }
-    &--faded {
-      background-color: $faded;
-      &:disabled { background-color: color($faded tint(35%)); }
-      &:active { box-shadow: 0px 0px 0px 3px color($faded shade(10%)); }
+    &:active {
+      box-shadow: 0px 0px 0px 3px color($info shade(10%));
     }
-
+  }
+  &--faded {
+    background-color: $faded;
+    &:disabled {
+      background-color: color($faded tint(35%));
+    }
+    &:active {
+      box-shadow: 0px 0px 0px 3px color($faded shade(10%));
+    }
+  }
 }

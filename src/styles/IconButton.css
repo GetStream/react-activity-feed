@@ -4,12 +4,12 @@
   svg {
     position: relative;
     z-index: $z5;
-    fill: #A0B2B8;
+    fill: #a0b2b8;
   }
 
   &:hover {
     svg {
-      fill: color(#A0B2B8 shade(15%));
+      fill: color(#a0b2b8 shade(15%));
     }
   }
 }

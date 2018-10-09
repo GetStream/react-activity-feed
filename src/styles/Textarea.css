@@ -15,10 +15,9 @@
       outline: none;
     }
     &::placeholder {
-      color: color($fontColor tint(65%))
+      color: color($fontColor tint(65%));
     }
   }
-
 }
 
 .raf-emojisearch {

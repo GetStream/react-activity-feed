@@ -1,14 +1,14 @@
 .raf-b2btimeline {
   display: flex;
   position: relative;
-  background: #F0F0F0;
+  background: #f0f0f0;
   &__icon {
     position: relative;
     min-width: 70px;
     height: 70px;
-    border: 1px solid #A0B2B8;
+    border: 1px solid #a0b2b8;
     border-radius: 70px;
-    background-color: #F0F0F0;
+    background-color: #f0f0f0;
     z-index: $z9;
     overflow: hidden;
     display: flex;
@@ -26,7 +26,7 @@
       flex: 1;
       z-index: $z1;
       width: 1px;
-      background: #A0B2B8;
+      background: #a0b2b8;
     }
   }
   &__feed {

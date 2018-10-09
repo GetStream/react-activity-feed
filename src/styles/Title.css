@@ -1,8 +1,8 @@
-.raf-title, .raf-title * {
+.raf-title,
+.raf-title * {
   color: $fontColor;
   font-size: 18px;
   font-family: Avenir, Arial, Helvetica, sans-serif;
   font-weight: 700;
   margin: 0;
 }
-

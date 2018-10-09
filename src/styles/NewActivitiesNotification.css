@@ -30,5 +30,5 @@
   margin-bottom: 1px;
 }
 .raf-new-activities-notification:active {
-  box-shadow: 0px 0px 0px color($black a(15%))
+  box-shadow: 0px 0px 0px color($black a(15%));
 }

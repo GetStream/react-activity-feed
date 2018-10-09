@@ -10,18 +10,18 @@
 }
 
 .raf-dropdown-panel--arrow:after {
-	bottom: 100%;
-	left: 30px;
-	border: solid $transparent;
-	content: " ";
-	height: 0;
-	width: 0;
-	position: absolute;
-	pointer-events: none;
-	border-color: $transparent;
-	border-bottom-color: $white;
-	border-width: 8px;
-	margin-left: -8px;
+  bottom: 100%;
+  left: 30px;
+  border: solid $transparent;
+  content: ' ';
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-color: $transparent;
+  border-bottom-color: $white;
+  border-width: 8px;
+  margin-left: -8px;
 }
 
 .raf-dropdown-panel__header {

@@ -34,4 +34,6 @@
   font-size: 12px;
 }
 
-.raf-dropzone--reject .raf-dropzone__inner { display: none; }
+.raf-dropzone--reject .raf-dropzone__inner {
+  display: none;
+}

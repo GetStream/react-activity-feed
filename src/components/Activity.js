@@ -52,6 +52,41 @@ export default class Activity extends React.Component<Props> {
     );
   };
 
+  renderText = (text: string) => {
+    const newText = text
+      .split(' ')
+      .map((word) => {
+        if (word[0] === '@') {
+          return (
+            <a href="" className="raf-activity__mention">
+              {word}
+            </a>
+          );
+        } else if (word[0] === '#') {
+          return (
+            <a href="" className="raf-activity__hashtag">
+              {word}
+            </a>
+          );
+        } else if (
+          this.props.activity.attachments !== undefined &&
+          this.props.activity.attachments.og !== undefined &&
+          this.props.activity.attachments.og.url !== undefined &&
+          word[0] === this.props.activity.attachments.og.url
+        ) {
+          return (
+            <a href="" className="raf-activity__link">
+              {word}
+            </a>
+          );
+        } else {
+          return word;
+        }
+      })
+      .reduce((accu, elem) => (accu === null ? [elem] : [accu, ' ', elem]));
+    return <p>{newText}</p>;
+  };
+
   renderContent = () => {
     // return null;
     let { text } = this.props.activity;
@@ -68,9 +103,7 @@ export default class Activity extends React.Component<Props> {
     return (
       <div>
         {Boolean(text) && (
-          <div style={{ padding: '8px 16px' }}>
-            <p>{text}</p>
-          </div>
+          <div style={{ padding: '8px 16px' }}>{this.renderText(text)}</div>
         )}
 
         {this.props.activity.verb === 'repost' &&

@@ -17,19 +17,22 @@
 
 .raf-card__image img {
   position: absolute;
-  width: inherit; height: inherit;
+  width: inherit;
+  height: inherit;
   object-fit: cover;
 }
 
 .raf-card__content {
-  border: 1px solid #A0B2B8;
+  border: 1px solid #a0b2b8;
   border-top: none;
   border-radius: 0px 0px 5px 5px;
-  background-color: #F4F4F4;
+  background-color: #f4f4f4;
   padding: 13px 20px 9px;
 }
 
-.raf-card__title, .raf-card__url, .raf-card__description {
+.raf-card__title,
+.raf-card__url,
+.raf-card__description {
   font-weight: 400;
   white-space: nowrap;
   overflow: hidden;
@@ -39,6 +42,13 @@
   color: $fontColor;
 }
 
-.raf-card__title { font-size: 16px; }
-.raf-card__url { font-size: 12px; color: $primary }
-.raf-card__description { font-size: 12px; }
+.raf-card__title {
+  font-size: 16px;
+}
+.raf-card__url {
+  font-size: 12px;
+  color: $primary;
+}
+.raf-card__description {
+  font-size: 12px;
+}

@@ -1,6 +1,8 @@
 .raf-data-label {
-
-  &__label, &__data {display: block}
+  &__label,
+  &__data {
+    display: block;
+  }
   &__label {
     text-transform: uppercase;
     font-size: 12px;
@@ -12,5 +14,4 @@
     color: $fontColor;
     font-weight: 300;
   }
-
 }

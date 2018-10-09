@@ -1,13 +1,13 @@
 .raf-activity-footer {
   margin: 8px 16px;
   padding: 16px 0;
-  border-top: 2px solid #E6F0F2;
+  border-top: 2px solid #e6f0f2;
   display: flex;
   align-items: center;
   justify-content: center;
   &__left {
     flex: 1;
-    & >div {
+    & > div {
       margin: 0 8px;
       &:first-child {
         margin-left: 0;
@@ -20,7 +20,7 @@
 
   &__right {
     display: flex;
-    & >div {
+    & > div {
       margin: 0 8px;
       &:first-child {
         margin-left: 0;

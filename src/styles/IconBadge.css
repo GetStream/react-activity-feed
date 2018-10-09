@@ -1,13 +1,14 @@
 .raf-icon-badge {
   position: relative;
   display: inline-block;
-
 }
 .raf-icon-badge__badge {
   position: absolute;
   top: -4px;
   left: 60%;
-  min-width: 14px; height: 13px; background-color: $error;
+  min-width: 14px;
+  height: 13px;
+  background-color: $error;
   border-radius: 4px;
   display: flex;
   align-content: center;
@@ -16,7 +17,8 @@
 }
 
 .raf-icon-badge__badge p {
-  margin: -1px 0 0 0; padding: 0;
+  margin: -1px 0 0 0;
+  padding: 0;
   font-size: 12px;
   font-weight: 700;
   color: white;

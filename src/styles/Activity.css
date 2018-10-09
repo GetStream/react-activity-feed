@@ -2,4 +2,10 @@
   background-color: $white;
   border-radius: 4px;
   margin: 8px 0;
+  &__hashtag {
+    color: #095482;
+  }
+  &__mention {
+    color: #095482;
+  }
 }
