@@ -63,22 +63,22 @@ export default class Activity extends React.Component<Props> {
   renderText = (text: string) => {
     const newText = text
       .split(' ')
-      .map((word) => {
+      .map((word, i) => {
         if (word[0] === '@') {
           return (
-            <a href="" className="raf-activity__mention">
+            <a href="" className="raf-activity__mention" key={`item-${i}`}>
               {word}
             </a>
           );
         } else if (word[0] === '#') {
           return (
-            <a href="" className="raf-activity__hashtag">
+            <a href="" className="raf-activity__hashtag" key={`item-${i}`}>
               {word}
             </a>
           );
         } else if (this.isUrl(word)) {
           return (
-            <a href={word} className="raf-activity__link">
+            <a href={word} className="raf-activity__link" key={`item-${i}`}>
               {word}
             </a>
           );
@@ -134,10 +134,13 @@ export default class Activity extends React.Component<Props> {
 
         {attachments.files &&
           Boolean(attachments.files.length) && (
-            <ol>
+            <ol className="raf-activity__attachments">
               {attachments.files.map(({ name, url, mimeType }, i) => (
-                <li key={i}>
-                  <FileIcon mimeType={mimeType} /> <a href={url}>{name}</a>
+                <li className="raf-activity__file" key={i}>
+                  <FileIcon mimeType={mimeType} />{' '}
+                  <a href={url} download>
+                    {name}
+                  </a>
                 </li>
               ))}
             </ol>

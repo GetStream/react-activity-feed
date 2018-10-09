@@ -11,4 +11,50 @@
   &__link {
     color: $info;
   }
+  &__attachments {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: 1px solid color($black a(10%));
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 8px 0;
+  }
+  &__file {
+    padding: 8px 16px;
+    border-bottom: 1px solid color($black a(10%));
+    &:last-child {
+      border-color: transparent;
+    }
+    &:hover {
+      background: #fafafa;
+    }
+    a {
+      flex: 1;
+      margin: 0 8px;
+      color: $fontColor;
+      text-decoration: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    svg {
+      min-width: 25px;
+    }
+    .svg-inline--fa {
+      color: $fontColor;
+    }
+    .fa-file-excel {
+      color: #207245;
+    }
+    .fa-file-powerpoint {
+      color: #cb4a32;
+    }
+    .fa-file-word {
+      color: #2c599d;
+    }
+    .fa-file-pdf {
+      color: #f82903;
+    }
+  }
 }
