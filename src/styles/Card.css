@@ -4,6 +4,7 @@
   border-radius: 6px;
   overflow: hidden;
   position: relative;
+  border: 1px solid #a0b2b8;
   .raf-icon-button {
     position: absolute;
     top: 10px;
@@ -32,7 +33,7 @@
 
 .raf-card__content {
   /* border: 1px solid #a0b2b8; */
-  box-shadow: inset 1px -1px 0 0 #a0b2b8, inset -1px -1px 0 0 #a0b2b8;
+  /* box-shadow: inset 1px -1px 0 0 #a0b2b8, inset -1px -1px 0 0 #a0b2b8; */
   border-radius: 0px 0px 6px 6px;
   background-color: #f4f4f4;
   padding: 13px 40px 9px 20px;
