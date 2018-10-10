@@ -55,6 +55,7 @@ import './styles/Title.css';
 import './styles/UserBar.css';
 import './styles/Video.css';
 
+export * from './Context';
 export { default as Gallery } from './components/Gallery';
 export { default as StatusUpdateForm } from './components/StatusUpdateForm';
 export { default as Activity } from './components/Activity';
