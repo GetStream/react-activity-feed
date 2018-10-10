@@ -18,6 +18,7 @@ import LoadingIndicator from './LoadingIndicator';
 import Button from './Button';
 import Title from './Title';
 import _ from 'lodash';
+import anchorme from 'anchorme';
 
 import { StreamApp } from '../Context';
 import {
@@ -33,8 +34,6 @@ import type {
   FileUpload,
   FileLike,
 } from '../types';
-
-const urlRegex = /(https?:\/\/[^\s]+)/gi;
 
 type Props = {|
   feedGroup: string,
@@ -108,7 +107,14 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   handleOG(text) {
     let newUrls;
     let removedUrls;
-    const urls = _.uniq(text.match(urlRegex) || []);
+
+    const urlInfos = anchorme(text, {
+      list: true,
+      exclude: (info) =>
+        info.protocol !== 'https://' && info.protocol !== 'http://',
+    });
+    const urls = _.uniq(urlInfos.map((info) => info.protocol + info.encoded));
+
     this.setState(
       (prevState) => {
         const oldUrls = prevState.ogUrlOrder;
