@@ -15,11 +15,23 @@ npm install --save react-activity-feed
 ```jsx
 import React, { Component } from 'react';
 
-import MyComponent from 'react-activity-feed';
+import { StreamApp, StatusUpdateForm, FlatFeed } from 'react-activity-feed';
+import 'react-activity-feed/dist/index.es.css';
 
-class Example extends Component {
+export default class App extends Component<{}> {
   render() {
-    return <MyComponent />;
+    return (
+      <div style={{ width: '600px', margin: '0 auto' }}>
+        <StreamApp
+          apiKey="<YOUR_API_KEY>"
+          appId="<YOUR_APP_ID>"
+          token="<A_TOKEN_FOR_THE_CURRENT_USER>"
+        >
+          <StatusUpdateForm />
+          <FlatFeed feedGroup="user" notify />
+        </StreamApp>
+      </div>
+    );
   }
 }
 ```
