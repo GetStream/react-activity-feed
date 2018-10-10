@@ -7,7 +7,10 @@
 ## Install
 
 ```bash
+# with npm
 npm install --save react-activity-feed
+# with yarn
+yarn add react-activity-feed
 ```
 
 ## Usage
