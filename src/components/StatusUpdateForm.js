@@ -247,7 +247,8 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   _canSubmit = () =>
     Boolean(this._object()) &&
     this._orderedImages().every((upload) => upload.state !== 'uploading') &&
-    this._orderedFiles().every((upload) => upload.state !== 'uploading');
+    this._orderedFiles().every((upload) => upload.state !== 'uploading') &&
+    !this._isOgScraping();
 
   async addActivity() {
     const activity: CustomActivityArgData = {
@@ -302,6 +303,9 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       imageOrder: [],
       fileUploads: {},
       fileOrder: [],
+      ogUrlOrder: [],
+      ogStateByUrl: {},
+      ogActiveUrl: null,
     });
   };
   _getTextAreaElement = () => this.textInputRef.current;
