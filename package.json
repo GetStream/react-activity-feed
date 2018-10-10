@@ -91,6 +91,7 @@
     "immutable": "^4.0.0-rc.9",
     "is-retina": "^1.0.3",
     "lightbox-react": "^0.3.6",
+    "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "postcss-color-function": "^4.0.1",
     "postcss-cssnext": "^3.1.0",

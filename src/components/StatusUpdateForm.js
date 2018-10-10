@@ -65,7 +65,7 @@ export default class StatusUpdateForm extends React.Component<Props> {
 
 type OgState = {|
   scrapingActive: boolean,
-  data: ?OgData,
+  data?: ?OgData,
   dismissed: boolean,
 |};
 
@@ -99,7 +99,10 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
 
   constructor(props) {
     super(props);
-    this._handleOgDebounced = _.debounce(this.handleOG, 250);
+    this._handleOgDebounced = _.debounce(this.handleOG, 250, {
+      leading: true,
+      trailing: true,
+    });
   }
 
   handleOG(text) {
@@ -114,6 +117,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
         const newState: $Shape<State> = {
           ogUrlOrder: urls,
         };
+
         if (!urls.includes(prevState.ogActiveUrl)) {
           newState.ogActiveUrl = null;
           for (const url of urls) {
@@ -124,27 +128,21 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
             }
           }
         }
+
+        for (const url of removedUrls) {
+          delete prevState.ogStateByUrl[url];
+        }
+        for (const url of newUrls) {
+          prevState.ogStateByUrl[url] = {
+            scrapingActive: true,
+            dismissed: false,
+          };
+        }
+        newState.ogStateByUrl = prevState.ogStateByUrl;
         return newState;
       },
       () => {
-        if (removedUrls.length > 0) {
-          this.setState((prevState) => {
-            for (const url of removedUrls) {
-              delete prevState.ogStateByUrl[url];
-            }
-            return { ogStateByUrl: prevState.ogStateByUrl };
-          });
-        }
-
         newUrls.forEach(async (url) => {
-          this.setState((prevState) => {
-            prevState.ogStateByUrl[url] = {
-              scrapingActive: true,
-              dismissed: false,
-            };
-            return { ogStateByUrl: prevState.ogStateByUrl };
-          });
-
           let resp;
           try {
             resp = await this.props.session.og(url);
@@ -153,6 +151,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
             this.setState((prevState) => {
               prevState.ogStateByUrl[url] = {
                 scrapingActive: false,
+                dismissed: false,
               };
               return { ogStateByUrl: prevState.ogStateByUrl };
             });
@@ -163,6 +162,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
             prevState.ogStateByUrl[url] = {
               scrapingActive: false,
               data: resp,
+              dismissed: false,
             };
             const newState: $Shape<State> = {
               ogStateByUrl: prevState.ogStateByUrl,
