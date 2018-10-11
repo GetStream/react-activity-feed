@@ -600,7 +600,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                 availableOg.length > 1 && (
                   <React.Fragment>
                     <ol className="raf-status-update-form__url-list">
-                      {availableOg.map(({ url }) => (
+                      {availableOg.map(({ url, title }) => (
                         <li
                           className={`raf-status-update-form__url-list-item${
                             url === this.state.ogActiveUrl
@@ -621,7 +621,8 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                           }
                           key={url}
                         >
-                          <FontAwesomeIcon icon={faBookmark} /> {url}
+                          <FontAwesomeIcon icon={faBookmark} />{' '}
+                          {title !== undefined ? title : url}
                         </li>
                       ))}
                     </ol>
