@@ -28,7 +28,7 @@
       margin: 0 8px;
       color: $fontColor;
       text-decoration: none;
-      \white-space: nowrap;
+      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }

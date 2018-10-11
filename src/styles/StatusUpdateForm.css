@@ -8,14 +8,20 @@
     &-item {
       flex: 0 1 calc(50% - 16px);
       margin: 8px;
-      padding: 8px;
+      padding: 8px 16px;
       background: white;
       border-radius: $borderRadius;
       border: 1px solid color(#fafafa shade(10%));
-      color: color($fontColor tint(30%));
+      color: color($fontColor tint(50%));
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       &--active {
+        border: 1px solid color(#fafafa shade(20%));
+        box-shadow: 0px 1px 3px 0px color($black a(10%));
         background: #fafafa;
-        color: $fontColor;
+        color: $primary;
       }
     }
   }

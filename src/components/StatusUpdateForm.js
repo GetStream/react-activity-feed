@@ -17,7 +17,8 @@ import ImageDropzone from './ImageDropzone';
 import LoadingIndicator from './LoadingIndicator';
 import Button from './Button';
 import Title from './Title';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBookmark } from '@fortawesome/free-regular-svg-icons';
 import _ from 'lodash';
 import anchorme from 'anchorme';
 
@@ -587,6 +588,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                 <div style={{ margin: '8px 0' }}>
                   <Card
                     {...activeOg}
+                    nolink
                     handleClose={(e: any) => {
                       e.preventDefault();
                       this._dismissOg(activeOg);
@@ -619,7 +621,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                           }
                           key={url}
                         >
-                          {url}
+                          <FontAwesomeIcon icon={faBookmark} /> {url}
                         </li>
                       ))}
                     </ol>
