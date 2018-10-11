@@ -77,10 +77,12 @@ export default class Activity extends React.Component<Props> {
             </a>
           );
         } else if (this.isUrl(word)) {
+          const url = word;
+          const shortenedUrl = word.replace(/(^\w+:|^)\/\//, '').slice(0, 33);
           return (
-            <a href={word} className="raf-activity__link" key={`item-${i}`}>
-              {word.replace(/(^\w+:|^)\/\//, '').slice(0, 33)}
-              {word.length > 33 && <React.Fragment>&#8230;</React.Fragment>}
+            <a href={url} className="raf-activity__link" key={`item-${i}`}>
+              {shortenedUrl}
+              {url.length > 33 && <React.Fragment>&#8230;</React.Fragment>}
             </a>
           );
         } else {
