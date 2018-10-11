@@ -46,6 +46,7 @@ import './styles/PanelHeader.css';
 import './styles/ReactionIcon.css';
 import './styles/ReactionToggleIcon.css';
 import './styles/RepostButton.css';
+import './styles/StatusUpdateForm.css';
 import './styles/Textarea.css';
 import './styles/Thumbnail.css';
 import './styles/ThumbnailPlaceholder.css';

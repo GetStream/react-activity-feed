@@ -597,9 +597,14 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
               {availableOg &&
                 availableOg.length > 1 && (
                   <React.Fragment>
-                    <ol>
+                    <ol className="raf-status-update-form__url-list">
                       {availableOg.map(({ url }) => (
                         <li
+                          className={`raf-status-update-form__url-list-item${
+                            url === this.state.ogActiveUrl
+                              ? ' raf-status-update-form__url-list-item--active'
+                              : ''
+                          }`}
                           onClick={() =>
                             this.setState((prevState) => {
                               const ogState = prevState.ogStateByUrl[url];
@@ -613,10 +618,6 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                             })
                           }
                           key={url}
-                          style={{
-                            color:
-                              url === this.state.ogActiveUrl ? 'blue' : 'black',
-                          }}
                         >
                           {url}
                         </li>

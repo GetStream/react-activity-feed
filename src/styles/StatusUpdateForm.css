@@ -1,0 +1,22 @@
+.raf-status-update-form {
+  &__url-list {
+    list-style-type: none;
+    margin: 0 -8px;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    &-item {
+      flex: 0 1 calc(50% - 16px);
+      margin: 8px;
+      padding: 8px;
+      background: white;
+      border-radius: $borderRadius;
+      border: 1px solid color(#fafafa shade(10%));
+      color: color($fontColor tint(30%));
+      &--active {
+        background: #fafafa;
+        color: $fontColor;
+      }
+    }
+  }
+}

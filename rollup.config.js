@@ -32,6 +32,7 @@ export default {
     },
   ],
   external: [
+    'anchorme',
     'moment',
     'getstream',
     'react-images',
