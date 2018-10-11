@@ -123,6 +123,14 @@ export default class Activity extends React.Component<Props> {
             <Card {...this.props.activity.object.data} />
           )}
 
+        {attachments &&
+          attachments.og &&
+          Object.keys(attachments.og).length > 0 && (
+            <div style={{ padding: '8px 16px' }}>
+              <Card {...attachments.og} />
+            </div>
+          )}
+
         {Boolean(this.props.activity.image) &&
         this.props.activity.image !== undefined ? (
           <div style={{ padding: '8px 0' }}>
@@ -151,14 +159,6 @@ export default class Activity extends React.Component<Props> {
                 </a>
               ))}
             </ol>
-          )}
-
-        {attachments &&
-          attachments.og &&
-          Object.keys(attachments.og).length > 0 && (
-            <div style={{ padding: '8px 16px' }}>
-              <Card {...attachments.og} />
-            </div>
           )}
       </div>
     );
