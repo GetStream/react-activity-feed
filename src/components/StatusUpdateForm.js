@@ -17,6 +17,7 @@ import ImageDropzone from './ImageDropzone';
 import LoadingIndicator from './LoadingIndicator';
 import Button from './Button';
 import Title from './Title';
+
 import _ from 'lodash';
 import anchorme from 'anchorme';
 
@@ -595,31 +596,33 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
               )}
               {availableOg &&
                 availableOg.length > 1 && (
-                  <ol>
-                    {availableOg.map(({ url }) => (
-                      <li
-                        onClick={() =>
-                          this.setState((prevState) => {
-                            const ogState = prevState.ogStateByUrl[url];
-                            if (ogState) {
-                              ogState.dismissed = false;
-                            }
-                            return {
-                              ogActiveUrl: url,
-                              ogStateByUrl: prevState.ogStateByUrl,
-                            };
-                          })
-                        }
-                        key={url}
-                        style={{
-                          color:
-                            url === this.state.ogActiveUrl ? 'blue' : 'black',
-                        }}
-                      >
-                        {url}
-                      </li>
-                    ))}
-                  </ol>
+                  <React.Fragment>
+                    <ol>
+                      {availableOg.map(({ url }) => (
+                        <li
+                          onClick={() =>
+                            this.setState((prevState) => {
+                              const ogState = prevState.ogStateByUrl[url];
+                              if (ogState) {
+                                ogState.dismissed = false;
+                              }
+                              return {
+                                ogActiveUrl: url,
+                                ogStateByUrl: prevState.ogStateByUrl,
+                              };
+                            })
+                          }
+                          key={url}
+                          style={{
+                            color:
+                              url === this.state.ogActiveUrl ? 'blue' : 'black',
+                          }}
+                        >
+                          {url}
+                        </li>
+                      ))}
+                    </ol>
+                  </React.Fragment>
                 )}
               {this.state.imageOrder.length > 0 && (
                 <ImagePreviewer

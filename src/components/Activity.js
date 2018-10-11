@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import anchorme from 'anchorme';
 
 import UserBar from './UserBar';
 import Card from './Card';
@@ -9,6 +10,8 @@ import Gallery from './Gallery';
 
 import type { ActivityData, Renderable } from '../types';
 import { smartRender } from '../utils';
+
+import { truncate } from 'lodash';
 
 type Props = {
   Header?: Renderable,
@@ -53,13 +56,6 @@ export default class Activity extends React.Component<Props> {
     );
   };
 
-  isUrl = (str: string) => {
-    const urlRegex =
-      '^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$';
-    const url = new RegExp(urlRegex, 'i');
-    return str.length < 2083 && url.test(str);
-  };
-
   renderText = (text: string) => {
     const newText = text
       .split(' ')
@@ -76,13 +72,20 @@ export default class Activity extends React.Component<Props> {
               {word}
             </a>
           );
-        } else if (this.isUrl(word)) {
-          const url = word;
-          const shortenedUrl = word.replace(/(^\w+:|^)\/\//, '').slice(0, 33);
+        } else if (
+          anchorme.validate.url(word) ||
+          anchorme.validate.email(word)
+        ) {
+          const link = anchorme(word, { list: true });
           return (
-            <a href={url} className="raf-activity__link" key={`item-${i}`}>
-              {shortenedUrl}
-              {url.length > 33 && <React.Fragment>&#8230;</React.Fragment>}
+            <a
+              href={link[0].protocol + link[0].raw}
+              className="raf-activity__link"
+              target="blank"
+              rel="noopener"
+              key={`item-${i}`}
+            >
+              {truncate(link[0].encoded, { length: 33 })}
             </a>
           );
         } else {
