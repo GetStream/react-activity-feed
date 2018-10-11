@@ -77,15 +77,17 @@ export default class Activity extends React.Component<Props> {
           anchorme.validate.email(word)
         ) {
           const link = anchorme(word, { list: true });
+          const url = link[0].protocol + link[0].encoded;
+          const urlText = truncate(link[0].encoded, { length: 33 });
           return (
             <a
-              href={link[0].protocol + link[0].encoded}
+              href={url}
               className="raf-activity__link"
               target="blank"
               rel="noopener"
               key={`item-${i}`}
             >
-              {truncate(link[0].encoded, { length: 33 })}
+              {urlText}
             </a>
           );
         } else {
