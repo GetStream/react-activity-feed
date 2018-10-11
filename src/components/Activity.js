@@ -79,7 +79,7 @@ export default class Activity extends React.Component<Props> {
           const link = anchorme(word, { list: true });
           return (
             <a
-              href={link[0].protocol + link[0].raw}
+              href={link[0].protocol + link[0].encoded}
               className="raf-activity__link"
               target="blank"
               rel="noopener"
