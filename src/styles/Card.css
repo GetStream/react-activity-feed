@@ -42,20 +42,22 @@
   border-radius: 0px 0px 6px 6px;
   background-color: #fafafa;
   padding: 13px 20px 13px 20px;
+  width: 100%;
 }
 .raf-card__content-left {
-  flex: 1;
-  max-width: 100%;
+  width: 100%;
   padding-right: 30px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .raf-card__content-right {
   display: flex;
   flex-direction: column;
+  justify-self: flex-end;
   align-items: center;
-  margin-right: 16px;
   position: relative;
-  right: 16px;
 }
 
 .raf-card__title,

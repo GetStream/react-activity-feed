@@ -6,7 +6,7 @@
     display: flex;
     flex-wrap: wrap;
     &-item {
-      flex: 0 1 calc(50% - 16px);
+      flex: 1 0 calc(50% - 16px);
       margin: 8px;
       padding: 8px 16px;
       background: white;
@@ -17,6 +17,9 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      @media screen and (max-width: 375px) {
+        flex: 1 0 calc(100% -16px);
+      }
       &--active {
         border: 1px solid color(#fafafa shade(20%));
         box-shadow: 0px 1px 3px 0px color($black a(10%));
