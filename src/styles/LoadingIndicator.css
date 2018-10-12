@@ -33,3 +33,18 @@
     transform: scale(1);
   }
 }
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.raf-loading-indicator__spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #eee;
+  border-top-color: $primary;
+  border-radius: 50%;
+  animation: spinner 0.4s linear infinite;
+}

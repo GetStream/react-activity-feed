@@ -1,18 +1,27 @@
+// @flow
 import * as React from 'react';
+
+type Props = {|
+  spinner?: boolean,
+|};
 
 /**
  * Component is described here.
  *
  * @example ./examples/LoadingIndicator.md
  */
-export default class LoadingIndicator extends React.Component {
+export default class LoadingIndicator extends React.Component<Props> {
   render() {
-    return (
-      <div className="raf-loading-indicator">
-        <div className="bounce1" />
-        <div className="bounce2" />
-        <div className="bounce3" />
-      </div>
-    );
+    if (this.props.spinner) {
+      return <div className="raf-loading-indicator__spinner" />;
+    } else {
+      return (
+        <div className="raf-loading-indicator">
+          <div className="bounce1" />
+          <div className="bounce2" />
+          <div className="bounce3" />
+        </div>
+      );
+    }
   }
 }

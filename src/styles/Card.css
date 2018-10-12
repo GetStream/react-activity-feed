@@ -39,20 +39,23 @@
 .raf-card__content {
   display: flex;
   align-items: center;
-  /* border: 1px solid #a0b2b8; */
-  /* box-shadow: inset 1px -1px 0 0 #a0b2b8, inset -1px -1px 0 0 #a0b2b8; */
   border-radius: 0px 0px 6px 6px;
   background-color: #fafafa;
   padding: 13px 20px 13px 20px;
-  div:first-child {
-    flex: 1;
-  }
-  div:last-child {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 100%;
-  }
+}
+.raf-card__content-left {
+  flex: 1;
+  max-width: 100%;
+  padding-right: 30px;
+}
+
+.raf-card__content-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 16px;
+  position: relative;
+  right: 16px;
 }
 
 .raf-card__title,

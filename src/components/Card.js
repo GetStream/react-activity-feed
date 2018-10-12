@@ -68,7 +68,7 @@ export default class Card extends React.Component<Props> {
           </div>
         )}
         <div className="raf-card__content">
-          <div>
+          <div className="raf-card__content-left">
             <p className="raf-card__title">{this.props.title}</p>
             <p className="raf-card__url">
               {this.trimUrl(this.props.url || '')}
@@ -76,9 +76,11 @@ export default class Card extends React.Component<Props> {
             <p className="raf-card__description">{this.props.description}</p>
           </div>
           {handleClose && image === undefined ? (
-            <IconButton onClick={(e) => this._handleClose(e)}>
-              <div dangerouslySetInnerHTML={{ __html: svg }} />
-            </IconButton>
+            <div className="raf-card__content-right">
+              <IconButton onClick={(e) => this._handleClose(e)}>
+                <div dangerouslySetInnerHTML={{ __html: svg }} />
+              </IconButton>
+            </div>
           ) : null}
         </div>
       </a>

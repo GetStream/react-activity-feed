@@ -16,6 +16,7 @@ import FilePreviewer from './FilePreviewer';
 import ImageDropzone from './ImageDropzone';
 import Button from './Button';
 import Title from './Title';
+import LoadingIndicator from './LoadingIndicator';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark } from '@fortawesome/free-regular-svg-icons';
 import _ from 'lodash';
@@ -584,7 +585,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
               </div>
               {this._isOgScraping() && (
                 <div className="raf-status-update-form__og-loading">
-                  loading
+                  <LoadingIndicator spinner /> Getting website data...
                 </div>
               )}
               {activeOg && (
