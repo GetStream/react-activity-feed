@@ -25,4 +25,16 @@
       }
     }
   }
+  &__og-loading {
+    border: 1px solid color(#fafafa shade(20%));
+    box-shadow: 0px 1px 3px 0px color($black a(10%));
+    border-radius: $borderRadius;
+    background: #fafafa;
+    color: $info;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    margin: 8px 0;
+  }
 }

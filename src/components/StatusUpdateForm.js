@@ -14,7 +14,6 @@ import FileUploadButton from './FileUploadButton';
 import ImagePreviewer from './ImagePreviewer';
 import FilePreviewer from './FilePreviewer';
 import ImageDropzone from './ImageDropzone';
-import LoadingIndicator from './LoadingIndicator';
 import Button from './Button';
 import Title from './Title';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -583,7 +582,11 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                   }}
                 />
               </div>
-              {this._isOgScraping() && <LoadingIndicator />}
+              {this._isOgScraping() && (
+                <div className="raf-status-update-form__og-loading">
+                  loading
+                </div>
+              )}
               {activeOg && (
                 <div style={{ margin: '8px 0' }}>
                   <Card
