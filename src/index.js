@@ -62,3 +62,4 @@ export { default as StatusUpdateForm } from './components/StatusUpdateForm';
 export { default as Activity } from './components/Activity';
 export { default as FlatFeed } from './components/FlatFeed';
 export { default as NotificationFeed } from './components/NotificationFeed';
+export { default as LoadingIndicator } from './components/LoadingIndicator';
