@@ -189,19 +189,13 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   _dismissOg = (og) => {
     if (og && og.url != null) {
       this.setState((prevState) => {
-        let ogActiveUrl = null;
         const { ogStateByUrl } = prevState;
-        ogStateByUrl[og.url].dismissed = true;
-
-        for (const url of prevState.ogUrlOrder) {
-          const ogState = prevState.ogStateByUrl[url];
-          if (ogState && ogState.data && !ogState.dismissed) {
-            ogActiveUrl = url;
-          }
+        for (const url in ogStateByUrl) {
+          ogStateByUrl[url].dismissed = true;
         }
 
         return {
-          ogActiveUrl,
+          ogActiveUrl: null,
           ogStateByUrl,
         };
       });
