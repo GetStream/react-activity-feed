@@ -2,7 +2,7 @@ ImagePreviewer
 
 ```js
 <ImagePreviewer
-  images={[
+  imageUploads={[
     {
       id: '1',
       previewUri: 'https://placeimg.com/640/480/any',
