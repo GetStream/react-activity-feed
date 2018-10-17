@@ -61,12 +61,12 @@
     }
   }
   &--faded {
-    background-color: $faded;
+    background-color: color($faded shade(30%));
     &:disabled {
-      background-color: color($faded tint(35%));
+      background-color: color(color($faded shade(30%)) tint(35%));
     }
     &:active {
-      box-shadow: 0px 0px 0px 3px color($faded shade(10%));
+      box-shadow: 0px 0px 0px 3px color(color($faded shade(30%)) shade(10%));
     }
   }
 }

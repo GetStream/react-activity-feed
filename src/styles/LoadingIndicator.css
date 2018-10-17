@@ -46,5 +46,5 @@
   border: 2px solid #eee;
   border-top-color: $primary;
   border-radius: 50%;
-  animation: spinner 0.4s linear infinite;
+  animation: spinner 0.6s linear infinite;
 }
