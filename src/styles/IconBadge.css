@@ -1,6 +1,8 @@
 .raf-icon-badge {
   position: relative;
   display: inline-block;
+  margin: 0;
+  padding: 0;
 }
 .raf-icon-badge__badge {
   position: absolute;
