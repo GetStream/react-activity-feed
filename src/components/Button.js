@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react';
+import LoadingIndicator from './LoadingIndicator';
 
 export type Props = {|
   children: React.Node,
@@ -8,6 +9,7 @@ export type Props = {|
   onClick?: (SyntheticEvent<HTMLButtonElement>) => mixed,
   onKeyPress?: (SyntheticEvent<HTMLButtonElement>) => mixed,
   disabled: boolean,
+  loading?: boolean,
 |};
 
 /**
@@ -32,8 +34,16 @@ export default class Button extends React.Component<Props> {
         onKeyPress={this.props.onKeyPress}
         type={this.props.type}
         disabled={this.props.disabled}
+        loading={this.props.loading}
       >
-        {children}
+        {!this.props.loading ? (
+          children
+        ) : (
+          <LoadingIndicator
+            backgroundColor="rgba(255,255,255,0.1)"
+            color="rgba(255,255,255,0.4)"
+          />
+        )}
       </button>
     );
   }
