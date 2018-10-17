@@ -579,7 +579,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
               </div>
               {this._isOgScraping() && (
                 <div className="raf-status-update-form__og-loading">
-                  <LoadingIndicator spinner /> Getting website data...
+                  <LoadingIndicator /> Getting website data...
                 </div>
               )}
               {activeOg && (

@@ -35,7 +35,6 @@ export default class ImagePreviewer extends React.Component<Props> {
         {imageUploads &&
           imageUploads.map((image) => (
             <div key={image.id} className="raf-image-previewer__image">
-              {image.state === 'uploading' && <LoadingIndicator />}
               {image.state === 'failed' && (
                 <div
                   className="raf-image-previewer__retry"
@@ -46,11 +45,18 @@ export default class ImagePreviewer extends React.Component<Props> {
                   onClick={handleRetry && (() => handleRetry(image.id))}
                 />
               )}
+
               <Thumbnail
                 handleClose={handleRemove && this._handleClose}
                 image={image.previewUri || image.url}
                 id={image.id}
               />
+              {image.state === 'uploading' && (
+                <LoadingIndicator
+                  backgroundColor="rgba(255,255,255,0.1)"
+                  color="rgba(255,255,255,0.7)"
+                />
+              )}
             </div>
           ))}
         {handleFiles && (
