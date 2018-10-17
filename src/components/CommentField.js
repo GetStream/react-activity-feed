@@ -18,7 +18,7 @@ export type Props = {|
  */
 export default class CommentField extends React.Component<Props> {
   static defaultProps = {
-    placeholder: 'Type me up scotty!',
+    placeholder: 'Start typing...',
   };
 
   render() {
