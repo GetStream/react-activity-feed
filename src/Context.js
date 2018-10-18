@@ -67,6 +67,10 @@ type StreamAppProps<UserData> = {|
 
 type StreamAppState<UserData> = AppCtx<UserData>;
 
+/**
+ * Manages the connection with Stream. Any components that should talk to
+ * Stream should be a child of this component.
+ */
 export class StreamApp extends React.Component<
   StreamAppProps<Object>,
   StreamAppState<Object>,
