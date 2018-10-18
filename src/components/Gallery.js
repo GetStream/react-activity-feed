@@ -60,23 +60,22 @@ export default class Gallery extends React.Component<Props, State> {
     return (
       <React.Fragment>
         <div className="raf-gallery">
-          {images.slice(0, 4).map((image, i) => (
+          {images.slice(0, 5).map((image, i) => (
             <div
-              className={`raf-gallery__image-wrapper ${
-                i === 3 && images.length > 4
-                  ? 'raf-gallery__image-wrapper--last'
-                  : ''
+              className={`img ${
+                i === 4 && images.length > 5 ? 'img--last' : ''
               }`}
-              key={`image-${i}`}
               onClick={() => this.openLightbox(i)}
+              key={`image-${i}`}
             >
-              {i === 3 && images.length > 5 ? (
-                <div className="raf-gallery__image-overlay">
-                  {images.length - 3} more
-                </div>
-              ) : null}
-              <img src={image} className="raf-gallery__image" alt="" />
+              <img src={image} className={`raf-gallery__image `} alt="" />
+              <React.Fragment>
+                {i === 4 && images.length > 5 ? (
+                  <p>{images.length - 4} more</p>
+                ) : null}
+              </React.Fragment>
             </div>
+            // </div>
           ))}
 
           <Lightbox

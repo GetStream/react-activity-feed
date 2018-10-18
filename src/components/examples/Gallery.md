@@ -1,12 +1,14 @@
 ```js
 <Gallery
   images={[
-    'https://www.w3schools.com/w3images/fjords.jpg',
-    'https://www.w3schools.com/w3images/fjords.jpg',
-    'https://www.w3schools.com/w3images/fjords.jpg',
-    'https://www.w3schools.com/w3images/fjords.jpg',
-    'https://www.w3schools.com/w3images/fjords.jpg',
-    'https://www.w3schools.com/w3images/fjords.jpg',
+    'https://source.unsplash.com/random/800x600',
+    'https://source.unsplash.com/random/800x601',
+    'https://source.unsplash.com/random/800x603',
+    'https://source.unsplash.com/random/840x600',
+    'https://source.unsplash.com/random/820x600',
+    'https://source.unsplash.com/random/830x600',
+    'https://source.unsplash.com/random/830x600',
+    'https://source.unsplash.com/random/830x600',
   ]}
 />
 ```
