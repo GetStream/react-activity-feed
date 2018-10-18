@@ -1,4 +1,4 @@
-### Disclaimer: These components is in beta! Breaking changes will be kept to a minimum, but will probably occur.
+### Disclaimer: This library is in beta! Breaking changes will very likely occur.
 This library provides components that interact with Stream's APIs.
 In order to use the components you need to have an account and you need to nest
 the components that interact with feeds inside the `<StreamApp>` element which
