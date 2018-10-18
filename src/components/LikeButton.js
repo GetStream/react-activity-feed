@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import ReactionToggleIcon from './ReactionToggleIcon';
 import type {
   BaseActivityResponse,
@@ -12,6 +12,7 @@ import likebuttonInactive from '../images/like@1x.png';
 type Props = {|
   activity: BaseActivityResponse,
   onToggleReaction: ToggleReactionCallbackFunction,
+  children?: React.Node,
 |};
 
 /**

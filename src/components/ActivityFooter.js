@@ -8,6 +8,8 @@ import Flex from './Flex';
 export type Props = {|
   children: React.Node,
   activity: any,
+  onToggleReaction: any,
+  children?: React.Node,
 |};
 
 /**
@@ -19,29 +21,11 @@ export default class ActivityFooter extends React.Component<Props> {
   render() {
     return (
       <div className="raf-activity-footer">
-        <div className="raf-activity-footer__left">
-          {/* <ReactionIcon
-            icon="https://placehold.it/22x22"
-            inactiveIcon="https://placehold.it/22x22"
-            activeIcon="https://placehold.it/22x22"
-            labelSingle="comment"
-            labelPlural="comments"
-            kind="comment"
-            counts={{ comment: 899892 }}
-            own_reactions={{ comment: [] }}
-            onToggleReaction={() => console.log('test')}
-          /> */}
-        </div>
+        <div className="raf-activity-footer__left" />
         <div className="raf-activity-footer__right">
           <Flex vcenter>
-            <LikeButton
-              activity={this.props.activity}
-              onToggleReaction={() => console.log('test')}
-            />
-            <RepostButton
-              activity={this.props.activity}
-              onToggleReaction={() => console.log('test')}
-            />
+            <LikeButton {...this.props} />
+            <RepostButton {...this.props} />
           </Flex>
         </div>
       </div>
