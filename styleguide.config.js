@@ -7,10 +7,10 @@ module.exports = {
   assetsDir: 'src/assets',
   sortProps: (props) => props,
   sections: [
-    // {
-    //   name: 'Introduction',
-    //   content: 'docs/setup.md',
-    // },
+    {
+      name: 'Introduction',
+      content: 'docs/setup.md',
+    },
     {
       name: 'Top Level Components',
       // content: 'docs/top-level-components.md',

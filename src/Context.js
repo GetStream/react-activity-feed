@@ -50,9 +50,13 @@ export type AppCtx<UserData> = {|
 |};
 
 type StreamAppProps<UserData> = {|
+  /** The ID of your app, can be found on the [Stream dashboard](https://getstream.io/dashboard) */
   appId: string,
+  /** The API key for your app, can be found on the [Stream dashboard](https://getstream.io/dashboard) */
   apiKey: string,
+  /** The access token for the end user that uses your website, how to generate it can be found [here](https://getstream.io/docs/#frontend_setup) */
   token: string,
+  /** Any options that [`stream.connect()`](https://getstream.io/docs/#setup) accepts */
   options?: {},
   analyticsToken?: string,
   sharedFeeds: Array<FeedProps>,

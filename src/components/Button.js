@@ -9,7 +9,7 @@ export type Props = {|
   onClick?: (SyntheticEvent<HTMLButtonElement>) => mixed,
   onKeyPress?: (SyntheticEvent<HTMLButtonElement>) => mixed,
   disabled: boolean,
-  loading?: boolean,
+  loading: boolean,
 |};
 
 /**
@@ -21,6 +21,7 @@ export default class Button extends React.Component<Props> {
     buttonStyle: 'info',
     type: 'button',
     disabled: false,
+    loading: false,
   };
 
   render() {
@@ -34,7 +35,6 @@ export default class Button extends React.Component<Props> {
         onKeyPress={this.props.onKeyPress}
         type={this.props.type}
         disabled={this.props.disabled}
-        loading={this.props.loading}
       >
         {!this.props.loading ? (
           children
