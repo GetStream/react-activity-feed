@@ -289,7 +289,8 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       .addActivity(activity);
   }
 
-  onSubmitForm = async () => {
+  onSubmitForm = async (e) => {
+    e.preventDefault();
     try {
       await this.addActivity();
     } catch (e) {
