@@ -19,11 +19,9 @@
   token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZXhhbXBsZS11c2VyIn0.XEKjtzD2AIQMLXH6kfJlL8P_JV4CBYvcMsmQCFjyY2U"
 >
   <FlatFeed
-    Activity={(props) =>
-      console.log(props.activity) || (
-        <Activity {...props} Footer={<ActivityFooter {...props} />} />
-      )
-    }
+    Activity={(props) => (
+      <Activity {...props} Footer={<ActivityFooter {...props} />} />
+    )}
   />
 </StreamApp>
 ```
