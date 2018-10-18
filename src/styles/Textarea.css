@@ -26,6 +26,8 @@
     overflow: hidden;
     font-size: 14px;
     line-height: 30px;
+    position: relative;
+    z-index: $z9;
   }
   &__item {
     div {
