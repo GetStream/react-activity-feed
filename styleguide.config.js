@@ -1,23 +1,33 @@
 // @noflow
 /* eslint-env commonjs*/
 const path = require('path');
+const topLevelComponents = [
+  'FlatFeed',
+  'NotificationFeed',
+  'StatusUpdateForm',
+  'Activity',
+  'Notification',
+  // 'SinglePost',
+];
+
 module.exports = {
   title: 'React Activity Feed - Docs',
   styleguideDir: 'docs',
   assetsDir: 'src/assets',
   sortProps: (props) => props,
   sections: [
-    // {
-    //   name: 'Introduction',
-    //   content: 'docs/setup.md',
-    // },
+    {
+      name: 'Introduction',
+      content: 'docs/setup.md',
+    },
     {
       name: 'Top Level Components',
       // content: 'docs/top-level-components.md',
       components: [
         'src/Context.js',
-        'src/components/FlatFeed.js',
-        'src/components/NotificationFeed.js',
+        ...topLevelComponents.map(
+          (component) => `src/components/${component}.js`,
+        ),
         // 'src/components/SinglePost.js',
       ],
       exampleMode: 'collapse',
@@ -27,7 +37,7 @@ module.exports = {
       name: 'UI Components',
       // content: 'docs/other-components.md',
       components: 'src/components/**/*.js',
-      ignore: ['**/FlatFeed.js', '**/NotificationFeed.js', '**/SinglePost.js'],
+      ignore: topLevelComponents.map((component) => `**/${component}.js`),
       exampleMode: 'collapse',
       usageMode: 'expand',
     },

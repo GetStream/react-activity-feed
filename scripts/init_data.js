@@ -86,7 +86,8 @@ const getActivities = (client, users) => [
     actor: client.collections.createUserReference(users[1].id),
     verb: 'reply',
     object: 'sad, I wanted drama',
-    image: 'https://pbs.twimg.com/media/DlD9f0-XgAAD_rU.jpg',
+    image:
+      'https://images.unsplash.com/photo-1516544820488-4a99efa70a58?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0ff2b499992b568b957a0a9636540ed2&dpr=1&auto=format&fit=crop&w=1000&q=80&cs=tinysrgb',
   },
   {
     actor: client.collections.createUserReference(users[2].id),

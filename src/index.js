@@ -55,10 +55,56 @@ import './styles/Timestamp.css';
 import './styles/Title.css';
 import './styles/UserBar.css';
 
+// Top level components
 export * from './Context';
-export { default as Gallery } from './components/Gallery';
-export { default as StatusUpdateForm } from './components/StatusUpdateForm';
-export { default as Activity } from './components/Activity';
 export { default as FlatFeed } from './components/FlatFeed';
 export { default as NotificationFeed } from './components/NotificationFeed';
+export { default as StatusUpdateForm } from './components/StatusUpdateForm';
+export { default as Activity } from './components/Activity';
+export { default as Notification } from './components/Notification';
+
+// Upload related components
+export { default as FileInput } from './components/FileInput';
+export { default as FilePreviewer } from './components/FilePreviewer';
+export { default as FileUploadButton } from './components/FileUploadButton';
+export { default as ImageDropzone } from './components/ImageDropzone';
+export { default as ImagePreviewer } from './components/ImagePreviewer';
+export { default as ImageInput } from './components/ImageInput';
+export { default as ImageUploadButton } from './components/ImageUploadButton';
+
+// Activity sub components
+export { default as UserBar } from './components/UserBar';
+export { default as Card } from './components/Card';
+export { default as Gallery } from './components/Gallery';
+export { default as Avatar } from './components/Avatar';
+export { default as AvatarGroup } from './components/AvatarGroup';
+
+// Icons
+export { default as LikeButton } from './components/LikeButton';
+export { default as RepostButton } from './components/RepostButton';
+export { default as ReactionIcon } from './components/ReactionIcon';
+export { default as ReactionToggleIcon } from './components/ReactionToggleIcon';
+export { default as IconBadge } from './components/IconBadge';
+
+// Comment related
+export { default as CommentItem } from './components/CommentItem';
+export { default as CommentField } from './components/CommentField';
+
+// Generic components
+export { default as Button } from './components/Button';
 export { default as LoadingIndicator } from './components/LoadingIndicator';
+export { default as Thumbnail } from './components/Thumbnail';
+export { default as DataLabel } from './components/DataLabel';
+
+// Emoji stuff
+export { default as Textarea } from './components/Textarea';
+export { default as EmojiPicker } from './components/EmojiPicker';
+
+// Not reusable components
+export {
+  default as ThumbnailPlaceholder,
+} from './components/ThumbnailPlaceholder';
+export {
+  default as NewActivitiesNotification,
+} from './components/NewActivitiesNotification';
+export { default as InfiniteScroll } from './components/InfiniteScroll';

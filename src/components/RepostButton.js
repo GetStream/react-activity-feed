@@ -6,6 +6,9 @@ import type {
   ToggleReactionCallbackFunction,
 } from '../types';
 
+import repostButtonActive from '../images/repost-active@1x.png';
+import repostButtonInactive from '../images/repost@1x.png';
+
 type Props = {|
   activity: BaseActivityResponse,
   onToggleReaction: ToggleReactionCallbackFunction,
@@ -26,8 +29,8 @@ export default class RepostButton extends React.Component<Props> {
         own_reactions={activity.own_reactions}
         kind="repost"
         onPress={() => onToggleReaction('repost', activity, {})}
-        activeIcon={require('../images/repost-active@1x.png')}
-        inactiveIcon={require('../images/repost@1x.png')}
+        activeIcon={repostButtonActive}
+        inactiveIcon={repostButtonInactive}
         labelSingle="repost"
         labelPlural="reposts"
       />
