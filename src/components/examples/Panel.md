@@ -26,14 +26,3 @@
   </PanelFooter>
 </Panel>
 ```
-
-### tracking leads
-
-```js
-<div style={{ backgroundColor: '#F0F0F0', padding: 20 }}>
-  <TimeHeader>June 2018</TimeHeader>
-
-  <TimeHeader>May 2018</TimeHeader>
-  <TimeHeader>April 2018</TimeHeader>
-</div>
-```
