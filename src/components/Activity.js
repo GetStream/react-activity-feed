@@ -56,7 +56,6 @@ export default class Activity extends React.Component<Props> {
           subtitle={this.props.sub}
           timestamp={this.props.activity.time}
           icon={this.props.icon}
-          // onPressAvatar={this._getOnPressAvatar()}
         />
       </div>
     );

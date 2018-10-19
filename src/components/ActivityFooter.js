@@ -13,7 +13,7 @@ export type Props = {|
 |};
 
 /**
- * Component is described here.
+ * Wrapper with LikeButton and Repost Button used by the Standard Activity.
  *
  * @example ./examples/ActivityFooter.md
  */

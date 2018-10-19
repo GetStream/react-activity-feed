@@ -2,6 +2,7 @@
 import React from 'react';
 import { humanizeTimestamp } from '../utils';
 import Avatar from './Avatar';
+import FollowButton from './FollowButton';
 
 export type Props = {|
   username: ?string,
@@ -48,8 +49,11 @@ export default class UserBar extends React.Component<Props> {
             <p className="raf-user-bar__subtitle">{this.props.subtitle}</p>
           ) : null}
         </div>
-        {time && <div className="raf-user-bar__extra">{time}</div>}
-        {this.props.follow && <div className="raf-user-bar__extra">time</div>}
+        {this.props.follow ? (
+          <FollowButton />
+        ) : (
+          <div className="raf-user-bar__extra">{time}</div>
+        )}
       </div>
     );
   }

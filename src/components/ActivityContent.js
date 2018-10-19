@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * Component is described here.
+ * Doesn't do anything
  *
  * @example ./examples/ActivityContent.md
  */

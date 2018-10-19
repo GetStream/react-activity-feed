@@ -7,7 +7,7 @@ export type Props = {|
 |};
 
 /**
- * Component is described here.
+ * Renders a header with a line. Does not neccesarily need a time stamp.
  *
  * @example ./examples/TimeHeader.md
  */

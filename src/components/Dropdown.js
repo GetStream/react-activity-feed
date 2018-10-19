@@ -10,7 +10,7 @@ export type State = {|
 |};
 
 /**
- * Component is described here.
+ * Simple wrapper for a small dropdown.
  *
  * @example ./examples/Dropdown.md
  */
