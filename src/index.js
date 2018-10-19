@@ -62,6 +62,9 @@ export { default as NotificationFeed } from './components/NotificationFeed';
 export { default as StatusUpdateForm } from './components/StatusUpdateForm';
 export { default as Activity } from './components/Activity';
 export { default as Notification } from './components/Notification';
+export {
+  default as NotificationDropdown,
+} from './components/NotificationDropdown';
 
 // Upload related components
 export { default as FileInput } from './components/FileInput';
