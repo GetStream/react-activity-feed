@@ -1,4 +1,9 @@
-StatusUpdateForm
+### Features:
+
+- OG scraping
+- Image uploads
+- File uploads
+- Emoji select and autocomplete
 
 ```js
 <StreamApp

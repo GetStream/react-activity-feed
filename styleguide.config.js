@@ -10,6 +10,21 @@ const topLevelComponents = [
   // 'SinglePost',
 ];
 
+const compositionComponents = [
+  'Flex',
+  'Panel',
+  'PanelHeader',
+  'PanelContent',
+  'PanelFooter',
+  'TimeHeader',
+  'Title',
+  'Dropdown',
+  'DropdownPanel',
+  'ActivityHeader',
+  'ActivityContent',
+  'ActivityFooter',
+];
+
 module.exports = {
   title: 'React Activity Feed - Docs',
   styleguideDir: 'docs',
@@ -37,7 +52,21 @@ module.exports = {
       name: 'UI Components',
       // content: 'docs/other-components.md',
       components: 'src/components/**/*.js',
-      ignore: topLevelComponents.map((component) => `**/${component}.js`),
+      ignore: [
+        ...topLevelComponents.map((component) => `**/${component}.js`),
+        ...compositionComponents.map((component) => `**/${component}.js`),
+      ],
+      exampleMode: 'collapse',
+      usageMode: 'expand',
+    },
+    {
+      name: 'Layout Components',
+      // content: 'docs/other-components.md',
+      components: [
+        ...compositionComponents.map(
+          (component) => `src/components/${component}.js`,
+        ),
+      ],
       exampleMode: 'collapse',
       usageMode: 'expand',
     },
