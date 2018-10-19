@@ -10,7 +10,7 @@
 </StreamApp>
 ```
 
-### FlatFeed with custom Activity
+### FlatFeed with custom ActivityFooter
 
 ```js
 <StreamApp

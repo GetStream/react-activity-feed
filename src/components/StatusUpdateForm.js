@@ -523,6 +523,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   render() {
     const activeOg = this._activeOg();
     const availableOg = this._availableOg();
+
     return (
       <Panel>
         <form onSubmit={this.onSubmitForm}>
@@ -533,7 +534,11 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
             <PanelContent>
               <div style={{ display: 'flex' }}>
                 <div style={{ marginRight: '16px' }}>
-                  <Avatar size={50} circle />
+                  <Avatar
+                    image={'https://placeimg.com/100/100'}
+                    size={50}
+                    circle
+                  />
                 </div>
                 <Textarea
                   innerRef={this.textInputRef}
