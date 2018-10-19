@@ -3,6 +3,10 @@
   border-bottom: 1px solid color($black tint(93%));
   padding: 18px;
   background: color($black tint(97%));
+  cursor: pointer;
+  &:hover {
+    background: color($black tint(98%));
+  }
 }
 
 .raf-notification .raf-avatar {

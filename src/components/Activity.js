@@ -18,7 +18,7 @@ type Props = {
   Content?: Renderable,
   Footer?: Renderable,
   onPress?: () => mixed,
-  onPressAvatar?: () => mixed,
+  onClickAvatar?: () => mixed,
   sub?: string,
   icon?: string,
   activity: ActivityData,
@@ -47,6 +47,12 @@ export default class Activity extends React.Component<Props> {
         <UserBar
           username={actor.data.name}
           avatar={actor.data.profileImage}
+          onClickAvatar={
+            this.props.onClickAvatar
+              ? this.props.onClickAvatar
+              : // $FlowFixMe
+                this.onClickAvatar
+          }
           subtitle={this.props.sub}
           timestamp={this.props.activity.time}
           icon={this.props.icon}
@@ -54,6 +60,11 @@ export default class Activity extends React.Component<Props> {
         />
       </div>
     );
+  };
+
+  onClickAvatar = (e: SyntheticEvent<HTMLElement>) => {
+    e.stopPropagation();
+    console.log('clicked on Avatar in Activity');
   };
 
   renderText = (text: string) => {

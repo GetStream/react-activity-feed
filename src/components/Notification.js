@@ -9,6 +9,8 @@ import { humanizeTimestamp, userOrDefault } from '../utils';
 
 type Props = {
   activityGroup: any,
+  onClickNotification?: () => mixed,
+  onClickAvatar?: () => mixed,
 };
 
 /**
@@ -22,6 +24,11 @@ export default class Notification extends React.Component<Props> {
     const users = [];
     activities.forEach((item) => users.push(item.actor.data));
     return users;
+  };
+
+  onClickAvatar = (e: SyntheticEvent<>) => {
+    e.stopPropagation();
+    console.log('onClickAvatar from Notification');
   };
 
   render() {
@@ -63,12 +70,27 @@ export default class Notification extends React.Component<Props> {
 
     return (
       <div
+        onClick={
+          this.props.onClickNotification
+            ? this.props.onClickNotification
+            : () => console.log('this.props.onClickNotification')
+        }
         className={
           'raf-notification' +
           (this.props.activityGroup.read ? ' raf-notification--read' : '')
         }
       >
-        <Avatar image={lastActor.data.profileImage} circle size={30} />
+        <Avatar
+          onClickAvatar={
+            this.props.onClickAvatar
+              ? this.props.onClickAvatar
+              : // $FlowFixMe
+                this.onClickAvatar
+          }
+          image={lastActor.data.profileImage}
+          circle
+          size={30}
+        />
         <div className="raf-notification__content">
           <p>
             <strong>{headerText}</strong> {headerSubtext}

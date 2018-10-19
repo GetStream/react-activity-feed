@@ -20,6 +20,7 @@ export type Props = {|
   Content: Renderable,
   Footer: Renderable,
   activity: any,
+  onToggleReaction: any,
 |};
 
 /**
@@ -103,7 +104,7 @@ export default class B2BActivity extends React.Component<Props> {
               counts={activity.reaction_counts}
               own_reactions={activity.own_reactions}
               kind="like"
-              onPress={() => console.log('hello world')}
+              onPress={() => this.props.onToggleReaction('like', activity, {})}
               activeIcon="/images/thumb-filled.svg"
               inactiveIcon="/images/thumb.svg"
               labelSingle="like"
@@ -113,7 +114,7 @@ export default class B2BActivity extends React.Component<Props> {
               counts={activity.reaction_counts}
               kind="comment"
               own_reactions={{}}
-              onPress={() => console.log('hello world')}
+              onPress={() => this.props.onToggleReaction('like', activity, {})}
               icon="/images/comment.svg"
               activeIcon="/images/comment.svg"
               inactiveIcon="/images/comment.svg"

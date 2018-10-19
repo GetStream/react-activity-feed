@@ -17,7 +17,6 @@ const compositionComponents = [
   'PanelContent',
   'PanelFooter',
   'TimeHeader',
-  'Title',
   'Dropdown',
   'DropdownPanel',
   'ActivityHeader',
