@@ -22,6 +22,7 @@ export default class ReactionList extends React.Component<Props> {
     if (!reactionsOfKind.length) {
       return null;
     }
+
     return (
       <React.Fragment>
         {reactionsOfKind.map((item) => smartRender(Reaction, item))}
