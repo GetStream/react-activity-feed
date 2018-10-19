@@ -1,39 +1,43 @@
 CommentList
 
 ```js
-const data = [
-  {
-    user: {
+const reactions = {
+  comment: [
+    {
+      user: {
+        data: {
+          name: 'Rosemary',
+          profileImage: 'https://randomuser.me/api/portraits/women/20.jpg',
+        },
+      },
       data: {
-        name: 'Rosemary',
-        subtitle: 'likes playing fresbee in the park',
-        profileImage: 'https://randomuser.me/api/portraits/women/20.jpg',
-      }
+        text: 'Me too!',
+      },
     },
-    data: {
-      text: 'Snowboarding is awesome!'
-    }
-  },
-  {
-    user: {
+    {
+      user: {
+        data: {
+          name: 'Nora Ferguson',
+          profileImage: 'https://randomuser.me/api/portraits/women/72.jpg',
+        },
+      },
       data: {
-        name: 'Dean',
-        subtitle: 'Woah, livin\' on a prayer ',
-        profileImage: 'https://randomuser.me/api/portraits/men/20.jpg',
-      }
+        text: 'Kittie kittie kittie',
+      },
     },
-    data: {
-      text: 'Wakeboarding is awesome!'
-    }
-  }
-];
+    {
+      user: {
+        data: {
+          name: 'Terry Walker',
+          profileImage: 'https://randomuser.me/api/portraits/women/48.jpg',
+        },
+      },
+      data: {
+        text: 'Snowboarding is awesome!',
+      },
+    },
+  ],
+};
 
-const renderCommentItem = (comment, i) => {
-  return <CommentItem comment={comment} key={`CommentItem-${i}`} />
-}
-
-<CommentList
-  data={data}
-  renderCommentItem={renderCommentItem}
-/>
+<CommentList data={reactions} />;
 ```

@@ -1,9 +1,11 @@
 //@flow
 import React from 'react';
-import type { Comment } from '../types';
+import ReactionList from './ReactionList';
+import CommentItem from './CommentItem';
+import type { BaseReactionMap } from '../types';
 
 export type Props = {|
-  data: Comment[],
+  data: BaseReactionMap,
   renderCommentItem: (item: Comment, i: number) => mixed,
 |};
 
@@ -14,12 +16,14 @@ export type Props = {|
  */
 export default class CommentList extends React.Component<Props> {
   render() {
-    const { data, renderCommentItem } = this.props;
+    const { data } = this.props;
     return (
       <React.Fragment>
-        {data && renderCommentItem
-          ? data.map((item, i) => renderCommentItem(item, i))
-          : null}
+        <ReactionList
+          reactionKind={'comment'}
+          reactions={data}
+          Reaction={(comment) => <CommentItem comment={comment} />}
+        />
       </React.Fragment>
     );
   }
