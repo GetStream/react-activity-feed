@@ -30,6 +30,7 @@ type Props = {|
   noPagination?: boolean,
   children?: React.Node,
   width?: number,
+  right?: boolean,
 |};
 
 /**
@@ -42,7 +43,6 @@ export default class NotificationDropdown extends React.Component<Props> {
     Group: Notification,
     notify: true,
     width: 475,
-    unread: 0,
   };
   render() {
     return (
@@ -68,54 +68,91 @@ type State = {|
 
 type PropsInner = {| ...Props, ...BaseFeedCtx |};
 class NotificationDropdownInner extends React.Component<PropsInner, State> {
+  dropdownRef: { current: null | HTMLDivElement };
+
   constructor(props: PropsInner) {
     super(props);
     this.state = {
       open: false,
     };
+    this.dropdownRef = React.createRef();
   }
 
   _refresh = async () => {
     await this.props.refresh(makeDefaultOptions(this.props.options));
-    // const ref = this.listRef;
-    // if (ref && ref.current) {
-    //   ref.current.scrollToOffset({ offset: 0 });
-    // }
   };
   async componentDidMount() {
     await this._refresh();
   }
 
-  _onClickIcon = () => {
-    this.setState({
-      open: !this.state.open,
-    });
+  openDropdown = () => {
+    this.setState(
+      {
+        open: true,
+      },
+      () => {
+        //$FlowFixMe
+        document.addEventListener('click', this.closeDropdown, false);
+      },
+    );
   };
+
+  closeDropdown = (e) => {
+    if (
+      this.dropdownRef.current !== null &&
+      !this.dropdownRef.current.contains(e.target)
+    ) {
+      this.setState(
+        {
+          open: false,
+        },
+        () => {
+          //$FlowFixMe
+          document.removeEventListener('click', this.closeDropdown, false);
+        },
+      );
+    }
+  };
+
+  componentWillUnmount() {
+    //$FlowFixMe
+    document.removeEventListener('click', this.closeDropdown, false);
+  }
 
   render() {
     return (
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: 'relative', display: 'inline-block' }}>
         <IconBadge
           unseen={this.props.unseen}
-          onClick={this._onClickIcon}
+          onClick={this.openDropdown}
           showNumber={true}
           hidden={!this.props.notify}
         />
-        {this.state.open ? (
-          <div
-            style={{
-              position: 'absolute',
-              left: -22,
-              top: 35,
-              width: this.props.width,
-              zIndex: 9999,
-            }}
-          >
-            <DropdownPanel>
-              <NotificationFeed notify={false} options={{ mark_seen: true }} />
-            </DropdownPanel>
-          </div>
-        ) : null}
+
+        <div
+          ref={this.dropdownRef}
+          style={{
+            position: 'absolute',
+            left: this.props.right ? '' : '-22px',
+            right: this.props.right ? -29 : 0,
+            top: 35,
+            width: this.props.width,
+            zIndex: 9999,
+            visibility: this.state.open ? 'visible' : 'hidden',
+            transform: this.state.open
+              ? 'translateY(0px) scale(1)'
+              : 'translateY(25px) scale(.9)',
+            opacity: this.state.open ? '1' : '0',
+            transition: 'all .1s ease-in',
+          }}
+        >
+          <DropdownPanel arrow right={this.props.right}>
+            <NotificationFeed
+              notify={this.props.notify}
+              options={{ mark_seen: true }}
+            />
+          </DropdownPanel>
+        </div>
       </div>
     );
   }

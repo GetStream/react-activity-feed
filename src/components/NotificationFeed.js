@@ -124,7 +124,11 @@ class NotificationFeedInner extends React.Component<PropsInner> {
           loadMore={this.props.loadNextPage}
           hasMore={this.props.hasNextPage}
           isLoading={this.props.refreshing}
-          loader={<LoadingIndicator key={0} />}
+          loader={
+            <div style={{ margin: 10 }}>
+              <LoadingIndicator key={0} />
+            </div>
+          }
         >
           {this.props.activityOrder.map((id) =>
             this._renderWrappedGroup({

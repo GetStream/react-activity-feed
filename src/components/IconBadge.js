@@ -12,7 +12,6 @@ export type Props = {|
 |};
 
 /**
- * Component is described here.
  *
  * @example ./examples/IconBadge.md
  */

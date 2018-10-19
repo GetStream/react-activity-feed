@@ -2,29 +2,32 @@
   background-color: $white;
   box-shadow: 0 2px 4px 0 color($black a(30%));
   border-radius: $borderRadius;
-  /* overflow: hidden; */
+  overflow: hidden;
+  &--arrow {
+    &:after {
+      bottom: 100%;
+      left: 30px;
+      border: solid $transparent;
+      content: ' ';
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      border-color: $transparent;
+      border-bottom-color: rgb(247, 247, 247);
+      border-width: 8px;
+      margin-left: -8px;
+    }
+    &-right {
+      &:after {
+        left: initial;
+        right: 30px;
+      }
+    }
+  }
 }
 
-.raf-dropdown-panel--arrow {
-  position: relative;
-}
-
-.raf-dropdown-panel--arrow:after {
-  bottom: 100%;
-  left: 30px;
-  border: solid $transparent;
-  content: ' ';
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  border-color: $transparent;
-  border-bottom-color: $white;
-  border-width: 8px;
-  margin-left: -8px;
-}
-
-.raf-dropdown-panel__header {
+.raf-dropdown-panel .raf-dropdown-panel__header {
   overflow: hidden;
   border-radius: $borderRadius $borderRadius 0 0;
 }
