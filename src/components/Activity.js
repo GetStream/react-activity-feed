@@ -7,9 +7,11 @@ import UserBar from './UserBar';
 import Card from './Card';
 import FileIcon from './FileIcon';
 import Gallery from './Gallery';
+import Dropdown from './Dropdown';
+import Link from './Link';
 
 import type { ActivityData, Renderable } from '../types';
-import { smartRender } from '../utils';
+import { smartRender, humanizeTimestamp } from '../utils';
 
 import { truncate } from 'lodash';
 
@@ -53,9 +55,30 @@ export default class Activity extends React.Component<Props> {
               : // $FlowFixMe
                 this.onClickAvatar
           }
-          subtitle={this.props.sub}
+          subtitle={humanizeTimestamp(this.props.activity.time)}
           timestamp={this.props.activity.time}
           icon={this.props.icon}
+          Right={() => (
+            <Dropdown>
+              <ul>
+                <li>
+                  <Link>View Post</Link>
+                </li>
+                <li>
+                  <Link>Embed</Link>
+                </li>
+                <li>
+                  <Link>Unfollow</Link>
+                </li>
+                <li>
+                  <Link>Repost User</Link>
+                </li>
+                <li>
+                  <Link>Block User</Link>
+                </li>
+              </ul>
+            </Dropdown>
+          )}
         />
       </div>
     );

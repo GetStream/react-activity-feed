@@ -17,10 +17,15 @@
   border-radius: 2px;
   padding: 10px 20px;
   min-width: 120px;
+  z-index: 9999;
 }
 
 .raf-dropdown__box ul {
   margin: 0;
   padding: 0;
   list-style-type: none;
+  a {
+    font-size: 14px;
+    color: white;
+  }
 }

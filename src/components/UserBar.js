@@ -2,7 +2,10 @@
 import React from 'react';
 import { humanizeTimestamp } from '../utils';
 import Avatar from './Avatar';
-import FollowButton from './FollowButton';
+
+import type { Renderable } from '../types';
+
+import { smartRender } from '../utils';
 
 export type Props = {|
   username: ?string,
@@ -13,6 +16,7 @@ export type Props = {|
   icon?: string,
   onClickAvatar?: () => mixed,
   follow?: boolean,
+  Right?: Renderable,
 |};
 
 /**
@@ -49,11 +53,11 @@ export default class UserBar extends React.Component<Props> {
             <p className="raf-user-bar__subtitle">{this.props.subtitle}</p>
           ) : null}
         </div>
-        {this.props.follow ? (
-          <FollowButton />
-        ) : (
-          <div className="raf-user-bar__extra">{time}</div>
-        )}
+        <React.Fragment>
+          {smartRender(this.props.Right, {}, () => (
+            <p className="raf-user-bar__extra">{time}</p>
+          ))}
+        </React.Fragment>
       </div>
     );
   }
