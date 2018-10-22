@@ -1,6 +1,6 @@
 {
   "name": "react-activity-feed",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "React components to create activity and notification feeds",
   "author": "GetStream",
   "license": "BSD-3-Clause",

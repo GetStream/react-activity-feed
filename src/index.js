@@ -66,14 +66,10 @@ export {
   default as NotificationDropdown,
 } from './components/NotificationDropdown';
 
-// Upload related components
-export { default as FileInput } from './components/FileInput';
-export { default as FilePreviewer } from './components/FilePreviewer';
-export { default as FileUploadButton } from './components/FileUploadButton';
-export { default as ImageDropzone } from './components/ImageDropzone';
-export { default as ImagePreviewer } from './components/ImagePreviewer';
-export { default as ImageInput } from './components/ImageInput';
-export { default as ImageUploadButton } from './components/ImageUploadButton';
+// Feed sub components
+export {
+  default as NewActivitiesNotification,
+} from './components/NewActivitiesNotification';
 
 // Activity sub components
 export { default as UserBar } from './components/UserBar';
@@ -89,9 +85,9 @@ export { default as ReactionIcon } from './components/ReactionIcon';
 export { default as ReactionToggleIcon } from './components/ReactionToggleIcon';
 export { default as IconBadge } from './components/IconBadge';
 
-// Comment related
-export { default as CommentItem } from './components/CommentItem';
-export { default as CommentField } from './components/CommentField';
+// Comment related (not usable yet)
+// export { default as CommentItem } from './components/CommentItem';
+// export { default as CommentField } from './components/CommentField';
 
 // Generic components
 export { default as Button } from './components/Button';
@@ -103,11 +99,11 @@ export { default as DataLabel } from './components/DataLabel';
 export { default as Textarea } from './components/Textarea';
 export { default as EmojiPicker } from './components/EmojiPicker';
 
-// Not reusable components
-export {
-  default as ThumbnailPlaceholder,
-} from './components/ThumbnailPlaceholder';
-export {
-  default as NewActivitiesNotification,
-} from './components/NewActivitiesNotification';
-export { default as InfiniteScroll } from './components/InfiniteScroll';
+// Upload related components
+export { default as FileInput } from './components/FileInput';
+export { default as FilePreviewer } from './components/FilePreviewer';
+export { default as FileUploadButton } from './components/FileUploadButton';
+export { default as ImageDropzone } from './components/ImageDropzone';
+export { default as ImagePreviewer } from './components/ImagePreviewer';
+export { default as ImageInput } from './components/ImageInput';
+export { default as ImageUploadButton } from './components/ImageUploadButton';
