@@ -139,11 +139,9 @@ class NotificationDropdownInner extends React.Component<PropsInner, State> {
             width: this.props.width,
             zIndex: 9999,
             visibility: this.state.open ? 'visible' : 'hidden',
-            transform: this.state.open
-              ? 'translateY(0px) scale(1)'
-              : 'translateY(25px) scale(.9)',
+            transform: this.state.open ? 'translateY(0px)' : 'translateY(10px)',
             opacity: this.state.open ? '1' : '0',
-            transition: 'all .1s ease-in',
+            transition: 'all .2s ease-out',
           }}
         >
           <DropdownPanel arrow right={this.props.right}>
