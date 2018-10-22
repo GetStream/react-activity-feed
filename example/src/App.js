@@ -6,6 +6,8 @@ import {
   StatusUpdateForm,
   FlatFeed,
   NotificationDropdown,
+  Activity,
+  LikeButton,
 } from 'react-activity-feed';
 import 'react-activity-feed/dist/index.es.css';
 
@@ -36,7 +38,20 @@ export default class App extends Component<{}> {
             <NotificationDropdown arrow right />
           </div>
           <StatusUpdateForm />
-          <FlatFeed feedGroup="user" notify />
+          <FlatFeed
+            feedGroup="user"
+            notify
+            Activity={(props) => (
+              <Activity
+                {...props}
+                Footer={
+                  <div style={{ padding: '8px 16px' }}>
+                    <LikeButton {...props} />
+                  </div>
+                }
+              />
+            )}
+          />
         </StreamApp>
       </div>
     );
