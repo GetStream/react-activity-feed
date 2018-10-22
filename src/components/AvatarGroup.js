@@ -8,7 +8,6 @@ export type Props = {|
   avatarSize: number,
   limit: number,
 |};
-
 /**
  * Component is described here.
  *

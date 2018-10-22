@@ -125,8 +125,8 @@ class NotificationFeedInner extends React.Component<PropsInner> {
           hasMore={this.props.hasNextPage}
           isLoading={this.props.refreshing}
           loader={
-            <div style={{ margin: 10 }}>
-              <LoadingIndicator key={0} />
+            <div style={{ margin: 10 }} key={'abc'}>
+              <LoadingIndicator />
             </div>
           }
         >

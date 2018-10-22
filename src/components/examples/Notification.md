@@ -5,7 +5,7 @@ const activities = [
   {
     actor: {
       data: {
-        name: 'Jaap Bakker',
+        name: 'Jacky Davidson',
         profileImage: 'https://randomuser.me/api/portraits/men/72.jpg',
       },
     },
@@ -25,7 +25,7 @@ const activities = [
   {
     actor: {
       data: {
-        name: 'Jaap Bakker',
+        name: 'Jordan Belfair',
         profileImage: 'https://randomuser.me/api/portraits/women/72.jpg',
       },
     },
@@ -37,7 +37,7 @@ const activities = [
   {
     actor: {
       data: {
-        name: 'Jaap Bakker',
+        name: 'Jared Fault',
         profileImage: 'https://randomuser.me/api/portraits/women/7.jpg',
       },
     },

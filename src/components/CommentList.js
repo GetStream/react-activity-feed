@@ -10,7 +10,7 @@ export type Props = {|
 |};
 
 /**
- * Component is described here.
+ * CommentList uses ReactionList under the hood to render a list of comments.
  *
  * @example ./examples/CommentList.md
  */
@@ -22,7 +22,9 @@ export default class CommentList extends React.Component<Props> {
         <ReactionList
           reactionKind={'comment'}
           reactions={data}
-          Reaction={(comment) => <CommentItem comment={comment} />}
+          Reaction={(comment) => (
+            <CommentItem comment={comment} key={`${comment}`} />
+          )} // TODO: bettery key
         />
       </React.Fragment>
     );
