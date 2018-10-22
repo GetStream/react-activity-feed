@@ -1,4 +1,5 @@
 // @noflow
+/* globals __dirname */
 /* eslint-env commonjs*/
 const path = require('path');
 const topLevelComponents = [
@@ -28,6 +29,12 @@ module.exports = {
   title: 'React Activity Feed - Docs',
   styleguideDir: 'docs',
   assetsDir: 'src/assets',
+  styleguideComponents: {
+    PathlineRenderer: path.join(
+      __dirname,
+      'src/styleguideComponents/PathlineRenderer.js',
+    ),
+  },
   sortProps: (props) => props,
   sections: [
     {
