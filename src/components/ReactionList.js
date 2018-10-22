@@ -25,7 +25,11 @@ export default class ReactionList extends React.Component<Props> {
 
     return (
       <React.Fragment>
-        {reactionsOfKind.map((item) => smartRender(Reaction, item))}
+        {reactionsOfKind.map((item, i) => (
+          <div key={`reaction-${reactionKind}-${i}`}>
+            <React.Fragment>{smartRender(Reaction, item)}</React.Fragment>
+          </div>
+        ))}
       </React.Fragment>
     );
   }

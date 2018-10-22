@@ -22,9 +22,7 @@ export default class CommentList extends React.Component<Props> {
         <ReactionList
           reactionKind={'comment'}
           reactions={data}
-          Reaction={(comment) => (
-            <CommentItem comment={comment} key={`${comment}`} />
-          )} // TODO: bettery key
+          Reaction={(comment) => <CommentItem comment={comment} />} // TODO: bettery key
         />
       </React.Fragment>
     );
