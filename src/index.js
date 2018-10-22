@@ -1,5 +1,4 @@
 // @flow
-import './styles.css';
 import './App.css';
 import './styles/Activity.css';
 import './styles/ActivityContent.css';
