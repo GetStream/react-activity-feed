@@ -523,7 +523,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   render() {
     const activeOg = this._activeOg();
     const availableOg = this._availableOg();
-
+    const userData = this.props.user.data || {};
     return (
       <Panel>
         <form onSubmit={this.onSubmitForm}>
@@ -535,7 +535,10 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
               <div style={{ display: 'flex' }}>
                 <div style={{ marginRight: '16px' }}>
                   <Avatar
-                    image={'https://placeimg.com/100/100'}
+                    image={
+                      // $FlowFixMe
+                      userData.profileImage || 'https://placehold.it/100x100'
+                    }
                     size={50}
                     circle
                   />
