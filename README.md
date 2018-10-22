@@ -17,13 +17,20 @@ yarn add react-activity-feed
 
 ## Usage
 
+To find out how to use this library please look at:
+
+1. [The example
+   project](https://github.com/GetStream/react-activity-feed/tree/master/example)
+2. The [component reference docs](https://getstream.github.io/react-activity-feed/)
+3. This basic example if you just want to see some code:
+
 ```jsx
 import React, { Component } from 'react';
 
 import { StreamApp, StatusUpdateForm, FlatFeed } from 'react-activity-feed';
 import 'react-activity-feed/dist/index.es.css';
 
-export default class App extends Component<{}> {
+export default class App extends Component {
   render() {
     return (
       <div style={{ width: '600px', margin: '0 auto' }}>
