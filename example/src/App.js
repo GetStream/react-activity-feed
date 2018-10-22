@@ -45,7 +45,7 @@ export default class App extends Component<{}> {
               <Activity
                 {...props}
                 Footer={
-                  <div style={{ padding: '8px 16px' }}>
+                  <div style={{ padding: '8px 16px 0px' }}>
                     <LikeButton {...props} />
                   </div>
                 }

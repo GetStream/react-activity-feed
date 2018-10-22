@@ -10,6 +10,7 @@
     border-radius: $borderRadius;
     padding: 8px;
     transition: background 0.4s;
+    resize: vertical;
     &:focus {
       background: color($black tint(95%));
       outline: none;

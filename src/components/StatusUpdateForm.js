@@ -533,16 +533,21 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
             </PanelHeading>
             <PanelContent>
               <div style={{ display: 'flex' }}>
-                <div style={{ marginRight: '16px' }}>
-                  <Avatar
-                    image={
-                      // $FlowFixMe
-                      userData.profileImage || 'https://placehold.it/100x100'
-                    }
-                    size={50}
-                    circle
-                  />
-                </div>
+                <React.Fragment>
+                  {userData.profileImage && (
+                    <div style={{ marginRight: '16px' }}>
+                      <Avatar
+                        image={
+                          // $FlowFixMe
+                          userData.profileImage ||
+                          'https://placehold.it/100x100'
+                        }
+                        size={50}
+                        circle
+                      />
+                    </div>
+                  )}
+                </React.Fragment>
                 <Textarea
                   innerRef={this.textInputRef}
                   placeholder="Type your post... "
