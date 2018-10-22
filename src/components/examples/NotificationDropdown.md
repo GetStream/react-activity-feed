@@ -1,4 +1,4 @@
-<!-- ```js
+```js
 <StreamApp
   apiKey="3fjzn67nznwt"
   appId="41814"
@@ -6,4 +6,4 @@
 >
   <NotificationDropdown />
 </StreamApp>
-``` -->
+```
