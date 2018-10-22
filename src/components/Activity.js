@@ -24,6 +24,8 @@ type Props = {
   sub?: string,
   icon?: string,
   activity: ActivityData,
+  onClickHashtag: (word: string) => mixed,
+  onClickMention: (word: string) => mixed,
 };
 
 /**
@@ -95,13 +97,27 @@ export default class Activity extends React.Component<Props> {
       .map((word, i) => {
         if (word[0] === '@') {
           return (
-            <a href="" className="raf-activity__mention" key={`item-${i}`}>
+            <a
+              onClick={
+                this.props.onClickMention &&
+                (() => this.props.onClickMention(word))
+              }
+              className="raf-activity__mention"
+              key={`item-${i}`}
+            >
               {word}
             </a>
           );
         } else if (word[0] === '#') {
           return (
-            <a href="" className="raf-activity__hashtag" key={`item-${i}`}>
+            <a
+              onClick={
+                this.props.onClickHashtag &&
+                (() => this.props.onClickHashtag(word))
+              }
+              className="raf-activity__hashtag"
+              key={`item-${i}`}
+            >
               {word}
             </a>
           );

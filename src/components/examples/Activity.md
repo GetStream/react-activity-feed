@@ -49,7 +49,10 @@ const activity = {
   time: new Date(),
 };
 
-<Activity activity={activity} />;
+<Activity
+  onClickHashtag={(word) => console.log(`clicked on ${word}`)}
+  activity={activity}
+/>;
 ```
 
 #### Activity with enriched URL
