@@ -13,7 +13,7 @@ type Props = {|
  *
  * @example ./examples/LoadingIndicator.md
  */
-export default class LoadingIndicator extends React.Component<Props> {
+export default class LoadingIndicator extends React.PureComponent<Props> {
   static defaultProps = {
     size: 20,
     width: 2,
