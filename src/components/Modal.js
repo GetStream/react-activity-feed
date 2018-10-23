@@ -41,25 +41,21 @@ export default class Modal extends React.Component<Props> {
     this.setBodyStyle();
     if (this.props.open) {
       window.addEventListener('keyup', this.handleKeyUp, false);
-      // $FlowFixMe
-      document.addEventListener('click', this.handleOutsideClick, false);
+      window.addEventListener('click', this.handleOutsideClick, false);
     } else {
       window.removeEventListener('keyup', this.handleKeyUp, false);
-      // $FlowFixMe
-      document.removeEventListener('click', this.handleOutsideClick, false);
+      window.removeEventListener('click', this.handleOutsideClick, false);
     }
   }
 
   componentWillUnmount() {
     window.removeEventListener('keyup', this.handleKeyUp, false);
-    // $FlowFixMe
-    document.removeEventListener('click', this.handleOutsideClick, false);
+    window.removeEventListener('click', this.handleOutsideClick, false);
   }
 
   handleKeyUp = (e: SyntheticKeyboardEvent<>) => {
     const keys = {
-      // $FlowFixMe
-      27: () => {
+      '27': () => {
         e.preventDefault();
         this.props.onClose();
         window.removeEventListener('keyup', this.handleKeyUp, false);
@@ -71,13 +67,16 @@ export default class Modal extends React.Component<Props> {
     }
   };
 
-  handleOutsideClick = (e: SyntheticEvent<>) => {
+  handleOutsideClick = (event: SyntheticMouseEvent<HTMLDivElement>) => {
     if (this.modalRef !== null || this.modalRef !== undefined) {
-      // $FlowFixMe
-      if (!this.modalRef.current.contains(e.target)) {
+      const target: HTMLElement = (event.target: any);
+      if (
+        this.modalRef.current !== null &&
+        !this.modalRef.current.contains(target)
+      ) {
         this.props.onClose();
-        // $FlowFixMe
-        document.removeEventListener('click', this.handleOutsideClick, false);
+
+        window.removeEventListener('click', this.handleOutsideClick, false);
       }
     }
   };
