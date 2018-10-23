@@ -14,7 +14,7 @@ import 'react-activity-feed/dist/index.es.css';
 export default class App extends Component<{}> {
   render() {
     return (
-      <div style={{ width: '600px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '600px', margin: '0 auto' }}>
         <StreamApp
           apiKey="3fjzn67nznwt"
           appId="41814"
