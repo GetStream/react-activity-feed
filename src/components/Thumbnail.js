@@ -2,7 +2,7 @@
 
 import React from 'react';
 import IconButton from './IconButton';
-import placeholder from '../images/placeholder.png';
+import placeholder from '../images/placeholder-generic.png';
 
 export type Props = {|
   handleClose?: (id?: string) => mixed,
