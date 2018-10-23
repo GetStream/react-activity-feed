@@ -15,6 +15,10 @@ import Link from './Link';
 import type { Renderable } from '../types';
 import { smartRender } from '../utils';
 
+import ThumbUp from '../assets/images/thumb.svg';
+import ThumbUpFilled from '../assets/images/thumb-filled.svg';
+import Comment from '../assets/images/comment.svg';
+
 export type Props = {|
   Header: Renderable,
   Content: Renderable,
@@ -105,8 +109,8 @@ export default class B2BActivity extends React.Component<Props> {
               own_reactions={activity.own_reactions}
               kind="like"
               onPress={() => this.props.onToggleReaction('like', activity, {})}
-              activeIcon="/images/thumb-filled.svg"
-              inactiveIcon="/images/thumb.svg"
+              activeIcon={ThumbUpFilled}
+              inactiveIcon={ThumbUp}
               labelSingle="like"
               labelPlural="likes"
             />
@@ -115,9 +119,9 @@ export default class B2BActivity extends React.Component<Props> {
               kind="comment"
               own_reactions={{}}
               onPress={() => this.props.onToggleReaction('like', activity, {})}
-              icon="/images/comment.svg"
-              activeIcon="/images/comment.svg"
-              inactiveIcon="/images/comment.svg"
+              icon={Comment}
+              activeIcon={Comment}
+              inactiveIcon={Comment}
               labelSingle="comment"
               labelPlural="comments"
             />
