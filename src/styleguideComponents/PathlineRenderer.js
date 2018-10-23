@@ -26,6 +26,8 @@ export function PathlineRenderer({ classes, children }) {
           'https://github.com/GetStream/react-activity-feed/blob/master/' +
           source
         }
+        target="blank"
+        rel="noopener"
       >
         {source}
       </Link>
