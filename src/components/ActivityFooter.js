@@ -23,7 +23,7 @@ export default class ActivityFooter extends React.Component<Props> {
       <div className="raf-activity-footer">
         <div className="raf-activity-footer__left" />
         <div className="raf-activity-footer__right">
-          <Flex vcenter>
+          <Flex a="center">
             <LikeButton {...this.props} />
             <RepostButton {...this.props} />
           </Flex>

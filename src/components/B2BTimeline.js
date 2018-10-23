@@ -21,7 +21,7 @@ const icon =
   '<svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg"><path d="M14 8H8v6H6V8H0V6h6V0h2v6h6z" fill="#A0B2B8" fill-rule="evenodd"/></svg>';
 
 /**
- * Component is described here.
+ * This component takes a list of activities and icons and transforms it into a timeline. Aimed at making B2B timelines easier. Does require a more custom data structure.
  *
  * @example ./examples/B2BTimeline.md
  */
@@ -29,7 +29,7 @@ export default class B2BTimeline extends React.Component {
   sortByYearMonth(activities) {
     const newActivities = {};
     activities.map((activity) => {
-      const month = new Date(activity.timestamp).getMonth();
+      const month = new Date(activity.timestamp).getMonth() + 1;
       const year = new Date(activity.timestamp).getFullYear();
       if (newActivities[year] === undefined) {
         newActivities[year] = {};
