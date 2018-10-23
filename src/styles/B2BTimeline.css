@@ -20,7 +20,7 @@
     position: absolute;
     left: 35px;
     height: 100%;
-    padding: 35px;
+    padding: 35px 35px 85px;
     display: flex;
     .line {
       flex: 1;

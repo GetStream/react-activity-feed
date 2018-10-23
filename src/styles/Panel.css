@@ -1,5 +1,6 @@
 .raf-panel {
   background: #ffffff;
+  width: 100%;
   box-shadow: 0 2px 5px 0 color($black a(15%));
   margin: 0 0 16px;
   &--rounded {
