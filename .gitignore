@@ -5,7 +5,7 @@
 node_modules
 
 # builds
-build
+/example/build
 dist
 
 # misc
