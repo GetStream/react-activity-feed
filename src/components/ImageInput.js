@@ -4,7 +4,7 @@ import React from 'react';
 type Props = {|
   handleFiles: (File[]) => mixed,
   multiple: boolean,
-  name: string,
+  id: string,
 |};
 
 export default class ImageInput extends React.PureComponent<Props> {
@@ -15,7 +15,7 @@ export default class ImageInput extends React.PureComponent<Props> {
     return (
       <input
         type="file"
-        id={this.props.name}
+        id={this.props.id}
         className="raf-image-input"
         onChange={(event) => {
           this.props.handleFiles(event.currentTarget.files);

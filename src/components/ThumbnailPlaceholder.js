@@ -20,7 +20,7 @@ export default class ThumbnailPlaceholder extends React.Component<Props> {
     return (
       <React.Fragment>
         <label htmlFor={`raf-thumbnail-placeholder`}>
-          <ImageInput {...this.props} name="raf-thumbnail-placeholder" />
+          <ImageInput {...this.props} id="raf-thumbnail-placeholder" />
           <div role="button" className="raf-thumbnail-placeholder">
             <svg
               width="14"

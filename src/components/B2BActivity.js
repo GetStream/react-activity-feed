@@ -77,61 +77,30 @@ export default class B2BActivity extends React.Component<Props, State> {
             />
           )}
 
-          {activity.object.type === 'tracked email' && (
-            <React.Fragment>
-              <svg
-                width="19"
-                height="8"
-                viewBox="0 0 19 8"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M19 4l-4-4v3H0v2h15v3z"
-                  fill="#02D4B1"
-                  fillRule="evenodd"
-                />
-              </svg>
-              <Avatar
-                rounded
-                image={activity.object.actor.profileImage}
-                size={30}
-              />
-            </React.Fragment>
-          )}
-
           {activity.object.type === 'changed' && (
             <Flex a="center">
-              <Avatar
-                rounded
-                image={activity.object.actor.profileImage}
-                size={30}
-              />
+              <Avatar rounded image={activity.actor.profileImage} size={30} />
               <p style={{ fontSize: 12 }}>
-                <strong>{activity.object.actor.name}</strong> {activity.verb} to{' '}
-                <strong>{`"${activity.object.actor.lifecycle}"`}</strong>
+                <strong>{activity.actor.name}</strong> {activity.verb} to{' '}
+                <strong>{`"${activity.actor.lifecycle}"`}</strong>
               </p>
             </Flex>
           )}
 
           {activity.object.type === 'added' && (
             <Flex a="center">
-              <Avatar
-                rounded
-                image={activity.object.actor.profileImage}
-                size={30}
-              />
+              <Avatar rounded image={activity.actor.profileImage} size={30} />
               <p style={{ fontSize: 12 }}>
-                <strong>{activity.object.actor.name}</strong> was{' '}
-                {activity.verb} from <strong>{activity.object.source}</strong>
+                <strong>{activity.actor.name}</strong> was {activity.verb} from{' '}
+                <strong>{activity.object.source}</strong>
               </p>
             </Flex>
           )}
 
           {activity.object.type === 'tracked email' && (
             <p style={{ fontSize: 12 }}>
-              You sent a tracked email to{' '}
-              <strong>{activity.object.actor.name}</strong>{' '}
-              <em>({activity.object.actor.email})</em>
+              You sent a tracked email to <strong>{activity.actor.name}</strong>{' '}
+              <em>({activity.actor.email})</em>
             </p>
           )}
         </Flex>
@@ -167,34 +136,43 @@ export default class B2BActivity extends React.Component<Props, State> {
   renderFooter = () => {
     const { activity } = this.props;
     return (
-      <Flex a="center" j="space-between" style={{ padding: '0 16px 0px' }}>
-        <Flex a="center" style={{ flex: 1 }}>
-          <ReactionToggleIcon
-            counts={activity.reaction_counts}
-            own_reactions={activity.own_reactions}
-            kind="like"
-            onPress={() => this.props.onToggleReaction('like', activity, {})}
-            activeIcon={ThumbUpFilled}
-            inactiveIcon={ThumbUp}
-            labelSingle="like"
-            labelPlural="likes"
-          />
-          <ReactionIcon
-            counts={activity.reaction_counts}
-            kind="comment"
-            own_reactions={{}}
-            onPress={() => this.setState({ showComments: true })}
-            icon={Comment}
-            activeIcon={Comment}
-            inactiveIcon={Comment}
-            labelSingle="comment"
-            labelPlural="comments"
-          />
+      <React.Fragment>
+        <Flex
+          a="center"
+          j="space-between"
+          w="wrap"
+          style={{ padding: '0 16px 0px' }}
+        >
+          <Flex a="center" style={{ flex: 1 }}>
+            <ReactionToggleIcon
+              counts={activity.reaction_counts}
+              own_reactions={activity.own_reactions}
+              kind="like"
+              onPress={() => this.props.onToggleReaction('like', activity, {})}
+              activeIcon={ThumbUpFilled}
+              inactiveIcon={ThumbUp}
+              labelSingle="like"
+              labelPlural="likes"
+            />
+            <ReactionIcon
+              counts={activity.reaction_counts}
+              kind="comment"
+              own_reactions={{}}
+              onPress={() => this.setState({ showComments: true })}
+              icon={Comment}
+              activeIcon={Comment}
+              inactiveIcon={Comment}
+              labelSingle="comment"
+              labelPlural="comments"
+            />
+          </Flex>
+          {this.state.showComments && (
+            <Flex>
+              <Link>Details</Link>
+            </Flex>
+          )}
         </Flex>
-        <Flex>
-          <Link>Details</Link>
-        </Flex>
-      </Flex>
+      </React.Fragment>
     );
   };
 

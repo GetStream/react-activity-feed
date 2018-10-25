@@ -10,17 +10,17 @@ const activities = [
   {
     object: {
       type: 'tracked email',
-      actor: {
-        name: 'Cindy Smith',
-        email: 'cindy@example.com',
-        profileImage: 'https://randomuser.me/api/portraits/women/68.jpg',
-        lifecycle: 'customer',
-      },
       subject: 'Hello',
       content: 'Lispum',
       status: 'sent',
       clicks: '12',
       opens: '1',
+    },
+    actor: {
+      name: 'Cindy Smith',
+      email: 'cindy@example.com',
+      profileImage: 'https://randomuser.me/api/portraits/women/68.jpg',
+      lifecycle: 'customer',
     },
     verb: 'tracked-email',
     own_reactions: {},
@@ -33,12 +33,12 @@ const activities = [
   {
     object: {
       type: 'changed',
-      actor: {
-        name: 'Grant Hipman',
-        email: 'grant@example.com',
-        profileImage: 'https://randomuser.me/api/portraits/men/68.jpg',
-        lifecycle: 'customer',
-      },
+    },
+    actor: {
+      name: 'Grant Hipman',
+      email: 'grant@example.com',
+      profileImage: 'https://randomuser.me/api/portraits/men/68.jpg',
+      lifecycle: 'customer',
     },
     verb: 'changed',
     own_reactions: {},
@@ -49,12 +49,12 @@ const activities = [
   {
     object: {
       type: 'changed',
-      actor: {
-        name: 'Suzy Leopard',
-        email: 'suzy@example.com',
-        profileImage: 'https://randomuser.me/api/portraits/women/41.jpg',
-        lifecycle: 'lead',
-      },
+    },
+    actor: {
+      name: 'Suzy Leopard',
+      email: 'suzy@example.com',
+      profileImage: 'https://randomuser.me/api/portraits/women/41.jpg',
+      lifecycle: 'lead',
     },
     verb: 'changed',
     own_reactions: {},
@@ -67,17 +67,17 @@ const activities = [
   {
     object: {
       type: 'tracked email',
-      actor: {
-        name: 'Jeremy Smith',
-        email: 'jeremy@example.com',
-        profileImage: 'https://randomuser.me/api/portraits/men/72.jpg',
-        lifecycle: 'lead',
-      },
       subject: 'Hello',
       content: 'Lispum',
       status: 'sent',
       clicks: '12',
       opens: '1',
+    },
+    actor: {
+      name: 'Jeremy Smith',
+      email: 'jeremy@example.com',
+      profileImage: 'https://randomuser.me/api/portraits/men/72.jpg',
+      lifecycle: 'lead',
     },
     verb: 'tracked-email',
     own_reactions: {},
@@ -90,13 +90,13 @@ const activities = [
   {
     object: {
       type: 'added',
-      actor: {
-        name: 'Julie Pearsen',
-        email: 'july@example.com',
-        profileImage: 'https://randomuser.me/api/portraits/women/45.jpg',
-        lifecycle: 'lead',
-      },
       source: 'offline app',
+    },
+    actor: {
+      name: 'Julie Pearsen',
+      email: 'july@example.com',
+      profileImage: 'https://randomuser.me/api/portraits/women/45.jpg',
+      lifecycle: 'lead',
     },
     verb: 'added',
     own_reactions: {},

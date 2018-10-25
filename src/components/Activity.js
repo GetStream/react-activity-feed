@@ -24,7 +24,9 @@ type Props = {
   sub?: string,
   icon?: string,
   activity: ActivityData,
+  /** Handler for any routing you may do on clicks on Hashtags */
   onClickHashtag: (word: string) => mixed,
+  /** Handler for any routing you may do on clicks on Mentions */
   onClickMention: (word: string) => mixed,
 };
 

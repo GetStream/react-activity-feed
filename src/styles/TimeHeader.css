@@ -1,7 +1,7 @@
 .raf-time-header {
   display: flex;
   align-items: center;
-  margin: 5px 0;
+  margin: 16px 0;
 }
 .raf-time-header .raf-title {
   color: color($fontColor tint(80%));

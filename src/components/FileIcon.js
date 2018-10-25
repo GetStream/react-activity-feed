@@ -229,10 +229,9 @@ function mimeTypeToIcon(mimeType: ?string) {
 }
 
 /**
- * This is simply a button wrapper, add's a div with `role="button"` and a onClick
- * @example ./examples/IconButton.md
+ * @example ./examples/FileIcon.md
  */
-export default class IconButton extends React.Component<Props> {
+export default class FileIcon extends React.Component<Props> {
   render() {
     return <FontAwesomeIcon icon={mimeTypeToIcon(this.props.mimeType)} />;
   }

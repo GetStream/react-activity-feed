@@ -154,6 +154,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
           let resp;
           try {
             resp = await this.props.session.og(url);
+            console.log(resp);
           } catch (e) {
             console.warn(e);
             this.setState((prevState) => {

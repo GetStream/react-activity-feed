@@ -20,7 +20,7 @@
     position: absolute;
     left: 35px;
     height: 100%;
-    padding: 35px 35px 85px;
+    padding: 60px 35px 85px;
     display: flex;
     .line {
       flex: 1;
@@ -43,5 +43,22 @@
   &__post-content {
     flex: 1;
     padding-left: 30px;
+  }
+  @media screen and (max-width: 675px) {
+    &__line {
+      display: none;
+    }
+    &__icon {
+      display: none;
+    }
+    &__feed {
+      padding: 0 15px;
+    }
+    &__post-content {
+      padding: 0;
+    }
+    &__time {
+      padding: 0;
+    }
   }
 }

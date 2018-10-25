@@ -8,7 +8,7 @@ You can also use it with your own custom icon:
 
 ```js
 <IconBadge
-  onClick={() => console.log('hellowo rld.')}
+  onClick={() => console.log('hello world.')}
   showNumber={true}
   unseen={3}
   hidden={false}
@@ -28,7 +28,7 @@ Or with any other component:
 
 ```js
 <IconBadge
-  onClick={() => console.log('hellowo rld.')}
+  onClick={() => console.log('hello world.')}
   showNumber={true}
   unseen={3}
   hidden={false}
@@ -41,7 +41,7 @@ Without numbers:
 
 ```js
 <IconBadge
-  onClick={() => console.log('hellowo rld.')}
+  onClick={() => console.log('hello world.')}
   showNumber={false}
   unseen={3}
   hidden={false}
