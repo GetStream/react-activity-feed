@@ -52,6 +52,7 @@ import './styles/TimeHeader.css';
 import './styles/Timestamp.css';
 import './styles/Title.css';
 import './styles/UserBar.css';
+import './styles/Video.css';
 
 // Top level components
 export * from './Context';

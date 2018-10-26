@@ -68,6 +68,12 @@ declare module 'getstream' {
     title: string,
     description: string,
     images: Array<{ image: string }>,
+    videos: Array<{
+      secure_url: string,
+      type: string,
+      width: string,
+      height: string,
+    }>,
     url: string,
   };
 

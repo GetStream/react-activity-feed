@@ -8,6 +8,7 @@ import PanelContent from './PanelContent';
 import Textarea from './Textarea';
 import Avatar from './Avatar';
 import Card from './Card';
+import Video from './Video';
 import EmojiPicker from './EmojiPicker';
 import ImageUploadButton from './ImageUploadButton';
 import FileUploadButton from './FileUploadButton';
@@ -599,14 +600,18 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
               )}
               {activeOg && (
                 <div style={{ margin: '8px 0' }}>
-                  <Card
-                    {...activeOg}
-                    nolink
-                    handleClose={(e: any) => {
-                      e.preventDefault();
-                      this._dismissOg(activeOg);
-                    }}
-                  />
+                  {!activeOg.videos ? (
+                    <Card
+                      {...activeOg}
+                      nolink
+                      handleClose={(e: any) => {
+                        e.preventDefault();
+                        this._dismissOg(activeOg);
+                      }}
+                    />
+                  ) : (
+                    <Video videos={activeOg.videos} />
+                  )}
                 </div>
               )}
               {availableOg &&

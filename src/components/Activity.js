@@ -5,6 +5,7 @@ import anchorme from 'anchorme';
 
 import UserBar from './UserBar';
 import Card from './Card';
+import Video from './Video';
 import FileIcon from './FileIcon';
 import Gallery from './Gallery';
 import Dropdown from './Dropdown';
@@ -181,7 +182,11 @@ export default class Activity extends React.Component<Props> {
           attachments.og &&
           Object.keys(attachments.og).length > 0 && (
             <div style={{ padding: '8px 16px' }}>
-              <Card {...attachments.og} />
+              {attachments.og.videos ? (
+                <Video videos={attachments.og.videos} />
+              ) : (
+                <Card {...attachments.og} />
+              )}
             </div>
           )}
 
