@@ -37,7 +37,11 @@ export default class App extends Component<{}> {
             <h3>React Activity Feed</h3>
             <NotificationDropdown arrow right />
           </div>
-          <StatusUpdateForm />
+          <StatusUpdateForm
+            submitHandler={(e) => {
+              alert(e);
+            }}
+          />
           <FlatFeed
             feedGroup="user"
             notify
