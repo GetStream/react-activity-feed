@@ -33,7 +33,7 @@ export default class Video extends React.Component<Props> {
           type={videos[index].type}
           width={videos[index].width}
           height={videos[index].height}
-          src={videos[index].secure_url}
+          src={`${videos[index].secure_url}`}
           frameBorder="0"
         />
       </div>
