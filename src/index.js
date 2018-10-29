@@ -4,6 +4,7 @@ import './styles/Activity.css';
 import './styles/ActivityContent.css';
 import './styles/ActivityFooter.css';
 import './styles/AttachedActivity.css';
+import './styles/Audio.css';
 import './styles/Avatar.css';
 import './styles/AvatarGroup.css';
 import './styles/Button.css';

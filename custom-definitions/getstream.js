@@ -74,6 +74,10 @@ declare module 'getstream' {
       width: string,
       height: string,
     }>,
+    audios: Array<{
+      type: string,
+      audio: string,
+    }>,
     url: string,
   };
 

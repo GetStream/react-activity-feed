@@ -1,0 +1,82 @@
+.raf-audio {
+  &__wrapper {
+    height: 80px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 6px;
+    margin: 8px 0;
+    display: flex;
+    background: #f1f1f1;
+  }
+  &__image {
+    height: 80px;
+    width: 80px;
+    position: relative;
+    z-index: $z2;
+    &--overlay {
+      width: inherit;
+      height: inherit;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: color($black a(40%));
+      z-index: $z2;
+      font-size: 3em;
+      color: color($white a(69%));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    &--button {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+    img {
+      z-index: $z1;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: inherit;
+      height: inherit;
+      object-fit: cover;
+    }
+  }
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 8px 16px;
+    width: 100%;
+    &--title {
+      color: $fontColor;
+      margin: 0;
+      padding: 0;
+      line-height: 1;
+    }
+    &--subtitle {
+      margin: 0;
+      padding: 0;
+      line-height: 1;
+      font-size: 12px;
+      color: color($fontColor tint(40%));
+    }
+
+    &--progress {
+      height: 6px;
+      width: 100%;
+      border-radius: 4px;
+      background: color($black a(10%));
+      padding: 1px;
+      margin: 2px 0;
+      > div {
+        height: 4px;
+        border-radius: 4px;
+        width: 0%;
+        background: $primary;
+        transition: width 0.5s linear;
+      }
+    }
+  }
+}

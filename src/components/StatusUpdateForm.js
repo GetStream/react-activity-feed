@@ -9,6 +9,7 @@ import Textarea from './Textarea';
 import Avatar from './Avatar';
 import Card from './Card';
 import Video from './Video';
+import Audio from './Audio';
 import EmojiPicker from './EmojiPicker';
 import ImageUploadButton from './ImageUploadButton';
 import FileUploadButton from './FileUploadButton';
@@ -155,7 +156,6 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
           let resp;
           try {
             resp = await this.props.session.og(url);
-            console.log(resp);
           } catch (e) {
             console.warn(e);
             this.setState((prevState) => {
@@ -600,7 +600,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
               )}
               {activeOg && (
                 <div style={{ margin: '8px 0' }}>
-                  {!activeOg.videos ? (
+                  {!activeOg.videos && !activeOg.audios ? (
                     <Card
                       {...activeOg}
                       nolink
@@ -610,7 +610,12 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                       }}
                     />
                   ) : (
-                    <Video videos={activeOg.videos} />
+                    <React.Fragment>
+                      {activeOg.videos ? (
+                        <Video videos={activeOg.videos} />
+                      ) : null}
+                      {activeOg.audios ? <Audio og={activeOg} /> : null}
+                    </React.Fragment>
                   )}
                 </div>
               )}
