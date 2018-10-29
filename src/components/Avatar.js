@@ -8,7 +8,7 @@ export type Props = {|
   alt?: string,
   rounded?: boolean,
   circle?: boolean,
-  onClickAvatar?: () => mixed,
+  onClick?: () => mixed,
 |};
 
 /**
@@ -25,11 +25,7 @@ export default class Avatar extends React.Component<Props> {
           className={`raf-avatar ${rounded ? 'raf-avatar--rounded' : ''} ${
             circle ? 'raf-avatar--circle' : ''
           }`}
-          onClick={
-            this.props.onClickAvatar !== undefined
-              ? this.props.onClickAvatar
-              : () => console.log('onClickAvatar')
-          }
+          onClick={this.props.onClick}
           src={image ? image : placeholder}
           alt={alt || ''}
         />

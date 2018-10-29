@@ -25,7 +25,6 @@ export default class AvatarGroup extends React.Component<Props> {
           this.props.users.slice(0, this.props.limit).map((user, i) => (
             <div className="raf-avatar-group__avatar" key={`avatar-${i}`}>
               <Avatar
-                onClickAvatar={() => null}
                 image={user && user.profileImage}
                 size={this.props.avatarSize}
                 circle
