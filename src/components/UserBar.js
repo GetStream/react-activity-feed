@@ -14,7 +14,7 @@ export type Props = {|
   time?: string, // text that should be displayed as the time
   timestamp?: string | number, // a timestamp that should be humanized
   icon?: string,
-  onClickAvatar?: () => mixed,
+  onClickUser?: () => mixed,
   follow?: boolean,
   Right?: Renderable,
 |};
@@ -34,18 +34,19 @@ export default class UserBar extends React.Component<Props> {
       <div className="raf-user-bar">
         {this.props.avatar ? (
           <Avatar
-            onClickAvatar={
-              this.props.onClickAvatar
-                ? this.props.onClickAvatar
-                : () => console.log('this.props.onClickAvatar')
-            }
+            onClick={this.props.onClickUser}
             size={50}
             circle
             image={this.props.avatar}
           />
         ) : null}
         <div className="raf-user-bar__details">
-          <p className="raf-user-bar__username">{this.props.username}</p>
+          <p
+            className="raf-user-bar__username"
+            onClick={this.props.onClickUser}
+          >
+            {this.props.username}
+          </p>
           {this.props.icon !== undefined ? (
             <img src={this.props.icon} alt="icon" />
           ) : null}

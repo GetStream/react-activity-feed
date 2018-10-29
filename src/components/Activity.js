@@ -21,7 +21,7 @@ type Props = {
   Content?: Renderable,
   Footer?: Renderable,
   onPress?: () => mixed,
-  onClickAvatar?: () => mixed,
+  onClickUser?: (?any) => mixed,
   sub?: string,
   icon?: string,
   activity: ActivityData,
@@ -37,29 +37,32 @@ type Props = {
  * @example ./examples/Activity.md
  */
 export default class Activity extends React.Component<Props> {
-  renderHeader = () => {
-    let { actor } = this.props.activity;
-    const notFound = {
-      id: '!not-found',
-      created_at: '',
-      updated_at: '',
-      data: { name: 'Unknown', profileImage: '' },
-    };
+  _actor = () => {
+    const { actor } = this.props.activity;
     if (actor === 'NotFound') {
-      actor = notFound;
+      return {
+        id: '!not-found',
+        created_at: '',
+        updated_at: '',
+        data: { name: 'Unknown', profileImage: '' },
+      };
     }
+    return actor;
+  };
+
+  _getOnClickUser() {
+    return this.props.onClickUser ? this.onClickUser : undefined;
+  }
+
+  renderHeader = () => {
+    const actor = this._actor();
 
     return (
       <div style={{ padding: '8px 16px' }}>
         <UserBar
           username={actor.data.name}
           avatar={actor.data.profileImage}
-          onClickAvatar={
-            this.props.onClickAvatar
-              ? this.props.onClickAvatar
-              : // $FlowFixMe
-                this.onClickAvatar
-          }
+          onClickUser={this._getOnClickUser()}
           subtitle={humanizeTimestamp(this.props.activity.time)}
           timestamp={this.props.activity.time}
           icon={this.props.icon}
@@ -89,9 +92,11 @@ export default class Activity extends React.Component<Props> {
     );
   };
 
-  onClickAvatar = (e: SyntheticEvent<HTMLElement>) => {
-    e.stopPropagation();
-    console.log('clicked on Avatar in Activity');
+  onClickUser = () => {
+    const { onClickUser } = this.props;
+    if (onClickUser) {
+      return onClickUser(this._actor());
+    }
   };
 
   renderText = (text: string) => {
