@@ -42,7 +42,7 @@ type Props = {|
   feedGroup: string,
   userId?: string,
   activityVerb: string,
-  submitHandler: func,
+  onSuccess?: () => mixed,
 |};
 
 /**
@@ -313,8 +313,8 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       ogStateByUrl: {},
       ogActiveUrl: null,
     });
-    if (this.props.submitHandler) {
-      this.props.submitHandler(e);
+    if (this.props.onSuccess) {
+      this.props.onSuccess();
     }
   };
   _getTextAreaElement = () => this.textInputRef.current;
