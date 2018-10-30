@@ -62,7 +62,6 @@
       font-size: 12px;
       color: color($fontColor tint(40%));
     }
-
     &--progress {
       height: 6px;
       width: 100%;

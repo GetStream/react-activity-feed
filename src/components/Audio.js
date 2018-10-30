@@ -79,7 +79,14 @@ export default class Audio extends React.Component<Props, State> {
       <div className="raf-audio">
         <div className="raf-audio__wrapper">
           <audio ref={this.audioRef}>
-            <source src={og.audios[0].audio} type="" />
+            <source
+              src={og.audios[0].audio}
+              type={
+                og.audios[0].type === 'audio/vnd.facebook.bridge'
+                  ? 'audio/mp3'
+                  : 'audio/mp3'
+              }
+            />
           </audio>
           <div className="raf-audio__image">
             <div className="raf-audio__image--overlay">
