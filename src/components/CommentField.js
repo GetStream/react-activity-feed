@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Avatar from './Avatar';
+import Button from './Button';
 import '../styles/CommentField.css';
 
 import type { UserData } from '../types';
@@ -31,6 +32,7 @@ export default class CommentField extends React.Component<Props> {
           className={`raf-comment-field__input`}
           name={'raf-comment-field' || this.props.user.name}
         />
+        <Button type="submit">post</Button>
       </div>
     );
   }
