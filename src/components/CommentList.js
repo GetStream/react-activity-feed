@@ -5,7 +5,7 @@ import CommentItem from './CommentItem';
 import type { BaseReactionMap } from '../types';
 
 export type Props = {|
-  data: BaseReactionMap,
+  reactions: BaseReactionMap,
   renderCommentItem: (item: Comment, i: number) => mixed,
 |};
 
@@ -16,12 +16,12 @@ export type Props = {|
  */
 export default class CommentList extends React.Component<Props> {
   render() {
-    const { data } = this.props;
+    const { reactions } = this.props;
     return (
       <React.Fragment>
         <ReactionList
           reactionKind={'comment'}
-          reactions={data}
+          reactions={reactions}
           Reaction={(comment) => <CommentItem comment={comment} />} // TODO: bettery key
         />
       </React.Fragment>

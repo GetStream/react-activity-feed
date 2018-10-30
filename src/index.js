@@ -88,6 +88,8 @@ export { default as ReactionToggleIcon } from './components/ReactionToggleIcon';
 export { default as IconBadge } from './components/IconBadge';
 
 // Comment related (not usable yet)
+export { default as CommentList } from './components/CommentList';
+export { default as ReactionList } from './components/ReactionList';
 export { default as CommentItem } from './components/CommentItem';
 export { default as CommentField } from './components/CommentField';
 
