@@ -7,8 +7,6 @@
   token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZXhhbXBsZS11c2VyIn0.XEKjtzD2AIQMLXH6kfJlL8P_JV4CBYvcMsmQCFjyY2U"
 >
   <FlatFeed
-    options={{ limit: 2 }}
-    autoscroll={true}
     Activity={(props) => (
       <Activity
         {...props}
@@ -29,6 +27,7 @@
   token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZXhhbXBsZS11c2VyIn0.XEKjtzD2AIQMLXH6kfJlL8P_JV4CBYvcMsmQCFjyY2U"
 >
   <FlatFeed
+    options={{ limit: 3 }}
     Activity={(props) => (
       <Activity
         {...props}

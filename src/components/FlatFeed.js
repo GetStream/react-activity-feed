@@ -27,7 +27,7 @@ type Props = {|
   Notifier: Renderable,
   NextPageButton?: Renderable,
   /** if true, feed will infinite scroll for as long as there's activities in the feed  */
-  autoscroll: boolean,
+  infinitescroll: boolean,
   /** if true, feed shows the Notifier component when new activities are added */
   notify: boolean,
   //** the feed read hander (change only for advanced/complex use-cases) */
@@ -52,7 +52,7 @@ export default class FlatFeed extends React.Component<Props> {
   static defaultProps = {
     feedGroup: 'timeline',
     notify: false,
-    autoscroll: false,
+    infinitescroll: false,
     Activity,
     Notifier: NewActivitiesNotification,
   };
@@ -128,7 +128,7 @@ class FlatFeedInner extends React.Component<PropsInner> {
           loadMore={this.props.loadNextPage}
           hasMore={this.props.hasNextPage}
           isLoading={this.props.refreshing}
-          autoscroll={this.props.autoscroll}
+          preventScroll={!this.props.infinitescroll}
           loader={<LoadingIndicator key={0} />}
         >
           {this.props.activityOrder.map((id) =>
@@ -138,7 +138,7 @@ class FlatFeedInner extends React.Component<PropsInner> {
           )}
         </InfiniteScroll>
 
-        {this.props.hasNextPage && !this.props.autoscroll
+        {this.props.hasNextPage && !this.props.infinitescroll
           ? smartRender(
               this.props.NextPageButton,
               this.props,
