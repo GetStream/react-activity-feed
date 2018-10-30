@@ -4,11 +4,11 @@
 const path = require('path');
 const topLevelComponents = [
   'FlatFeed',
+  'SinglePost',
   'NotificationFeed',
   'StatusUpdateForm',
   'Activity',
   'Notification',
-  // 'SinglePost',
 ];
 
 const compositionComponents = [

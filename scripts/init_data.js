@@ -81,18 +81,24 @@ const getActivities = (client, users) => [
     verb: 'post',
     object:
       "I just realized that I've met of fan of every team in the #NFL in real life...except a Jaguars fan. I've never had a real encounter with one...💁",
+    foreign_id: 'post:1',
+    time: '2018-10-30T13:49:50',
   },
   {
     actor: client.collections.createUserReference(users[1].id),
     verb: 'reply',
     object: 'sad, I wanted drama',
+    time: '2018-10-29T13:49:50',
     image:
       'https://images.unsplash.com/photo-1516544820488-4a99efa70a58?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0ff2b499992b568b957a0a9636540ed2&dpr=1&auto=format&fit=crop&w=1000&q=80&cs=tinysrgb',
+    foreign_id: 'post:2',
   },
   {
     actor: client.collections.createUserReference(users[2].id),
     verb: 'post',
     object: 'I enjoyed watching this',
+    foreign_id: 'post:3',
+    time: '2018-10-28T13:49:50',
     attachments: {
       og: {
         description:
@@ -113,11 +119,15 @@ const getActivities = (client, users) => [
     actor: client.collections.createUserReference(users[3].id),
     verb: 'post',
     object: 'I just missed my train 😤',
+    foreign_id: 'post:4',
+    time: '2018-10-27T13:49:50',
   },
   {
     actor: client.collections.createUserReference(users[4].id),
     verb: 'post',
     object: 'I totally agree!',
+    foreign_id: 'post:5',
+    time: '2018-10-26T13:49:50',
     attachments: {
       og: {
         description:
@@ -133,6 +143,8 @@ const getActivities = (client, users) => [
     actor: client.collections.createUserReference(users[5].id),
     verb: 'post',
     object: 'Oh snap',
+    foreign_id: 'post:6',
+    time: '2018-10-25T13:49:50',
     attachments: {
       og: {
         description:
@@ -154,6 +166,8 @@ const getActivities = (client, users) => [
     actor: client.collections.createUserReference(users[6].id),
     verb: 'post',
     object: "@ken let's get coffee one these days ☕",
+    foreign_id: 'post:7',
+    time: '2018-10-24T13:49:50',
   },
 ];
 
