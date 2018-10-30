@@ -5,6 +5,7 @@ import Activity from './Activity';
 import NewActivitiesNotification from './NewActivitiesNotification';
 import LoadingIndicator from './LoadingIndicator';
 import InfiniteScroll from './InfiniteScroll';
+import LoadMoreButton from './LoadMoreButton';
 
 import { Feed, FeedContext } from '../Context';
 import { smartRender } from '../utils';
@@ -24,6 +25,8 @@ type Props = {|
   Activity: Renderable,
   /** the component to use to render new activities notification */
   Notifier: Renderable,
+  NextPageButton?: Renderable,
+  autoscroll: boolean,
   /** if true, feed shows the Notifier component when new activities are added */
   notify: boolean,
   //** the feed read hander (change only for advanced/complex use-cases) */
@@ -48,6 +51,7 @@ export default class FlatFeed extends React.Component<Props> {
   static defaultProps = {
     feedGroup: 'timeline',
     notify: false,
+    autoscroll: false,
     Activity,
     Notifier: NewActivitiesNotification,
   };
@@ -116,7 +120,6 @@ class FlatFeedInner extends React.Component<PropsInner> {
       deletes: this.props.realtimeDeletes,
       onClick: this._refresh,
     };
-
     return (
       <React.Fragment>
         {smartRender(this.props.Notifier, notifierProps)}
@@ -124,6 +127,7 @@ class FlatFeedInner extends React.Component<PropsInner> {
           loadMore={this.props.loadNextPage}
           hasMore={this.props.hasNextPage}
           isLoading={this.props.refreshing}
+          autoscroll={this.props.autoscroll}
           loader={<LoadingIndicator key={0} />}
         >
           {this.props.activityOrder.map((id) =>
@@ -132,6 +136,14 @@ class FlatFeedInner extends React.Component<PropsInner> {
             }),
           )}
         </InfiniteScroll>
+
+        {this.props.hasNextPage && !this.props.autoscroll
+          ? smartRender(
+              this.props.NextPageButton,
+              this.props,
+              <LoadMoreButton {...this.props} />,
+            )
+          : null}
       </React.Fragment>
     );
   }

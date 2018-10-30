@@ -11,6 +11,7 @@ export default class InfiniteScroll extends Component {
     isReverse: PropTypes.bool,
     loader: PropTypes.node,
     loadMore: PropTypes.func.isRequired,
+    preventScroll: PropTypes.bool,
     pageStart: PropTypes.number,
     ref: PropTypes.func,
     threshold: PropTypes.number,
@@ -169,7 +170,7 @@ export default class InfiniteScroll extends Component {
     ) {
       this.detachScrollListener();
       // Call loadMore after detachScrollListener to allow for non-async loadMore functions
-      if (typeof this.props.loadMore === 'function') {
+      if (typeof this.props.loadMore === 'function' && this.props.autoscroll) {
         this.props.loadMore((this.pageLoaded += 1));
       }
     }
