@@ -26,6 +26,7 @@ type Props = {|
   /** the component to use to render new activities notification */
   Notifier: Renderable,
   NextPageButton?: Renderable,
+  /** if true, feed will infinite scroll for as long as there's activities in the feed  */
   autoscroll: boolean,
   /** if true, feed shows the Notifier component when new activities are added */
   notify: boolean,
