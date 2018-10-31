@@ -3,9 +3,7 @@ import * as React from 'react';
 
 import Activity from './Activity';
 import NewActivitiesNotification from './NewActivitiesNotification';
-import LoadingIndicator from './LoadingIndicator';
-import InfiniteScroll from './InfiniteScroll';
-import LoadMoreButton from './LoadMoreButton';
+import LoadMorePaginator from './LoadMorePaginator';
 
 import { Feed, FeedContext } from '../Context';
 import { smartRender } from '../utils';
@@ -26,8 +24,9 @@ type Props = {|
   /** the component to use to render new activities notification */
   Notifier: Renderable,
   NextPageButton?: Renderable,
-  /** if true, feed will infinite scroll for as long as there's activities in the feed  */
-  infinitescroll: boolean,
+  /** By default pagination is done with a "Load more" button, you can use
+   * InifiniteScrollPaginator to enable infinite scrolling */
+  Paginator: Renderable,
   /** if true, feed shows the Notifier component when new activities are added */
   notify: boolean,
   //** the feed read hander (change only for advanced/complex use-cases) */
@@ -37,8 +36,6 @@ type Props = {|
     userId?: string,
     options?: FeedRequestOptions,
   ) => Promise<FeedResponse<{}, {}>>,
-  //** turns off pagination */
-  noPagination?: boolean,
   analyticsLocation?: string,
   onRefresh?: () => mixed,
 |};
@@ -52,9 +49,9 @@ export default class FlatFeed extends React.Component<Props> {
   static defaultProps = {
     feedGroup: 'timeline',
     notify: false,
-    infinitescroll: false,
     Activity,
     Notifier: NewActivitiesNotification,
+    Paginator: LoadMorePaginator,
   };
 
   render() {
@@ -121,30 +118,20 @@ class FlatFeedInner extends React.Component<PropsInner> {
       deletes: this.props.realtimeDeletes,
       onClick: this._refresh,
     };
+    const { loadNextPage, hasNextPage, refreshing } = this.props;
     return (
       <React.Fragment>
         {smartRender(this.props.Notifier, notifierProps)}
-        <InfiniteScroll
-          loadMore={this.props.loadNextPage}
-          hasMore={this.props.hasNextPage}
-          isLoading={this.props.refreshing}
-          preventScroll={!this.props.infinitescroll}
-          loader={<LoadingIndicator key={0} />}
-        >
-          {this.props.activityOrder.map((id) =>
+        {smartRender(this.props.Paginator, {
+          loadNextPage,
+          hasNextPage,
+          refreshing,
+          children: this.props.activityOrder.map((id) =>
             this._renderWrappedActivity({
               item: this.props.activities.get(id),
             }),
-          )}
-        </InfiniteScroll>
-
-        {this.props.hasNextPage && !this.props.infinitescroll
-          ? smartRender(
-              this.props.NextPageButton,
-              this.props,
-              <LoadMoreButton {...this.props} />,
-            )
-          : null}
+          ),
+        })}
       </React.Fragment>
     );
   }
