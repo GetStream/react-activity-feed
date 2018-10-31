@@ -33,6 +33,10 @@ export default class CommentField extends React.Component<Props, State> {
     text: '',
   };
 
+  static defaultProps = {
+    placeholder: 'Start Typing...',
+  };
+
   onSubmitForm = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -60,15 +64,17 @@ export default class CommentField extends React.Component<Props, State> {
     return (
       <form onSubmit={this.onSubmitForm} className="raf-comment-field">
         <Avatar image={this.props.image} circle size={39} />
-        <input
-          type="text"
-          value={this.state.text}
-          placeholder={this.props.placeholder}
-          className={`raf-comment-field__input`}
-          name={'raf-comment-field'}
-          onChange={this._onChange}
-        />
-        <Button type="submit">post</Button>
+        <div className="raf-comment-field__group">
+          <input
+            type="text"
+            value={this.state.text}
+            placeholder={this.props.placeholder}
+            className={`raf-comment-field__input`}
+            name={'raf-comment-field'}
+            onChange={this._onChange}
+          />
+          <Button type="submit">post</Button>
+        </div>
       </form>
     );
   }

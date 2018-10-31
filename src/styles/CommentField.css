@@ -1,18 +1,30 @@
 .raf-comment-field {
   display: flex;
-}
-.raf-comment-field__input {
-  flex: 1;
-  background: #f7f7f7;
-  color: $fontColor;
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: 100px;
-  padding: 10px 22px;
-  border: 0;
-  margin-left: 8px;
-  position: relative;
-  &::placeholder {
-    color: color($fontColor tint(50%));
+  /* &__ {} */
+  &__group {
+    display: flex;
+    flex: 1;
+    .raf-button {
+      height: 100%;
+      border-radius: 0 100px 100px 0;
+      margin: 0;
+      text-align: left;
+      justify-content: flex-start;
+    }
+  }
+  &__input {
+    flex: 1;
+    background: #f7f7f7;
+    color: $fontColor;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 100px 0 0 100px;
+    padding: 10px 22px;
+    border: 0;
+    margin-left: 8px;
+    position: relative;
+    &::placeholder {
+      color: color($fontColor tint(50%));
+    }
   }
 }
