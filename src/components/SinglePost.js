@@ -37,7 +37,6 @@ export default class SinglePost extends React.Component<Props> {
               .feed(feedGroup, userId)
               .getActivityDetail(this.props.activityId, options)
           }
-          noPagination
         />
       </React.Fragment>
     );
