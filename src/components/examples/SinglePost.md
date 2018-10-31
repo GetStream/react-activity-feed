@@ -13,11 +13,11 @@ const activityId = 'aba1d300-dc4a-11e8-8080-80010edf5810';
     Activity={(props) => (
       <React.Fragment>
         <Activity {...props} />
-        <CommentList reactions={props.activity.latest_reactions} />
         <CommentField
           activity={props.activity}
           onAddReaction={props.onAddReaction}
         />
+        <CommentList reactions={props.activity.latest_reactions} />
       </React.Fragment>
     )}
   />

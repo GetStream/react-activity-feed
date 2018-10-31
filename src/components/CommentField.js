@@ -66,6 +66,7 @@ export default class CommentField extends React.Component<Props, State> {
         <Avatar image={this.props.image} circle size={39} />
         <div className="raf-comment-field__group">
           <input
+            autoComplete="off"
             type="text"
             value={this.state.text}
             placeholder={this.props.placeholder}
@@ -73,7 +74,13 @@ export default class CommentField extends React.Component<Props, State> {
             name={'raf-comment-field'}
             onChange={this._onChange}
           />
-          <Button type="submit">post</Button>
+          <Button
+            buttonStyle="primary"
+            disabled={this.state.text === ''}
+            type="submit"
+          >
+            post
+          </Button>
         </div>
       </form>
     );

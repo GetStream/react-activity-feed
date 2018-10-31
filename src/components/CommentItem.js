@@ -2,10 +2,12 @@
 import React from 'react';
 import Avatar from './Avatar';
 import Flex from './Flex';
-import Dropdown from './Dropdown';
-import Link from './Link';
+// import Dropdown from './Dropdown';
+// import Link from './Link';
 import placeholder from '../images/placeholder.png';
 import type { Comment } from '../types';
+
+import { humanizeTimestamp } from '../utils';
 
 export type Props = {|
   comment: Comment,
@@ -18,31 +20,28 @@ export type Props = {|
  */
 export default class CommentItem extends React.Component<Props> {
   render() {
+    const { comment } = this.props;
     return (
       <div className="raf-comment-item">
-        <Flex a="center">
+        <Flex a="flex-start" style={{ padding: '8px 0' }}>
           <Avatar
-            image={this.props.comment.user.data.profileImage || placeholder}
+            image={comment.user.data.profileImage || placeholder}
             circle
-            size={30}
+            size={25}
           />
         </Flex>
-        <Flex style={{ flex: 1, margin: '0 8px' }}>
-          <p className="raf-comment-item__content">
-            <span className="raf-comment-item__author">
-              {this.props.comment.user.data.name}
-            </span>{' '}
-            {this.props.comment.data.text}
-          </p>
-        </Flex>
-        <Flex>
-          <Dropdown>
-            <ul>
-              <li>
-                <Link>Report User</Link>
-              </li>
-            </ul>
-          </Dropdown>
+        <Flex d="column" style={{ flex: 1, margin: '0 8px' }}>
+          <div className="raf-comment-item__content">
+            <time dateTime={comment.created_at} title={comment.created_at}>
+              <small>{humanizeTimestamp(comment.created_at)}</small>
+            </time>
+            <p>
+              <span className="raf-comment-item__author">
+                {comment.user.data.name}
+              </span>{' '}
+              {comment.data.text}
+            </p>
+          </div>
         </Flex>
       </div>
     );

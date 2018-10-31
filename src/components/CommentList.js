@@ -22,7 +22,6 @@ export default class CommentList extends React.Component<Props> {
 
   _Reaction = ({ reaction }: { reaction: Comment }) =>
     smartRender(this.props.CommentItem, { comment: reaction });
-
   render() {
     const { reactions } = this.props;
     return (
