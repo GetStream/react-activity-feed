@@ -23,7 +23,6 @@ type Props = {|
   Activity: Renderable,
   /** the component to use to render new activities notification */
   Notifier: Renderable,
-  NextPageButton?: Renderable,
   /** By default pagination is done with a "Load more" button, you can use
    * InifiniteScrollPaginator to enable infinite scrolling */
   Paginator: Renderable,
@@ -37,7 +36,6 @@ type Props = {|
     options?: FeedRequestOptions,
   ) => Promise<FeedResponse<{}, {}>>,
   analyticsLocation?: string,
-  onRefresh?: () => mixed,
 |};
 
 /**
