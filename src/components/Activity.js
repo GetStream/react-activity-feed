@@ -189,7 +189,7 @@ export default class Activity extends React.Component<Props> {
           Object.keys(attachments.og).length > 0 && (
             <div style={{ padding: '8px 16px' }}>
               {attachments.og.videos ? (
-                <Video videos={attachments.og.videos} />
+                <Video og={attachments.og} />
               ) : attachments.og.audios ? (
                 <Audio og={attachments.og} />
               ) : (

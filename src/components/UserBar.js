@@ -51,12 +51,26 @@ export default class UserBar extends React.Component<Props> {
             <img src={this.props.icon} alt="icon" />
           ) : null}
           {this.props.subtitle ? (
-            <p className="raf-user-bar__subtitle">{this.props.subtitle}</p>
+            <p className="raf-user-bar__subtitle">
+              <time
+                dateTime={this.props.timestamp}
+                title={this.props.timestamp}
+              >
+                {this.props.subtitle}
+              </time>
+            </p>
           ) : null}
         </div>
         <React.Fragment>
           {smartRender(this.props.Right, {}, () => (
-            <p className="raf-user-bar__extra">{time}</p>
+            <p className="raf-user-bar__extra">
+              <time
+                dateTime={this.props.timestamp}
+                title={this.props.timestamp}
+              >
+                {time}
+              </time>
+            </p>
           ))}
         </React.Fragment>
       </div>
