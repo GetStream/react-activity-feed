@@ -1,16 +1,65 @@
 .raf-video {
-  overflow: hidden;
-  padding-top: 56.25%;
-  position: relative;
-  border-radius: 6px;
-  margin: 8px 0;
+  &__frame {
+    overflow: hidden;
+    padding-top: 56.25%;
+    position: relative;
+    border-radius: 6px;
+    margin: 8px 0;
 
-  iframe {
-    border: 0;
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
+    iframe {
+      border: 0;
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+  }
+  &__video {
+    overflow: hidden;
+    border-radius: $borderRadius;
+    margin: 0;
+    padding: 0;
+    height: 150px;
+    display: flex;
+    background: #fafafa;
+    video {
+      background: black;
+      height: inherit;
+      width: 150px;
+    }
+    &--content {
+      color: $fontColor;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+    }
+    &--link {
+      flex: 1;
+      display: flex;
+      align-items: flex-end;
+      a {
+        color: $primary;
+        font-size: 14px;
+        text-decoration: none;
+      }
+    }
+    &--title {
+      size: 16px;
+      font-weight: 700;
+    }
+    @media screen and (max-width: 475px) {
+      height: 100px;
+      &--content {
+        padding: 8px;
+      }
+      &--link {
+        display: none;
+      }
+      video {
+        height: inherit;
+        width: 100px;
+      }
+    }
   }
 }

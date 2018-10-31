@@ -67,6 +67,7 @@ declare module 'getstream' {
   declare type OgData = {
     title: string,
     description: string,
+    site_name: string,
     images: Array<{ image: string }>,
     videos: Array<{
       secure_url: string,

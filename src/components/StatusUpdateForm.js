@@ -615,9 +615,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                     />
                   ) : (
                     <React.Fragment>
-                      {activeOg.videos ? (
-                        <Video videos={activeOg.videos} />
-                      ) : null}
+                      {activeOg.videos ? <Video og={activeOg} /> : null}
                       {activeOg.audios ? <Audio og={activeOg} /> : null}
                     </React.Fragment>
                   )}
