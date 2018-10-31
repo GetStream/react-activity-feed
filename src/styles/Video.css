@@ -29,6 +29,7 @@
       width: 150px;
     }
     &--content {
+      flex: 1;
       color: $fontColor;
       padding: 16px;
       display: flex;
