@@ -2,11 +2,12 @@
 import React from 'react';
 import ReactionList from './ReactionList';
 import CommentItem from './CommentItem';
-import type { BaseReactionMap } from '../types';
+import { smartRender } from '../utils';
+import type { BaseReactionMap, Renderable, Comment } from '../types';
 
 export type Props = {|
   reactions: BaseReactionMap,
-  renderCommentItem: (item: Comment, i: number) => mixed,
+  CommentItem: Renderable,
 |};
 
 /**
@@ -15,6 +16,13 @@ export type Props = {|
  * @example ./examples/CommentList.md
  */
 export default class CommentList extends React.Component<Props> {
+  static defaultProps = {
+    CommentItem,
+  };
+
+  _Reaction = ({ reaction }: { reaction: Comment }) =>
+    smartRender(this.props.CommentItem, { comment: reaction });
+
   render() {
     const { reactions } = this.props;
     return (
@@ -22,7 +30,7 @@ export default class CommentList extends React.Component<Props> {
         <ReactionList
           reactionKind={'comment'}
           reactions={reactions}
-          Reaction={(comment) => <CommentItem comment={comment} />} // TODO: bettery key
+          Reaction={this._Reaction}
         />
       </React.Fragment>
     );

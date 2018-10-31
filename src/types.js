@@ -51,7 +51,9 @@ export type ErrorHandler = (
 ) => mixed;
 
 type ReactComponentClass = Class<React.Component<any>>;
-export type ReactComponentFunction = (props: any) => ?React.Element<any>;
+export type ReactComponentFunction = (
+  props: any,
+) => ?React.Element<any> | boolean | number | string;
 export type ReactElementCreator = ReactComponentClass | ReactComponentFunction;
 export type RenderableButNotElement = ?(
   | ReactElementCreator
