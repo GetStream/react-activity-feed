@@ -1,12 +1,11 @@
 .raf-icon-button {
   cursor: pointer;
   position: relative;
-  min-width: 20px;
-  min-height: 20px;
-  display: flex;
+  padding: 4px;
   align-items: center;
   justify-content: center;
   svg {
+    margin: 4px;
     position: relative;
     z-index: $z5;
     fill: #a0b2b8;
