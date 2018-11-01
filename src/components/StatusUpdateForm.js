@@ -82,6 +82,7 @@ type State = {|
   ogUrlOrder: string[],
   ogStateByUrl: { [string]: OgState },
   ogActiveUrl: ?string,
+  submitting: boolean,
 |};
 
 type PropsInner = {| ...Props, ...BaseAppCtx |};
@@ -99,6 +100,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     ogUrlOrder: [],
     ogStateByUrl: {},
     ogActiveUrl: null,
+    submitting: false,
   };
 
   constructor(props) {
@@ -253,7 +255,8 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     Boolean(this._object()) &&
     this._orderedImages().every((upload) => upload.state !== 'uploading') &&
     this._orderedFiles().every((upload) => upload.state !== 'uploading') &&
-    !this._isOgScraping();
+    !this._isOgScraping() &&
+    !this.state.submitting;
 
   async addActivity() {
     const activity: CustomActivityArgData = {
@@ -294,9 +297,11 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
 
   onSubmitForm = async (e) => {
     e.preventDefault();
+    this.setState({ submitting: true });
     try {
       await this.addActivity();
     } catch (e) {
+      this.setState({ submitting: false });
       this.props.errorHandler(e, 'add-activity', {
         feedGroup: this.props.feedGroup,
         userId: this.props.userId,
@@ -312,6 +317,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       ogUrlOrder: [],
       ogStateByUrl: {},
       ogActiveUrl: null,
+      submitting: false,
     });
     if (this.props.onSuccess) {
       this.props.onSuccess();
@@ -710,6 +716,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                 <Button
                   type="submit"
                   buttonStyle="primary"
+                  loading={this.state.submitting}
                   disabled={!this._canSubmit()}
                 >
                   Post
