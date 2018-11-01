@@ -234,14 +234,26 @@ declare module 'getstream' {
     own_reactions_extra?: ReactionExtraKindMap,
     latest_reactions?: ReactionKindMap<UserData, Object>,
     latest_reactions_extra?: ReactionExtraKindMap,
+    activities: ?mixed, //
   } & CustomActivityData;
 
   declare type FeedResponse<UserData, CustomActivityData> = {
     unread?: number,
     unseen?: number,
-    results: Array<ActivityResponse<UserData, CustomActivityData>>,
+    results: $ReadOnlyArray<
+      | ActivityGroupResponse<UserData, CustomActivityData>
+      | ActivityResponse<UserData, CustomActivityData>,
+    >,
     next: string,
     duration: string,
+  };
+
+  declare type ActivityGroupResponse<UserData, CustomActivityData> = {
+    id: string,
+    verb: string,
+    activities: $ReadOnlyArray<ActivityResponse<UserData, CustomActivityData>>,
+    read?: boolean,
+    seen?: boolean,
   };
 
   declare type BaseReactionResponse<ReactionData> = {

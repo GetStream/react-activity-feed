@@ -28,6 +28,7 @@
     "eslint": "eslint '**/*.js' --max-warnings 0",
     "flow": "flow",
     "prettier": "prettier --list-different '**/*.{js,ts,md,css}'",
+    "prettier-fix": "prettier --write '**/*.{js,ts,md,css}'",
     "lint": "yarn prettier && yarn eslint",
     "lint-fix": "prettier --write '**/*.{js,ts,md,css}' && eslint --fix '**/*.js'",
     "build": "mkdir -p dist && rollup -c",

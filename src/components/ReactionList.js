@@ -1,14 +1,10 @@
 // @flow
 import * as React from 'react';
+import immutable from 'immutable';
 import LoadMorePaginator from './LoadMorePaginator';
 import URL from 'url-parse';
 import { StreamApp } from '../Context';
-import type {
-  Renderable,
-  BaseReactionMap,
-  BaseAppCtx,
-  BaseReaction,
-} from '../types';
+import type { Renderable, BaseReactionMap, BaseAppCtx } from '../types';
 import { smartRender } from '../utils';
 import type { ReactionExtraKindMap } from 'getstream';
 
@@ -45,7 +41,7 @@ export default class ReactionList extends React.Component<Props> {
 }
 
 type State = {
-  retrievedReactions: Array<BaseReaction>,
+  retrievedReactions: any,
   refreshing: boolean,
   nextUrl: string,
 };
@@ -65,7 +61,7 @@ class ReactionListInner extends React.Component<PropsInner, State> {
       this.props.reactionsExtra,
       this.props.reactionKind,
     ),
-    retrievedReactions: [],
+    retrievedReactions: immutable.List(),
   };
 
   loadNextPage = async () => {
@@ -107,21 +103,19 @@ class ReactionListInner extends React.Component<PropsInner, State> {
 
     const reactionsOfKind = reactions[reactionKind] || [];
 
-    if (!reactionsOfKind.length) {
-      return null;
-    }
-
     return smartRender(this.props.Paginator, {
       loadNextPage: this.loadNextPage,
       hasNextPage: Boolean(this.state.nextUrl),
       refreshing: this.state.refreshing,
-      children: reactionsOfKind
-        .concat(this.state.retrievedReactions)
-        .map((reaction) => (
-          <React.Fragment key={reaction.id}>
-            {smartRender(Reaction, { reaction })}
-          </React.Fragment>
-        )),
+      children: (
+        <React.Fragment>
+          {reactionsOfKind.map((reaction) => (
+            <React.Fragment key={reaction.id}>
+              {smartRender(Reaction, { reaction })}
+            </React.Fragment>
+          ))}
+        </React.Fragment>
+      ),
     });
   }
 }

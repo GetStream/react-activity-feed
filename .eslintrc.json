@@ -40,7 +40,9 @@
       "always", {
         "annotationStyle": "line"
       }
-    ]
+    ],
+    "flowtype/generic-spacing": 0,
+    "flowtype/space-after-type-colon": 0
   },
   "env": {
     "es6": true,

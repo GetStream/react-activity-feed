@@ -2,17 +2,8 @@
 
 import * as React from 'react';
 import immutable from 'immutable';
-import stream from 'getstream';
 import URL from 'url-parse';
 import _ from 'lodash';
-
-import StreamAnalytics from 'stream-analytics';
-import type {
-  StreamCloudClient,
-  StreamUser,
-  StreamUserSession,
-} from 'getstream';
-
 import type {
   FeedRequestOptions,
   FeedResponse,
@@ -25,158 +16,15 @@ import type {
   ToggleReactionCallbackFunction,
   AddReactionCallbackFunction,
   RemoveReactionCallbackFunction,
-  ErrorHandler,
-} from './types';
+} from '../types';
 
-import { handleError } from './errors';
-
-export const StreamContext = React.createContext({
-  changedUserData: () => {},
-  sharedFeedManagers: {},
-});
-
-export type AppCtx<UserData> = {|
-  session: StreamUserSession<UserData>,
-  user: StreamUser<UserData>,
-  // We cannot simply take userData from user.data, since the reference to user
-  // will stay the same all the time. Because of this react won't notice that
-  // the internal fields changed so it thinks it doesn't need to rerender.
-  userData: ?UserData,
-  changedUserData: () => void,
-  changeNotificationCounts?: any,
-  analyticsClient?: any,
-  sharedFeedManagers: { [string]: FeedManager },
-  errorHandler: ErrorHandler,
-|};
-
-type StreamAppProps<UserData> = {|
-  /** The ID of your app, can be found on the [Stream dashboard](https://getstream.io/dashboard) */
-  appId: string,
-  /** The API key for your app, can be found on the [Stream dashboard](https://getstream.io/dashboard) */
-  apiKey: string,
-  /** The access token for the end user that uses your website, how to generate it can be found [here](https://getstream.io/docs/#frontend_setup) */
-  token: string,
-  /** Any options that [`stream.connect()`](https://getstream.io/docs/#setup) accepts */
-  options?: {},
-  analyticsToken?: string,
-  sharedFeeds: Array<FeedProps>,
-  defaultUserData: UserData,
-  errorHandler: ErrorHandler,
-  children?: React.Node,
-|};
-
-type StreamAppState<UserData> = AppCtx<UserData>;
-
-/**
- * Manages the connection with Stream. Any components that should talk to
- * Stream should be a child of this component.
- */
-export class StreamApp extends React.Component<
-  StreamAppProps<Object>,
-  StreamAppState<Object>,
-> {
-  static defaultProps = {
-    sharedFeeds: [
-      {
-        feedGroup: 'notification',
-        notify: true,
-        options: { mark_seen: true },
-      },
-    ],
-    defaultUserData: { name: 'Unknown' },
-    errorHandler: handleError,
-  };
-
-  static Consumer = function StreamAppConsumer(props: {
-    children?: (AppCtx<any>) => ?React.Element<any>,
-  }) {
-    return (
-      <StreamContext.Consumer>
-        {(appCtx) => {
-          if (!props.children || !props.children.length) {
-            return null;
-          }
-          if (!appCtx.session || !appCtx.user) {
-            throw new Error(
-              'This component should be a child of a StreamApp component',
-            );
-          }
-          const Child = props.children;
-          return Child(appCtx);
-        }}
-      </StreamContext.Consumer>
-    );
-  };
-
-  constructor(props: StreamAppProps<Object>) {
-    super(props);
-
-    const client: StreamCloudClient<Object> = stream.connectCloud(
-      this.props.apiKey,
-      this.props.appId,
-      this.props.options || {},
-    );
-
-    const session = client.createUserSession(this.props.token);
-
-    let analyticsClient;
-    if (this.props.analyticsToken) {
-      analyticsClient = new StreamAnalytics({
-        apiKey: this.props.apiKey,
-        token: this.props.analyticsToken,
-      });
-      analyticsClient.setUser(session.userId);
-    }
-    this.state = {
-      session,
-      user: session.user,
-      userData: session.user.data,
-      changedUserData: () => {
-        this.setState({ userData: this.state.user.data });
-      },
-      analyticsClient,
-      sharedFeedManagers: {},
-      errorHandler: this.props.errorHandler,
-    };
-    for (const feedProps of this.props.sharedFeeds) {
-      const manager = new FeedManager({
-        ...feedProps,
-        ...this.state,
-      });
-      this.state.sharedFeedManagers[manager.feed().id] = manager;
-    }
-  }
-
-  componentDidUpdate(prevProps: StreamAppProps<Object>) {
-    const appIdDifferent = this.props.appId !== prevProps.appId;
-    if (appIdDifferent) {
-      //TODO: Implement
-    }
-  }
-
-  async componentDidMount() {
-    try {
-      await this.state.user.getOrCreate(this.props.defaultUserData);
-    } catch (e) {
-      this.props.errorHandler(e, 'get-user-info', {
-        userId: this.state.user.id,
-      });
-      return;
-    }
-    this.state.changedUserData();
-  }
-
-  render() {
-    return (
-      <StreamContext.Provider value={{ ...this.state }}>
-        {this.props.children}
-      </StreamContext.Provider>
-    );
-  }
-}
+import type { AppCtx } from './StreamApp';
+import { StreamApp } from './StreamApp';
 
 export const FeedContext = React.createContext({});
 
+// type FR = FeedResponse<Object, Object>;
+type FR = FeedResponse<{}, {}>;
 export type FeedCtx = {|
   feedGroup: string,
   userId?: string,
@@ -196,7 +44,7 @@ export type FeedCtx = {|
   onRemoveReaction: RemoveReactionCallbackFunction,
 |};
 
-type FeedProps = {|
+export type FeedProps = {|
   feedGroup: string,
   userId?: string,
   options?: FeedRequestOptions,
@@ -208,7 +56,7 @@ type FeedProps = {|
     feedGroup: string,
     userId?: string,
     options?: FeedRequestOptions,
-  ) => Promise<FeedResponse<Object, Object>>,
+  ) => Promise<FeedResponse<{}, {}>>,
   children?: React.Node,
 |};
 
@@ -216,7 +64,7 @@ type FeedManagerState = {|
   activityOrder: Array<string>,
   activities: any,
   refreshing: boolean,
-  lastResponse: ?FeedResponse<{}, {}>,
+  lastResponse: ?FR,
   realtimeAdds: Array<{}>,
   realtimeDeletes: Array<{}>,
   subscription: ?any,
@@ -227,7 +75,7 @@ type FeedManagerState = {|
   reactionsBeingToggled: { [kind: string]: { [activityId: string]: boolean } },
 |};
 
-class FeedManager {
+export class FeedManager {
   props: FeedInnerProps;
   state: FeedManagerState = {
     activityOrder: [],
@@ -245,16 +93,16 @@ class FeedManager {
   };
   registeredCallbacks: Array<() => mixed>;
 
-  constructor(props) {
+  constructor(props: FeedInnerProps) {
     this.props = props;
     this.registeredCallbacks = [];
   }
 
-  register(callback) {
+  register(callback: () => mixed) {
     this.registeredCallbacks.push(callback);
     this.subscribe();
   }
-  unregister(callback) {
+  unregister(callback: () => mixed) {
     this.registeredCallbacks.splice(this.registeredCallbacks.indexOf(callback));
     this.unsubscribe();
   }
@@ -265,7 +113,11 @@ class FeedManager {
     }
   }
 
-  setState = (changed) => {
+  setState = (
+    changed:
+      | $Shape<FeedManagerState>
+      | ((FeedManagerState) => $Shape<FeedManagerState>),
+  ) => {
     if (typeof changed === 'function') {
       changed = changed(this.state);
     }
@@ -299,7 +151,7 @@ class FeedManager {
     });
   };
 
-  _getActivityPath(activity, ...rest) {
+  _getActivityPath(activity: BaseActivityResponse, ...rest: Array<string>) {
     const activityPath = this.state.activityIdToPath[activity.id];
     if (activityPath === undefined) {
       return [activity.id, ...rest];
@@ -422,7 +274,7 @@ class FeedManager {
     ...extraOptions,
   });
 
-  doFeedRequest = (options: FeedRequestOptions) => {
+  doFeedRequest = (options: FeedRequestOptions): Promise<FR> => {
     if (this.props.doFeedRequest) {
       return this.props.doFeedRequest(
         this.props.session,
@@ -436,7 +288,7 @@ class FeedManager {
 
   feed = () => this.props.session.feed(this.props.feedGroup, this.props.userId);
 
-  responseToActivityMap = (response) =>
+  responseToActivityMap = (response: FR) =>
     immutable.fromJS(
       response.results.reduce((map, a) => {
         map[a.id] = a;
@@ -444,15 +296,17 @@ class FeedManager {
       }, {}),
     );
 
-  responseToActivityIdToPath = (response) => {
+  responseToActivityIdToPath = (response: FR) => {
     if (
-      !response.results.length ||
+      response.results.length === 0 ||
       response.results[0].activities === undefined
     ) {
       return {};
     }
+    const aggregatedResponse = (response: any);
+
     const map = {};
-    for (const group of response.results) {
+    for (const group of aggregatedResponse.results) {
       group.activities.forEach((act, i) => {
         map[act.id] = [group.id, 'activities', i];
       });
@@ -460,11 +314,23 @@ class FeedManager {
     return map;
   };
 
-  refresh = async (extraOptions) => {
+  unseenUnreadFromResponse(response: FR) {
+    let unseen = 0;
+    let unread = 0;
+    if (typeof response.unseen === 'number') {
+      unseen = response.unseen;
+    }
+    if (typeof response.unread === 'number') {
+      unread = response.unread;
+    }
+    return { unseen, unread };
+  }
+
+  refresh = async (extraOptions: FeedRequestOptions) => {
     const options = this.getOptions(extraOptions);
 
     await this.setState({ refreshing: true });
-    let response;
+    let response: FR;
     try {
       response = await this.doFeedRequest(options);
     } catch (e) {
@@ -475,6 +341,7 @@ class FeedManager {
       });
       return;
     }
+
     const newState = {
       activityOrder: response.results.map((a) => a.id),
       activities: this.responseToActivityMap(response),
@@ -483,8 +350,7 @@ class FeedManager {
       lastResponse: response,
       realtimeAdds: [],
       realtimeDeletes: [],
-      unread: response.unread || 0,
-      unseen: response.unseen || 0,
+      ...this.unseenUnreadFromResponse(response),
     };
 
     if (options.mark_seen === true) {
@@ -575,7 +441,7 @@ class FeedManager {
     const nextURL = new URL(lastResponse.next, true);
     const options = this.getOptions(nextURL.query);
 
-    let response;
+    let response: FR;
     try {
       response = await this.doFeedRequest(options);
     } catch (e) {
@@ -607,7 +473,7 @@ class FeedManager {
   };
 
   refreshUnreadUnseen = async () => {
-    let response;
+    let response: FR;
     try {
       response = await this.doFeedRequest({ limit: 1 });
     } catch (e) {
@@ -617,10 +483,7 @@ class FeedManager {
       });
       return;
     }
-    return this.setState({
-      unread: response.unread || 0,
-      unseen: response.unseen || 0,
-    });
+    return this.setState(this.unseenUnreadFromResponse(response));
   };
 }
 

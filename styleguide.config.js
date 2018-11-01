@@ -46,7 +46,7 @@ module.exports = {
       name: 'Top Level Components',
       // content: 'docs/top-level-components.md',
       components: [
-        'src/Context.js',
+        'src/Context/StreamApp.js',
         ...topLevelComponents.map(
           (component) => `src/components/${component}.js`,
         ),

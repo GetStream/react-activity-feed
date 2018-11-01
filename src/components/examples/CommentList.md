@@ -39,5 +39,5 @@ const reactions = {
   ],
 };
 
-<CommentList data={reactions} />;
+// <CommentList data={reactions} />;
 ```
