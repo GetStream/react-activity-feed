@@ -12,15 +12,21 @@ const activityId = 'aba1d300-dc4a-11e8-8080-80010edf5810';
     feedGroup="timeline"
     Activity={(props) => (
       <React.Fragment>
-        <Activity {...props} />
-        <CommentField
-          activity={props.activity}
-          onAddReaction={props.onAddReaction}
-        />
-        <CommentList
-          activityId={props.activity.id}
-          reactions={props.activity.latest_reactions}
-          reactionsExtra={props.activity.latest_reactions_extra}
+        <Activity
+          {...props}
+          Footer={
+            <div style={{ padding: '0 16px 16px' }}>
+              <CommentField
+                activity={props.activity}
+                onAddReaction={props.onAddReaction}
+              />
+              <CommentList
+                activityId={props.activity.id}
+                reactions={props.activity.latest_reactions}
+                reactionsExtra={props.activity.latest_reactions_extra}
+              />
+            </div>
+          }
         />
       </React.Fragment>
     )}
