@@ -1,21 +1,13 @@
 // @flow
 import * as React from 'react';
-import immutable from 'immutable';
 import LoadMorePaginator from './LoadMorePaginator';
-import URL from 'url-parse';
-import { StreamApp } from '../Context';
-import type { Renderable, BaseReactionMap, BaseAppCtx } from '../types';
+import { FeedContext } from '../Context';
+import type { Renderable, BaseFeedCtx } from '../types';
 import { smartRender } from '../utils';
-import type { ReactionExtraKindMap } from 'getstream';
 
 type Props = {|
   /** The ID of the activity for which these reactions are */
   activityId: string,
-  /** Usually this should be activity.latest_reactions */
-  reactions: ?BaseReactionMap,
-  /** Usually this should be activity.latest_reactions_extra, this is needed
-   * to continue pagination */
-  reactionsExtra?: ?ReactionExtraKindMap,
   /** The reaction kind that you want to display in this list, e.g `like` or
    * `comment` */
   reactionKind: string,
@@ -26,96 +18,88 @@ type Props = {|
   Paginator: Renderable,
 |};
 
-export default class ReactionList extends React.Component<Props> {
+export default class ReactionList extends React.PureComponent<Props> {
   static defaultProps = {
     Paginator: LoadMorePaginator,
   };
 
   render() {
     return (
-      <StreamApp.Consumer>
+      <FeedContext.Consumer>
         {(appCtx) => <ReactionListInner {...this.props} {...appCtx} />}
-      </StreamApp.Consumer>
+      </FeedContext.Consumer>
     );
   }
 }
 
-type State = {
-  retrievedReactions: any,
-  refreshing: boolean,
-  nextUrl: string,
-};
-
-function getNextUrlFromReactionsExtra(extra, kind) {
-  if (extra && extra[kind]) {
-    return extra[kind].next;
-  }
-  return '';
-}
-
-type PropsInner = {| ...Props, ...BaseAppCtx |};
-class ReactionListInner extends React.Component<PropsInner, State> {
-  state = {
-    refreshing: false,
-    nextUrl: getNextUrlFromReactionsExtra(
-      this.props.reactionsExtra,
-      this.props.reactionKind,
-    ),
-    retrievedReactions: immutable.List(),
-  };
-
-  loadNextPage = async () => {
-    const { nextUrl } = this.state;
-    if (!this.state.nextUrl || this.state.refreshing) {
-      return;
-    }
-
-    this.setState({ refreshing: true });
-    const options = {
-      ...URL(nextUrl, true).query,
-      activity_id: this.props.activityId,
-      kind: this.props.reactionKind,
-    };
-
-    let response;
-    try {
-      response = await this.props.session.reactions.filter(options);
-    } catch (e) {
-      this.setState({ refreshing: false });
-      this.props.errorHandler(e, 'get-reactions-next-page', {
-        options,
-      });
-      return;
-    }
-    this.setState((prevState) => ({
-      refreshing: false,
-      nextUrl: response.next,
-      retrievedReactions: prevState.retrievedReactions.concat(response.results),
-    }));
-  };
-
+type PropsInner = {| ...Props, ...BaseFeedCtx |};
+class ReactionListInner extends React.Component<PropsInner> {
   render() {
-    const { reactions, reactionKind, Reaction } = this.props;
+    const {
+      activityId,
+      activities,
+      reactionKind,
+      getActivityPath,
+    } = this.props;
 
-    if (!reactions) {
-      return null;
-    }
+    const reactionsOfKind = activities.getIn(
+      getActivityPath(activityId, 'latest_reactions', reactionKind),
+    );
 
-    const reactionsOfKind = reactions[reactionKind] || [];
+    const nextUrl = activities.getIn(
+      getActivityPath(
+        activityId,
+        'latest_reactions_extra',
+        reactionKind,
+        'next',
+      ),
+      '',
+    );
+
+    const refreshing = activities.getIn(
+      getActivityPath(
+        activityId,
+        'latest_reactions_extra',
+        reactionKind,
+        'refreshing',
+      ),
+      '',
+    );
 
     return smartRender(this.props.Paginator, {
-      loadNextPage: this.loadNextPage,
-      hasNextPage: Boolean(this.state.nextUrl),
-      refreshing: this.state.refreshing,
+      loadNextPage: () =>
+        this.props.loadNextReactions(activityId, reactionKind),
+      hasNextPage: Boolean(nextUrl),
+      refreshing,
       children: (
         <React.Fragment>
           {reactionsOfKind.map((reaction) => (
-            <React.Fragment key={reaction.id}>
-              {smartRender(Reaction, { reaction })}
-            </React.Fragment>
+            <ImmutableItemWrapper
+              key={reaction.get('id')}
+              item={reaction}
+              renderItem={this.renderReaction}
+            />
           ))}
         </React.Fragment>
       ),
     });
+  }
+  renderReaction = (reaction) => {
+    const { Reaction } = this.props;
+
+    return smartRender(Reaction, { reaction });
+  };
+}
+
+type ImmutableItemWrapperProps = {
+  renderItem: (item: any) => any,
+  item: any,
+};
+
+class ImmutableItemWrapper extends React.PureComponent<
+  ImmutableItemWrapperProps,
+> {
+  render() {
+    return this.props.renderItem(this.props.item.toJS());
   }
 }

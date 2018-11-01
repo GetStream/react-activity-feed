@@ -20,11 +20,7 @@ const activityId = 'aba1d300-dc4a-11e8-8080-80010edf5810';
                 activity={props.activity}
                 onAddReaction={props.onAddReaction}
               />
-              <CommentList
-                activityId={props.activity.id}
-                reactions={props.activity.latest_reactions}
-                reactionsExtra={props.activity.latest_reactions_extra}
-              />
+              <CommentList activityId={props.activity.id} />
             </div>
           }
         />

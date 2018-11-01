@@ -34,6 +34,7 @@ export type FeedCtx = {|
   unseen: number,
   refresh: (extraOptions?: FeedRequestOptions) => Promise<mixed>,
   refreshUnreadUnseen: () => Promise<mixed>,
+  loadNextReactions: (activityId: string, kind: string) => Promise<mixed>,
   loadNextPage: () => Promise<mixed>,
   hasNextPage: boolean,
   refreshing: boolean,
@@ -42,6 +43,10 @@ export type FeedCtx = {|
   onToggleReaction: ToggleReactionCallbackFunction,
   onAddReaction: AddReactionCallbackFunction,
   onRemoveReaction: RemoveReactionCallbackFunction,
+  getActivityPath: (
+    activity: BaseActivityResponse | string,
+    ...Array<string>
+  ) => Array<string>,
 |};
 
 export type FeedProps = {|
@@ -151,13 +156,23 @@ export class FeedManager {
     });
   };
 
-  _getActivityPath(activity: BaseActivityResponse, ...rest: Array<string>) {
-    const activityPath = this.state.activityIdToPath[activity.id];
+  getActivityPath = (
+    activity: BaseActivityResponse | string,
+    ...rest: Array<string>
+  ) => {
+    let activityId;
+    if (typeof activity === 'string') {
+      activityId = activity;
+    } else {
+      activityId = activity.id;
+    }
+
+    const activityPath = this.state.activityIdToPath[activityId];
     if (activityPath === undefined) {
-      return [activity.id, ...rest];
+      return [activityId, ...rest];
     }
     return [...activityPath, ...rest];
-  }
+  };
 
   onAddReaction = async (
     kind: string,
@@ -185,15 +200,15 @@ export class FeedManager {
     this.setState((prevState) => {
       const activities = prevState.activities
         .updateIn(
-          this._getActivityPath(activity, 'reaction_counts', kind),
+          this.getActivityPath(activity, 'reaction_counts', kind),
           (v = 0) => v + 1,
         )
         .updateIn(
-          this._getActivityPath(activity, 'own_reactions', kind),
+          this.getActivityPath(activity, 'own_reactions', kind),
           (v = immutable.List()) => v.unshift(enrichedReaction),
         )
         .updateIn(
-          this._getActivityPath(activity, 'latest_reactions', kind),
+          this.getActivityPath(activity, 'latest_reactions', kind),
           (v = immutable.List()) => v.unshift(enrichedReaction),
         );
 
@@ -223,16 +238,16 @@ export class FeedManager {
     return this.setState((prevState) => {
       const activities = prevState.activities
         .updateIn(
-          this._getActivityPath(activity, 'reaction_counts', kind),
+          this.getActivityPath(activity, 'reaction_counts', kind),
           (v = 0) => v - 1,
         )
         .updateIn(
-          this._getActivityPath(activity, 'own_reactions', kind),
+          this.getActivityPath(activity, 'own_reactions', kind),
           (v = immutable.List()) =>
             v.remove(v.findIndex((r) => r.get('id') === id)),
         )
         .updateIn(
-          this._getActivityPath(activity, 'latest_reactions', kind),
+          this.getActivityPath(activity, 'latest_reactions', kind),
           (v = immutable.List()) =>
             v.remove(v.findIndex((r) => r.get('id') === id)),
         );
@@ -253,7 +268,7 @@ export class FeedManager {
     this.state.reactionsBeingToggled[kind] = togglingReactions;
 
     const currentReactions = this.state.activities.getIn(
-      this._getActivityPath(activity, 'own_reactions', kind),
+      this.getActivityPath(activity, 'own_reactions', kind),
       immutable.List(),
     );
 
@@ -472,6 +487,58 @@ export class FeedManager {
     });
   };
 
+  loadNextReactions = async (activityId: string, kind: string) => {
+    const nextUrlPath = this.getActivityPath(
+      activityId,
+      'latest_reactions_extra',
+      kind,
+      'next',
+    );
+    const refreshingPath = this.getActivityPath(
+      activityId,
+      'latest_reactions_extra',
+      kind,
+      'refreshing',
+    );
+    const nextUrl = this.state.activities.getIn(nextUrlPath, '');
+    const refreshing = this.state.activities.getIn(refreshingPath, false);
+
+    if (!nextUrl || refreshing) {
+      return;
+    }
+
+    this.setState((prevState) => ({
+      activities: prevState.activities.setIn(refreshingPath, true),
+    }));
+
+    const options = {
+      ...URL(nextUrl, true).query,
+      activity_id: activityId,
+      kind,
+    };
+
+    let response;
+    try {
+      response = await this.props.session.reactions.filter(options);
+    } catch (e) {
+      this.setState({ refreshing: false });
+      this.props.errorHandler(e, 'get-reactions-next-page', {
+        options,
+      });
+      return;
+    }
+    this.setState((prevState) => ({
+      activities: prevState.activities
+        .setIn(refreshingPath, false)
+        .setIn(nextUrlPath, response.next)
+        .updateIn(
+          this.getActivityPath(activityId, 'latest_reactions', kind),
+          (v = immutable.List()) =>
+            v.concat(immutable.fromJS(response.results)),
+        ),
+    }));
+  };
+
   refreshUnreadUnseen = async () => {
     let response: FR;
     try {
@@ -554,11 +621,13 @@ class FeedInner extends React.Component<FeedInnerProps, FeedState> {
     const { manager } = this.state;
     const state = manager.state;
     return {
+      getActivityPath: manager.getActivityPath,
       onToggleReaction: manager.onToggleReaction,
       onAddReaction: manager.onAddReaction,
       onRemoveReaction: manager.onRemoveReaction,
       refresh: manager.refresh,
       refreshUnreadUnseen: manager.refreshUnreadUnseen,
+      loadNextReactions: manager.loadNextReactions,
       loadNextPage: manager.loadNextPage,
       hasNextPage: manager.hasNextPage(),
       feedGroup: this.props.feedGroup,
