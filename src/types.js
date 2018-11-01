@@ -17,6 +17,7 @@ export type FlowRequestTypes =
   | 'get-user-info'
   | 'get-feed'
   | 'get-feed-next-page'
+  | 'get-reactions-next-page'
   | 'get-notification-counts'
   | 'upload-image'
   | 'add-activity'
@@ -68,6 +69,7 @@ export type BaseAppCtx = AppCtx<{}>;
 export type BaseFeedCtx = FeedCtx;
 export type BaseUserSession = StreamUserSession<{}>;
 
+export type BaseReaction = EnrichedReactionResponse<{}, {}>;
 export type BaseReactionMap = ReactionKindMap<Object, Object>;
 
 export type BaseUserResponse = UserResponse<{}>;

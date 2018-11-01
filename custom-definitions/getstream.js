@@ -53,7 +53,7 @@ declare module 'getstream' {
     objectFromResponse<ObjectData>(
       response: ObjectResponse<ObjectData>,
     ): StreamObject<ObjectData>;
-    reactions: StreamReaction<*>;
+    reactions: StreamReaction<UserData, *>;
     react<ReactionData>(
       kind: string,
       activity: string | ActivityResponse<*, *>, // Allows activityId and ActivityResponse
@@ -111,14 +111,22 @@ declare module 'getstream' {
     add(id: ?string, data: ObjectData): Promise<ObjectResponse<ObjectData>>;
   }
 
-  declare class StreamReaction<ReactionData> {
+  declare class StreamReaction<UserData, ReactionData> {
     add(
       kind: string,
       activity: string | ActivityResponse<*, *>, // Allows activityId and ActivityResponse
       optionalArgs?: ReactionRequestOptions<ReactionData>,
     ): Promise<ReactionResponse<ReactionData>>;
     delete(id: string): Promise<{}>;
+    filter(
+      params: ReactionFilterOptions,
+    ): Promise<ReactionFilterResponse<UserData, ReactionData>>;
   }
+
+  declare type ReactionFilterResponse<UserData, ReactionData> = {
+    results: Array<EnrichedReactionResponse<UserData, ReactionData>>,
+    next: string,
+  };
 
   declare type ObjectResponse<Data> = {
     id: string,
@@ -159,6 +167,17 @@ declare module 'getstream' {
     mark_read?: MarkValue,
   };
 
+  declare type ReactionFilterOptions = {
+    activity_id?: string,
+    user_id?: string,
+    kind?: string,
+    limit?: number,
+    id_lt?: string,
+    id_lte?: string,
+    id_gt?: string,
+    id_gte?: string,
+  };
+
   declare class StreamFeed<UserData, CustomActivityData> {
     id: string;
     slug: string;
@@ -187,6 +206,14 @@ declare module 'getstream' {
     [string]: Array<EnrichedReactionResponse<UserData, ReactionData>>,
   };
 
+  declare type ReactionExtra = {
+    next: string,
+  };
+
+  declare type ReactionExtraKindMap = {
+    [string]: ReactionExtra,
+  };
+
   declare type ReactionCounts = { [string]: number };
 
   declare type ActivityResponse<UserData, CustomActivityData> = {
@@ -204,7 +231,9 @@ declare module 'getstream' {
 
     reaction_counts?: ReactionCounts,
     own_reactions?: ReactionKindMap<UserData, Object>,
+    own_reactions_extra?: ReactionExtraKindMap,
     latest_reactions?: ReactionKindMap<UserData, Object>,
+    latest_reactions_extra?: ReactionExtraKindMap,
   } & CustomActivityData;
 
   declare type FeedResponse<UserData, CustomActivityData> = {
