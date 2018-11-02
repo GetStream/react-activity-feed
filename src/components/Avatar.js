@@ -15,7 +15,7 @@ export type Props = {|
  *
  * @example ./examples/Avatar.md
  */
-export default class Avatar extends React.Component<Props> {
+export default class Avatar extends React.PureComponent<Props> {
   render() {
     const { size, image, alt, rounded, circle } = this.props;
     return (
