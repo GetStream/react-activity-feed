@@ -39,10 +39,21 @@ import type {
   FileLike,
 } from '../types';
 
+import type { ActivityArgData } from 'getstream';
+
 type Props = {|
+  /** The feed group part of the feed that the activity should be posted to */
   feedGroup: string,
+  /** The user_id part of the feed that the activity should be posted to  */
   userId?: string,
+  /** The verb that should be used to post the activity */
   activityVerb: string,
+  /** If you want to change something about the activity data that this form
+   * sends to stream you can do that with this function. This function gets the
+   * activity data that the form would send normally and should return the
+   * modified activity data that should be posted instead. */
+  modifyActivityData: (activityData: {}) => ActivityArgData<{}, {}>,
+  /** A callback to run after the activity is posted successfully */
   onSuccess?: () => mixed,
 |};
 
@@ -56,6 +67,7 @@ export default class StatusUpdateForm extends React.Component<Props> {
   static defaultProps = {
     feedGroup: 'user',
     activityVerb: 'post',
+    modifyActivityData: (d: {}) => d,
   };
 
   render() {
@@ -290,9 +302,10 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       activity.attachments = attachments;
     }
 
+    const modifiedActivity = this.props.modifyActivityData(activity);
     await this.props.session
       .feed(this.props.feedGroup, this.props.userId)
-      .addActivity(activity);
+      .addActivity(modifiedActivity);
   }
 
   onSubmitForm = async (e) => {
