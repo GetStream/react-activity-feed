@@ -51,7 +51,16 @@ type Props = {|
   /** If you want to change something about the activity data that this form
    * sends to stream you can do that with this function. This function gets the
    * activity data that the form would send normally and should return the
-   * modified activity data that should be posted instead. */
+   * modified activity data that should be posted instead.
+   *
+   * For instance, this would add a target field to the activity:
+   *
+   * ```javascript
+   * &lt;StatusUpdateForm
+   *   modifyActivityData={(data) => ({...data, target: 'Group:1'})}
+   * />
+   * ```
+   * */
   modifyActivityData: (activityData: {}) => ActivityArgData<{}, {}>,
   /** A callback to run after the activity is posted successfully */
   onSuccess?: () => mixed,
