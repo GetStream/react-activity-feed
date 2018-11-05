@@ -4,6 +4,7 @@ import LoadMorePaginator from './LoadMorePaginator';
 import { FeedContext } from '../Context';
 import type { Renderable, BaseFeedCtx } from '../types';
 import { smartRender } from '../utils';
+import immutable from 'immutable';
 
 type Props = {|
   /** The ID of the activity for which these reactions are */
@@ -44,6 +45,7 @@ class ReactionListInner extends React.Component<PropsInner> {
 
     const reactionsOfKind = activities.getIn(
       getActivityPath(activityId, 'latest_reactions', reactionKind),
+      immutable.List(),
     );
 
     const nextUrl = activities.getIn(
