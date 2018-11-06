@@ -21,6 +21,7 @@ export type FlowRequestTypes =
   | 'get-notification-counts'
   | 'upload-image'
   | 'add-activity'
+  | 'delete-activity'
   | 'add-reaction'
   | 'delete-reaction';
 

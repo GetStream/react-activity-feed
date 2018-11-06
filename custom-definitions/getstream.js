@@ -196,6 +196,7 @@ declare module 'getstream' {
       Array<ActivityArgData<UserData, CustomActivityData>>,
     ): Promise<Array<ActivityResponse<UserData, CustomActivityData>>>;
     subscribe((any) => void): Subscription;
+    removeActivity(id: string | { foreignId: string }): Promise<{}>;
   }
   declare type Subscription = {
     then: (success: () => mixed, failure: (err: Error) => mixed) => Promise<{}>,

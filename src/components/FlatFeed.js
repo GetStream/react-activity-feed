@@ -97,6 +97,7 @@ class FlatFeedInner extends React.Component<PropsInner> {
     onToggleReaction: this.props.onToggleReaction,
     onAddReaction: this.props.onAddReaction,
     onRemoveReaction: this.props.onRemoveReaction,
+    onRemoveActivity: this.props.onRemoveActivity,
     feedGroup: this.props.feedGroup,
     userId: this.props.userId,
   });

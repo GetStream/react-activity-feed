@@ -43,6 +43,7 @@ export type FeedCtx = {|
   onToggleReaction: ToggleReactionCallbackFunction,
   onAddReaction: AddReactionCallbackFunction,
   onRemoveReaction: RemoveReactionCallbackFunction,
+  onRemoveActivity: (activityId: string, kind: string) => Promise<mixed>,
   getActivityPath: (
     activity: BaseActivityResponse | string,
     ...Array<string>
@@ -279,6 +280,29 @@ export class FeedManager {
       await this.onAddReaction(kind, activity, options);
     }
     delete togglingReactions[activity.id];
+  };
+
+  onRemoveActivity = async (activityId: string) => {
+    try {
+      await this.feed().removeActivity(activityId);
+    } catch (e) {
+      this.props.errorHandler(e, 'delete-activity', {
+        activityId: this.props.feedGroup,
+        feedGroup: this.props.feedGroup,
+        userId: this.props.userId,
+      });
+      return;
+    }
+    return this.setState((prevState) => {
+      const activities = prevState.activities.removeIn(
+        this.getActivityPath(activityId),
+        (v = 0) => v - 1,
+      );
+      const activityOrder = prevState.activityOrder.filter(
+        (id) => id !== activityId,
+      );
+      return { activities, activityOrder };
+    });
   };
 
   getOptions = (extraOptions?: FeedRequestOptions): FeedRequestOptions => ({
@@ -625,6 +649,7 @@ class FeedInner extends React.Component<FeedInnerProps, FeedState> {
       onToggleReaction: manager.onToggleReaction,
       onAddReaction: manager.onAddReaction,
       onRemoveReaction: manager.onRemoveReaction,
+      onRemoveActivity: manager.onRemoveActivity,
       refresh: manager.refresh,
       refreshUnreadUnseen: manager.refreshUnreadUnseen,
       loadNextReactions: manager.loadNextReactions,

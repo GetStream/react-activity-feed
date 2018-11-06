@@ -9,8 +9,6 @@ import Audio from './Audio';
 import Video from './Video';
 import FileIcon from './FileIcon';
 import Gallery from './Gallery';
-import Dropdown from './Dropdown';
-import Link from './Link';
 
 import type { ActivityData, Renderable } from '../types';
 import { smartRender, humanizeTimestamp } from '../utils';
@@ -21,6 +19,7 @@ type Props = {
   Header?: Renderable,
   Content?: Renderable,
   Footer?: Renderable,
+  HeaderRight?: Renderable,
   onPress?: () => mixed,
   onClickUser?: (?any) => mixed,
   sub?: string,
@@ -64,30 +63,14 @@ export default class Activity extends React.Component<Props> {
           username={actor.data.name}
           avatar={actor.data.profileImage}
           onClickUser={this._getOnClickUser()}
-          subtitle={humanizeTimestamp(this.props.activity.time)}
+          subtitle={
+            this.props.HeaderRight != null
+              ? humanizeTimestamp(this.props.activity.time)
+              : undefined
+          }
           timestamp={this.props.activity.time}
           icon={this.props.icon}
-          Right={() => (
-            <Dropdown>
-              <ul>
-                <li>
-                  <Link>View Post</Link>
-                </li>
-                <li>
-                  <Link>Embed</Link>
-                </li>
-                <li>
-                  <Link>Unfollow</Link>
-                </li>
-                <li>
-                  <Link>Repost User</Link>
-                </li>
-                <li>
-                  <Link>Block User</Link>
-                </li>
-              </ul>
-            </Dropdown>
-          )}
+          Right={this.props.HeaderRight}
         />
       </div>
     );

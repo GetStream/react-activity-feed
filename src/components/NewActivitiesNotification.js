@@ -25,8 +25,7 @@ export default class NewActivitiesNotification extends React.Component<Props> {
   };
   render() {
     const addCount = this.props.adds.length;
-    const deleteCount = this.props.deletes.length;
-    const count = addCount + deleteCount;
+    const count = addCount;
     if (count === 0) {
       return null;
     }
