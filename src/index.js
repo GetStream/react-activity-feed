@@ -79,7 +79,7 @@ export { default as Card } from './components/Card';
 export { default as Gallery } from './components/Gallery';
 export { default as Avatar } from './components/Avatar';
 export { default as AvatarGroup } from './components/AvatarGroup';
-export { default as DropDown } from './components/Dropdown';
+export { default as Dropdown } from './components/Dropdown';
 export { default as Link } from './components/Link';
 
 // Icons
