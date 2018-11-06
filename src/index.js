@@ -79,6 +79,8 @@ export { default as Card } from './components/Card';
 export { default as Gallery } from './components/Gallery';
 export { default as Avatar } from './components/Avatar';
 export { default as AvatarGroup } from './components/AvatarGroup';
+export { default as DropDown } from './components/Dropdown';
+export { default as Link } from './components/Link';
 
 // Icons
 export { default as LikeButton } from './components/LikeButton';
@@ -87,7 +89,7 @@ export { default as ReactionIcon } from './components/ReactionIcon';
 export { default as ReactionToggleIcon } from './components/ReactionToggleIcon';
 export { default as IconBadge } from './components/IconBadge';
 
-// Comment related (not usable yet)
+// Comment related
 export { default as CommentList } from './components/CommentList';
 export { default as ReactionList } from './components/ReactionList';
 export { default as CommentItem } from './components/CommentItem';
