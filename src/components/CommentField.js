@@ -63,7 +63,9 @@ export default class CommentField extends React.Component<Props, State> {
   render() {
     return (
       <form onSubmit={this.onSubmitForm} className="raf-comment-field">
-        <Avatar image={this.props.image} circle size={39} />
+        {this.props.image ? (
+          <Avatar image={this.props.image} circle size={39} />
+        ) : null}
         <div className="raf-comment-field__group">
           <input
             autoComplete="off"
