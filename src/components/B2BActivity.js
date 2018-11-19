@@ -18,9 +18,9 @@ import ThumbUpFilled from '../assets/images/thumb-filled.svg';
 import Comment from '../assets/images/comment.svg';
 
 export type Props = {|
-  Header: Renderable,
-  Content: Renderable,
-  Footer: Renderable,
+  Header?: Renderable,
+  Content?: Renderable,
+  Footer?: Renderable,
   activity: any,
   onToggleReaction: any,
 |};

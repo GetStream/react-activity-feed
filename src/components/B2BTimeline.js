@@ -2,6 +2,8 @@ import * as React from 'react';
 import TimeHeader from './TimeHeader';
 import B2BActivity from './B2BActivity';
 
+import { smartRender } from '../utils';
+
 const MONTHS = {
   1: 'January',
   2: 'February',
@@ -46,7 +48,7 @@ export default class B2BTimeline extends React.Component {
     return newActivities;
   }
 
-  timeline = (activities, icons) => {
+  timeline = (activities, icons, Activity) => {
     const sorted = this.sortByYearMonth(activities);
     return Object.keys(sorted)
       .sort((a, b) => b - a)
@@ -68,7 +70,11 @@ export default class B2BTimeline extends React.Component {
                       }}
                     />
                     <div className="raf-b2btimeline__post-content">
-                      <B2BActivity activity={post} />
+                      {smartRender(
+                        Activity,
+                        post,
+                        <B2BActivity activity={post} />,
+                      )}
                     </div>
                   </div>
                 ))}
@@ -86,7 +92,11 @@ export default class B2BTimeline extends React.Component {
             <div className="line" />
           </div>
 
-          {this.timeline(this.props.activities, this.props.icons)}
+          {this.timeline(
+            this.props.activities,
+            this.props.icons,
+            this.props.Activity,
+          )}
         </div>
       </div>
     );

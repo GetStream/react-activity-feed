@@ -42,8 +42,10 @@ async function main() {
   });
   const users = getUsers();
   const acts = getActivities(client, users);
+  const b2bActs = getB2BActivities(client, users);
   const notificationActs = getNotifications(client, users, act);
   const timeline = client.feed('timeline', exampleUserId);
+  const b2btimeline = client.feed('b2btimeline', exampleUserId);
   const notification = client.feed('notification', exampleUserId);
 
   await client.collections.upsert('user', users);
@@ -54,6 +56,7 @@ async function main() {
     },
   ]);
   await timeline.addActivities(acts);
+  await b2btimeline.addActivities(b2bActs);
   await notification.addActivities(notificationActs);
 
   const token = client.createUserSessionToken(exampleUserId);
@@ -168,6 +171,82 @@ const getActivities = (client, users) => [
     object: "@ken let's get coffee one these days ☕",
     foreign_id: 'post:7',
     time: '2018-10-24T13:49:50',
+  },
+];
+
+const getB2BActivities = (client, users) => [
+  {
+    actor: client.collections.createUserReference(users[5].id),
+    verb: 'emailed',
+    object: '56 New Contacts',
+    time: '2017-10-24T13:49:50',
+  },
+  {
+    actor: client.collections.createUserReference(users[6].id),
+    verb: 'send',
+    object: 'email',
+    email: {
+      type: 'tracked email',
+      subject: 'Hello',
+      content: 'Lispum',
+      status: 'sent',
+      clicks: '12',
+      opens: '1',
+    },
+    time: '2018-10-24T13:49:50',
+  },
+  {
+    actor: client.collections.createUserReference(users[4].id),
+    verb: 'congratulations',
+    object: 'card',
+    card: {
+      title: 'Congratulations!',
+      text: 'The email campaign Smells like Coffee just had 10,000 opens!',
+      image: 'https://placeimg.com/300/300',
+      stats: {
+        deliveries: 30054,
+        bounces: 0,
+        unsubscribes: 0,
+        'spam reports': 0,
+      },
+    },
+  },
+  {
+    actor: client.collections.createUserReference(users[7].id),
+    verb: 'changed to',
+    object: 'customer',
+    time: '2018-06-24T13:49:50',
+  },
+
+  {
+    actor: client.collections.createUserReference(users[8].id),
+    verb: 'changed to',
+    object: 'lead',
+    time: '2018-02-24T13:49:50',
+  },
+  {
+    actor: client.collections.createUserReference(users[9].id),
+    verb: 'added by',
+    object: 'offline app',
+    time: '2017-10-24T13:49:50',
+  },
+  {
+    actor: client.collections.createUserReference(users[0].id),
+    verb: 'added',
+    object: 'project',
+    project: {
+      title: 'Loyalty Email',
+    },
+    attachments: {
+      images: [
+        'https://placeimg.com/300/400/people',
+        'https://placeimg.com/400/400/people',
+        'https://placeimg.com/200/400/people',
+        'https://placeimg.com/550/400/people',
+        'https://placeimg.com/300/223/people',
+        'https://placeimg.com/300/223/people',
+      ],
+    },
   },
 ];
 
