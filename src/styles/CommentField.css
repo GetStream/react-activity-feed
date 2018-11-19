@@ -16,8 +16,9 @@
       }
     }
   }
-  &__input {
+  .raf-textarea .raf-textarea__textarea {
     flex: 1;
+    resize: none;
     background: #f7f7f7;
     color: $fontColor;
     font-size: 14px;

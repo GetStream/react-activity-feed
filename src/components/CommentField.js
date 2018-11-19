@@ -3,6 +3,7 @@
 import React from 'react';
 import Avatar from './Avatar';
 import Button from './Button';
+import Textarea from './Textarea';
 import '../styles/CommentField.css';
 
 import type {
@@ -52,7 +53,7 @@ export default class CommentField extends React.Component<Props, State> {
     }
   };
 
-  _onChange = (event: SyntheticEvent<HTMLInputElement>) => {
+  _onChange = (event: SyntheticEvent<HTMLTextAreaElement>) => {
     if (!event || !event.currentTarget) {
       return '';
     }
@@ -67,14 +68,13 @@ export default class CommentField extends React.Component<Props, State> {
           <Avatar image={this.props.image} circle size={39} />
         ) : null}
         <div className="raf-comment-field__group">
-          <input
-            autoComplete="off"
-            type="text"
+          <Textarea
+            rows={1}
             value={this.state.text}
             placeholder={this.props.placeholder}
-            className={`raf-comment-field__input`}
-            name={'raf-comment-field'}
             onChange={this._onChange}
+            onPaste={() => null}
+            maxLength={280}
           />
           <Button
             buttonStyle="primary"

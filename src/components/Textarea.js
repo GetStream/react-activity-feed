@@ -9,6 +9,7 @@ import '@webscopeio/react-textarea-autocomplete/style.css';
 
 export type Props = {|
   rows: number,
+  maxLength?: number,
   placeholder: string,
   onChange: (event: SyntheticEvent<HTMLTextAreaElement>) => mixed,
   onPaste: (event: SyntheticClipboardEvent<HTMLTextAreaElement>) => mixed,
@@ -59,6 +60,7 @@ export default class Textarea extends React.Component<Props> {
           })
         }
         rows={this.props.rows}
+        maxLength={this.props.maxLength}
         className="raf-textarea__textarea"
         containerClassName="raf-textarea"
         dropdownClassName="raf-emojisearch"
