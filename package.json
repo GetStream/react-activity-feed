@@ -93,7 +93,7 @@
     "@webscopeio/react-textarea-autocomplete": "^2.3.5",
     "anchorme": "^1.1.2",
     "emoji-mart": "^2.8.1",
-    "getstream": "^3.23.0",
+    "getstream": "^3.23.1",
     "immutable": "^4.0.0-rc.9",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
