@@ -30,6 +30,8 @@ type State = {|
  * @example ./examples/CommentField.md
  */
 export default class CommentField extends React.Component<Props, State> {
+  textareaRef = React.createRef();
+
   state = {
     text: '',
   };
@@ -61,6 +63,21 @@ export default class CommentField extends React.Component<Props, State> {
     this.setState({ text });
   };
 
+  componentDidMount() {
+    if (this.textareaRef.current) {
+      this.textareaRef.current.addEventListener('keydown', (e) => {
+        if (e.which === 13) {
+          if (
+            this.textareaRef.current &&
+            this.textareaRef.current.nextSibling === null
+          ) {
+            this.onSubmitForm(e);
+          }
+        }
+      });
+    }
+  }
+
   render() {
     return (
       <form onSubmit={this.onSubmitForm} className="raf-comment-field">
@@ -75,6 +92,7 @@ export default class CommentField extends React.Component<Props, State> {
             onChange={this._onChange}
             onPaste={() => null}
             maxLength={280}
+            innerRef={this.textareaRef}
           />
           <Button
             buttonStyle="primary"
