@@ -81,6 +81,8 @@ export { default as Avatar } from './components/Avatar';
 export { default as AvatarGroup } from './components/AvatarGroup';
 export { default as Dropdown } from './components/Dropdown';
 export { default as Link } from './components/Link';
+export { default as Video } from './components/Video';
+export { default as Audio } from './components/Audio';
 
 // Icons
 export { default as LikeButton } from './components/LikeButton';
@@ -113,3 +115,4 @@ export { default as ImageDropzone } from './components/ImageDropzone';
 export { default as ImagePreviewer } from './components/ImagePreviewer';
 export { default as ImageInput } from './components/ImageInput';
 export { default as ImageUploadButton } from './components/ImageUploadButton';
+export { default as FileIcon } from './components/FileIcon';
