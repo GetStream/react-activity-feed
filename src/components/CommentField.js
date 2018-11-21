@@ -4,7 +4,6 @@ import React from 'react';
 import Avatar from './Avatar';
 import Button from './Button';
 import Textarea from './Textarea';
-import '../styles/CommentField.css';
 
 import type {
   AddReactionCallbackFunction,
