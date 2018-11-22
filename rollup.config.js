@@ -5,6 +5,7 @@ import external from 'rollup-plugin-peer-deps-external';
 import postcss from 'rollup-plugin-postcss';
 import json from 'rollup-plugin-json';
 import url from 'rollup-plugin-url';
+import replace from 'rollup-plugin-replace';
 
 import atImport from 'postcss-easy-import';
 import cssnext from 'postcss-cssnext';
@@ -70,6 +71,9 @@ export default {
     '@babel/runtime/helpers/classCallCheck',
   ],
   plugins: [
+    replace({
+      'process.env.NODE_ENV': JSON.stringify('production'),
+    }),
     external(),
     postcss({
       plugins: [
