@@ -26,6 +26,13 @@ export default {
       browser: true,
     },
     {
+      file: pkg.main,
+      format: 'umd',
+      sourcemap: true,
+      name: 'index.umd',
+      browser: true,
+    },
+    {
       file: pkg.module,
       format: 'es',
       sourcemap: true,
