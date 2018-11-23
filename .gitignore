@@ -7,6 +7,7 @@ node_modules
 # builds
 /example/build
 dist
+lib
 
 # misc
 .DS_Store
