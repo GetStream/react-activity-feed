@@ -21,9 +21,8 @@ const config = {
   entry: __dirname + '/src/index.js',
   devtool: 'source-map',
   output: {
-    path: __dirname + '/lib',
+    path: __dirname + '/dist',
     filename: outputFile,
-    library: libraryName,
     libraryTarget: 'umd',
     umdNamedDefine: true,
   },
@@ -39,12 +38,27 @@ const config = {
         loader: 'eslint-loader',
         exclude: /node_modules/,
       },
-      { test: /(\.css|\.png)$/, loader: 'ignore-loader' },
+      {
+        test: /\.png$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+          outputPath: 'images/',
+        },
+      },
+      {
+        test: /\.css$/,
+        loader: 'ignore-loader',
+      },
     ],
   },
   resolve: {
     modules: [path.resolve('./node_modules'), path.resolve('./src')],
     extensions: ['.json', '.js'],
+  },
+  externals: {
+    react: 'React',
+    lodash: '_',
   },
 };
 
