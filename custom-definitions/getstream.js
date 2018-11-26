@@ -70,10 +70,11 @@ declare module 'getstream' {
     site_name: string,
     images: Array<{ image: string }>,
     videos: Array<{
-      secure_url: string,
-      type: string,
-      width: string,
-      height: string,
+      video?: string,
+      secure_url?: string,
+      type?: string,
+      width?: string,
+      height?: string,
     }>,
     audios: Array<{
       type: string,

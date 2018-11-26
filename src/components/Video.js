@@ -22,16 +22,12 @@ export default class Video extends React.Component<Props> {
   render() {
     const { videos } = this.props.og;
     let video: {
-      secure_url: string,
-      type: string,
-      width: string,
-      height: string,
-    } = {
-      secure_url: '',
-      type: '',
-      width: '',
-      height: '',
-    };
+      video?: string,
+      secure_url?: string,
+      type?: string,
+      width?: string,
+      height?: string,
+    } = {};
 
     const svg =
       '<svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path d="M465 5c5.53 0 10 4.47 10 10s-4.47 10-10 10-10-4.47-10-10 4.47-10 10-10zm3.59 5L465 13.59 461.41 10 460 11.41l3.59 3.59-3.59 3.59 1.41 1.41 3.59-3.59 3.59 3.59 1.41-1.41-3.59-3.59 3.59-3.59-1.41-1.41z" id="b"/><filter x="-30%" y="-30%" width="160%" height="160%" filterUnits="objectBoundingBox" id="a"><feOffset in="SourceAlpha" result="shadowOffsetOuter1"/><feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"/><feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0" in="shadowBlurOuter1"/></filter></defs><g transform="translate(-451 -1)" fill-rule="nonzero" fill="none"><use fill="#000" filter="url(#a)" xlink:href="#b"/><use fill="#FFF" fill-rule="evenodd" xlink:href="#b"/></g></svg>';
@@ -52,7 +48,7 @@ export default class Video extends React.Component<Props> {
             type={video.type}
             width={video.width}
             height={video.height}
-            src={`${video.secure_url}`}
+            src={video.secure_url || video.video}
             frameBorder="0"
           />
         </div>
@@ -61,7 +57,7 @@ export default class Video extends React.Component<Props> {
       return (
         <div className="raf-video__video">
           <video className="raf-video__video--video" controls>
-            <source src={video.secure_url} type={video.type} />
+            <source src={video.secure_url || video.video} type={video.type} />
           </video>
           <div className="raf-video__video--content">
             <div className="raf-video__video--title">{this.props.og.title}</div>
