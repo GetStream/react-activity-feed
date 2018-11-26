@@ -17,6 +17,7 @@ import type {
   AddReactionCallbackFunction,
   RemoveReactionCallbackFunction,
 } from '../types';
+import isPlainObject from 'lodash/isPlainObject';
 
 import type { AppCtx } from './StreamApp';
 import { StreamApp } from './StreamApp';
@@ -75,6 +76,8 @@ type FeedManagerState = {|
   realtimeDeletes: Array<{}>,
   subscription: ?any,
   activityIdToPath: { [string]: Array<string> },
+  // Used for finding reposted activities
+  activityIdToPaths: { [string]: Array<Array<string>> },
   unread: number,
   unseen: number,
   numSubscribers: number,
@@ -87,6 +90,7 @@ export class FeedManager {
     activityOrder: [],
     activities: immutable.Map(),
     activityIdToPath: {},
+    activityIdToPaths: {},
     lastResponse: null,
     refreshing: false,
     realtimeAdds: [],
@@ -175,6 +179,17 @@ export class FeedManager {
     return [...activityPath, ...rest];
   };
 
+  getActivityPaths = (activity: BaseActivityResponse | string) => {
+    let activityId;
+    if (typeof activity === 'string') {
+      activityId = activity;
+    } else {
+      activityId = activity.id;
+    }
+
+    return this.state.activityIdToPaths[activityId];
+  };
+
   onAddReaction = async (
     kind: string,
     activity: BaseActivityResponse,
@@ -199,19 +214,18 @@ export class FeedManager {
     });
 
     this.setState((prevState) => {
-      const activities = prevState.activities
-        .updateIn(
-          this.getActivityPath(activity, 'reaction_counts', kind),
-          (v = 0) => v + 1,
-        )
-        .updateIn(
-          this.getActivityPath(activity, 'own_reactions', kind),
-          (v = immutable.List()) => v.unshift(enrichedReaction),
-        )
-        .updateIn(
-          this.getActivityPath(activity, 'latest_reactions', kind),
-          (v = immutable.List()) => v.unshift(enrichedReaction),
-        );
+      let { activities } = prevState;
+      for (const path of this.getActivityPaths(activity)) {
+        activities = activities
+          .updateIn([...path, 'reaction_counts', kind], (v = 0) => v + 1)
+          .updateIn([...path, 'own_reactions', kind], (v = immutable.List()) =>
+            v.unshift(enrichedReaction),
+          )
+          .updateIn(
+            [...path, 'latest_reactions', kind],
+            (v = immutable.List()) => v.unshift(enrichedReaction),
+          );
+      }
 
       return { activities };
     });
@@ -237,21 +251,20 @@ export class FeedManager {
     this.trackAnalytics('un' + kind, activity, options.trackAnalytics);
 
     return this.setState((prevState) => {
-      const activities = prevState.activities
-        .updateIn(
-          this.getActivityPath(activity, 'reaction_counts', kind),
-          (v = 0) => v - 1,
-        )
-        .updateIn(
-          this.getActivityPath(activity, 'own_reactions', kind),
-          (v = immutable.List()) =>
+      let { activities } = prevState;
+      for (const path of this.getActivityPaths(activity)) {
+        activities = activities
+          .updateIn([...path, 'reaction_counts', kind], (v = 0) => v - 1)
+          .updateIn([...path, 'own_reactions', kind], (v = immutable.List()) =>
             v.remove(v.findIndex((r) => r.get('id') === id)),
-        )
-        .updateIn(
-          this.getActivityPath(activity, 'latest_reactions', kind),
-          (v = immutable.List()) =>
-            v.remove(v.findIndex((r) => r.get('id') === id)),
-        );
+          )
+          .updateIn(
+            [...path, 'latest_reactions', kind],
+            (v = immutable.List()) =>
+              v.remove(v.findIndex((r) => r.get('id') === id)),
+          );
+      }
+
       return { activities };
     });
   };
@@ -353,6 +366,39 @@ export class FeedManager {
     return map;
   };
 
+  responseToActivityIdToPaths = (response: FR, previous: {} = {}) => {
+    const map = previous;
+    const currentPath = [];
+    function addFoundActivities(obj, noAdd) {
+      if (Array.isArray(obj)) {
+        obj.forEach((v, i) => {
+          currentPath.push(i);
+          addFoundActivities(v);
+          currentPath.pop();
+        });
+      } else if (isPlainObject(obj)) {
+        if (!noAdd && obj.id && obj.actor && obj.verb && obj.object) {
+          if (!map[obj.id]) {
+            map[obj.id] = [];
+          }
+          map[obj.id].push([...currentPath]);
+        }
+        for (const k in obj) {
+          currentPath.push(k);
+          addFoundActivities(obj[k]);
+          currentPath.pop();
+        }
+      }
+    }
+
+    for (const a of response.results) {
+      currentPath.push(a.id);
+      addFoundActivities((a: any));
+      currentPath.pop();
+    }
+    return map;
+  };
+
   unseenUnreadFromResponse(response: FR) {
     let unseen = 0;
     let unread = 0;
@@ -385,6 +431,7 @@ export class FeedManager {
       activityOrder: response.results.map((a) => a.id),
       activities: this.responseToActivityMap(response),
       activityIdToPath: this.responseToActivityIdToPath(response),
+      activityIdToPaths: this.responseToActivityIdToPaths(response),
       refreshing: false,
       lastResponse: response,
       realtimeAdds: [],
@@ -505,6 +552,10 @@ export class FeedManager {
         ),
         activities,
         activityIdToPath,
+        activityIdToPaths: this.responseToActivityIdToPaths(
+          response,
+          prevState.activityIdToPaths,
+        ),
         refreshing: false,
         lastResponse: response,
       };
