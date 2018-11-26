@@ -41,16 +41,18 @@ export default class CommentField extends React.Component<Props, State> {
 
   onSubmitForm = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      await this.props.onAddReaction('comment', this.props.activity, {
-        data: { text: this.state.text },
-      });
-    } catch (e) {
-      return;
-    }
-    this.setState({ text: '' });
-    if (this.props.onSuccess) {
-      this.props.onSuccess();
+    if (this.state.text !== '') {
+      try {
+        await this.props.onAddReaction('comment', this.props.activity, {
+          data: { text: this.state.text },
+        });
+      } catch (e) {
+        return;
+      }
+      this.setState({ text: '' });
+      if (this.props.onSuccess) {
+        this.props.onSuccess();
+      }
     }
   };
 

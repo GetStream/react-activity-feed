@@ -39,7 +39,7 @@ const config = {
         exclude: /node_modules/,
       },
       {
-        test: /\.png$/,
+        test: /(\.png|\.svg)$/,
         loader: 'file-loader',
         options: {
           name: '[name].[ext]',
@@ -48,7 +48,7 @@ const config = {
       },
       {
         test: /\.css$/,
-        loader: 'ignore-loader',
+        use: ['style-loader', 'postcss-loader'],
       },
     ],
   },
