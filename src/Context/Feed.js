@@ -80,6 +80,9 @@ type FeedManagerState = {|
   realtimeDeletes: Array<{}>,
   subscription: ?any,
   activityIdToPath: { [string]: Array<string> },
+  // activities created by creating a reaction with targetFeeds. It's a mapping
+  // of a reaction id to an activity id.
+  reactionActivities: { [string]: string },
   // Used for finding reposted activities
   activityIdToPaths: { [string]: Array<Array<string>> },
   unread: number,
@@ -95,6 +98,7 @@ export class FeedManager {
     activities: immutable.Map(),
     activityIdToPath: {},
     activityIdToPaths: {},
+    reactionActivities: {},
     lastResponse: null,
     refreshing: false,
     realtimeAdds: [],
@@ -253,6 +257,9 @@ export class FeedManager {
       return;
     }
     this.trackAnalytics('un' + kind, activity, options.trackAnalytics);
+    if (this.state.reactionActivities[id]) {
+      this._removeActivityFromState(this.state.reactionActivities[id]);
+    }
 
     return this.setState((prevState) => {
       let { activities } = prevState;
@@ -299,6 +306,18 @@ export class FeedManager {
     delete togglingReactions[activity.id];
   };
 
+  _removeActivityFromState = (activityId: string) =>
+    this.setState((prevState) => {
+      const activities = prevState.activities.removeIn(
+        this.getActivityPath(activityId),
+        (v = 0) => v - 1,
+      );
+      const activityOrder = prevState.activityOrder.filter(
+        (id) => id !== activityId,
+      );
+      return { activities, activityOrder };
+    });
+
   onRemoveActivity = async (activityId: string) => {
     try {
       await this.feed().removeActivity(activityId);
@@ -310,16 +329,7 @@ export class FeedManager {
       });
       return;
     }
-    return this.setState((prevState) => {
-      const activities = prevState.activities.removeIn(
-        this.getActivityPath(activityId),
-        (v = 0) => v - 1,
-      );
-      const activityOrder = prevState.activityOrder.filter(
-        (id) => id !== activityId,
-      );
-      return { activities, activityOrder };
-    });
+    return this._removeActivityFromState(activityId);
   };
 
   getOptions = (extraOptions?: FeedRequestOptions): FeedRequestOptions => ({
@@ -403,6 +413,31 @@ export class FeedManager {
     return map;
   };
 
+  responseToReactionActivities = (response: FR) => {
+    if (response.results.length === 0) {
+      return {};
+    }
+    const map = {};
+    function setReactionActivities(activities: any) {
+      for (const a of activities) {
+        if (a.reaction && a.reaction.id) {
+          map[a.reaction.id] = a.id;
+        }
+      }
+    }
+
+    if (response.results[0].activities === undefined) {
+      setReactionActivities(response.results);
+    } else {
+      const aggregatedResponse = (response: any);
+
+      for (const group of aggregatedResponse.results) {
+        setReactionActivities(group.activities);
+      }
+    }
+    return map;
+  };
+
   unseenUnreadFromResponse(response: FR) {
     let unseen = 0;
     let unread = 0;
@@ -436,6 +471,7 @@ export class FeedManager {
       activities: this.responseToActivityMap(response),
       activityIdToPath: this.responseToActivityIdToPath(response),
       activityIdToPaths: this.responseToActivityIdToPaths(response),
+      reactionActivities: this.responseToReactionActivities(response),
       refreshing: false,
       lastResponse: response,
       realtimeAdds: [],
@@ -560,6 +596,10 @@ export class FeedManager {
           response,
           prevState.activityIdToPaths,
         ),
+        reactionActivities: {
+          ...prevState.reactionActivities,
+          ...this.responseToReactionActivities(response),
+        },
         refreshing: false,
         lastResponse: response,
       };
