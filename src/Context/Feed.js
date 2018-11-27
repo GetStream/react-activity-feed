@@ -35,7 +35,11 @@ export type FeedCtx = {|
   unseen: number,
   refresh: (extraOptions?: FeedRequestOptions) => Promise<mixed>,
   refreshUnreadUnseen: () => Promise<mixed>,
-  loadNextReactions: (activityId: string, kind: string) => Promise<mixed>,
+  loadNextReactions: (
+    activityId: string,
+    kind: string,
+    activityPath?: ?Array<string>,
+  ) => Promise<mixed>,
   loadNextPage: () => Promise<mixed>,
   hasNextPage: boolean,
   refreshing: boolean,
@@ -282,7 +286,7 @@ export class FeedManager {
     this.state.reactionsBeingToggled[kind] = togglingReactions;
 
     const currentReactions = this.state.activities.getIn(
-      this.getActivityPath(activity, 'own_reactions', kind),
+      [...this.getActivityPaths(activity)[0], 'own_reactions', kind],
       immutable.List(),
     );
 
@@ -562,19 +566,27 @@ export class FeedManager {
     });
   };
 
-  loadNextReactions = async (activityId: string, kind: string) => {
-    const nextUrlPath = this.getActivityPath(
-      activityId,
+  loadNextReactions = async (
+    activityId: string,
+    kind: string,
+    activityPath?: ?Array<string>,
+  ) => {
+    if (!activityPath) {
+      activityPath = this.getActivityPath(activityId);
+    }
+    const latestReactionsPath = [...activityPath, 'latest_reactions', kind];
+    const nextUrlPath = [
+      ...activityPath,
       'latest_reactions_extra',
       kind,
       'next',
-    );
-    const refreshingPath = this.getActivityPath(
-      activityId,
+    ];
+    const refreshingPath = [
+      ...activityPath,
       'latest_reactions_extra',
       kind,
       'refreshing',
-    );
+    ];
     const nextUrl = this.state.activities.getIn(nextUrlPath, '');
     const refreshing = this.state.activities.getIn(refreshingPath, false);
 
@@ -606,10 +618,8 @@ export class FeedManager {
       activities: prevState.activities
         .setIn(refreshingPath, false)
         .setIn(nextUrlPath, response.next)
-        .updateIn(
-          this.getActivityPath(activityId, 'latest_reactions', kind),
-          (v = immutable.List()) =>
-            v.concat(immutable.fromJS(response.results)),
+        .updateIn(latestReactionsPath, (v = immutable.List()) =>
+          v.concat(immutable.fromJS(response.results)),
         ),
     }));
   };

@@ -10,6 +10,8 @@ export type Props = {|
   activityId: string,
   /** The component that should render the comment */
   CommentItem: Renderable,
+  /** Only needed for reposted activities where you want to */
+  activityPath?: ?Array<string>,
 |};
 
 /**
@@ -25,13 +27,14 @@ export default class CommentList extends React.PureComponent<Props> {
   _Reaction = ({ reaction }: { reaction: Comment }) =>
     smartRender(this.props.CommentItem, { comment: reaction });
   render() {
-    const { activityId } = this.props;
+    const { activityId, activityPath } = this.props;
     return (
       <React.Fragment>
         <ReactionList
           activityId={activityId}
           reactionKind={'comment'}
           Reaction={this._Reaction}
+          activityPath={activityPath}
         />
       </React.Fragment>
     );
