@@ -201,11 +201,17 @@ export class FeedManager {
   onAddReaction = async (
     kind: string,
     activity: BaseActivityResponse,
+    data?: {},
     options: { trackAnalytics?: boolean } & ReactionRequestOptions = {},
   ) => {
     let reaction;
     try {
-      reaction = await this.props.client.reactions.add(kind, activity, options);
+      reaction = await this.props.client.reactions.add(
+        kind,
+        activity,
+        data,
+        options,
+      );
     } catch (e) {
       this.props.errorHandler(e, 'add-reaction', {
         kind,
@@ -283,6 +289,7 @@ export class FeedManager {
   onToggleReaction = async (
     kind: string,
     activity: BaseActivityResponse,
+    data: {},
     options: { trackAnalytics?: boolean } & ReactionRequestOptions = {},
   ) => {
     const togglingReactions = this.state.reactionsBeingToggled[kind] || {};
@@ -301,7 +308,7 @@ export class FeedManager {
     if (last) {
       await this.onRemoveReaction(kind, activity, last.get('id'), options);
     } else {
-      await this.onAddReaction(kind, activity, options);
+      await this.onAddReaction(kind, activity, data, options);
     }
     delete togglingReactions[activity.id];
   };
