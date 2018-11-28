@@ -34,34 +34,27 @@ declare module 'getstream' {
 
   declare type FollowResponse = DurationResponse;
 
-  declare type ReactionRequestOptions<ReactionData> = {
+  declare type ReactionRequestOptions = {
     id?: string,
-    data?: ReactionData,
     targetFeeds?: Array<StreamFeed<*, *> | string>, // Allows feeds and feed ids
+    userId?: string,
   };
 
-  declare class StreamUserSession<UserData> {
+  declare class StreamClient<UserData, CollectionEntryData = {}> {
     userId: string;
     token: string;
-    user: StreamUser<UserData>;
+    currentUser: StreamUser<UserData>;
+    user(id: string): StreamUser<UserData>;
+    createUserToken(string): string;
     feed<CustomActivityData>(
       feedGroup: string,
       userId?: string,
     ): StreamFeed<UserData, CustomActivityData>;
-    followUser(StreamUser<UserData>): Promise<FollowResponse>;
-    storage<ObjectData>(collectionName: string): StreamObjectStore<ObjectData>;
-    objectFromResponse<ObjectData>(
-      response: ObjectResponse<ObjectData>,
-    ): StreamObject<ObjectData>;
+    collections: StreamCollections<CollectionEntryData>;
     reactions: StreamReaction<UserData, *>;
-    react<ReactionData>(
-      kind: string,
-      activity: string | ActivityResponse<*, *>, // Allows activityId and ActivityResponse
-      data?: ReactionRequestOptions<ReactionData>,
-    ): Promise<ReactionResponse<ReactionData>>;
     images: StreamImageStore;
     files: StreamFileStore;
-    og: (url: string) => Promise<OgData>;
+    og(url: string): Promise<OgData>;
   }
 
   declare type OgData = {
@@ -105,23 +98,42 @@ declare module 'getstream' {
     ) => Promise<{ file: string }>;
     delete: (uri: string) => Promise<{}>;
   }
-  declare class StreamObjectStore<ObjectData> {
-    collection: string;
-    object(id: ?string, data: ObjectData): StreamObject<ObjectData>;
-    get(id: string): Promise<ObjectResponse<ObjectData>>;
-    add(id: ?string, data: ObjectData): Promise<ObjectResponse<ObjectData>>;
-  }
-
   declare class StreamReaction<UserData, ReactionData> {
     add(
       kind: string,
       activity: string | ActivityResponse<*, *>, // Allows activityId and ActivityResponse
-      optionalArgs?: ReactionRequestOptions<ReactionData>,
+      data?: ReactionData,
+      optionalArgs?: ReactionRequestOptions,
     ): Promise<ReactionResponse<ReactionData>>;
     delete(id: string): Promise<{}>;
+    update(
+      id: string,
+      data?: ReactionData,
+      optionalArgs?: ReactionRequestOptions,
+    ): Promise<ReactionResponse<ReactionData>>;
     filter(
       params: ReactionFilterOptions,
     ): Promise<ReactionFilterResponse<UserData, ReactionData>>;
+  }
+
+  declare class StreamCollections<EntryData> {
+    entry(
+      collection: string,
+      entryId: string,
+      data?: EntryData,
+    ): CollectionEntry<EntryData>;
+    add(
+      collection: string,
+      entryId: ?string,
+      data: EntryData,
+    ): Promise<CollectionEntry<EntryData>>;
+    delete(collection: string, entryId: string): Promise<{}>;
+    update(
+      collection: string,
+      entryId: string,
+      data: {},
+    ): Promise<CollectionEntry<EntryData>>;
+    upsert(collection: string, Array<{ id: string } & EntryData>): Promise<{}>;
   }
 
   declare type ReactionFilterResponse<UserData, ReactionData> = {
@@ -129,17 +141,16 @@ declare module 'getstream' {
     next: string,
   };
 
-  declare type ObjectResponse<Data> = {
+  declare type CollectionEntryResponse<Data> = {
     id: string,
     collection: string,
     data: Data,
   } & TimestampedResponse;
 
-  declare class StreamObject<Data> {
-    id: ?string;
-    data: ?Data;
+  declare class CollectionEntry<Data> {
+    id: string;
+    data: Data;
     collection: string;
-    store: StreamObjectStore<Data>;
   }
 
   declare type ActivityArgData<UserData, CustomActivityData> = {
@@ -147,7 +158,7 @@ declare module 'getstream' {
     time?: string,
     actor: StreamUser<UserData>,
     verb: string,
-    object: string | StreamUser<UserData> | StreamObject<{}>,
+    object: string | StreamUser<UserData> | CollectionEntry<mixed>,
     target?: string,
   } & CustomActivityData;
 
@@ -273,10 +284,6 @@ declare module 'getstream' {
     user: UserResponse<UserData>,
   } & BaseReactionResponse<ReactionData>;
 
-  declare class StreamCloudClient<UserData> {
-    createUserSession<UserData>(token: string): StreamUserSession<UserData>;
-  }
-
   declare type ConnectOptions = {
     location?: string,
     urlOverride?: {
@@ -285,26 +292,12 @@ declare module 'getstream' {
     keepAlive?: boolean,
   };
 
-  declare function connect(
+  declare function connect<UserData>(
     apiKey: string,
-    apiSecret: ?string,
-    appId?: number,
+    apiSecretOrToken: ?string,
+    appId?: string | number,
     options?: Object,
-  ): any;
-
-  declare function connectCloud<UserData>(
-    apiKey: any,
-    appId: any,
-    options?: Object,
-  ): StreamCloudClient<UserData>;
-
-  declare var signing: {
-    JWTUserSessionToken(
-      apiSecret: string,
-      userId: string,
-      jwtOptions?: {},
-    ): string,
-  };
+  ): StreamClient<UserData>;
 
   declare var errors: {
     StreamApiError: Error,

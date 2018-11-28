@@ -12,7 +12,7 @@ import type {
 import type {
   BaseActivityResponse,
   BaseAppCtx,
-  BaseUserSession,
+  BaseClient,
   ToggleReactionCallbackFunction,
   AddReactionCallbackFunction,
   RemoveReactionCallbackFunction,
@@ -63,7 +63,7 @@ export type FeedProps = {|
   notify?: boolean,
   //** the feed read hander (change only for advanced/complex use-cases) */
   doFeedRequest?: (
-    session: BaseUserSession,
+    client: BaseClient,
     feedGroup: string,
     userId?: string,
     options?: FeedRequestOptions,
@@ -154,7 +154,7 @@ export class FeedManager {
       return;
     }
 
-    const feed = this.props.session.feed(
+    const feed = this.props.client.feed(
       this.props.feedGroup,
       this.props.userId,
     );
@@ -201,11 +201,11 @@ export class FeedManager {
   onAddReaction = async (
     kind: string,
     activity: BaseActivityResponse,
-    options: { trackAnalytics?: boolean } & ReactionRequestOptions<{}> = {},
+    options: { trackAnalytics?: boolean } & ReactionRequestOptions = {},
   ) => {
     let reaction;
     try {
-      reaction = await this.props.session.react(kind, activity, options);
+      reaction = await this.props.client.reactions.add(kind, activity, options);
     } catch (e) {
       this.props.errorHandler(e, 'add-reaction', {
         kind,
@@ -246,7 +246,7 @@ export class FeedManager {
     options: { trackAnalytics?: boolean } = {},
   ) => {
     try {
-      await this.props.session.reactions.delete(id);
+      await this.props.client.reactions.delete(id);
     } catch (e) {
       this.props.errorHandler(e, 'delete-reaction', {
         kind,
@@ -283,7 +283,7 @@ export class FeedManager {
   onToggleReaction = async (
     kind: string,
     activity: BaseActivityResponse,
-    options: { trackAnalytics?: boolean } & ReactionRequestOptions<{}> = {},
+    options: { trackAnalytics?: boolean } & ReactionRequestOptions = {},
   ) => {
     const togglingReactions = this.state.reactionsBeingToggled[kind] || {};
     if (togglingReactions[activity.id]) {
@@ -343,7 +343,7 @@ export class FeedManager {
   doFeedRequest = (options: FeedRequestOptions): Promise<FR> => {
     if (this.props.doFeedRequest) {
       return this.props.doFeedRequest(
-        this.props.session,
+        this.props.client,
         this.props.feedGroup,
         this.props.userId,
         options,
@@ -352,7 +352,7 @@ export class FeedManager {
     return this.feed().get(options);
   };
 
-  feed = () => this.props.session.feed(this.props.feedGroup, this.props.userId);
+  feed = () => this.props.client.feed(this.props.feedGroup, this.props.userId);
 
   responseToActivityMap = (response: FR) =>
     immutable.fromJS(
@@ -646,7 +646,7 @@ export class FeedManager {
 
     let response;
     try {
-      response = await this.props.session.reactions.filter(options);
+      response = await this.props.client.reactions.filter(options);
     } catch (e) {
       this.setState({ refreshing: false });
       this.props.errorHandler(e, 'get-reactions-next-page', {
@@ -699,7 +699,7 @@ type FeedInnerProps = {| ...FeedProps, ...BaseAppCtx |};
 class FeedInner extends React.Component<FeedInnerProps, FeedState> {
   constructor(props: FeedInnerProps) {
     super(props);
-    const feedId = props.session.feed(props.feedGroup, props.userId).id;
+    const feedId = props.client.feed(props.feedGroup, props.userId).id;
     let manager = props.sharedFeedManagers[feedId];
     if (!manager) {
       manager = new FeedManager(props);
@@ -716,7 +716,7 @@ class FeedInner extends React.Component<FeedInnerProps, FeedState> {
   }
 
   componentDidUpdate(prevProps) {
-    const sessionDifferent = this.props.session !== prevProps.session;
+    const clientDifferent = this.props.client !== prevProps.client;
     const notifyDifferent = this.props.notify !== prevProps.notify;
     const feedDifferent =
       this.props.userId !== prevProps.userId ||
@@ -726,14 +726,14 @@ class FeedInner extends React.Component<FeedInnerProps, FeedState> {
       this.props.doFeedRequest !== prevProps.doFeedRequest;
 
     if (
-      sessionDifferent ||
+      clientDifferent ||
       feedDifferent ||
       optionsDifferent ||
       doFeedRequestDifferent
     ) {
       // TODO: Implement
     }
-    if (sessionDifferent || feedDifferent || notifyDifferent) {
+    if (clientDifferent || feedDifferent || notifyDifferent) {
       // TODO: Implement
     }
   }

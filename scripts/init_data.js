@@ -32,10 +32,10 @@ async function main() {
     apiSecret,
   );
 
-  const exampleRef = client.collections.createUserReference(exampleUserId);
+  const exampleUser = client.user(exampleUserId);
   const userFeed = client.feed('user', exampleUserId);
   const act = await userFeed.addActivity({
-    actor: exampleRef,
+    actor: exampleUser,
     verb: 'post',
     object:
       'Winds 2 is the Open Source megalocosmos flat earth effect of anti-gravity food chemicals...',
@@ -59,7 +59,7 @@ async function main() {
   await b2btimeline.addActivities(b2bActs);
   await notification.addActivities(notificationActs);
 
-  const token = client.createUserSessionToken(exampleUserId);
+  const token = client.createUserToken(exampleUserId);
   console.log(`apiKey="${apiKey}"`);
   console.log(`appId="${appId}"`);
   console.log(`token="${token}"`);
@@ -80,7 +80,7 @@ const getUsers = (n = 10) => {
 
 const getActivities = (client, users) => [
   {
-    actor: client.collections.createUserReference(users[0].id),
+    actor: client.user(users[0].id),
     verb: 'post',
     object:
       "I just realized that I've met of fan of every team in the #NFL in real life...except a Jaguars fan. I've never had a real encounter with one...💁",
@@ -88,7 +88,7 @@ const getActivities = (client, users) => [
     time: '2018-10-30T13:49:50',
   },
   {
-    actor: client.collections.createUserReference(users[1].id),
+    actor: client.user(users[1].id),
     verb: 'reply',
     object: 'sad, I wanted drama',
     time: '2018-10-29T13:49:50',
@@ -97,7 +97,7 @@ const getActivities = (client, users) => [
     foreign_id: 'post:2',
   },
   {
-    actor: client.collections.createUserReference(users[2].id),
+    actor: client.user(users[2].id),
     verb: 'post',
     object: 'I enjoyed watching this',
     foreign_id: 'post:3',
@@ -119,14 +119,14 @@ const getActivities = (client, users) => [
     },
   },
   {
-    actor: client.collections.createUserReference(users[3].id),
+    actor: client.user(users[3].id),
     verb: 'post',
     object: 'I just missed my train 😤',
     foreign_id: 'post:4',
     time: '2018-10-27T13:49:50',
   },
   {
-    actor: client.collections.createUserReference(users[4].id),
+    actor: client.user(users[4].id),
     verb: 'post',
     object: 'I totally agree!',
     foreign_id: 'post:5',
@@ -143,7 +143,7 @@ const getActivities = (client, users) => [
     },
   },
   {
-    actor: client.collections.createUserReference(users[5].id),
+    actor: client.user(users[5].id),
     verb: 'post',
     object: 'Oh snap',
     foreign_id: 'post:6',
@@ -166,7 +166,7 @@ const getActivities = (client, users) => [
     },
   },
   {
-    actor: client.collections.createUserReference(users[6].id),
+    actor: client.user(users[6].id),
     verb: 'post',
     object: "@ken let's get coffee one these days ☕",
     foreign_id: 'post:7',
@@ -176,13 +176,13 @@ const getActivities = (client, users) => [
 
 const getB2BActivities = (client, users) => [
   {
-    actor: client.collections.createUserReference(users[5].id),
+    actor: client.user(users[5].id),
     verb: 'emailed',
     object: '56 New Contacts',
     time: '2017-10-24T13:49:50',
   },
   {
-    actor: client.collections.createUserReference(users[6].id),
+    actor: client.user(users[6].id),
     verb: 'send',
     object: 'email',
     email: {
@@ -196,7 +196,7 @@ const getB2BActivities = (client, users) => [
     time: '2018-10-24T13:49:50',
   },
   {
-    actor: client.collections.createUserReference(users[4].id),
+    actor: client.user(users[4].id),
     verb: 'congratulations',
     object: 'card',
     card: {
@@ -212,26 +212,26 @@ const getB2BActivities = (client, users) => [
     },
   },
   {
-    actor: client.collections.createUserReference(users[7].id),
+    actor: client.user(users[7].id),
     verb: 'changed to',
     object: 'customer',
     time: '2018-06-24T13:49:50',
   },
 
   {
-    actor: client.collections.createUserReference(users[8].id),
+    actor: client.user(users[8].id),
     verb: 'changed to',
     object: 'lead',
     time: '2018-02-24T13:49:50',
   },
   {
-    actor: client.collections.createUserReference(users[9].id),
+    actor: client.user(users[9].id),
     verb: 'added by',
     object: 'offline app',
     time: '2017-10-24T13:49:50',
   },
   {
-    actor: client.collections.createUserReference(users[0].id),
+    actor: client.user(users[0].id),
     verb: 'added',
     object: 'project',
     project: {
@@ -251,8 +251,8 @@ const getB2BActivities = (client, users) => [
 ];
 
 const getNotifications = (client, users, activity) => {
-  const ref = (i) => client.collections.createUserReference(users[i].id);
-  const exampleRef = client.collections.createUserReference(exampleUserId);
+  const ref = (i) => client.user(users[i].id);
+  const exampleRef = client.user(exampleUserId);
   const activityRef = `SA:${activity.id}`;
   return [
     {

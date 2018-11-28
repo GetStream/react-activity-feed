@@ -4,11 +4,7 @@ import * as React from 'react';
 import stream from 'getstream';
 
 import StreamAnalytics from 'stream-analytics';
-import type {
-  StreamCloudClient,
-  StreamUser,
-  StreamUserSession,
-} from 'getstream';
+import type { StreamClient, StreamUser } from 'getstream';
 
 import type { ErrorHandler } from '../types';
 
@@ -22,7 +18,7 @@ export const StreamContext = React.createContext({
 });
 
 export type AppCtx<UserData> = {|
-  session: StreamUserSession<UserData>,
+  client: StreamClient<UserData>,
   user: StreamUser<UserData>,
   // We cannot simply take userData from user.data, since the reference to user
   // will stay the same all the time. Because of this react won't notice that
@@ -37,7 +33,7 @@ export type AppCtx<UserData> = {|
 
 type StreamAppProps<UserData> = {|
   /** The ID of your app, can be found on the [Stream dashboard](https://getstream.io/dashboard) */
-  appId: string,
+  appId: string | number,
   /** The API key for your app, can be found on the [Stream dashboard](https://getstream.io/dashboard) */
   apiKey: string,
   /** The access token for the end user that uses your website, how to generate it can be found [here](https://getstream.io/docs/#frontend_setup) */
@@ -82,7 +78,7 @@ export class StreamApp extends React.Component<
           if (!props.children || !props.children.length) {
             return null;
           }
-          if (!appCtx.session || !appCtx.user) {
+          if (!appCtx.client || !appCtx.user) {
             throw new Error(
               'This component should be a child of a StreamApp component',
             );
@@ -97,13 +93,12 @@ export class StreamApp extends React.Component<
   constructor(props: StreamAppProps<Object>) {
     super(props);
 
-    const client: StreamCloudClient<Object> = stream.connectCloud(
+    const client: StreamClient<Object> = stream.connect(
       this.props.apiKey,
+      this.props.token,
       this.props.appId,
       this.props.options || {},
     );
-
-    const session = client.createUserSession(this.props.token);
 
     let analyticsClient;
     if (this.props.analyticsToken) {
@@ -111,12 +106,12 @@ export class StreamApp extends React.Component<
         apiKey: this.props.apiKey,
         token: this.props.analyticsToken,
       });
-      analyticsClient.setUser(session.userId);
+      analyticsClient.setUser(client.userId);
     }
     this.state = {
-      session,
-      user: session.user,
-      userData: session.user.data,
+      client,
+      user: client.currentUser,
+      userData: client.currentUser.data,
       changedUserData: () => {
         this.setState({ userData: this.state.user.data });
       },

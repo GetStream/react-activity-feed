@@ -8,7 +8,7 @@ import DropdownPanel from './DropdownPanel';
 import type {
   // BaseActivityResponse,
   BaseFeedCtx,
-  BaseUserSession,
+  BaseClient,
   Renderable,
 } from '../types';
 import type { FeedRequestOptions, FeedResponse } from 'getstream';
@@ -21,7 +21,7 @@ type Props = {|
   /** if true, feed shows a badge with numbers when new activities are added */
   notify: boolean,
   doFeedRequest?: (
-    session: BaseUserSession,
+    client: BaseClient,
     feedGroup: string,
     userId?: string,
     options?: FeedRequestOptions,

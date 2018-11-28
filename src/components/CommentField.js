@@ -44,7 +44,7 @@ export default class CommentField extends React.Component<Props, State> {
     if (this.state.text !== '') {
       try {
         await this.props.onAddReaction('comment', this.props.activity, {
-          data: { text: this.state.text },
+          text: this.state.text,
         });
       } catch (e) {
         return;

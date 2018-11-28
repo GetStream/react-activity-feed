@@ -32,8 +32,8 @@ export default class SinglePost extends React.Component<Props> {
           }}
           analyticsLocation={this.props.analyticsLocation}
           Activity={this.props.Activity}
-          doFeedRequest={(session, feedGroup, userId, options) =>
-            session
+          doFeedRequest={(client, feedGroup, userId, options) =>
+            client
               .feed(feedGroup, userId)
               .getActivityDetail(this.props.activityId, options)
           }

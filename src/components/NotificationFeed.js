@@ -11,7 +11,7 @@ import { smartRender } from '../utils';
 import type {
   BaseActivityResponse,
   BaseFeedCtx,
-  BaseUserSession,
+  BaseClient,
   Renderable,
 } from '../types';
 import type { FeedRequestOptions, FeedResponse } from 'getstream';
@@ -30,7 +30,7 @@ type Props = {|
   Paginator: Renderable,
   //** the feed read hander (change only for advanced/complex use-cases) */
   doFeedRequest?: (
-    session: BaseUserSession,
+    client: BaseClient,
     feedGroup: string,
     userId?: string,
     options?: FeedRequestOptions,

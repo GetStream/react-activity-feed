@@ -8,7 +8,7 @@ import LoadMorePaginator from './LoadMorePaginator';
 import { Feed, FeedContext } from '../Context';
 import { smartRender } from '../utils';
 
-import type { BaseFeedCtx, BaseUserSession, Renderable } from '../types';
+import type { BaseFeedCtx, BaseClient, Renderable } from '../types';
 import type {
   FeedRequestOptions,
   FeedResponse,
@@ -30,7 +30,7 @@ type Props = {|
   notify: boolean,
   //** the feed read hander (change only for advanced/complex use-cases) */
   doFeedRequest?: (
-    session: BaseUserSession,
+    client: BaseClient,
     feedGroup: string,
     userId?: string,
     options?: FeedRequestOptions,

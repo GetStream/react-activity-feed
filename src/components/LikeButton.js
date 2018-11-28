@@ -28,7 +28,7 @@ export default class LikeButton extends React.Component<Props> {
         counts={activity.reaction_counts}
         own_reactions={activity.own_reactions}
         kind="like"
-        onPress={() => onToggleReaction('like', activity, {})}
+        onPress={() => onToggleReaction('like', activity, {}, {})}
         activeIcon={likebuttonActive}
         inactiveIcon={likebuttonInactive}
         labelSingle="like"
