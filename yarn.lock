@@ -5126,10 +5126,10 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
-getstream@4.0.1-3:
-  version "4.0.1-3"
-  resolved "https://registry.yarnpkg.com/getstream/-/getstream-4.0.1-3.tgz#88d71a1470ea8602d8f4fd6ac8b60a4d0731437f"
-  integrity sha512-nigGwC1K05HVw03zHWUmy7spuye6uKIULj7i98w9I4sWkXU6qGlXXShJ3hd5/iZV7TqsFq1SrWkc+Uw8SxAuNg==
+getstream@4.0.1-6:
+  version "4.0.1-6"
+  resolved "https://registry.yarnpkg.com/getstream/-/getstream-4.0.1-6.tgz#9ade3d9be766c4b2b8db06cdb7c7f413e141b9fb"
+  integrity sha512-M+NxHEdCfUITjDcYK8i8vlm2uaOSc12a+hq3o2ImnW66H7Yxdxm1y6Gs3f9ohpNBXfW+VfgPefzlp1NGwZy5Zg==
   dependencies:
     "@babel/runtime" "^7.0.0"
     "@stream-io/xmlhttp-request" "^0.4.0"

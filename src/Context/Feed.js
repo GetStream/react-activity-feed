@@ -865,6 +865,7 @@ export class FeedManager {
     }));
 
     const options = {
+      ...this.props.options,
       ...URL(nextUrl, true).query,
       activity_id: activityId,
       kind,
