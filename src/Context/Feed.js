@@ -165,7 +165,14 @@ export class FeedManager {
   ) => {
     const analyticsClient = this.props.analyticsClient;
 
-    if (!track || !analyticsClient) {
+    if (!track) {
+      return;
+    }
+    if (!analyticsClient) {
+      console.warn(
+        'trackAnalytics was enabled, but analytics client was not initialized. ' +
+          'Please set the analyticsToken prop on StreamApp',
+      );
       return;
     }
 
