@@ -8,6 +8,7 @@ import type {
   FeedRequestOptions,
   FeedResponse,
   ReactionRequestOptions,
+  ReactionFilterResponse,
 } from 'getstream';
 import type {
   BaseActivityResponse,
@@ -30,6 +31,7 @@ export const FeedContext = React.createContext({});
 
 // type FR = FeedResponse<Object, Object>;
 type FR = FeedResponse<{}, {}>;
+type RR = ReactionFilterResponse<{}, {}>;
 export type FeedCtx = {|
   feedGroup: string,
   userId?: string,
@@ -560,7 +562,7 @@ export class FeedManager {
     return map;
   };
 
-  responseToReactionIdToPaths = (response: FR, previous: {} = {}) => {
+  feedResponseToReactionIdToPaths = (response: FR, previous: {} = {}) => {
     const map = previous;
     const currentPath = [];
     function addFoundReactions(obj) {
@@ -589,6 +591,45 @@ export class FeedManager {
       currentPath.push(a.id);
       addFoundReactions((a: any));
       currentPath.pop();
+    }
+    return map;
+  };
+
+  reactionResponseToReactionIdToPaths = (
+    response: RR,
+    previous: {},
+    basePath: $ReadOnlyArray<mixed>,
+    oldLength: number,
+  ) => {
+    const map = previous;
+    const currentPath = [...basePath];
+    function addFoundReactions(obj) {
+      if (Array.isArray(obj)) {
+        obj.forEach((v, i) => {
+          currentPath.push(i);
+          addFoundReactions(v);
+          currentPath.pop();
+        });
+      } else if (isPlainObject(obj)) {
+        if (obj.id && obj.kind && obj.data) {
+          if (!map[obj.id]) {
+            map[obj.id] = [];
+          }
+          map[obj.id].push([...currentPath]);
+        }
+        for (const k in obj) {
+          currentPath.push(k);
+          addFoundReactions(obj[k]);
+          currentPath.pop();
+        }
+      }
+    }
+
+    for (const a of response.results) {
+      currentPath.push(oldLength);
+      addFoundReactions((a: any));
+      currentPath.pop();
+      oldLength++;
     }
     return map;
   };
@@ -651,7 +692,7 @@ export class FeedManager {
       activities: this.responseToActivityMap(response),
       activityIdToPath: this.responseToActivityIdToPath(response),
       activityIdToPaths: this.responseToActivityIdToPaths(response),
-      reactionIdToPaths: this.responseToReactionIdToPaths(response),
+      reactionIdToPaths: this.feedResponseToReactionIdToPaths(response),
       reactionActivities: this.responseToReactionActivities(response),
       refreshing: false,
       lastResponse: response,
@@ -777,7 +818,7 @@ export class FeedManager {
           response,
           prevState.activityIdToPaths,
         ),
-        reactionIdToPaths: this.responseToReactionIdToPaths(
+        reactionIdToPaths: this.feedResponseToReactionIdToPaths(
           response,
           prevState.reactionIdToPaths,
         ),
@@ -846,6 +887,13 @@ export class FeedManager {
         .updateIn(latestReactionsPath, (v = immutable.List()) =>
           v.concat(immutable.fromJS(response.results)),
         ),
+      reactionIdToPaths: this.reactionResponseToReactionIdToPaths(
+        response,
+        prevState.reactionIdToPaths,
+        latestReactionsPath,
+        prevState.activities.getIn(latestReactionsPath, immutable).toJS()
+          .length,
+      ),
     }));
   };
 

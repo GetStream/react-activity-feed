@@ -17,7 +17,7 @@
     "no-useless-concat": 2,
     "default-case": 2,
     "no-self-compare": 2,
-    "prefer-const": 2,
+    "prefer-const": 1,
     "no-underscore-dangle": [2, { "allowAfterThis": true }],
     "object-shorthand": 1,
     "babel/no-invalid-this": 2,
