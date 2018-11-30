@@ -28,7 +28,14 @@ export default class RepostButton extends React.Component<Props> {
         counts={activity.reaction_counts}
         own_reactions={activity.own_reactions}
         kind="repost"
-        onPress={() => onToggleReaction('repost', activity, {}, {})}
+        onPress={() =>
+          onToggleReaction(
+            'repost',
+            activity,
+            {},
+            { targetFeeds: ['user:jelte'] },
+          )
+        }
         activeIcon={repostButtonActive}
         inactiveIcon={repostButtonInactive}
         labelSingle="repost"

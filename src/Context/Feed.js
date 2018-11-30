@@ -13,9 +13,13 @@ import type {
   BaseActivityResponse,
   BaseAppCtx,
   BaseClient,
+  BaseReaction,
   ToggleReactionCallbackFunction,
   AddReactionCallbackFunction,
   RemoveReactionCallbackFunction,
+  ToggleChildReactionCallbackFunction,
+  AddChildReactionCallbackFunction,
+  RemoveChildReactionCallbackFunction,
 } from '../types';
 import isPlainObject from 'lodash/isPlainObject';
 
@@ -48,6 +52,9 @@ export type FeedCtx = {|
   onToggleReaction: ToggleReactionCallbackFunction,
   onAddReaction: AddReactionCallbackFunction,
   onRemoveReaction: RemoveReactionCallbackFunction,
+  onToggleChildReaction: ToggleChildReactionCallbackFunction,
+  onAddChildReaction: AddChildReactionCallbackFunction,
+  onRemoveChildReaction: RemoveChildReactionCallbackFunction,
   onRemoveActivity: (activityId: string, kind: string) => Promise<mixed>,
   getActivityPath: (
     activity: BaseActivityResponse | string,
@@ -85,10 +92,14 @@ type FeedManagerState = {|
   reactionActivities: { [string]: string },
   // Used for finding reposted activities
   activityIdToPaths: { [string]: Array<Array<string>> },
+  reactionIdToPaths: { [string]: Array<Array<string>> },
   unread: number,
   unseen: number,
   numSubscribers: number,
   reactionsBeingToggled: { [kind: string]: { [activityId: string]: boolean } },
+  childReactionsBeingToggled: {
+    [kind: string]: { [reactionId: string]: boolean },
+  },
 |};
 
 export class FeedManager {
@@ -98,6 +109,7 @@ export class FeedManager {
     activities: immutable.Map(),
     activityIdToPath: {},
     activityIdToPaths: {},
+    reactionIdToPaths: {},
     reactionActivities: {},
     lastResponse: null,
     refreshing: false,
@@ -108,6 +120,7 @@ export class FeedManager {
     unseen: 0,
     numSubscribers: 0,
     reactionsBeingToggled: {},
+    childReactionsBeingToggled: {},
   };
   registeredCallbacks: Array<() => mixed>;
 
@@ -196,6 +209,17 @@ export class FeedManager {
     }
 
     return this.state.activityIdToPaths[activityId];
+  };
+
+  getReactionPaths = (reaction: BaseReaction | string) => {
+    let reactionId;
+    if (typeof reaction === 'string') {
+      reactionId = reaction;
+    } else {
+      reactionId = reaction.id;
+    }
+
+    return this.state.reactionIdToPaths[reactionId];
   };
 
   onAddReaction = async (
@@ -313,6 +337,122 @@ export class FeedManager {
     delete togglingReactions[activity.id];
   };
 
+  onAddChildReaction = async (
+    kind: string,
+    reaction: BaseReaction,
+    data?: {},
+    options: { trackAnalytics?: boolean } & ReactionRequestOptions = {},
+  ) => {
+    let childReaction;
+    try {
+      childReaction = await this.props.client.reactions.addChild(
+        kind,
+        reaction,
+        data,
+        options,
+      );
+    } catch (e) {
+      this.props.errorHandler(e, 'add-child-reaction', {
+        kind,
+        reaction,
+        feedGroup: this.props.feedGroup,
+        userId: this.props.userId,
+      });
+      return;
+    }
+    console.log(childReaction);
+
+    // this.trackAnalytics(kind, reaction, options.trackAnalytics);
+    const enrichedReaction = immutable.fromJS({
+      ...childReaction,
+      user: this.props.user.full,
+    });
+
+    this.setState((prevState) => {
+      let { activities } = prevState;
+      for (const path of this.getReactionPaths(reaction)) {
+        console.log(activities.getIn(path).toJS());
+        activities = activities
+          .updateIn([...path, 'children_counts', kind], (v = 0) => v + 1)
+          .updateIn([...path, 'own_children', kind], (v = immutable.List()) =>
+            v.unshift(enrichedReaction),
+          )
+          .updateIn(
+            [...path, 'latest_children', kind],
+            (v = immutable.List()) => v.unshift(enrichedReaction),
+          );
+      }
+
+      return { activities };
+    });
+  };
+
+  onRemoveChildReaction = async (
+    kind: string,
+    reaction: BaseReaction,
+    id: string,
+    /* eslint-disable-next-line no-unused-vars */
+    options: { trackAnalytics?: boolean } = {},
+  ) => {
+    try {
+      await this.props.client.reactions.delete(id);
+    } catch (e) {
+      this.props.errorHandler(e, 'delete-reaction', {
+        kind,
+        reaction,
+        feedGroup: this.props.feedGroup,
+        userId: this.props.userId,
+      });
+      return;
+    }
+    // this.trackAnalytics('un' + kind, reaction, options.trackAnalytics);
+    if (this.state.reactionActivities[id]) {
+      this._removeActivityFromState(this.state.reactionActivities[id]);
+    }
+
+    return this.setState((prevState) => {
+      let { activities } = prevState;
+      for (const path of this.getReactionPaths(reaction)) {
+        activities = activities
+          .updateIn([...path, 'children_counts', kind], (v = 0) => v - 1)
+          .updateIn([...path, 'own_children', kind], (v = immutable.List()) =>
+            v.remove(v.findIndex((r) => r.get('id') === id)),
+          )
+          .updateIn([...path, 'children', kind], (v = immutable.List()) =>
+            v.remove(v.findIndex((r) => r.get('id') === id)),
+          );
+      }
+
+      return { activities };
+    });
+  };
+
+  onToggleChildReaction = async (
+    kind: string,
+    reaction: BaseReaction,
+    data: {},
+    options: { trackAnalytics?: boolean } & ReactionRequestOptions = {},
+  ) => {
+    const togglingReactions = this.state.childReactionsBeingToggled[kind] || {};
+    if (togglingReactions[reaction.id]) {
+      return;
+    }
+    togglingReactions[reaction.id] = true;
+    this.state.childReactionsBeingToggled[kind] = togglingReactions;
+
+    const currentReactions = this.state.activities.getIn(
+      [...this.getReactionPaths(reaction)[0], 'own_children', kind],
+      immutable.List(),
+    );
+
+    const last = currentReactions.last();
+    if (last) {
+      await this.onRemoveChildReaction(kind, reaction, last.get('id'), options);
+    } else {
+      await this.onAddChildReaction(kind, reaction, data, options);
+    }
+    delete togglingReactions[reaction.id];
+  };
   _removeActivityFromState = (activityId: string) =>
     this.setState((prevState) => {
       const activities = prevState.activities.removeIn(
@@ -390,7 +530,7 @@ export class FeedManager {
   responseToActivityIdToPaths = (response: FR, previous: {} = {}) => {
     const map = previous;
     const currentPath = [];
-    function addFoundActivities(obj, noAdd) {
+    function addFoundActivities(obj) {
       if (Array.isArray(obj)) {
         obj.forEach((v, i) => {
           currentPath.push(i);
@@ -398,7 +538,7 @@ export class FeedManager {
           currentPath.pop();
         });
       } else if (isPlainObject(obj)) {
-        if (!noAdd && obj.id && obj.actor && obj.verb && obj.object) {
+        if (obj.id && obj.actor && obj.verb && obj.object) {
           if (!map[obj.id]) {
             map[obj.id] = [];
           }
@@ -415,6 +555,39 @@ export class FeedManager {
     for (const a of response.results) {
       currentPath.push(a.id);
       addFoundActivities((a: any));
+      currentPath.pop();
+    }
+    return map;
+  };
+
+  responseToReactionIdToPaths = (response: FR, previous: {} = {}) => {
+    const map = previous;
+    const currentPath = [];
+    function addFoundReactions(obj) {
+      if (Array.isArray(obj)) {
+        obj.forEach((v, i) => {
+          currentPath.push(i);
+          addFoundReactions(v);
+          currentPath.pop();
+        });
+      } else if (isPlainObject(obj)) {
+        if (obj.id && obj.kind && obj.data) {
+          if (!map[obj.id]) {
+            map[obj.id] = [];
+          }
+          map[obj.id].push([...currentPath]);
+        }
+        for (const k in obj) {
+          currentPath.push(k);
+          addFoundReactions(obj[k]);
+          currentPath.pop();
+        }
+      }
+    }
+
+    for (const a of response.results) {
+      currentPath.push(a.id);
+      addFoundReactions((a: any));
       currentPath.pop();
     }
     return map;
@@ -478,6 +651,7 @@ export class FeedManager {
       activities: this.responseToActivityMap(response),
       activityIdToPath: this.responseToActivityIdToPath(response),
       activityIdToPaths: this.responseToActivityIdToPaths(response),
+      reactionIdToPaths: this.responseToReactionIdToPaths(response),
       reactionActivities: this.responseToReactionActivities(response),
       refreshing: false,
       lastResponse: response,
@@ -602,6 +776,10 @@ export class FeedManager {
         activityIdToPaths: this.responseToActivityIdToPaths(
           response,
           prevState.activityIdToPaths,
+        ),
+        reactionIdToPaths: this.responseToReactionIdToPaths(
+          response,
+          prevState.reactionIdToPaths,
         ),
         reactionActivities: {
           ...prevState.reactionActivities,
@@ -757,6 +935,9 @@ class FeedInner extends React.Component<FeedInnerProps, FeedState> {
       onToggleReaction: manager.onToggleReaction,
       onAddReaction: manager.onAddReaction,
       onRemoveReaction: manager.onRemoveReaction,
+      onToggleChildReaction: manager.onToggleChildReaction,
+      onAddChildReaction: manager.onAddChildReaction,
+      onRemoveChildReaction: manager.onRemoveChildReaction,
       onRemoveActivity: manager.onRemoveActivity,
       refresh: manager.refresh,
       refreshUnreadUnseen: manager.refreshUnreadUnseen,

@@ -66,10 +66,10 @@ export const fallbackErrorMessage = (
     case 'add-activity':
       text += ' when submitting your post';
       break;
-    case 'add-reaction':
+    case ('add-reaction', 'add-child-reaction'):
       text += ' when submitting your ' + detail.kind;
       break;
-    case 'delete-reaction':
+    case ('delete-reaction', 'delete-child-reaction'):
       text += ' when removing your ' + detail.kind;
       break;
     default:
