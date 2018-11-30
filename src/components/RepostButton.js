@@ -4,24 +4,48 @@ import ReactionToggleIcon from './ReactionToggleIcon';
 import type {
   BaseActivityResponse,
   ToggleReactionCallbackFunction,
+  BaseAppCtx,
 } from '../types';
+
+import { StreamApp } from '../Context';
 
 import repostButtonActive from '../images/repost-active@1x.png';
 import repostButtonInactive from '../images/repost@1x.png';
 
 type Props = {|
+  /** The feed group part of the feed that the activity should be reposted to,
+   * e.g. `user` when posting to your own profile */
+  feedGroup: string,
+  /** The user_id part of the feed that the activity should be reposted to  */
+  userId?: string,
   activity: BaseActivityResponse,
   onToggleReaction: ToggleReactionCallbackFunction,
   children?: React.Node,
 |};
 
 /**
- * Like button ready to be embedded as Activity footer
+ * A repost button ready to be embedded as Activity footer
  * @example ./examples/RepostButton.md
  */
+
 export default class RepostButton extends React.Component<Props> {
+  static defaultProps = {
+    feedGroup: 'user',
+  };
+
   render() {
-    const { activity, onToggleReaction } = this.props;
+    return (
+      <StreamApp.Consumer>
+        {(appCtx) => <RepostButtonInner {...this.props} {...appCtx} />}
+      </StreamApp.Consumer>
+    );
+  }
+}
+
+type PropsInner = {| ...Props, ...BaseAppCtx |};
+class RepostButtonInner extends React.Component<PropsInner> {
+  render() {
+    const { feedGroup, userId, activity, onToggleReaction } = this.props;
 
     return (
       <ReactionToggleIcon
@@ -33,7 +57,7 @@ export default class RepostButton extends React.Component<Props> {
             'repost',
             activity,
             {},
-            { targetFeeds: ['user:jelte'] },
+            { targetFeeds: [this.props.client.feed(feedGroup, userId)] },
           )
         }
         activeIcon={repostButtonActive}
