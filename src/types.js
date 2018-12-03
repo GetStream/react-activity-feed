@@ -106,14 +106,14 @@ export type ActivityData = ActivityResponse<UserData, CustomActivityData>;
 export type ToggleReactionCallbackFunction = (
   kind: string,
   activity: BaseActivityResponse,
-  data: {},
+  data?: {},
   options?: { trackAnalytics?: boolean } & ReactionRequestOptions,
 ) => void | Promise<mixed>;
 
 export type AddReactionCallbackFunction = (
   kind: string,
   activity: BaseActivityResponse,
-  data: {},
+  data?: {},
   options?: { trackAnalytics?: boolean } & ReactionRequestOptions,
 ) => void | Promise<mixed>;
 
