@@ -17,7 +17,8 @@ type Props = {|
   /** By default pagination is done with a "Load more" button, you can use
    * InifiniteScrollPaginator to enable infinite scrolling */
   Paginator: Renderable,
-  /** Only needed for reposted activities where you want to */
+  /** Only needed for reposted activities where you want to show the reactions
+   * of the original activity, not of the repost */
   activityPath?: ?Array<string>,
 |};
 
