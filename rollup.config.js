@@ -17,6 +17,9 @@ import pkg from './package.json';
 
 import { variables } from './src/variables';
 
+import process from 'process';
+process.env.NODE_ENV = 'production';
+
 export default {
   input: 'src/index.js',
   output: [

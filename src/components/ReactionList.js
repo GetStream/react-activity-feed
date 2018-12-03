@@ -17,6 +17,8 @@ type Props = {|
   /** By default pagination is done with a "Load more" button, you can use
    * InifiniteScrollPaginator to enable infinite scrolling */
   Paginator: Renderable,
+  /** Only needed for reposted activities where you want to */
+  activityPath?: ?Array<string>,
 |};
 
 export default class ReactionList extends React.PureComponent<Props> {
@@ -42,35 +44,26 @@ class ReactionListInner extends React.Component<PropsInner> {
       reactionKind,
       getActivityPath,
     } = this.props;
+    const activityPath = this.props.activityPath || getActivityPath(activityId);
 
     const reactionsOfKind = activities.getIn(
-      getActivityPath(activityId, 'latest_reactions', reactionKind),
+      [...activityPath, 'latest_reactions', reactionKind],
       immutable.List(),
     );
 
     const nextUrl = activities.getIn(
-      getActivityPath(
-        activityId,
-        'latest_reactions_extra',
-        reactionKind,
-        'next',
-      ),
+      [...activityPath, 'latest_reactions_extra', reactionKind, 'next'],
       '',
     );
 
     const refreshing = activities.getIn(
-      getActivityPath(
-        activityId,
-        'latest_reactions_extra',
-        reactionKind,
-        'refreshing',
-      ),
+      [...activityPath, 'latest_reactions_extra', reactionKind, 'refreshing'],
       '',
     );
 
     return smartRender(this.props.Paginator, {
       loadNextPage: () =>
-        this.props.loadNextReactions(activityId, reactionKind),
+        this.props.loadNextReactions(activityId, reactionKind, activityPath),
       hasNextPage: Boolean(nextUrl),
       refreshing,
       children: (
