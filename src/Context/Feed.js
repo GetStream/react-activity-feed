@@ -262,7 +262,14 @@ export class FeedManager {
 
     this.setState((prevState) => {
       let { activities } = prevState;
+      const { reactionIdToPaths } = prevState;
       for (const path of this.getActivityPaths(activity)) {
+        this.removeFoundReactionIdPaths(
+          activities.getIn(path).toJS(),
+          reactionIdToPaths,
+          path,
+        );
+
         activities = activities
           .updateIn([...path, 'reaction_counts', kind], (v = 0) => v + 1)
           .updateIn([...path, 'own_reactions', kind], (v = immutable.List()) =>
@@ -272,9 +279,15 @@ export class FeedManager {
             [...path, 'latest_reactions', kind],
             (v = immutable.List()) => v.unshift(enrichedReaction),
           );
+
+        this.addFoundReactionIdPaths(
+          activities.getIn(path).toJS(),
+          reactionIdToPaths,
+          path,
+        );
       }
 
-      return { activities };
+      return { activities, reactionIdToPaths };
     });
   };
 
@@ -302,7 +315,14 @@ export class FeedManager {
 
     return this.setState((prevState) => {
       let { activities } = prevState;
+      const { reactionIdToPaths } = prevState;
       for (const path of this.getActivityPaths(activity)) {
+        this.removeFoundReactionIdPaths(
+          activities.getIn(path).toJS(),
+          reactionIdToPaths,
+          path,
+        );
+
         activities = activities
           .updateIn([...path, 'reaction_counts', kind], (v = 0) => v - 1)
           .updateIn([...path, 'own_reactions', kind], (v = immutable.List()) =>
@@ -313,9 +333,15 @@ export class FeedManager {
             (v = immutable.List()) =>
               v.remove(v.findIndex((r) => r.get('id') === id)),
           );
+
+        this.addFoundReactionIdPaths(
+          activities.getIn(path).toJS(),
+          reactionIdToPaths,
+          path,
+        );
       }
 
-      return { activities };
+      return { activities, reactionIdToPaths };
     });
   };
 
@@ -369,7 +395,6 @@ export class FeedManager {
       });
       return;
     }
-    console.log(childReaction);
 
     // this.trackAnalytics(kind, reaction, options.trackAnalytics);
     const enrichedReaction = immutable.fromJS({
@@ -380,7 +405,6 @@ export class FeedManager {
     this.setState((prevState) => {
       let { activities } = prevState;
       for (const path of this.getReactionPaths(reaction)) {
-        console.log(activities.getIn(path).toJS());
         activities = activities
           .updateIn([...path, 'children_counts', kind], (v = 0) => v + 1)
           .updateIn([...path, 'own_children', kind], (v = immutable.List()) =>
@@ -638,6 +662,72 @@ export class FeedManager {
       currentPath.pop();
       oldLength++;
     }
+    return map;
+  };
+
+  removeFoundReactionIdPaths = (
+    data: any,
+    previous: {},
+    basePath: $ReadOnlyArray<mixed>,
+  ) => {
+    const map = previous;
+    const currentPath = [...basePath];
+    function removeFoundReactions(obj) {
+      if (Array.isArray(obj)) {
+        obj.forEach((v, i) => {
+          currentPath.push(i);
+          removeFoundReactions(v);
+          currentPath.pop();
+        });
+      } else if (isPlainObject(obj)) {
+        if (obj.id && obj.kind && obj.data) {
+          if (!map[obj.id]) {
+            map[obj.id] = [];
+          }
+          _.remove(map[obj.id], (path) => _.isEqual(path, currentPath));
+        }
+        for (const k in obj) {
+          currentPath.push(k);
+          removeFoundReactions(obj[k]);
+          currentPath.pop();
+        }
+      }
+    }
+
+    removeFoundReactions(data);
+    return map;
+  };
+
+  addFoundReactionIdPaths = (
+    data: any,
+    previous: {},
+    basePath: $ReadOnlyArray<mixed>,
+  ) => {
+    const map = previous;
+    const currentPath = [...basePath];
+    function addFoundReactions(obj) {
+      if (Array.isArray(obj)) {
+        obj.forEach((v, i) => {
+          currentPath.push(i);
+          addFoundReactions(v);
+          currentPath.pop();
+        });
+      } else if (isPlainObject(obj)) {
+        if (obj.id && obj.kind && obj.data) {
+          if (!map[obj.id]) {
+            map[obj.id] = [];
+          }
+          map[obj.id].push([...currentPath]);
+        }
+        for (const k in obj) {
+          currentPath.push(k);
+          addFoundReactions(obj[k]);
+          currentPath.pop();
+        }
+      }
+    }
+
+    addFoundReactions(data);
     return map;
   };
 
