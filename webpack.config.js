@@ -58,7 +58,6 @@ const config = {
   },
   externals: {
     react: 'React',
-    lodash: '_',
   },
 };
 

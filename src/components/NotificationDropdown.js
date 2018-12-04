@@ -82,8 +82,8 @@ class NotificationDropdownInner extends React.Component<PropsInner, State> {
     await this.props.refresh(makeDefaultOptions(this.props.options));
   };
 
-  openDropdown = async () => {
-    await this._refresh(); // refresh when opening dropdown
+  openDropdown = () => {
+    this._refresh(); // refresh when opening dropdown
     this.setState(
       {
         open: true,

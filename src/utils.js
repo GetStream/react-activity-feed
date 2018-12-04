@@ -45,7 +45,7 @@ export const getRetinaImage = (images: string) =>
     .join(', ');
 // $FlowFixMe
 export function userOrDefault(user: any | 'NotFound') {
-  if (user === 'NotFound') {
+  if (user === 'NotFound' || user.error) {
     return {
       id: 'NotFound',
       data: { name: 'Unknown', profileImage: undefined },
