@@ -39,7 +39,8 @@ type Props = {
 export default class Activity extends React.Component<Props> {
   _actor = () => {
     const { actor } = this.props.activity;
-    if (actor === 'NotFound') {
+    // $FlowFixMe
+    if (actor === 'NotFound' || actor.error) {
       return {
         id: '!not-found',
         created_at: '',
