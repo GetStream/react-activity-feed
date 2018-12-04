@@ -11,7 +11,7 @@ import FileIcon from './FileIcon';
 import Gallery from './Gallery';
 
 import type { ActivityData, Renderable } from '../types';
-import { smartRender, humanizeTimestamp } from '../utils';
+import { smartRender, humanizeTimestamp, userOrDefault } from '../utils';
 
 import { truncate } from 'lodash';
 
@@ -37,26 +37,12 @@ type Props = {
  * @example ./examples/Activity.md
  */
 export default class Activity extends React.Component<Props> {
-  _actor = () => {
-    const { actor } = this.props.activity;
-    // $FlowFixMe
-    if (actor === 'NotFound' || actor.error) {
-      return {
-        id: '!not-found',
-        created_at: '',
-        updated_at: '',
-        data: { name: 'Unknown', profileImage: '' },
-      };
-    }
-    return actor;
-  };
-
   _getOnClickUser() {
     return this.props.onClickUser ? this.onClickUser : undefined;
   }
 
   renderHeader = () => {
-    const actor = this._actor();
+    const actor = userOrDefault(this.props.activity.actor);
 
     return (
       <div style={{ padding: '8px 16px' }}>
@@ -80,7 +66,7 @@ export default class Activity extends React.Component<Props> {
   onClickUser = () => {
     const { onClickUser } = this.props;
     if (onClickUser) {
-      return onClickUser(this._actor());
+      return onClickUser(userOrDefault(this.props.activity.actor));
     }
   };
 
