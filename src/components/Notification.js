@@ -2,7 +2,6 @@
 import React from 'react';
 import Avatar from './Avatar';
 import AvatarGroup from './AvatarGroup';
-import Link from './Link';
 import AttachedActivity from './AttachedActivity';
 
 import { humanizeTimestamp, userOrDefault } from '../utils';
@@ -98,15 +97,7 @@ export default class Notification extends React.Component<Props> {
               avatarSize={30}
               users={this.getUsers(activities.slice(1, activities.length))}
             />
-          ) : (
-            <p>
-              {activities.length === 1 && lastActivity.verb === 'follow' ? (
-                <Link>Follow</Link>
-              ) : (
-                <Link>View</Link>
-              )}
-            </p>
-          )}
+          ) : null}
         </div>
       </div>
     );
