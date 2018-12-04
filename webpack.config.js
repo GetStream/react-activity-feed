@@ -39,12 +39,12 @@ const config = {
         exclude: /node_modules/,
       },
       {
-        test: /(\.png|\.svg)$/,
-        loader: 'url-loader',
-        options: {
-          limit: 8000, // Convert images < 8kb to base64 strings
-          name: 'images/[hash]-[name].[ext]',
-        },
+        test: /\.(pdf|jpg|png|gif|svg|ico)$/,
+        use: [
+          {
+            loader: 'url-loader',
+          },
+        ],
       },
       {
         test: /(\.png|\.svg)$/,
