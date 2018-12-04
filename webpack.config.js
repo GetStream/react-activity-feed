@@ -47,14 +47,6 @@ const config = {
         ],
       },
       {
-        test: /(\.png|\.svg)$/,
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]',
-          outputPath: 'images/',
-        },
-      },
-      {
         test: /\.css$/,
         use: ['style-loader', 'postcss-loader'],
       },
