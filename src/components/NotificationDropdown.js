@@ -83,7 +83,6 @@ class NotificationDropdownInner extends React.Component<PropsInner, State> {
   };
 
   openDropdown = () => {
-    this._refresh();
     this.setState(
       {
         open: true,
@@ -113,7 +112,6 @@ class NotificationDropdownInner extends React.Component<PropsInner, State> {
   };
 
   componentDidMount() {
-    // get
     this.props.refreshUnreadUnseen();
   }
 
@@ -148,14 +146,14 @@ class NotificationDropdownInner extends React.Component<PropsInner, State> {
             transition: 'all .2s ease-out',
           }}
         >
-          <DropdownPanel arrow right={this.props.right}>
-            {this.state.open && (
+          {this.state.open && (
+            <DropdownPanel arrow right={this.props.right}>
               <NotificationFeed
                 notify={this.props.notify}
                 options={{ mark_seen: true }}
               />
-            )}
-          </DropdownPanel>
+            </DropdownPanel>
+          )}
         </div>
       </div>
     );
