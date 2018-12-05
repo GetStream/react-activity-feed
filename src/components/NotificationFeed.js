@@ -91,6 +91,11 @@ class NotificationFeedInner extends React.Component<PropsInner> {
     await this._refresh();
   }
 
+  componentWillUnmount() {
+    this.props.activities.clear();
+    this.props.activityOrder.splice(0, this.props.activityOrder.length);
+  }
+
   _renderWrappedGroup = ({ item }: { item: any }) => (
     <ImmutableItemWrapper
       renderItem={this._renderGroup}

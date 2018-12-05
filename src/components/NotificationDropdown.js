@@ -78,42 +78,38 @@ class NotificationDropdownInner extends React.Component<PropsInner, State> {
     this.dropdownRef = React.createRef();
   }
 
-  _refresh = async () => {
-    await this.props.refresh(makeDefaultOptions(this.props.options));
-  };
-
-  openDropdown = () => {
-    this._refresh();
+  clickHandler = () => {
     this.setState(
       {
-        open: true,
+        open: !this.state.open,
       },
       () => {
-        //$FlowFixMe
-        document.addEventListener('click', this.closeDropdown, false);
+        if (this.state.open) {
+          //$FlowFixMe
+          document.addEventListener('click', this.documentClickHandler, false);
+        } else {
+          //$FlowFixMe
+          document.removeEventListener(
+            'click',
+            this.documentClickHandler,
+            false,
+          );
+        }
       },
     );
   };
 
-  closeDropdown = (e) => {
+  documentClickHandler = (e) => {
     if (
       this.dropdownRef.current !== null &&
-      !this.dropdownRef.current.contains(e.target)
+      !this.dropdownRef.current.contains(e.target) &&
+      this.state.open
     ) {
-      this.setState(
-        {
-          open: false,
-        },
-        () => {
-          //$FlowFixMe
-          document.removeEventListener('click', this.closeDropdown, false);
-        },
-      );
+      this.clickHandler();
     }
   };
 
   componentDidMount() {
-    // get
     this.props.refreshUnreadUnseen();
   }
 
@@ -127,7 +123,7 @@ class NotificationDropdownInner extends React.Component<PropsInner, State> {
       <div style={{ position: 'relative', display: 'inline-block' }}>
         <IconBadge
           unseen={this.props.unseen}
-          onClick={this.openDropdown}
+          onClick={this.clickHandler}
           showNumber={true}
           hidden={!this.props.notify}
         />
@@ -148,14 +144,11 @@ class NotificationDropdownInner extends React.Component<PropsInner, State> {
             transition: 'all .2s ease-out',
           }}
         >
-          <DropdownPanel arrow right={this.props.right}>
-            {this.state.open && (
-              <NotificationFeed
-                notify={this.props.notify}
-                options={{ mark_seen: true }}
-              />
-            )}
-          </DropdownPanel>
+          {this.state.open && (
+            <DropdownPanel arrow right={this.props.right}>
+              <NotificationFeed Notifier={null} options={{ mark_seen: true }} />
+            </DropdownPanel>
+          )}
         </div>
       </div>
     );
