@@ -46,10 +46,7 @@ const config = {
           },
         ],
       },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'postcss-loader'],
-      },
+      { test: /\.css$/, loader: 'ignore-loader' },
     ],
   },
   resolve: {
