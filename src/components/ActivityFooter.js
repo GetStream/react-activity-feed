@@ -4,12 +4,17 @@ import * as React from 'react';
 import LikeButton from './LikeButton';
 import RepostButton from './RepostButton';
 import Flex from './Flex';
+import type {
+  BaseActivityResponse,
+  ToggleReactionCallbackFunction,
+} from '../types';
 
 export type Props = {|
-  children: React.Node,
-  activity: any,
-  onToggleReaction: any,
-  children?: React.Node,
+  /** The activity received for stream for which to show the like buton. This is
+   * used to initalize the toggle state and the counter. */
+  activity: BaseActivityResponse,
+  /** The function that toggles  reaction. */
+  onToggleReaction: ToggleReactionCallbackFunction,
 |};
 
 /**

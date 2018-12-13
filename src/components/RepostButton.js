@@ -10,9 +10,11 @@ import repostButtonActive from '../images/repost-active@1x.png';
 import repostButtonInactive from '../images/repost@1x.png';
 
 type Props = {|
+  /** The activity received for stream for which to show the like buton. This is
+   * used to initalize the toggle state and the counter. */
   activity: BaseActivityResponse,
+  /** The function that toggles the reaction. */
   onToggleReaction: ToggleReactionCallbackFunction,
-  children?: React.Node,
 |};
 
 /**

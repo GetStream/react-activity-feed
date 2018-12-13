@@ -157,11 +157,8 @@ export default class B2BActivity extends React.Component<Props, State> {
             <ReactionIcon
               counts={activity.reaction_counts}
               kind="comment"
-              own_reactions={{}}
               onPress={() => this.setState({ showComments: true })}
               icon={Comment}
-              activeIcon={Comment}
-              inactiveIcon={Comment}
               labelSingle="comment"
               labelPlural="comments"
             />
