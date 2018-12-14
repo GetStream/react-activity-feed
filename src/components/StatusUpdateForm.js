@@ -665,38 +665,37 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                   )}
                 </div>
               )}
-              {availableOg &&
-                availableOg.length > 1 && (
-                  <React.Fragment>
-                    <ol className="raf-status-update-form__url-list">
-                      {availableOg.map(({ url, title }) => (
-                        <li
-                          className={`raf-status-update-form__url-list-item${
-                            url === this.state.ogActiveUrl
-                              ? ' raf-status-update-form__url-list-item--active'
-                              : ''
-                          }`}
-                          onClick={() =>
-                            this.setState((prevState) => {
-                              const ogState = prevState.ogStateByUrl[url];
-                              if (ogState) {
-                                ogState.dismissed = false;
-                              }
-                              return {
-                                ogActiveUrl: url,
-                                ogStateByUrl: prevState.ogStateByUrl,
-                              };
-                            })
-                          }
-                          key={url}
-                        >
-                          <FontAwesomeIcon icon={faBookmark} />{' '}
-                          {title !== undefined ? title : url}
-                        </li>
-                      ))}
-                    </ol>
-                  </React.Fragment>
-                )}
+              {availableOg && availableOg.length > 1 && (
+                <React.Fragment>
+                  <ol className="raf-status-update-form__url-list">
+                    {availableOg.map(({ url, title }) => (
+                      <li
+                        className={`raf-status-update-form__url-list-item${
+                          url === this.state.ogActiveUrl
+                            ? ' raf-status-update-form__url-list-item--active'
+                            : ''
+                        }`}
+                        onClick={() =>
+                          this.setState((prevState) => {
+                            const ogState = prevState.ogStateByUrl[url];
+                            if (ogState) {
+                              ogState.dismissed = false;
+                            }
+                            return {
+                              ogActiveUrl: url,
+                              ogStateByUrl: prevState.ogStateByUrl,
+                            };
+                          })
+                        }
+                        key={url}
+                      >
+                        <FontAwesomeIcon icon={faBookmark} />{' '}
+                        {title !== undefined ? title : url}
+                      </li>
+                    ))}
+                  </ol>
+                </React.Fragment>
+              )}
               {this.state.imageOrder.length > 0 && (
                 <ImagePreviewer
                   imageUploads={this.state.imageOrder.map(

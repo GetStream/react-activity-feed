@@ -178,25 +178,23 @@ export default class Activity extends React.Component<Props> {
           </div>
         ) : null}
 
-        {attachments.images &&
-          Boolean(attachments.images.length) && (
-            <div style={{ padding: '8px 0' }}>
-              <Gallery images={attachments.images} />
-            </div>
-          )}
+        {attachments.images && Boolean(attachments.images.length) && (
+          <div style={{ padding: '8px 0' }}>
+            <Gallery images={attachments.images} />
+          </div>
+        )}
 
-        {attachments.files &&
-          Boolean(attachments.files.length) && (
-            <ol className="raf-activity__attachments">
-              {attachments.files.map(({ name, url, mimeType }, i) => (
-                <a href={url} key={i}>
-                  <li className="raf-activity__file">
-                    <FileIcon mimeType={mimeType} /> {name}
-                  </li>
-                </a>
-              ))}
-            </ol>
-          )}
+        {attachments.files && Boolean(attachments.files.length) && (
+          <ol className="raf-activity__attachments">
+            {attachments.files.map(({ name, url, mimeType }, i) => (
+              <a href={url} key={i}>
+                <li className="raf-activity__file">
+                  <FileIcon mimeType={mimeType} /> {name}
+                </li>
+              </a>
+            ))}
+          </ol>
+        )}
       </div>
     );
   };

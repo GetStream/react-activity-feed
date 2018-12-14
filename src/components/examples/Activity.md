@@ -6,30 +6,25 @@ const activity = {
     data: {
       name: 'Nora Ferguson',
       profileImage: 'https://randomuser.me/api/portraits/women/72.jpg',
-    }
+    },
   },
   verb: 'post',
   object: 'I just missed my train 😤',
   time: new Date(),
   reaction_counts: {
-    'repost': 17,
-    'like': 17,
-    'comment': 17,
+    repost: 17,
+    like: 17,
+    comment: 17,
   },
 };
 
 const Footer = () => {
-  return (
-    <ActivityFooter userId='123' activity={activity}/>
-  );
-}
+  return <ActivityFooter userId="123" activity={activity} />;
+};
 
-<div style={{backgroundColor: '#f7f7f7f', padding: '8px'}}>
-  <Activity
-    activity={activity}
-    Footer={Footer}
-  />
-</div>
+<div style={{ backgroundColor: '#f7f7f7f', padding: '8px' }}>
+  <Activity activity={activity} Footer={Footer} />
+</div>;
 ```
 
 #### Activity with attached image and hashtag
