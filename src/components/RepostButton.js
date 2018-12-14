@@ -4,7 +4,6 @@ import ReactionToggleIcon from './ReactionToggleIcon';
 import type {
   BaseActivityResponse,
   ToggleReactionCallbackFunction,
-  BaseAppCtx,
 } from '../types';
 
 import { StreamApp } from '../Context';
@@ -36,15 +35,20 @@ export default class RepostButton extends React.Component<Props> {
   };
 
   render() {
+    if (this.props.userId != null) {
+      return <RepostButtonInner {...this.props} />;
+    }
     return (
       <StreamApp.Consumer>
-        {(appCtx) => <RepostButtonInner {...this.props} {...appCtx} />}
+        {(appCtx) => (
+          <RepostButtonInner {...this.props} userId={appCtx.user.id} />
+        )}
       </StreamApp.Consumer>
     );
   }
 }
 
-type PropsInner = {| ...Props, ...BaseAppCtx |};
+type PropsInner = {| ...Props, userId: string |};
 class RepostButtonInner extends React.Component<PropsInner> {
   render() {
     const { feedGroup, userId, activity, onToggleReaction } = this.props;
@@ -59,7 +63,7 @@ class RepostButtonInner extends React.Component<PropsInner> {
             'repost',
             activity,
             {},
-            { targetFeeds: [this.props.client.feed(feedGroup, userId)] },
+            { targetFeeds: [`${feedGroup}:${userId}`] },
           )
         }
         activeIcon={repostButtonActive}

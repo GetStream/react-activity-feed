@@ -20,7 +20,7 @@ const activity = {
 
 const Footer = () => {
   return (
-    <ActivityFooter activity={activity}/>
+    <ActivityFooter userId='123' activity={activity}/>
   );
 }
 
