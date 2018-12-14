@@ -10,7 +10,8 @@ export type Props = {|
   activityId: string,
   /** The component that should render the comment */
   CommentItem: Renderable,
-  /** Only needed for reposted activities where you want to */
+  /** Only needed for reposted activities where you want to show the comments
+   * of the original activity, not of the repost */
   activityPath?: ?Array<string>,
 |};
 

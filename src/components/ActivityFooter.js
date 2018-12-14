@@ -10,6 +10,13 @@ import type {
 } from '../types';
 
 export type Props = {|
+  /** The feed group part of the feed that the activity should be reposted to
+   * when pressing the RepostButton, e.g. `user` when posting to your own
+   * profile */
+  feedGroup: string,
+  /** The user_id part of the feed that the activity should be reposted to when
+   * pressing the RepostButton */
+  userId?: string,
   /** The activity received for stream for which to show the like buton. This is
    * used to initalize the toggle state and the counter. */
   activity: BaseActivityResponse,
@@ -23,13 +30,21 @@ export type Props = {|
  * @example ./examples/ActivityFooter.md
  */
 export default class ActivityFooter extends React.Component<Props> {
+  static defaultProps = {
+    feedGroup: 'user',
+  };
+
   render() {
+    const { activity, onToggleReaction } = this.props;
     return (
       <div className="raf-activity-footer">
         <div className="raf-activity-footer__left" />
         <div className="raf-activity-footer__right">
           <Flex a="center">
-            <LikeButton {...this.props} />
+            <LikeButton
+              activity={activity}
+              onToggleReaction={onToggleReaction}
+            />
             <RepostButton {...this.props} />
           </Flex>
         </div>

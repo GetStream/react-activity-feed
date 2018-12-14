@@ -9,7 +9,7 @@ import LoadMorePaginator from './LoadMorePaginator';
 import { Feed, FeedContext } from '../Context';
 import { smartRender } from '../utils';
 
-import type { BaseFeedCtx, BaseUserSession, Renderable } from '../types';
+import type { BaseFeedCtx, BaseClient, Renderable } from '../types';
 import type {
   FeedRequestOptions,
   FeedResponse,
@@ -31,7 +31,7 @@ type Props = {|
   notify: boolean,
   //** the feed read hander (change only for advanced/complex use-cases) */
   doFeedRequest?: (
-    session: BaseUserSession,
+    client: BaseClient,
     feedGroup: string,
     userId?: string,
     options?: FeedRequestOptions,
@@ -104,6 +104,9 @@ class FlatFeedInner extends React.Component<PropsInner> {
     onToggleReaction: this.props.onToggleReaction,
     onAddReaction: this.props.onAddReaction,
     onRemoveReaction: this.props.onRemoveReaction,
+    onToggleChildReaction: this.props.onToggleChildReaction,
+    onAddChildReaction: this.props.onAddChildReaction,
+    onRemoveChildReaction: this.props.onRemoveChildReaction,
     onRemoveActivity: this.props.onRemoveActivity,
     feedGroup: this.props.feedGroup,
     userId: this.props.userId,

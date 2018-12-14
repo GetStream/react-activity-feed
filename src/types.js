@@ -4,11 +4,11 @@ import * as React from 'react';
 import type {
   ActivityArgData,
   ActivityResponse,
-  StreamUserSession,
+  StreamClient,
   ReactionKindMap,
   UserResponse,
   ReactionRequestOptions,
-  EnrichedReactionResponse,
+  ReactionResponse,
   OgData as OgDataGetStream,
 } from 'getstream';
 import type { AppCtx, FeedCtx } from './Context';
@@ -23,7 +23,9 @@ export type FlowRequestTypes =
   | 'add-activity'
   | 'delete-activity'
   | 'add-reaction'
-  | 'delete-reaction';
+  | 'delete-reaction'
+  | 'add-child-reaction'
+  | 'delete-child-reaction';
 
 export type UploadState = 'uploading' | 'finished' | 'failed';
 
@@ -68,9 +70,9 @@ export type Renderable = RenderableButNotElement | React.Element<any>;
 export type BaseActivityResponse = ActivityResponse<{}, {}>;
 export type BaseAppCtx = AppCtx<{}>;
 export type BaseFeedCtx = FeedCtx;
-export type BaseUserSession = StreamUserSession<{}>;
+export type BaseClient = StreamClient<{}>;
 
-export type BaseReaction = EnrichedReactionResponse<{}, {}>;
+export type BaseReaction = ReactionResponse<{}, {}>;
 export type BaseReactionMap = ReactionKindMap<Object, Object>;
 
 export type BaseUserResponse = UserResponse<{}>;
@@ -104,27 +106,50 @@ export type ActivityData = ActivityResponse<UserData, CustomActivityData>;
 export type ToggleReactionCallbackFunction = (
   kind: string,
   activity: BaseActivityResponse,
-  options: { trackAnalytics?: boolean } & ReactionRequestOptions<{}>,
+  data?: {},
+  options?: { trackAnalytics?: boolean } & ReactionRequestOptions,
 ) => void | Promise<mixed>;
 
 export type AddReactionCallbackFunction = (
   kind: string,
   activity: BaseActivityResponse,
-  options: { trackAnalytics?: boolean } & ReactionRequestOptions<{}>,
+  data?: {},
+  options?: { trackAnalytics?: boolean } & ReactionRequestOptions,
 ) => void | Promise<mixed>;
 
 export type RemoveReactionCallbackFunction = (
   kind: string,
   activity: BaseActivityResponse,
   id: string,
-  options: { trackAnalytics?: boolean } & ReactionRequestOptions<{}>,
+  options?: { trackAnalytics?: boolean },
+) => void | Promise<mixed>;
+
+export type ToggleChildReactionCallbackFunction = (
+  kind: string,
+  activity: BaseReaction,
+  data: {},
+  options?: { trackAnalytics?: boolean } & ReactionRequestOptions,
+) => void | Promise<mixed>;
+
+export type AddChildReactionCallbackFunction = (
+  kind: string,
+  activity: BaseReaction,
+  data: {},
+  options?: { trackAnalytics?: boolean } & ReactionRequestOptions,
+) => void | Promise<mixed>;
+
+export type RemoveChildReactionCallbackFunction = (
+  kind: string,
+  activity: BaseReaction,
+  id: string,
+  options?: { trackAnalytics?: boolean },
 ) => void | Promise<mixed>;
 
 export type CommentData = {
   text: string,
 };
 
-export type Comment = EnrichedReactionResponse<UserData, CommentData>;
+export type Comment = ReactionResponse<UserData, CommentData>;
 
 export type NotificationActivity = ActivityResponse<UserData, {}>;
 export type NotificationActivities = Array<ActivityResponse<UserData, {}>>;

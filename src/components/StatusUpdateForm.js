@@ -179,7 +179,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
         newUrls.forEach(async (url) => {
           let resp;
           try {
-            resp = await this.props.session.og(url);
+            resp = await this.props.client.og(url);
           } catch (e) {
             console.warn(e);
             this.setState((prevState) => {
@@ -281,7 +281,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
 
   async addActivity() {
     const activity: CustomActivityArgData = {
-      actor: this.props.session.user,
+      actor: this.props.client.currentUser,
       verb: this.props.activityVerb,
       object: this._object(),
     };
@@ -312,7 +312,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     }
 
     const modifiedActivity = this.props.modifyActivityData(activity);
-    await this.props.session
+    await this.props.client
       .feed(this.props.feedGroup, this.props.userId)
       .addActivity(modifiedActivity);
   }
@@ -450,7 +450,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     let response = {};
     response = {};
     try {
-      response = await this.props.session.images.upload(file);
+      response = await this.props.client.images.upload(file);
     } catch (e) {
       console.warn(e);
       let alreadyRemoved = false;
@@ -494,7 +494,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     let response = {};
     response = {};
     try {
-      response = await this.props.session.files.upload(file);
+      response = await this.props.client.files.upload(file);
     } catch (e) {
       console.warn(e);
       await this.setState((prevState) => {
