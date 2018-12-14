@@ -3,6 +3,7 @@ import * as React from 'react';
 
 import Activity from './Activity';
 import NewActivitiesNotification from './NewActivitiesNotification';
+import type { Props as NotifierProps } from './NewActivitiesNotification';
 import LoadMorePaginator from './LoadMorePaginator';
 
 import { Feed, FeedContext } from '../Context';
@@ -48,7 +49,13 @@ export default class FlatFeed extends React.Component<Props> {
     feedGroup: 'timeline',
     notify: false,
     Activity,
-    Notifier: NewActivitiesNotification,
+    Notifier: (props: NotifierProps) => (
+      <NewActivitiesNotification
+        labelPlural="activities"
+        labelSingle="activity"
+        {...props}
+      />
+    ),
     Paginator: LoadMorePaginator,
   };
 

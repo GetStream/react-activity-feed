@@ -30,7 +30,7 @@ module.exports = {
   title: 'React Activity Feed - Docs',
   styleguideDir: 'docs',
   assetsDir: 'src/assets',
-  webpackConfig: require('./webpack.config.js'),
+  webpackConfig: require('./webpack.config.styleguidist.js'),
   styleguideComponents: {
     PathlineRenderer: path.join(
       __dirname,

@@ -49,7 +49,7 @@ export default class NotificationDropdown extends React.Component<Props> {
       <Feed
         feedGroup={this.props.feedGroup}
         userId={this.props.userId}
-        options={makeDefaultOptions(this.props.options)}
+        options={makeDefaultOptions({ mark_seen: false })}
         doFeedRequest={this.props.doFeedRequest}
       >
         <FeedContext.Consumer>
@@ -81,9 +81,6 @@ class NotificationDropdownInner extends React.Component<PropsInner, State> {
   _refresh = async () => {
     await this.props.refresh(makeDefaultOptions(this.props.options));
   };
-  async componentDidMount() {
-    await this._refresh();
-  }
 
   openDropdown = () => {
     this.setState(
@@ -113,6 +110,10 @@ class NotificationDropdownInner extends React.Component<PropsInner, State> {
       );
     }
   };
+
+  componentDidMount() {
+    this.props.refreshUnreadUnseen();
+  }
 
   componentWillUnmount() {
     //$FlowFixMe
@@ -145,12 +146,14 @@ class NotificationDropdownInner extends React.Component<PropsInner, State> {
             transition: 'all .2s ease-out',
           }}
         >
-          <DropdownPanel arrow right={this.props.right}>
-            <NotificationFeed
-              notify={this.props.notify}
-              options={{ mark_seen: true }}
-            />
-          </DropdownPanel>
+          {this.state.open && (
+            <DropdownPanel arrow right={this.props.right}>
+              <NotificationFeed
+                notify={this.props.notify}
+                options={{ mark_seen: true }}
+              />
+            </DropdownPanel>
+          )}
         </div>
       </div>
     );

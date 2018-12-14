@@ -1,5 +1,6 @@
 .raf-textarea {
   display: flex;
+  width: 100%;
   .raf-textarea__textarea {
     width: 100%;
     color: color($fontColor tint(3%));

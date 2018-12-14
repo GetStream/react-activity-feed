@@ -39,17 +39,14 @@ const config = {
         exclude: /node_modules/,
       },
       {
-        test: /(\.png|\.svg)$/,
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]',
-          outputPath: 'images/',
-        },
+        test: /\.(pdf|jpg|png|gif|svg|ico)$/,
+        use: [
+          {
+            loader: 'url-loader',
+          },
+        ],
       },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'postcss-loader'],
-      },
+      { test: /\.css$/, loader: 'ignore-loader' },
     ],
   },
   resolve: {
@@ -58,7 +55,6 @@ const config = {
   },
   externals: {
     react: 'React',
-    lodash: '_',
   },
 };
 

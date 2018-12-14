@@ -18,9 +18,11 @@ type Props = {|
   feedGroup: string,
   /** The user_id part of the feed that the activity should be reposted to  */
   userId?: string,
+  /** The activity received for stream for which to show the like buton. This is
+   * used to initalize the toggle state and the counter. */
   activity: BaseActivityResponse,
+  /** The function that toggles the reaction. */
   onToggleReaction: ToggleReactionCallbackFunction,
-  children?: React.Node,
 |};
 
 /**

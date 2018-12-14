@@ -1,20 +1,24 @@
 // @flow
 import * as React from 'react';
-import type { ReactionCounts, ReactionKindMap } from 'getstream';
+import type { ReactionCounts } from 'getstream';
 
 type Props = {|
-  activeIcon: string,
-  inactiveIcon: string,
+  /** The icon to display */
   icon: string | number,
+  /** The reaction counts for the activity */
   counts?: ReactionCounts,
-  own_reactions: ?ReactionKindMap<{}, {}>,
-  kind?: string,
+  /** The kind of reaction that this displays */
+  kind: string,
+  /** The height of the icon */
   height?: number,
+  /** The width of the icon */
   width?: number,
-  onPress?: (kind: ?string) => any,
+  /** Function to call when pressed, usually this should call `props.onToggleReaction` */
+  onPress?: (kind: string) => any,
+  /** The label to display if the count is one (e.g "like") */
   labelSingle?: string,
+  /** The label to display if the count is more than one (e.g "likes") */
   labelPlural?: string,
-  onToggleReaction?: () => mixed,
 |};
 
 /**

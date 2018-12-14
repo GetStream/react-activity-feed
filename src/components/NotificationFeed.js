@@ -5,6 +5,7 @@ import { Feed, FeedContext } from '../Context';
 import NewActivitiesNotification from './NewActivitiesNotification';
 import LoadMorePaginator from './LoadMorePaginator';
 import Notification from './Notification';
+import LoadingIndicator from './LoadingIndicator';
 
 import { smartRender } from '../utils';
 
@@ -91,6 +92,11 @@ class NotificationFeedInner extends React.Component<PropsInner> {
     await this._refresh();
   }
 
+  componentWillUnmount() {
+    this.props.activities.clear();
+    this.props.activityOrder.splice(0, this.props.activityOrder.length);
+  }
+
   _renderWrappedGroup = ({ item }: { item: any }) => (
     <ImmutableItemWrapper
       renderItem={this._renderGroup}
@@ -122,17 +128,25 @@ class NotificationFeedInner extends React.Component<PropsInner> {
     const { loadNextPage, hasNextPage, refreshing } = this.props;
     return (
       <React.Fragment>
-        {smartRender(this.props.Notifier, notifierProps)}
-        {smartRender(this.props.Paginator, {
-          loadNextPage,
-          hasNextPage,
-          refreshing,
-          children: this.props.activityOrder.map((id) =>
-            this._renderWrappedGroup({
-              item: this.props.activities.get(id),
-            }),
-          ),
-        })}
+        {refreshing ? (
+          <div style={{ padding: 40, backgroundColor: 'rgb(247, 247, 247' }}>
+            <LoadingIndicator />
+          </div>
+        ) : (
+          <React.Fragment>
+            {smartRender(this.props.Notifier, notifierProps)}
+            {smartRender(this.props.Paginator, {
+              loadNextPage,
+              hasNextPage,
+              refreshing,
+              children: this.props.activityOrder.map((id) =>
+                this._renderWrappedGroup({
+                  item: this.props.activities.get(id),
+                }),
+              ),
+            })}
+          </React.Fragment>
+        )}
       </React.Fragment>
     );
   }
