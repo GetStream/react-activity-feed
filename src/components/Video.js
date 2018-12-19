@@ -2,10 +2,12 @@
 import React from 'react';
 import IconButton from './IconButton';
 import type { OgData } from '../types';
+import URL from 'url-parse';
 
 type Props = {|
   og: OgData,
   handleClose?: (e: SyntheticEvent<>) => mixed,
+  urlsThatAreGifs: Array<string>,
 |};
 
 /**
@@ -13,6 +15,9 @@ type Props = {|
  * @example ./examples/Video.md
  */
 export default class Video extends React.Component<Props> {
+  static defaultProps = {
+    urlsThatAreGifs: ['i.giphy.com', 'i.imgur.com', 'media.giphy.com'],
+  };
   _handleClose = (e: SyntheticEvent<>) => {
     if (this.props.handleClose) {
       this.props.handleClose(e);
@@ -38,6 +43,7 @@ export default class Video extends React.Component<Props> {
         break;
       }
     }
+    const url = video.secure_url || video.video;
 
     if (video.type === 'text/html') {
       return (
@@ -48,16 +54,45 @@ export default class Video extends React.Component<Props> {
             type={video.type}
             width={video.width}
             height={video.height}
-            src={video.secure_url || video.video}
+            src={url}
             frameBorder="0"
           />
         </div>
       );
     } else {
+      let videoProps = {
+        controls: true,
+        // Try fetching length of video etc
+        preload: 'metadata',
+      };
+
+      const parsedUrl = new URL(url);
+
+      for (const gifUrl of this.props.urlsThatAreGifs) {
+        console.log(gifUrl, parsedUrl.host);
+        if (gifUrl === parsedUrl.host) {
+          videoProps = {
+            // Load the video right away
+            preload: 'auto',
+            // Display it like it's a gif
+            autoPlay: true,
+            muted: true,
+            loop: true,
+            controls: false,
+            // On mobile don't open video fullscreen
+            playsInline: true,
+            'webkit-playsinline': 'webkit-playsinline',
+          };
+
+          break;
+        }
+      }
+      console.log('vidprops', videoProps);
+
       return (
         <div className="raf-video__video">
-          <video className="raf-video__video--video" controls>
-            <source src={video.secure_url || video.video} type={video.type} />
+          <video className="raf-video__video--video" {...videoProps}>
+            <source src={url} type={video.type} />
           </video>
           <div className="raf-video__video--content">
             <div className="raf-video__video--title">{this.props.og.title}</div>
