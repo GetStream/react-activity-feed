@@ -82,7 +82,7 @@
     "prettier": "^1.13.7",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "react-scripts": "^1.1.5",
+    "react-scripts": "2.1.1",
     "react-styleguidist": "^8.0.6",
     "rollup": "^0.66.4",
     "rollup-plugin-babel": "^4.0.3",
