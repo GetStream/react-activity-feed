@@ -8,6 +8,15 @@ export type Props = {|
   deletes: Array<{}>,
   labelSingle?: string,
   labelPlural?: string,
+  /** A function that returns either the string to display or null in case no
+   * notification should be displayed */
+  labelFunction?: ({
+    count: number,
+    deleteCount: number,
+    addCount: number,
+    labelPlural?: string,
+    labelSingle?: string,
+  }) => string | null,
   onClick?: () => mixed,
 |};
 
@@ -23,10 +32,37 @@ export default class NewActivitiesNotification extends React.Component<Props> {
     adds: [],
     deletes: [],
   };
+
+  _labelFunction = () => {
+    const {
+      adds,
+      deletes,
+      labelSingle,
+      labelPlural,
+      labelFunction,
+    } = this.props;
+    const addCount = (adds || []).length;
+    const deleteCount = (deletes || []).length;
+    const count = addCount + deleteCount;
+    if (labelFunction) {
+      return labelFunction({
+        count,
+        addCount,
+        deleteCount,
+        labelSingle,
+        labelPlural,
+      });
+    }
+    if (addCount === 0) {
+      return null;
+    }
+    return `You have ${addCount} new ${(addCount > 1
+      ? labelPlural
+      : labelSingle) || ''}`;
+  };
   render() {
-    const addCount = this.props.adds.length;
-    const count = addCount;
-    if (count === 0) {
+    const label = this._labelFunction();
+    if (label === null) {
       return null;
     }
 
@@ -36,10 +72,7 @@ export default class NewActivitiesNotification extends React.Component<Props> {
         type="button"
         onClick={this.props.onClick}
       >
-        <Link>
-          {count} new{' '}
-          {count !== 1 ? this.props.labelPlural : this.props.labelSingle}
-        </Link>
+        <Link>{label}</Link>
       </button>
     );
   }

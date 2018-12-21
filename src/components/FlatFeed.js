@@ -122,12 +122,23 @@ class FlatFeedInner extends React.Component<PropsInner> {
   };
 
   render() {
-    const notifierProps = {
+    const notifierProps: NotifierProps = {
       adds: this.props.realtimeAdds,
       deletes: this.props.realtimeDeletes,
       onClick: this._refresh,
     };
-    const { loadNextPage, hasNextPage, refreshing } = this.props;
+    const {
+      loadNextPage,
+      hasNextPage,
+      refreshing,
+      loadReverseNextPage,
+      hasReverseNextPage,
+    } = this.props;
+    if (hasReverseNextPage) {
+      notifierProps.onClick = loadReverseNextPage;
+      notifierProps.labelFunction = () => 'Load activities';
+    }
+
     return (
       <React.Fragment>
         {smartRender(this.props.Notifier, notifierProps)}
