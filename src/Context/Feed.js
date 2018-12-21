@@ -512,13 +512,25 @@ export class FeedManager {
     return this._removeActivityFromState(activityId);
   };
 
-  getOptions = (extraOptions?: FeedRequestOptions): FeedRequestOptions => ({
-    withReactionCounts: true,
-    withOwnReactions: true,
-    limit: 10,
-    ...this.props.options,
-    ...extraOptions,
-  });
+  getOptions = (extraOptions?: FeedRequestOptions = {}): FeedRequestOptions => {
+    const propOpts = { ...this.props.options };
+    const { id_gt, id_gte, id_lt, id_lte, offset } = extraOptions;
+    if (id_gt || id_gte || id_lt || id_lte || offset != null) {
+      delete propOpts.id_gt;
+      delete propOpts.id_gte;
+      delete propOpts.id_lt;
+      delete propOpts.id_lte;
+      delete propOpts.offset;
+    }
+
+    return {
+      withReactionCounts: true,
+      withOwnReactions: true,
+      limit: 10,
+      ...propOpts,
+      ...extraOptions,
+    };
+  };
 
   doFeedRequest = (options: FeedRequestOptions): Promise<FR> => {
     if (this.props.doFeedRequest) {
@@ -962,7 +974,6 @@ export class FeedManager {
     }));
 
     const options = {
-      ...this.props.options,
       ...URL(nextUrl, true).query,
       activity_id: activityId,
       kind,
