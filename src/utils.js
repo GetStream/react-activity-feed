@@ -144,3 +144,20 @@ export async function dataTransferItemsToFiles(
   await Promise.all(blobPromises);
   return fileLikes;
 }
+
+export function inputValueFromEvent(
+  event?: ?SyntheticEvent<HTMLTextAreaElement> | ?Event,
+): ?string {
+  if (!event) {
+    return;
+  }
+  let target;
+  if (event.currentTarget) {
+    target = event.currentTarget;
+  } else {
+    target = event.target;
+  }
+  // Trick flow into believing the target maybe has a value field
+  const inputTarget: { value?: string } = (target: any);
+  return inputTarget.value;
+}

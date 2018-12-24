@@ -29,6 +29,7 @@ import {
   generateRandomId,
   dataTransferItemsToFiles,
   dataTransferItemsHaveFiles,
+  inputValueFromEvent,
 } from '../utils';
 import type {
   BaseAppCtx,
@@ -546,10 +547,10 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   };
 
   _onChange = (event) => {
-    if (!event || !event.currentTarget) {
-      return '';
+    const text = inputValueFromEvent(event);
+    if (text == null) {
+      return;
     }
-    const text = event.currentTarget.value;
     this.setState({ text });
     this._handleOgDebounced(text);
   };
