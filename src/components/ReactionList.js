@@ -52,10 +52,14 @@ class ReactionListInner extends React.Component<PropsInner> {
       immutable.List(),
     );
 
-    const nextUrl = activities.getIn(
-      [...activityPath, 'latest_reactions_extra', reactionKind, 'next'],
-      '',
-    );
+    const reactions_extra = activities.getIn([
+      ...activityPath,
+      'latest_reactions_extra',
+    ]);
+    let nextUrl = 'https://api.stream-io-api.com/';
+    if (reactions_extra) {
+      nextUrl = reactions_extra.getIn([reactionKind, 'next'], '');
+    }
 
     const refreshing = activities.getIn(
       [...activityPath, 'latest_reactions_extra', reactionKind, 'refreshing'],

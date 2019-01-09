@@ -1047,7 +1047,16 @@ export class FeedManager {
       kind,
       'refreshing',
     ];
-    const nextUrl = this.state.activities.getIn(nextUrlPath, '');
+
+    const reactions_extra = this.state.activities.getIn([
+      ...activityPath,
+      'latest_reactions_extra',
+    ]);
+    let nextUrl = 'https://api.stream-io-api.com/';
+    if (reactions_extra) {
+      nextUrl = reactions_extra.getIn([kind, 'next'], '');
+    }
+
     const refreshing = this.state.activities.getIn(refreshingPath, false);
 
     if (!nextUrl || refreshing) {
@@ -1085,7 +1094,7 @@ export class FeedManager {
         response,
         prevState.reactionIdToPaths,
         latestReactionsPath,
-        prevState.activities.getIn(latestReactionsPath, immutable).toJS()
+        prevState.activities.getIn(latestReactionsPath, immutable.List()).toJS()
           .length,
       ),
     }));
