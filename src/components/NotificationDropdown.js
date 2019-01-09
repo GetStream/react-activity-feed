@@ -151,7 +151,7 @@ class NotificationDropdownInner extends React.Component<PropsInner, State> {
               <NotificationFeed
                 Group={this.props.Group}
                 feedGroup={this.props.feedGroup}
-                userId={this.props.feedGroup}
+                userId={this.props.userId}
                 notify={this.props.notify}
                 options={this.props.options}
                 doFeedRequest={this.props.doFeedRequest}
