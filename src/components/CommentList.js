@@ -13,6 +13,9 @@ export type Props = {|
   /** Only needed for reposted activities where you want to show the comments
    * of the original activity, not of the repost */
   activityPath?: ?Array<string>,
+  /** Load comments from oldest to newest instead of the default where comments
+   * are displayed most recent first. */
+  oldestToNewest: boolean,
 |};
 
 /**
@@ -23,12 +26,13 @@ export type Props = {|
 export default class CommentList extends React.PureComponent<Props> {
   static defaultProps = {
     CommentItem,
+    oldestToNewest: false,
   };
 
   _Reaction = ({ reaction }: { reaction: Comment }) =>
     smartRender(this.props.CommentItem, { comment: reaction });
   render() {
-    const { activityId, activityPath } = this.props;
+    const { activityId, activityPath, oldestToNewest } = this.props;
     return (
       <React.Fragment>
         <ReactionList
@@ -36,6 +40,7 @@ export default class CommentList extends React.PureComponent<Props> {
           reactionKind={'comment'}
           Reaction={this._Reaction}
           activityPath={activityPath}
+          oldestToNewest={oldestToNewest}
         />
       </React.Fragment>
     );

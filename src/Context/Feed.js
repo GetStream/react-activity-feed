@@ -9,6 +9,7 @@ import type {
   FeedResponse,
   ReactionRequestOptions,
   ReactionFilterResponse,
+  ReactionFilterOptions,
 } from 'getstream';
 import type {
   BaseActivityResponse,
@@ -22,6 +23,7 @@ import type {
   AddChildReactionCallbackFunction,
   RemoveChildReactionCallbackFunction,
 } from '../types';
+import { generateRandomId } from '../utils';
 import isPlainObject from 'lodash/isPlainObject';
 
 import type { AppCtx } from './StreamApp';
@@ -45,6 +47,7 @@ export type FeedCtx = {|
     activityId: string,
     kind: string,
     activityPath?: ?Array<string>,
+    oldestToNewest?: boolean,
   ) => Promise<mixed>,
   loadNextPage: () => Promise<mixed>,
   hasNextPage: boolean,
@@ -1030,31 +1033,50 @@ export class FeedManager {
     activityId: string,
     kind: string,
     activityPath?: ?Array<string>,
+    oldestToNewest?: boolean,
   ) => {
+    let options: ReactionFilterOptions = {
+      activity_id: activityId,
+      kind,
+    };
+
+    let orderPrefix = 'latest';
+    if (oldestToNewest) {
+      orderPrefix = 'oldest';
+    }
+
     if (!activityPath) {
       activityPath = this.getActivityPath(activityId);
     }
-    const latestReactionsPath = [...activityPath, 'latest_reactions', kind];
+    const latestReactionsPath = [
+      ...activityPath,
+      orderPrefix + '_reactions',
+      kind,
+    ];
     const nextUrlPath = [
       ...activityPath,
-      'latest_reactions_extra',
+      orderPrefix + '_reactions_extra',
       kind,
       'next',
     ];
     const refreshingPath = [
       ...activityPath,
-      'latest_reactions_extra',
+      orderPrefix + '_reactions_extra',
       kind,
       'refreshing',
     ];
 
     const reactions_extra = this.state.activities.getIn([
       ...activityPath,
-      'latest_reactions_extra',
+      orderPrefix + '_reactions_extra',
     ]);
     let nextUrl = 'https://api.stream-io-api.com/';
     if (reactions_extra) {
       nextUrl = reactions_extra.getIn([kind, 'next'], '');
+    } else if (oldestToNewest) {
+      // If it's the first request and oldest to newest make sure
+      // order is reversed by this trick with a non existant id.
+      options.id_gt = 'non-existant-' + generateRandomId();
     }
 
     const refreshing = this.state.activities.getIn(refreshingPath, false);
@@ -1067,10 +1089,9 @@ export class FeedManager {
       activities: prevState.activities.setIn(refreshingPath, true),
     }));
 
-    const options = {
+    options = {
       ...URL(nextUrl, true).query,
-      activity_id: activityId,
-      kind,
+      ...options,
     };
 
     let response;
