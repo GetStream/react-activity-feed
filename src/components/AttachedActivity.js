@@ -21,6 +21,12 @@ export default class AttachedActivity extends React.Component<Props> {
       activity.attachments !== undefined &&
       activity.attachments.images !== undefined &&
       activity.attachments.images.length > 0;
+    const images =
+      isImage &&
+      activity.attachments !== undefined &&
+      activity.attachments.images !== undefined
+        ? activity.attachments.images
+        : [];
     const actor = userOrDefault(activity.actor);
 
     if (
@@ -42,13 +48,9 @@ export default class AttachedActivity extends React.Component<Props> {
           )}
           {isImage && (
             <div className="raf-attached-activity__images">
-              {activity.attachments !== undefined &&
-                activity.attachments.images !== undefined &&
-                activity.attachments.images
-                  .slice(0, 5)
-                  .map((image) => (
-                    <Thumbnail image={image} size={50} key="key" />
-                  ))}
+              {images.slice(0, 5).map((image) => (
+                <Thumbnail image={image} size={50} key="key" />
+              ))}
             </div>
           )}
         </div>
