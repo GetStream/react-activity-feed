@@ -183,6 +183,7 @@ declare module 'getstream' {
     ranking?: string,
     mark_seen?: MarkValue,
     mark_read?: MarkValue,
+    refresh?: boolean,
   };
 
   declare type ReactionFilterOptions = {

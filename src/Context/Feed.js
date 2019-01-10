@@ -540,6 +540,7 @@ export class FeedManager {
       delete propOpts.id_lt;
       delete propOpts.id_lte;
       delete propOpts.offset;
+      delete propOpts.refresh;
     }
 
     return {
