@@ -20,15 +20,19 @@ type Props = {|
   /** Only needed for reposted activities where you want to show the reactions
    * of the original activity, not of the repost */
   activityPath?: ?Array<string>,
-  /** Load comments from oldest to newest instead of the default where comments
-   * are displayed most recent first. */
+  /** Show and load reactions starting with the oldest reaction first, instead
+   * of the default where reactions are displayed and loaded most recent first.
+   * */
   oldestToNewest: boolean,
+  /** Reverse the order the reactions are displayed in. */
+  reverseOrder: boolean,
 |};
 
 export default class ReactionList extends React.PureComponent<Props> {
   static defaultProps = {
     Paginator: LoadMorePaginator,
     oldestToNewest: false,
+    reverseOrder: false,
   };
 
   render() {
@@ -78,6 +82,7 @@ class ReactionListInner extends React.Component<PropsInner> {
       reactionKind,
       getActivityPath,
       oldestToNewest,
+      reverseOrder,
     } = this.props;
     const activityPath = this.props.activityPath || getActivityPath(activityId);
     let orderPrefix = 'latest';
@@ -85,10 +90,13 @@ class ReactionListInner extends React.Component<PropsInner> {
       orderPrefix = 'oldest';
     }
 
-    const reactionsOfKind = activities.getIn(
+    let reactionsOfKind = activities.getIn(
       [...activityPath, orderPrefix + '_reactions', reactionKind],
       immutable.List(),
     );
+    if (reverseOrder) {
+      reactionsOfKind = reactionsOfKind.reverse();
+    }
 
     const reactions_extra = activities.getIn([
       ...activityPath,
@@ -119,6 +127,7 @@ class ReactionListInner extends React.Component<PropsInner> {
         ),
       hasNextPage: Boolean(nextUrl),
       refreshing,
+      reverse: reverseOrder,
       children: (
         <React.Fragment>
           {reactionsOfKind.map((reaction) => (

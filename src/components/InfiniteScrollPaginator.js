@@ -10,6 +10,8 @@ type Props = {|
   hasNextPage: boolean,
   /** indicates if there there's currently any refreshing taking place */
   refreshing: boolean,
+  /** display the items in opposite order */
+  reverse: boolean,
   /** The paginated content to display */
   children: React.Node,
 |};
@@ -21,6 +23,7 @@ export default class InfiniteScrollPaginator extends React.Component<Props> {
         loadMore={this.props.loadNextPage}
         hasMore={this.props.hasNextPage}
         isLoading={this.props.refreshing}
+        isReverse={this.props.reverse}
         loader={<LoadingIndicator key={'loading-indicator'} />}
       >
         {this.props.children}
