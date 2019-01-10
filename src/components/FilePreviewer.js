@@ -58,14 +58,17 @@ export default class FilePreviewer extends React.Component<Props> {
                   )}
                 </a>
 
+                <span
+                  className="raf-file-previewer__close-button"
+                  onClick={handleRemove && (() => handleRemove(upload.id))}
+                >
+                  ✘
+                </span>
                 {upload.state === 'uploading' && (
                   <div className="raf-file-previewer__loading-indicator">
                     <LoadingIndicator />
                   </div>
                 )}
-                <span onClick={handleRemove && (() => handleRemove(upload.id))}>
-                  ✘
-                </span>
               </li>
             ))}
         </ol>

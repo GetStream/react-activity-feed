@@ -22,7 +22,7 @@ import type {
   AddChildReactionCallbackFunction,
   RemoveChildReactionCallbackFunction,
 } from '../types';
-import isPlainObject from 'lodash/isPlainObject';
+import { isPlainObject } from 'lodash';
 
 import type { AppCtx } from './StreamApp';
 import { StreamApp } from './StreamApp';

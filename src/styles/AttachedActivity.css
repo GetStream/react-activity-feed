@@ -9,3 +9,12 @@
   color: $fontColor;
   margin: 0;
 }
+
+.raf-attached-activity__images {
+  display: flex;
+  margin: 0 -5px;
+}
+
+.raf-attached-activity__images > * {
+  margin: 0 5px;
+}

@@ -499,8 +499,11 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     } catch (e) {
       console.warn(e);
       await this.setState((prevState) => {
-        prevState.fileUploads[id].state = 'failed';
-        return { fileUploads: prevState.fileUploads };
+        if (prevState.fileUploads[id]) {
+          prevState.fileUploads[id].state = 'failed';
+          return { fileUploads: prevState.fileUploads };
+        }
+        return {};
       });
 
       this.props.errorHandler(e, 'upload-image', {
@@ -510,9 +513,12 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       return;
     }
     await this.setState((prevState) => {
-      prevState.fileUploads[id].state = 'finished';
-      prevState.fileUploads[id].url = response.file;
-      return { fileUploads: prevState.fileUploads };
+      if (prevState.fileUploads[id]) {
+        prevState.fileUploads[id].state = 'finished';
+        prevState.fileUploads[id].url = response.file;
+        return { fileUploads: prevState.fileUploads };
+      }
+      return {};
     });
   };
 

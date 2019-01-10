@@ -3,6 +3,8 @@ import React from 'react';
 import { userOrDefault } from '../utils';
 import type { ActivityData } from '../types';
 
+import Thumbnail from './Thumbnail';
+
 type Props = {|
   activity: ActivityData,
 |};
@@ -15,6 +17,10 @@ type Props = {|
 export default class AttachedActivity extends React.Component<Props> {
   render() {
     const { activity } = this.props;
+    const isImage =
+      activity.attachments !== undefined &&
+      activity.attachments.images !== undefined &&
+      activity.attachments.images.length > 0;
     const actor = userOrDefault(activity.actor);
 
     if (
@@ -24,10 +30,27 @@ export default class AttachedActivity extends React.Component<Props> {
     ) {
       return (
         <div className="raf-attached-activity">
-          <p className="raf-attached-activity__author">
-            <strong>{actor.data.name}</strong>
-          </p>
-          <p className="raf-attached-activity__content">{activity.object}</p>
+          {!isImage && (
+            <React.Fragment>
+              <p className="raf-attached-activity__author">
+                <strong>{actor.data.name}</strong>
+              </p>
+              <p className="raf-attached-activity__content">
+                {activity.object}
+              </p>
+            </React.Fragment>
+          )}
+          {isImage && (
+            <div className="raf-attached-activity__images">
+              {activity.attachments !== undefined &&
+                activity.attachments.images !== undefined &&
+                activity.attachments.images
+                  .slice(0, 5)
+                  .map((image) => (
+                    <Thumbnail image={image} size={50} key="key" />
+                  ))}
+            </div>
+          )}
         </div>
       );
     }
