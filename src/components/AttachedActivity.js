@@ -17,12 +17,7 @@ type Props = {|
 export default class AttachedActivity extends React.Component<Props> {
   render() {
     const { activity } = this.props;
-    const isImage =
-      activity.attachments !== undefined &&
-      activity.attachments.images !== undefined &&
-      activity.attachments.images.length > 0;
     const images =
-      isImage &&
       activity.attachments !== undefined &&
       activity.attachments.images !== undefined
         ? activity.attachments.images
@@ -36,7 +31,7 @@ export default class AttachedActivity extends React.Component<Props> {
     ) {
       return (
         <div className="raf-attached-activity">
-          {!isImage && (
+          {images.length === 0 && (
             <React.Fragment>
               <p className="raf-attached-activity__author">
                 <strong>{actor.data.name}</strong>
@@ -46,10 +41,10 @@ export default class AttachedActivity extends React.Component<Props> {
               </p>
             </React.Fragment>
           )}
-          {isImage && (
+          {images.length > 0 && (
             <div className="raf-attached-activity__images">
-              {images.slice(0, 5).map((image) => (
-                <Thumbnail image={image} size={50} key="key" />
+              {images.slice(0, 5).map((image, i) => (
+                <Thumbnail image={image} size={50} key={`image-${i}`} />
               ))}
             </div>
           )}

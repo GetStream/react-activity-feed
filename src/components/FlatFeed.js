@@ -5,6 +5,8 @@ import Activity from './Activity';
 import NewActivitiesNotification from './NewActivitiesNotification';
 import type { Props as NotifierProps } from './NewActivitiesNotification';
 import LoadMorePaginator from './LoadMorePaginator';
+import FeedPlaceholder from './FeedPlaceholder';
+import LoadingIndicator from './LoadingIndicator';
 
 import { Feed, FeedContext } from '../Context';
 import { smartRender } from '../utils';
@@ -27,6 +29,7 @@ type Props = {|
   /** By default pagination is done with a "Load more" button, you can use
    * InifiniteScrollPaginator to enable infinite scrolling */
   Paginator: Renderable,
+  Placeholder: Renderable,
   /** if true, feed shows the Notifier component when new activities are added */
   notify: boolean,
   //** the feed read hander (change only for advanced/complex use-cases) */
@@ -56,6 +59,7 @@ export default class FlatFeed extends React.Component<Props> {
         {...props}
       />
     ),
+    Placeholder: <FeedPlaceholder />,
     Paginator: LoadMorePaginator,
   };
 
@@ -131,12 +135,25 @@ class FlatFeedInner extends React.Component<PropsInner> {
       loadNextPage,
       hasNextPage,
       refreshing,
+      hasDoneRequest,
       loadReverseNextPage,
       hasReverseNextPage,
     } = this.props;
     if (hasReverseNextPage) {
       notifierProps.onClick = loadReverseNextPage;
       notifierProps.labelFunction = () => 'Load activities';
+    }
+
+    if (this.props.activities.size === 0 && this.props.hasDoneRequest) {
+      return smartRender(this.props.Placeholder);
+    }
+
+    if (refreshing && !hasDoneRequest) {
+      return (
+        <div style={{ padding: 40, backgroundColor: 'rgb(247, 247, 247' }}>
+          <LoadingIndicator />
+        </div>
+      );
     }
 
     return (
