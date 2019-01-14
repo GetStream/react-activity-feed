@@ -8,12 +8,16 @@
     "production": {
       "presets": [
         [
-          "@babel/env",
+          "@babel/preset-env",
           {
+            "targets": {
+              "ie": 11,
+              "browsers": "last 2 versions"
+            },
             "modules": false
           }
-        ],
+        ]
       ]
-    },
+    }
   }
 }
