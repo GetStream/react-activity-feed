@@ -153,7 +153,8 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
           ogUrlOrder: urls,
         };
 
-        if (!urls.includes(prevState.ogActiveUrl)) {
+        if (!_.includes(urls, prevState.ogActiveUrl)) {
+          // !urls.includes(prevState.ogActiveUrl) replaced with lodash
           newState.ogActiveUrl = null;
           for (const url of urls) {
             const ogState = prevState.ogStateByUrl[url];
