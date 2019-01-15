@@ -1,5 +1,5 @@
 // @flow
-import 'babel-polyfill';
+import '@babel/polyfill';
 
 import './App.css';
 import './styles/Activity.css';
