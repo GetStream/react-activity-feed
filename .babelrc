@@ -2,7 +2,8 @@
   "presets": ["@babel/env", "@babel/react", "@babel/flow"],
   "plugins": [
     "@babel/plugin-proposal-class-properties",
-    ["@babel/plugin-transform-runtime", { "corejs": 2 }]
+    ["@babel/plugin-transform-runtime", { "corejs": 2 }],
+    "array-includes"
   ],
   "env": {
     "production": {
