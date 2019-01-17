@@ -59,7 +59,6 @@ export default {
     'prop-types',
     '@fortawesome/react-fontawesome',
     '@fortawesome/free-regular-svg-icons',
-    '@babel/runtime-corejs2',
     '@babel/runtime/regenerator',
     '@babel/runtime/helpers/asyncToGenerator',
     '@babel/runtime/helpers/objectWithoutProperties',
