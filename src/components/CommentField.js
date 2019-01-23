@@ -4,6 +4,7 @@ import React from 'react';
 import Avatar from './Avatar';
 import Button from './Button';
 import Textarea from './Textarea';
+import { inputValueFromEvent } from '../utils';
 
 import type {
   AddReactionCallbackFunction,
@@ -56,11 +57,11 @@ export default class CommentField extends React.Component<Props, State> {
     }
   };
 
-  _onChange = (event: SyntheticEvent<HTMLTextAreaElement>) => {
-    if (!event || !event.currentTarget) {
-      return '';
+  _onChange = (event: SyntheticEvent<HTMLTextAreaElement> | Event) => {
+    const text = inputValueFromEvent(event);
+    if (text == null) {
+      return;
     }
-    const text = event.currentTarget.value;
     this.setState({ text });
   };
 

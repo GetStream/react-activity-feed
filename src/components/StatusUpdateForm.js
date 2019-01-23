@@ -29,6 +29,7 @@ import {
   generateRandomId,
   dataTransferItemsToFiles,
   dataTransferItemsHaveFiles,
+  inputValueFromEvent,
 } from '../utils';
 import type {
   BaseAppCtx,
@@ -152,7 +153,8 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
           ogUrlOrder: urls,
         };
 
-        if (!urls.includes(prevState.ogActiveUrl)) {
+        if (!_.includes(urls, prevState.ogActiveUrl)) {
+          // !urls.includes(prevState.ogActiveUrl) replaced with lodash
           newState.ogActiveUrl = null;
           for (const url of urls) {
             const ogState = prevState.ogStateByUrl[url];
@@ -498,8 +500,11 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     } catch (e) {
       console.warn(e);
       await this.setState((prevState) => {
-        prevState.fileUploads[id].state = 'failed';
-        return { fileUploads: prevState.fileUploads };
+        if (prevState.fileUploads[id]) {
+          prevState.fileUploads[id].state = 'failed';
+          return { fileUploads: prevState.fileUploads };
+        }
+        return {};
       });
 
       this.props.errorHandler(e, 'upload-image', {
@@ -509,9 +514,12 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       return;
     }
     await this.setState((prevState) => {
-      prevState.fileUploads[id].state = 'finished';
-      prevState.fileUploads[id].url = response.file;
-      return { fileUploads: prevState.fileUploads };
+      if (prevState.fileUploads[id]) {
+        prevState.fileUploads[id].state = 'finished';
+        prevState.fileUploads[id].url = response.file;
+        return { fileUploads: prevState.fileUploads };
+      }
+      return {};
     });
   };
 
@@ -546,10 +554,10 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   };
 
   _onChange = (event) => {
-    if (!event || !event.currentTarget) {
-      return '';
+    const text = inputValueFromEvent(event);
+    if (text == null) {
+      return;
     }
-    const text = event.currentTarget.value;
     this.setState({ text });
     this._handleOgDebounced(text);
   };

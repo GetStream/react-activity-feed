@@ -22,7 +22,7 @@ import type {
   AddChildReactionCallbackFunction,
   RemoveChildReactionCallbackFunction,
 } from '../types';
-import isPlainObject from 'lodash/isPlainObject';
+import { isPlainObject } from 'lodash';
 
 import type { AppCtx } from './StreamApp';
 import { StreamApp } from './StreamApp';
@@ -51,6 +51,7 @@ export type FeedCtx = {|
   loadReverseNextPage: () => Promise<mixed>,
   hasReverseNextPage: boolean,
   refreshing: boolean,
+  hasDoneRequest: boolean,
   realtimeAdds: Array<{}>,
   realtimeDeletes: Array<{}>,
   onToggleReaction: ToggleReactionCallbackFunction,
@@ -1181,6 +1182,7 @@ class FeedInner extends React.Component<FeedInnerProps, FeedState> {
       onAddChildReaction: manager.onAddChildReaction,
       onRemoveChildReaction: manager.onRemoveChildReaction,
       onRemoveActivity: manager.onRemoveActivity,
+      hasDoneRequest: state.lastResponse != null,
       refresh: manager.refresh,
       refreshUnreadUnseen: manager.refreshUnreadUnseen,
       loadNextReactions: manager.loadNextReactions,

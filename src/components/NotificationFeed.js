@@ -6,6 +6,7 @@ import NewActivitiesNotification from './NewActivitiesNotification';
 import LoadMorePaginator from './LoadMorePaginator';
 import Notification from './Notification';
 import LoadingIndicator from './LoadingIndicator';
+import FeedPlaceholder from './FeedPlaceholder';
 
 import { smartRender } from '../utils';
 
@@ -29,6 +30,7 @@ type Props = {|
   /** By default pagination is done with a "Load more" button, you can use
    * InifiniteScrollPaginator to enable infinite scrolling */
   Paginator: Renderable,
+  Placeholder: Renderable,
   //** the feed read hander (change only for advanced/complex use-cases) */
   doFeedRequest?: (
     client: BaseClient,
@@ -51,6 +53,7 @@ export default class NotificationFeed extends React.Component<Props> {
     notify: false,
     Notifier: NewActivitiesNotification,
     Paginator: LoadMorePaginator,
+    Placeholder: FeedPlaceholder,
   };
 
   render() {
@@ -125,28 +128,38 @@ class NotificationFeedInner extends React.Component<PropsInner> {
       deletes: this.props.realtimeDeletes,
       onClick: this._refresh,
     };
-    const { loadNextPage, hasNextPage, refreshing } = this.props;
+    const {
+      loadNextPage,
+      hasNextPage,
+      refreshing,
+      hasDoneRequest,
+    } = this.props;
+
+    if (this.props.activities.size === 0 && hasDoneRequest) {
+      return smartRender(this.props.Placeholder);
+    }
+
+    if (refreshing && !hasDoneRequest) {
+      return (
+        <div style={{ padding: 40, backgroundColor: 'rgb(247, 247, 247' }}>
+          <LoadingIndicator />
+        </div>
+      );
+    }
+
     return (
       <React.Fragment>
-        {refreshing ? (
-          <div style={{ padding: 40, backgroundColor: 'rgb(247, 247, 247' }}>
-            <LoadingIndicator />
-          </div>
-        ) : (
-          <React.Fragment>
-            {smartRender(this.props.Notifier, notifierProps)}
-            {smartRender(this.props.Paginator, {
-              loadNextPage,
-              hasNextPage,
-              refreshing,
-              children: this.props.activityOrder.map((id) =>
-                this._renderWrappedGroup({
-                  item: this.props.activities.get(id),
-                }),
-              ),
-            })}
-          </React.Fragment>
-        )}
+        {smartRender(this.props.Notifier, notifierProps)}
+        {smartRender(this.props.Paginator, {
+          loadNextPage,
+          hasNextPage,
+          refreshing,
+          children: this.props.activityOrder.map((id) =>
+            this._renderWrappedGroup({
+              item: this.props.activities.get(id),
+            }),
+          ),
+        })}
       </React.Fragment>
     );
   }

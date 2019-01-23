@@ -69,7 +69,6 @@ export default class Video extends React.Component<Props> {
       const parsedUrl = new URL(url);
 
       for (const gifUrl of this.props.urlsThatAreGifs) {
-        console.log(gifUrl, parsedUrl.host);
         if (gifUrl === parsedUrl.host) {
           videoProps = {
             // Load the video right away
@@ -87,7 +86,6 @@ export default class Video extends React.Component<Props> {
           break;
         }
       }
-      console.log('vidprops', videoProps);
 
       return (
         <div className="raf-video__video">

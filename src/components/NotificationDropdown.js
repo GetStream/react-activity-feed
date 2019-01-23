@@ -149,8 +149,13 @@ class NotificationDropdownInner extends React.Component<PropsInner, State> {
           {this.state.open && (
             <DropdownPanel arrow right={this.props.right}>
               <NotificationFeed
+                Group={this.props.Group}
+                feedGroup={this.props.feedGroup}
+                userId={this.props.userId}
                 notify={this.props.notify}
-                options={{ mark_seen: true }}
+                options={this.props.options}
+                doFeedRequest={this.props.doFeedRequest}
+                analyticsLocation={this.props.analyticsLocation}
               />
             </DropdownPanel>
           )}

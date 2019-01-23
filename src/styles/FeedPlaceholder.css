@@ -1,0 +1,9 @@
+.raf-feed-placeholder {
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  width: 100%;
+  padding: 32px 16px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}

@@ -11,7 +11,7 @@ export type Props = {|
   rows: number,
   maxLength?: number,
   placeholder: string,
-  onChange: (event: SyntheticEvent<HTMLTextAreaElement>) => mixed,
+  onChange: (event: SyntheticEvent<HTMLTextAreaElement> | Event) => mixed,
   onPaste: (event: SyntheticClipboardEvent<HTMLTextAreaElement>) => mixed,
   value?: string,
   innerRef?: any,

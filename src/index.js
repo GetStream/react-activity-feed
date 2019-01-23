@@ -17,6 +17,7 @@ import './styles/DataLabel.css';
 import './styles/Dropdown.css';
 import './styles/DropdownPanel.css';
 import './styles/EmojiPicker.css';
+import './styles/FeedPlaceholder.css';
 import './styles/FileInput.css';
 import './styles/FilePreviewer.css';
 import './styles/FileUploadButton.css';

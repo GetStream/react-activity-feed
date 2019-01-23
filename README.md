@@ -4,8 +4,6 @@
 
 [![NPM](https://img.shields.io/npm/v/react-activity-feed.svg)](https://www.npmjs.com/package/react-activity-feed)
 
-## Disclaimer: This library is in beta! Breaking changes will very likely occur.
-
 ## Install
 
 ```bash

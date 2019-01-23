@@ -3,11 +3,14 @@
   border-radius: 4px;
   overflow: hidden;
   margin: 8px 0;
+  position: relative;
   ol {
+    position: relative;
     margin: 0;
     padding: 0;
     list-style: none;
     li {
+      position: relative;
       padding: 8px 16px;
       border-bottom: 1px solid color($black a(10%));
       &:last-child {
@@ -63,6 +66,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1000;
+  }
+  &__close-button {
+    position: relative;
+    z-index: 10000;
   }
   &__failed {
     padding: 3px 6px;

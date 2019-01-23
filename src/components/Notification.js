@@ -56,7 +56,14 @@ export default class Notification extends React.Component<Props> {
       headerSubtext = `followed`;
       headerSubtext += ` you`;
       // icon = RepostIcon;
+    } else if (lastActivity.verb === 'comment') {
+      headerSubtext = `commented`;
+      headerSubtext += ` on your ${lastActivity.object.verb}`;
+      // icon = RepostIcon;
     } else {
+      console.warn(
+        'No notification styling found for your verb, please create your own custom Notification group.',
+      );
       return null;
     }
 
