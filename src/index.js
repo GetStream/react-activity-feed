@@ -75,6 +75,7 @@ export {
 } from './components/NewActivitiesNotification';
 
 // Activity sub components
+export { default as AttachedActivity } from './components/AttachedActivity';
 export { default as UserBar } from './components/UserBar';
 export { default as Card } from './components/Card';
 export { default as Gallery } from './components/Gallery';
