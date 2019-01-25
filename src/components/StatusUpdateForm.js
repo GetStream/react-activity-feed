@@ -63,6 +63,8 @@ type Props = {|
    * ```
    * */
   modifyActivityData: (activityData: {}) => ActivityArgData<{}, {}>,
+  /** Add extra footer item */
+  FooterItem?: React.Node,
   /** A callback to run after the activity is posted successfully */
   onSuccess?: () => mixed,
 |};
@@ -741,6 +743,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                     />
                   </div>
                   <EmojiPicker onSelect={this._onSelectEmoji} />
+                  {this.props.FooterItem}
                 </div>
                 <Button
                   type="submit"
