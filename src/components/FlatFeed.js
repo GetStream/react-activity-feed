@@ -11,7 +11,13 @@ import LoadingIndicator from './LoadingIndicator';
 import { Feed, FeedContext } from '../Context';
 import { smartRender } from '../utils';
 
-import type { BaseFeedCtx, BaseClient, Renderable } from '../types';
+import type {
+  BaseFeedCtx,
+  BaseClient,
+  Renderable,
+  BaseActivityResponse,
+  BaseReaction,
+} from '../types';
 import type {
   FeedRequestOptions,
   FeedResponse,
