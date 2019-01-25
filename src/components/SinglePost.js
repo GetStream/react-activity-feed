@@ -4,7 +4,7 @@ import React from 'react';
 import FlatFeed from './FlatFeed';
 
 import type { FeedRequestOptions } from 'getstream';
-import type { Renderable } from '../types';
+import type { Renderable, BaseActivityResponse, BaseReaction } from '../types';
 
 type Props = {|
   activityId: string,
@@ -13,6 +13,24 @@ type Props = {|
   options?: FeedRequestOptions,
   analyticsLocation?: string,
   Activity?: Renderable,
+  /** Override reaction add request */
+  doReactionAddRequest?: (
+    kind: string,
+    activity: BaseActivityResponse,
+    data?: {},
+    options: {},
+  ) => mixed,
+  /** Override reaction delete request */
+  doReactionDeleteRequest?: (id: string) => mixed,
+  /** Override child reaction add request */
+  doChildReactionAddRequest?: (
+    kind: string,
+    activity: BaseReaction,
+    data?: {},
+    options: {},
+  ) => mixed,
+  /** Override child reaction delete request */
+  doChildReactionDeleteRequest?: (id: string) => mixed,
 |};
 
 /**
@@ -37,6 +55,10 @@ export default class SinglePost extends React.Component<Props> {
               .feed(feedGroup, userId)
               .getActivityDetail(this.props.activityId, options)
           }
+          doReactionAddRequest={this.props.doReactionAddRequest}
+          doReactionDeleteRequest={this.props.doReactionDeleteRequest}
+          doChildReactionAddRequest={this.props.doChildReactionAddRequest}
+          doChildReactionDeleteRequest={this.props.doChildReactionDeleteRequest}
         />
       </React.Fragment>
     );
