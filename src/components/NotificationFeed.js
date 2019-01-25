@@ -15,6 +15,7 @@ import type {
   BaseFeedCtx,
   BaseClient,
   Renderable,
+  BaseReaction,
 } from '../types';
 import type { FeedRequestOptions, FeedResponse } from 'getstream';
 
@@ -38,6 +39,24 @@ type Props = {|
     userId?: string,
     options?: FeedRequestOptions,
   ) => Promise<FeedResponse<{}, {}>>,
+  /** Override reaction add request */
+  doReactionAddRequest?: (
+    kind: string,
+    activity: BaseActivityResponse,
+    data?: {},
+    options: {},
+  ) => mixed,
+  /** Override reaction delete request */
+  doReactionDeleteRequest?: (id: string) => mixed,
+  /** Override child reaction add request */
+  doChildReactionAddRequest?: (
+    kind: string,
+    activity: BaseReaction,
+    data?: {},
+    options: {},
+  ) => mixed,
+  /** Override child reaction delete request */
+  doChildReactionDeleteRequest?: (id: string) => mixed,
   analyticsLocation?: string,
 |};
 
@@ -64,6 +83,10 @@ export default class NotificationFeed extends React.Component<Props> {
         options={makeDefaultOptions(this.props.options)}
         notify={this.props.notify}
         doFeedRequest={this.props.doFeedRequest}
+        doReactionAddRequest={this.props.doReactionAddRequest}
+        doReactionDeleteRequest={this.props.doReactionDeleteRequest}
+        doChildReactionAddRequest={this.props.doChildReactionAddRequest}
+        doChildReactionDeleteRequest={this.props.doChildReactionDeleteRequest}
       >
         <FeedContext.Consumer>
           {(feedCtx) => <NotificationFeedInner {...this.props} {...feedCtx} />}
