@@ -11,7 +11,13 @@ import LoadingIndicator from './LoadingIndicator';
 import { Feed, FeedContext } from '../Context';
 import { smartRender } from '../utils';
 
-import type { BaseFeedCtx, BaseClient, Renderable } from '../types';
+import type {
+  BaseFeedCtx,
+  BaseClient,
+  Renderable,
+  BaseActivityResponse,
+  BaseReaction,
+} from '../types';
 import type {
   FeedRequestOptions,
   FeedResponse,
@@ -39,6 +45,24 @@ type Props = {|
     userId?: string,
     options?: FeedRequestOptions,
   ) => Promise<FeedResponse<{}, {}>>,
+  /** Override reaction add request */
+  doReactionAddRequest?: (
+    kind: string,
+    activity: BaseActivityResponse,
+    data?: {},
+    options: {},
+  ) => mixed,
+  /** Override reaction delete request */
+  doReactionDeleteRequest?: (id: string) => mixed,
+  /** Override child reaction add request */
+  doChildReactionAddRequest?: (
+    kind: string,
+    activity: BaseReaction,
+    data?: {},
+    options: {},
+  ) => mixed,
+  /** Override child reaction delete request */
+  doChildReactionDeleteRequest?: (id: string) => mixed,
   analyticsLocation?: string,
 |};
 
@@ -71,6 +95,10 @@ export default class FlatFeed extends React.Component<Props> {
         options={this.props.options}
         notify={this.props.notify}
         doFeedRequest={this.props.doFeedRequest}
+        doReactionAddRequest={this.props.doReactionAddRequest}
+        doReactionDeleteRequest={this.props.doReactionDeleteRequest}
+        doChildReactionAddRequest={this.props.doChildReactionAddRequest}
+        doChildReactionDeleteRequest={this.props.doChildReactionDeleteRequest}
       >
         <FeedContext.Consumer>
           {(feedCtx) => <FlatFeedInner {...this.props} {...feedCtx} />}

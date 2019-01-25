@@ -81,6 +81,20 @@ export type FeedProps = {|
     options?: FeedRequestOptions,
   ) => Promise<FeedResponse<{}, {}>>,
   children?: React.Node,
+  doReactionAddRequest?: (
+    kind: string,
+    activity: BaseActivityResponse,
+    data?: {},
+    options: {},
+  ) => mixed,
+  doReactionDeleteRequest?: (id: string) => mixed,
+  doChildReactionAddRequest?: (
+    kind: string,
+    activity: BaseReaction,
+    data?: {},
+    options: {},
+  ) => mixed,
+  doChildReactionDeleteRequest?: (id: string) => mixed,
 |};
 
 type FeedManagerState = {|
@@ -256,12 +270,21 @@ export class FeedManager {
   ) => {
     let reaction;
     try {
-      reaction = await this.props.client.reactions.add(
-        kind,
-        activity,
-        data,
-        options,
-      );
+      if (this.props.doReactionAddRequest) {
+        reaction = await this.props.doReactionAddRequest(
+          kind,
+          activity,
+          data,
+          options,
+        );
+      } else {
+        reaction = await this.props.client.reactions.add(
+          kind,
+          activity,
+          data,
+          options,
+        );
+      }
     } catch (e) {
       this.props.errorHandler(e, 'add-reaction', {
         kind,
@@ -315,7 +338,11 @@ export class FeedManager {
     options: { trackAnalytics?: boolean } = {},
   ) => {
     try {
-      await this.props.client.reactions.delete(id);
+      if (this.props.doReactionDeleteRequest) {
+        await this.props.doReactionDeleteRequest(id);
+      } else {
+        await this.props.client.reactions.delete(id);
+      }
     } catch (e) {
       this.props.errorHandler(e, 'delete-reaction', {
         kind,
@@ -397,12 +424,21 @@ export class FeedManager {
   ) => {
     let childReaction;
     try {
-      childReaction = await this.props.client.reactions.addChild(
-        kind,
-        reaction,
-        data,
-        options,
-      );
+      if (this.props.doChildReactionAddRequest) {
+        childReaction = await this.props.doChildReactionAddRequest(
+          kind,
+          reaction,
+          data,
+          options,
+        );
+      } else {
+        childReaction = await this.props.client.reactions.addChild(
+          kind,
+          reaction,
+          data,
+          options,
+        );
+      }
     } catch (e) {
       this.props.errorHandler(e, 'add-child-reaction', {
         kind,
@@ -445,7 +481,11 @@ export class FeedManager {
     options: { trackAnalytics?: boolean } = {},
   ) => {
     try {
-      await this.props.client.reactions.delete(id);
+      if (this.props.doChildReactionDeleteRequest) {
+        await this.props.doChildReactionDeleteRequest(id);
+      } else {
+        await this.props.client.reactions.delete(id);
+      }
     } catch (e) {
       this.props.errorHandler(e, 'delete-reaction', {
         kind,

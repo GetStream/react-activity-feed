@@ -63,8 +63,12 @@ type Props = {|
    * ```
    * */
   modifyActivityData: (activityData: {}) => ActivityArgData<{}, {}>,
+  /** Add extra footer item */
+  FooterItem?: React.Node,
   /** A callback to run after the activity is posted successfully */
   onSuccess?: () => mixed,
+  /** Override Post request */
+  doRequest?: (activityData: {}) => mixed,
 |};
 
 /**
@@ -314,9 +318,13 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     }
 
     const modifiedActivity = this.props.modifyActivityData(activity);
-    await this.props.client
-      .feed(this.props.feedGroup, this.props.userId)
-      .addActivity(modifiedActivity);
+    if (this.props.doRequest) {
+      await this.props.doRequest(modifiedActivity);
+    } else {
+      await this.props.client
+        .feed(this.props.feedGroup, this.props.userId)
+        .addActivity(modifiedActivity);
+    }
   }
 
   onSubmitForm = async (e) => {
@@ -741,6 +749,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                     />
                   </div>
                   <EmojiPicker onSelect={this._onSelectEmoji} />
+                  {this.props.FooterItem}
                 </div>
                 <Button
                   type="submit"
