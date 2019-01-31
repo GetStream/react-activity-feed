@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 0.6.22
+
+### SECURITY FIX
+
+- An XSS issue is fixed in this release. Please upgrade! You're affected by the
+  issue if you use the default `Activity` and/or the `Video` component.
+
+## 0.6.0
+
 ### Breaking Changes
 
 - `onToggleReaction` and `onAddReaction` arguments have changed.
