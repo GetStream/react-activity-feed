@@ -2,6 +2,7 @@
 import React from 'react';
 import FileIcon from './FileIcon';
 import LoadingIndicator from './LoadingIndicator';
+import { sanitizeURL } from '../utils';
 import type { FileUpload } from '../types';
 
 type Props = {|
@@ -38,7 +39,7 @@ export default class FilePreviewer extends React.Component<Props> {
               >
                 <FileIcon mimeType={upload.file.type} />
 
-                <a href={upload.url} download>
+                <a href={sanitizeURL(upload.url)} download>
                   {upload.file.name}
                   {upload.state === 'failed' && (
                     <React.Fragment>
