@@ -34,7 +34,7 @@
 
 .raf-dropdown-panel__content {
   max-height: 425px;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .raf-dropdown-panel__footer {
