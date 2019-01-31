@@ -1,21 +1,21 @@
 .raf-modal {
   width: 100vw;
   height: 100vh;
-
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 9999;
-
   background-color: color($black a(75%));
   display: flex;
   align-items: center;
   justify-content: center;
+
   &__inner {
     width: 100%;
     max-width: 800px;
   }
+
   & .raf-icon-button {
     position: absolute;
     top: 30px;

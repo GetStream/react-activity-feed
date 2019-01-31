@@ -1,13 +1,15 @@
 .raf-panel {
-  background: #ffffff;
+  background: #fff;
   width: 100%;
   box-shadow: 0 2px 5px 0 color($black a(15%));
   margin: 0 0 16px;
+
   &--rounded {
     border-radius: $borderRadius;
   }
+
   &--square {
-    border-radius: 0px;
+    border-radius: 0;
     box-shadow: 0 2px 4px 0 color($black a(30%));
   }
 }

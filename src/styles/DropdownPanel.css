@@ -3,8 +3,9 @@
   box-shadow: 0 2px 4px 0 color($black a(30%));
   border-radius: $borderRadius;
   overflow: hidden;
+
   &--arrow {
-    &:after {
+    &::after {
       bottom: 100%;
       left: 30px;
       border: solid $transparent;
@@ -18,8 +19,9 @@
       border-width: 8px;
       margin-left: -8px;
     }
+
     &-right {
-      &:after {
+      &::after {
         left: initial;
         right: 30px;
       }
@@ -39,7 +41,7 @@
 
 .raf-dropdown-panel__footer {
   background: $white;
-  box-shadow: 0px -1px 2px color($black a(10%));
-  border-radius: 0px 0px $borderRadius $borderRadius;
+  box-shadow: 0 -1px 2px color($black a(10%));
+  border-radius: 0 0 $borderRadius $borderRadius;
   margin-top: 2px;
 }

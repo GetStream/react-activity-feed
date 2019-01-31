@@ -2,15 +2,19 @@
   background-color: $white;
   border-radius: 4px;
   margin: 8px 0;
+
   &__hashtag {
     color: #095482;
   }
+
   &__mention {
     color: #095482;
   }
+
   &__link {
     color: $info;
   }
+
   &__attachments {
     margin: 0;
     padding: 0;
@@ -19,6 +23,7 @@
     border-radius: 4px;
     overflow: hidden;
     margin: 8px 0;
+
     a {
       display: block;
       color: $fontColor;
@@ -27,6 +32,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+
       &:last-child {
         border-color: transparent;
       }
@@ -44,18 +50,23 @@
     svg {
       min-width: 25px;
     }
+
     .svg-inline--fa {
       color: $fontColor;
     }
+
     .fa-file-excel {
       color: #207245;
     }
+
     .fa-file-powerpoint {
       color: #cb4a32;
     }
+
     .fa-file-word {
       color: #2c599d;
     }
+
     .fa-file-pdf {
       color: #f82903;
     }
