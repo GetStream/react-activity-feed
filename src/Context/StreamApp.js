@@ -53,7 +53,10 @@ type StreamAppProps<UserData> = {|
    * instead.
    */
   sharedFeeds: Array<FeedProps>,
+  /** The data a user should get when no data is present in stream for this user yet */
   defaultUserData: UserData,
+  /** A callback to handle errors produced by the components. This should
+   * probably hook into your own notification system. */
   errorHandler: ErrorHandler,
   children?: React.Node,
 |};
