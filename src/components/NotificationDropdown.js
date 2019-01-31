@@ -72,6 +72,9 @@ type Props = {|
 |};
 
 /**
+ * IMPORTANT: Changing most of the props below doesn't result in the desired
+ * effect. These settings related to feed management should be changed in the
+ * `sharedFeeds` prop of the [`StreamApp`](#streamapp) component.
  * @example ./examples/NotificationDropdown.md
  */
 
