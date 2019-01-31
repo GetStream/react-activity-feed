@@ -18,9 +18,7 @@ const activity = {
   },
 };
 
-const Footer = () => {
-  return <ActivityFooter userId="123" activity={activity} />;
-};
+const Footer = () => <ActivityFooter userId="123" activity={activity} />;
 
 <div style={{ backgroundColor: '#f7f7f7f', padding: '8px' }}>
   <Activity activity={activity} Footer={Footer} />

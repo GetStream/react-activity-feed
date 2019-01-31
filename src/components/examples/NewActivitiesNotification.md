@@ -1,13 +1,13 @@
 NewActivitiesNotification
 
 ```js
-<NewActivitiesNotification
+<div>
+  <NewActivitiesNotification
     labelSingular={'tweet'}
     labelPlural={'tweets'}
     adds={[{}, {}]}
-/>
-<br />
-<NewActivitiesNotification
-    adds={[{}]}
-/>
+  />
+  <br />
+  <NewActivitiesNotification adds={[{}]} />
+</div>
 ```

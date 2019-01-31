@@ -1,5 +1,5 @@
 {
-  "plugins": ["babel"],
+  "plugins": ["babel", "markdown"],
   "extends": [
     "eslint:recommended",
     "plugin:flowtype/recommended",
@@ -48,5 +48,16 @@
     "ecmaFeatures": {
       "modules": true
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.md"],
+      "rules": {
+        "react/jsx-no-undef": 0,
+        "react/react-in-jsx-scope": 0,
+        "semi": 0,
+        "no-undef": 0
+      }
+    }
+  ]
 }
