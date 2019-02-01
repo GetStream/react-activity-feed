@@ -68,33 +68,44 @@ export type FeedCtx = {|
 |};
 
 export type FeedProps = {|
+  /** The feed group part of the feed */
   feedGroup: string,
+  /** The user_id part of the feed */
   userId?: string,
+  /** Read options for the API client (eg. limit, ranking, ...) */
   options?: FeedRequestOptions,
-  analyticsLocation?: string,
+  /** If true, feed shows the Notifier component when new activities are added */
   notify?: boolean,
-  //** the feed read hander (change only for advanced/complex use-cases) */
+  /** The feed read handler (change only for advanced/complex use-cases) */
   doFeedRequest?: (
     client: BaseClient,
     feedGroup: string,
     userId?: string,
     options?: FeedRequestOptions,
   ) => Promise<FeedResponse<{}, {}>>,
+  /* Components to display in the feed */
   children?: React.Node,
+  /** Override reaction add request */
   doReactionAddRequest?: (
     kind: string,
     activity: BaseActivityResponse,
     data?: {},
     options: {},
   ) => mixed,
+  /** Override reaction delete request */
   doReactionDeleteRequest?: (id: string) => mixed,
+  /** Override child reaction add request */
   doChildReactionAddRequest?: (
     kind: string,
     activity: BaseReaction,
     data?: {},
     options: {},
   ) => mixed,
+  /** Override child reaction delete request */
   doChildReactionDeleteRequest?: (id: string) => mixed,
+  /** The location that should be used for analytics when liking in the feed,
+   * this is only useful when you have analytics enabled for your app. */
+  analyticsLocation?: string,
 |};
 
 type FeedManagerState = {|

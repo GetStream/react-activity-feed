@@ -5,6 +5,7 @@
     padding: 0;
     display: flex;
     flex-wrap: wrap;
+
     &-item {
       flex: 1 0 calc(50% - 16px);
       margin: 8px;
@@ -17,20 +18,23 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+
       @media screen and (max-width: 375px) {
-        flex: 1 0 calc(100% -16px);
+        flex: 1 0 calc(100% - 16px);
       }
+
       &--active {
         border: 1px solid color(#fafafa shade(20%));
-        box-shadow: 0px 1px 3px 0px color($black a(10%));
+        box-shadow: 0 1px 3px 0 color($black a(10%));
         background: #fafafa;
         color: $primary;
       }
     }
   }
+
   &__og-loading {
     border: 1px solid color(#fafafa shade(20%));
-    box-shadow: 0px 1px 3px 0px color($black a(10%));
+    box-shadow: 0 1px 3px 0 color($black a(10%));
     border-radius: $borderRadius;
     background: #fafafa;
     color: $primary;
@@ -40,11 +44,13 @@
     padding: 8px;
     margin: 8px 0;
     position: relative;
+
     .raf-loading-indicator__spinner {
       position: absolute;
       left: 16px;
     }
   }
+
   .raf-panel-content > p {
     font-size: 14px;
     font-weight: 500;

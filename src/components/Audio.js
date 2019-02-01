@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react';
 import IconButton from './IconButton';
+import { sanitizeURL } from '../utils';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -85,14 +86,17 @@ export default class Audio extends React.Component<Props, State> {
     const { og } = this.props;
     const svg =
       '<svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path d="M465 5c5.53 0 10 4.47 10 10s-4.47 10-10 10-10-4.47-10-10 4.47-10 10-10zm3.59 5L465 13.59 461.41 10 460 11.41l3.59 3.59-3.59 3.59 1.41 1.41 3.59-3.59 3.59 3.59 1.41-1.41-3.59-3.59 3.59-3.59-1.41-1.41z" id="b"/><filter x="-30%" y="-30%" width="160%" height="160%" filterUnits="objectBoundingBox" id="a"><feOffset in="SourceAlpha" result="shadowOffsetOuter1"/><feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"/><feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0" in="shadowBlurOuter1"/></filter></defs><g transform="translate(-451 -1)" fill-rule="nonzero" fill="none"><use fill="#000" filter="url(#a)" xlink:href="#b"/><use fill="#FFF" fill-rule="evenodd" xlink:href="#b"/></g></svg>';
+    const audio = og.audios[0];
+    const url = sanitizeURL(audio.secure_url || audio.audio);
+    const image = ((og.images || [])[0] || {}).image;
     return (
       <div className="raf-audio">
         <div className="raf-audio__wrapper">
           <audio ref={this.audioRef}>
             <source
-              src={og.audios[0].audio}
+              src={url}
               type={
-                og.audios[0].type === 'audio/vnd.facebook.bridge'
+                audio.type === 'audio/vnd.facebook.bridge'
                   ? 'audio/mp3'
                   : 'audio/mp3'
               }
@@ -116,7 +120,7 @@ export default class Audio extends React.Component<Props, State> {
                 </div>
               )}
             </div>
-            <img src={og.images[0].image} alt={`${og.description}`} />
+            <img src={image} alt={`${og.description}`} />
           </div>
           <div className="raf-audio__content">
             <span className="raf-audio__content--title">

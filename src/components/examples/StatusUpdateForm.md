@@ -28,7 +28,7 @@
             <Dropdown>
               <div>
                 <Link
-                  onClick={(e) => {
+                  onClick={() => {
                     props.onRemoveActivity(props.activity.id);
                   }}
                 >
@@ -49,14 +49,12 @@
                 activityPath={
                   hasSubActivity ? [props.activity.id, 'object'] : null
                 }
-                CommentItem={(props) => {
-                  return (
-                    <React.Fragment>
-                      <CommentItem {...props} />
-                      <LikeButton reaction={props.comment} {...activityProps} />
-                    </React.Fragment>
-                  );
-                }}
+                CommentItem={(props) => (
+                  <React.Fragment>
+                    <CommentItem {...props} />
+                    <LikeButton reaction={props.comment} {...activityProps} />
+                  </React.Fragment>
+                )}
               />
             </React.Fragment>
           )}

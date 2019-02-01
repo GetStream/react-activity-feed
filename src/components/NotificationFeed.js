@@ -20,19 +20,24 @@ import type {
 import type { FeedRequestOptions, FeedResponse } from 'getstream';
 
 type Props = {|
+  /** The feed group part of the feed that should be displayed */
   feedGroup: string,
+  /** The user_id part of the feed that should be displayed */
   userId?: string,
+  /** read options for the API client (eg. limit, mark_seen, ...) */
   options?: FeedRequestOptions,
+  /** the component used to render a group in the feed */
   Group: Renderable,
   /** if true, feed shows the NewActivitiesNotification component when new activities are added */
   notify: boolean,
-  /** the component to use to render new activities notification */
+  /** The component used to render the new activities notification */
   Notifier: Renderable,
   /** By default pagination is done with a "Load more" button, you can use
    * InifiniteScrollPaginator to enable infinite scrolling */
   Paginator: Renderable,
+  /** Component to show when there are no activities in the feed **/
   Placeholder: Renderable,
-  //** the feed read hander (change only for advanced/complex use-cases) */
+  /** The feed read handler (change only for advanced/complex use-cases) */
   doFeedRequest?: (
     client: BaseClient,
     feedGroup: string,
@@ -57,6 +62,8 @@ type Props = {|
   ) => mixed,
   /** Override child reaction delete request */
   doChildReactionDeleteRequest?: (id: string) => mixed,
+  /** The location that should be used for analytics when liking in the feed,
+   * this is only useful when you have analytics enabled for your app. */
   analyticsLocation?: string,
 |};
 

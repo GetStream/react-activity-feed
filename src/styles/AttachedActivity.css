@@ -4,6 +4,7 @@
   padding: 10px 10px 12px;
   border-radius: 3px;
 }
+
 .raf-attached-activity__author,
 .raf-attached-activity__content {
   color: $fontColor;

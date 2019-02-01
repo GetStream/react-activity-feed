@@ -10,6 +10,7 @@
       fill: color(#a0b2b8 shade(15%));
     }
   }
+
   label {
     cursor: pointer;
   }

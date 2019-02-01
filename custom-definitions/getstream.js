@@ -70,8 +70,9 @@ declare module 'getstream' {
       height?: string,
     }>,
     audios: Array<{
-      type: string,
-      audio: string,
+      type?: string,
+      secure_url?: string,
+      audio?: string,
     }>,
     url: string,
   };

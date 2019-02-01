@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react';
 import moment from 'moment';
+import URL from 'url-parse';
 import type { Renderable, RenderableButNotElement, FileLike } from './types';
 // import type { UserResponse } from 'getstream';
 
@@ -160,4 +161,19 @@ export function inputValueFromEvent(
   // Trick flow into believing the target maybe has a value field
   const inputTarget: { value?: string } = (target: any);
   return inputTarget.value;
+}
+
+export function sanitizeURL(url: ?string): ?string {
+  if (url == null) {
+    return url;
+  }
+
+  const proto = URL(url).protocol;
+  // allow http, https, ftp
+  // IMPORTANT: Don't allow data: protocol because of:
+  // <a href="data:text/html;base64,PHNjcmlwdD5hbGVydCgneHNzJyk7PC9zY3JpcHQ+" target="_blank">here</a>
+  if (proto === 'https:' || proto === 'http:' || proto === 'ftp:') {
+    return url;
+  }
+  return undefined;
 }
