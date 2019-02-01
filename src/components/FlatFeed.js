@@ -25,20 +25,24 @@ import type {
 } from 'getstream';
 
 type Props = {|
+  /** The feed group part of the feed that should be displayed */
   feedGroup: string,
+  /** The user_id part of the feed that should be displayed */
   userId?: string,
-  /** read options for the API client (eg. limit, ranking, ...) */
+  /** Read options for the API client (eg. limit, ranking, ...) */
   options?: FeedRequestOptions,
+  /** The component used to render an activity in the feed */
   Activity: Renderable,
-  /** the component to use to render new activities notification */
+  /** The component to use to render new activities notification */
   Notifier: Renderable,
   /** By default pagination is done with a "Load more" button, you can use
    * InifiniteScrollPaginator to enable infinite scrolling */
   Paginator: Renderable,
+  /** Component to show when there are no activities in the feed **/
   Placeholder: Renderable,
-  /** if true, feed shows the Notifier component when new activities are added */
+  /** If true, feed shows the Notifier component when new activities are added */
   notify: boolean,
-  //** the feed read hander (change only for advanced/complex use-cases) */
+  /** The feed read handler (change only for advanced/complex use-cases) */
   doFeedRequest?: (
     client: BaseClient,
     feedGroup: string,
@@ -63,6 +67,8 @@ type Props = {|
   ) => mixed,
   /** Override child reaction delete request */
   doChildReactionDeleteRequest?: (id: string) => mixed,
+  /** The location that should be used for analytics when liking in the feed,
+   * this is only useful when you have analytics enabled for your app. */
   analyticsLocation?: string,
 |};
 
@@ -83,7 +89,7 @@ export default class FlatFeed extends React.Component<Props> {
         {...props}
       />
     ),
-    Placeholder: <FeedPlaceholder />,
+    Placeholder: FeedPlaceholder,
     Paginator: LoadMorePaginator,
   };
 

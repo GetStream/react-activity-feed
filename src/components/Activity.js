@@ -11,7 +11,12 @@ import FileIcon from './FileIcon';
 import Gallery from './Gallery';
 
 import type { ActivityData, Renderable } from '../types';
-import { smartRender, humanizeTimestamp, userOrDefault } from '../utils';
+import {
+  smartRender,
+  sanitizeURL,
+  humanizeTimestamp,
+  userOrDefault,
+} from '../utils';
 
 import { truncate } from 'lodash';
 
@@ -105,7 +110,11 @@ export default class Activity extends React.Component<Props> {
           anchorme.validate.email(word)
         ) {
           const link = anchorme(word, { list: true });
-          if (link[0].protocol === 'ftp://' || link[0].protocol === 'file://') {
+          if (
+            link[0].protocol !== 'http://' &&
+            link[0].protocol !== 'https://' &&
+            link[0].protocol !== 'mailto:'
+          ) {
             return word;
           }
           const url = link[0].protocol + link[0].encoded;
@@ -187,7 +196,7 @@ export default class Activity extends React.Component<Props> {
         {attachments.files && Boolean(attachments.files.length) && (
           <ol className="raf-activity__attachments">
             {attachments.files.map(({ name, url, mimeType }, i) => (
-              <a href={url} key={i}>
+              <a href={sanitizeURL(url)} download key={i}>
                 <li className="raf-activity__file">
                   <FileIcon mimeType={mimeType} /> {name}
                 </li>

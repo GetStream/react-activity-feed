@@ -4,16 +4,19 @@
   margin: 0;
   padding: 0;
   cursor: pointer;
+
   svg {
     fill: color($black tint(10%));
     transition: fill 0.1s ease-in-out;
   }
+
   &:hover {
     svg {
       fill: color($primary);
     }
   }
 }
+
 .raf-icon-badge__badge {
   position: absolute;
   top: -4px;

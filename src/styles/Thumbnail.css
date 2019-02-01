@@ -5,10 +5,10 @@
   overflow: hidden;
   position: relative;
 }
+
 .raf-thumbnail__overlay {
   position: absolute;
   background-color: color($black a(40%));
-
   width: 100%;
   height: 100%;
   display: flex;
@@ -16,6 +16,7 @@
   justify-content: flex-end;
   padding: 5px;
 }
+
 .raf-thumbnail__image {
   width: inherit;
   height: inherit;

@@ -1,7 +1,5 @@
 {
-  "plugins": [
-    "babel"
-  ],
+  "plugins": ["babel", "markdown"],
   "extends": [
     "eslint:recommended",
     "plugin:flowtype/recommended",
@@ -27,17 +25,12 @@
     "require-await": 2,
     "react/prop-types": 0,
     "no-var": 2,
-    "linebreak-style": [
-      2,
-      "unix"
-    ],
-    "semi": [
-      1,
-      "always"
-    ],
+    "linebreak-style": [2, "unix"],
+    "semi": [1, "always"],
     "flowtype/require-valid-file-annotation": [
       0,
-      "always", {
+      "always",
+      {
         "annotationStyle": "line"
       }
     ],
@@ -52,8 +45,19 @@
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": 2018,
-    "ecmaFeatures" : {
-        "modules": true
+    "ecmaFeatures": {
+      "modules": true
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.md"],
+      "rules": {
+        "react/jsx-no-undef": 0,
+        "react/react-in-jsx-scope": 0,
+        "semi": 0,
+        "no-undef": 0
+      }
+    }
+  ]
 }

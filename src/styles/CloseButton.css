@@ -1,6 +1,7 @@
 .raf-close-button {
   cursor: pointer;
 }
+
 .raf-close-button[role='button']:active,
 .raf-close-button[role='button']:focus {
   outline-offset: 5px;

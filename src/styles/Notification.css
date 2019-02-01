@@ -4,6 +4,7 @@
   padding: 18px;
   background: color($black tint(97%));
   cursor: pointer;
+
   &:hover {
     background: color($black tint(98%));
   }
@@ -15,7 +16,7 @@
 
 .raf-notification p {
   font-size: 14px;
-  margin-top: 0px;
+  margin-top: 0;
   margin-bottom: 0;
   color: color($fontColor tint(10%));
   font-weight: 350;

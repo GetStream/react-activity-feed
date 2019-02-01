@@ -1,6 +1,7 @@
 .raf-textarea {
   display: flex;
   width: 100%;
+
   .raf-textarea__textarea {
     width: 100%;
     color: color($fontColor tint(3%));
@@ -12,10 +13,12 @@
     padding: 8px;
     transition: background 0.4s;
     resize: vertical;
+
     &:focus {
       background: color($black tint(95%));
       outline: none;
     }
+
     &::placeholder {
       color: color($fontColor tint(65%));
     }
@@ -31,6 +34,7 @@
     position: relative;
     z-index: $z9;
   }
+
   &__item {
     div {
       padding: 0 10px 0 5px;

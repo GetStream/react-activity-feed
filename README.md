@@ -3,6 +3,7 @@
 > React components to create activity and notification feeds
 
 [![NPM](https://img.shields.io/npm/v/react-activity-feed.svg)](https://www.npmjs.com/package/react-activity-feed)
+[![Build Status](https://travis-ci.org/GetStream/react-activity-feed.svg?branch=master)](https://travis-ci.org/GetStream/react-activity-feed)
 
 ## Install
 

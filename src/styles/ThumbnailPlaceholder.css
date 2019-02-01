@@ -7,6 +7,7 @@
   border: 1px dashed color($black tint(75%));
   border-radius: $borderRadius;
   cursor: pointer;
+
   &:hover {
     background: color($black tint(95%));
   }
