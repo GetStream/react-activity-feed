@@ -92,7 +92,11 @@ export default class Activity extends React.Component<Props> {
               {word}
             </a>
           );
-        } else if (word[0] === '#') {
+        } else if (
+          word[0] === '#' &&
+          !/^#\d+$/.test(word) &&
+          /^#[a-zA-Z0-9_]+$/.test(word)
+        ) {
           return (
             <a
               onClick={
