@@ -4,15 +4,15 @@ import Avatar from './Avatar';
 import Flex from './Flex';
 import type { Comment } from '../types';
 
-import { humanizeTimestamp } from '../utils';
+import { humanizeTimestamp, textRenderer } from '../utils';
 
 export type Props = {|
   comment: Comment,
   onClickUser?: (?any) => mixed,
   /** Handler for any routing you may do on clicks on Hashtags */
-  onClickHashtag: (word: string) => mixed,
+  onClickHashtag?: (word: string) => mixed,
   /** Handler for any routing you may do on clicks on Mentions */
-  onClickMention: (word: string) => mixed,
+  onClickMention?: (word: string) => mixed,
 |};
 
 /**
@@ -36,46 +36,6 @@ export default class CommentItem extends React.Component<Props> {
   _getOnClickUser() {
     return this.props.onClickUser ? this.onClickUser : undefined;
   }
-
-  renderText = (text: string) =>
-    text
-      .split(' ')
-      .map((word, i) => {
-        if (word[0] === '@') {
-          return (
-            <a
-              onClick={
-                this.props.onClickMention &&
-                (() => this.props.onClickMention(word))
-              }
-              className="raf-activity__mention"
-              key={`item-${i}`}
-            >
-              {word}
-            </a>
-          );
-        } else if (
-          word[0] === '#' &&
-          !/^#\d+$/.test(word) &&
-          /^#[a-zA-Z0-9_]+$/.test(word)
-        ) {
-          return (
-            <a
-              onClick={
-                this.props.onClickHashtag &&
-                (() => this.props.onClickHashtag(word))
-              }
-              className="raf-activity__hashtag"
-              key={`item-${i}`}
-            >
-              {word}
-            </a>
-          );
-        } else {
-          return word;
-        }
-      })
-      .reduce((accu, elem) => (accu === null ? [elem] : [accu, ' ', elem]));
 
   render() {
     const { comment } = this.props;
@@ -103,7 +63,12 @@ export default class CommentItem extends React.Component<Props> {
               >
                 {comment.user.data.name}
               </span>{' '}
-              {this.renderText(comment.data.text)}
+              {textRenderer(
+                comment.data.text,
+                'raf-comment-item',
+                this.props.onClickMention,
+                this.props.onClickHashtag,
+              )}
             </p>
           </div>
         </Flex>
