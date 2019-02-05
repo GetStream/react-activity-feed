@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Nothing yet
 
+## 0.7.1
+
+### Added
+
+- Support reading comments from oldest to newest
+- Support for displaying comments in revered order, i.e. the load more button at
+  the top.
+
 ## 0.7.0
 
 ### Breaking changes
