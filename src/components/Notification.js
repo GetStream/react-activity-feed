@@ -16,8 +16,8 @@ type Props = {
   onClickNotification?: (activityGroup: BaseActivityGroupResponse) => mixed,
   /* Callback to call when clicking on a user in the notification */
   onClickUser?: (UserResponse) => mixed,
-  /* Callback to mark a notification as read, if not supplied the dropdown to
-   * mark as read will not bu shown */
+  /* Callback to mark a notification as read, if not supplied the dropdown used
+   * to mark as read will not be shown */
   onMarkAsRead?: ?(
     group:
       | true
