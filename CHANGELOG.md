@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Nothing yet
 
+## 0.7.3 - 2019-02-05
+
+### Fixed
+
+- Fix a bug where pagination would be messed up when marking all notification
+  groups as seen/read.
+
 ## 0.7.2 - 2019-02-05
 
 ### Added
@@ -16,7 +23,7 @@ Nothing yet
 - Support marking all notifications as read/seen by using `true` as an argument to
   `onMarkAsRead`/`onMarkAsSeen`
 
-## Fixed
+### Fixed
 
 - `onClickUser` handler for `Notification` is now forwarded to the embedded
   `AvatarGroup` as well.
