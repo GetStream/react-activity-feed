@@ -2,6 +2,9 @@
 import * as React from 'react';
 import moment from 'moment';
 import URL from 'url-parse';
+import anchorme from 'anchorme';
+import { truncate } from 'lodash';
+
 import type { Renderable, RenderableButNotElement, FileLike } from './types';
 // import type { UserResponse } from 'getstream';
 
@@ -177,3 +180,62 @@ export function sanitizeURL(url: ?string): ?string {
   }
   return undefined;
 }
+
+export const textRenderer = (
+  text: string,
+  parentClass: string,
+  onClickMention?: (word: string) => mixed,
+  onClickHashtag?: (word: string) => mixed,
+) =>
+  text
+    .split(' ')
+    .map((word, i) => {
+      if (word[0] === '@') {
+        return (
+          <a
+            onClick={() => onClickMention && onClickMention(word)}
+            className={`${parentClass}__mention`}
+            key={`item-${i}`}
+          >
+            {word}
+          </a>
+        );
+      }
+      if (word[0] === '#') {
+        return (
+          <a
+            onClick={() => onClickHashtag && onClickHashtag(word)}
+            className={`${parentClass}__hashtag`}
+            key={`item-${i}`}
+          >
+            {word}
+          </a>
+        );
+      }
+      if (anchorme.validate.url(word) || anchorme.validate.email(word)) {
+        const link = anchorme(word, { list: true });
+        if (
+          link[0].protocol !== 'http://' &&
+          link[0].protocol !== 'https://' &&
+          link[0].protocol !== 'mailto:'
+        ) {
+          return word;
+        }
+        const url = link[0].protocol + link[0].encoded;
+        const urlText = truncate(link[0].encoded, { length: 33 });
+        return (
+          <a
+            href={url}
+            className={`${parentClass}__link`}
+            target="blank"
+            rel="noopener"
+            key={`item-${i}`}
+          >
+            {urlText}
+          </a>
+        );
+      }
+
+      return word;
+    })
+    .reduce((accu, elem) => (accu === null ? [elem] : [accu, ' ', elem]));

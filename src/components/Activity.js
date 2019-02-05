@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import anchorme from 'anchorme';
 
 import UserBar from './UserBar';
 import Card from './Card';
@@ -16,9 +15,8 @@ import {
   sanitizeURL,
   humanizeTimestamp,
   userOrDefault,
+  textRenderer,
 } from '../utils';
-
-import { truncate } from 'lodash';
 
 type Props = {
   Header?: Renderable,
@@ -31,9 +29,9 @@ type Props = {
   icon?: string,
   activity: ActivityData,
   /** Handler for any routing you may do on clicks on Hashtags */
-  onClickHashtag: (word: string) => mixed,
+  onClickHashtag?: (word: string) => mixed,
   /** Handler for any routing you may do on clicks on Mentions */
-  onClickMention: (word: string) => mixed,
+  onClickMention?: (word: string) => mixed,
 };
 
 /**
@@ -75,75 +73,7 @@ export default class Activity extends React.Component<Props> {
     }
   };
 
-  renderText = (text: string) => {
-    const newText = text
-      .split(' ')
-      .map((word, i) => {
-        if (word[0] === '@') {
-          return (
-            <a
-              onClick={
-                this.props.onClickMention &&
-                (() => this.props.onClickMention(word))
-              }
-              className="raf-activity__mention"
-              key={`item-${i}`}
-            >
-              {word}
-            </a>
-          );
-        } else if (
-          word[0] === '#' &&
-          !/^#\d+$/.test(word) &&
-          /^#[a-zA-Z0-9_]+$/.test(word)
-        ) {
-          return (
-            <a
-              onClick={
-                this.props.onClickHashtag &&
-                (() => this.props.onClickHashtag(word))
-              }
-              className="raf-activity__hashtag"
-              key={`item-${i}`}
-            >
-              {word}
-            </a>
-          );
-        } else if (
-          anchorme.validate.url(word) ||
-          anchorme.validate.email(word)
-        ) {
-          const link = anchorme(word, { list: true });
-          if (
-            link[0].protocol !== 'http://' &&
-            link[0].protocol !== 'https://' &&
-            link[0].protocol !== 'mailto:'
-          ) {
-            return word;
-          }
-          const url = link[0].protocol + link[0].encoded;
-          const urlText = truncate(link[0].encoded, { length: 33 });
-          return (
-            <a
-              href={url}
-              className="raf-activity__link"
-              target="blank"
-              rel="noopener"
-              key={`item-${i}`}
-            >
-              {urlText}
-            </a>
-          );
-        } else {
-          return word;
-        }
-      })
-      .reduce((accu, elem) => (accu === null ? [elem] : [accu, ' ', elem]));
-    return <p>{newText}</p>;
-  };
-
   renderContent = () => {
-    // return null;
     let { text } = this.props.activity;
 
     if (text === undefined) {
@@ -158,8 +88,17 @@ export default class Activity extends React.Component<Props> {
 
     return (
       <div>
-        {Boolean(text) && (
-          <div style={{ padding: '8px 16px' }}>{this.renderText(text)}</div>
+        {!!text && (
+          <div style={{ padding: '8px 16px' }}>
+            <p>
+              {textRenderer(
+                text,
+                'raf-activity',
+                this.props.onClickMention,
+                this.props.onClickHashtag,
+              )}
+            </p>
+          </div>
         )}
 
         {this.props.activity.verb === 'repost' &&

@@ -4,11 +4,15 @@ import Avatar from './Avatar';
 import Flex from './Flex';
 import type { Comment } from '../types';
 
-import { humanizeTimestamp } from '../utils';
+import { humanizeTimestamp, textRenderer } from '../utils';
 
 export type Props = {|
   comment: Comment,
   onClickUser?: (?any) => mixed,
+  /** Handler for any routing you may do on clicks on Hashtags */
+  onClickHashtag?: (word: string) => mixed,
+  /** Handler for any routing you may do on clicks on Mentions */
+  onClickMention?: (word: string) => mixed,
 |};
 
 /**
@@ -59,7 +63,12 @@ export default class CommentItem extends React.Component<Props> {
               >
                 {comment.user.data.name}
               </span>{' '}
-              {comment.data.text}
+              {textRenderer(
+                comment.data.text,
+                'raf-comment-item',
+                this.props.onClickMention,
+                this.props.onClickHashtag,
+              )}
             </p>
           </div>
         </Flex>
