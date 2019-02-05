@@ -20,6 +20,7 @@ type Props = {
    * mark as read will not bu shown */
   onMarkAsRead?: ?(
     group:
+      | true
       | BaseActivityGroupResponse
       | $ReadOnlyArray<BaseActivityGroupResponse>,
   ) => Promise<mixed>,

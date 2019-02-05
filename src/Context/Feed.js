@@ -67,11 +67,13 @@ export type FeedCtx = {|
   onRemoveActivity: (activityId: string) => Promise<mixed>,
   onMarkAsRead: (
     group:
+      | true
       | BaseActivityGroupResponse
       | $ReadOnlyArray<BaseActivityGroupResponse>,
   ) => Promise<mixed>,
   onMarkAsSeen: (
     group:
+      | true
       | BaseActivityGroupResponse
       | $ReadOnlyArray<BaseActivityGroupResponse>,
   ) => Promise<mixed>,
@@ -654,12 +656,14 @@ export class FeedManager {
 
   onMarkAsRead = (
     group:
+      | true
       | BaseActivityGroupResponse
       | $ReadOnlyArray<BaseActivityGroupResponse>,
   ) => this._onMarkAs('read', group);
 
   onMarkAsSeen = (
     group:
+      | true
       | BaseActivityGroupResponse
       | $ReadOnlyArray<BaseActivityGroupResponse>,
   ) => this._onMarkAs('seen', group);
@@ -667,20 +671,26 @@ export class FeedManager {
   _onMarkAs = async (
     type: 'seen' | 'read',
     group:
+      | true
       | BaseActivityGroupResponse
       | $ReadOnlyArray<BaseActivityGroupResponse>,
   ) => {
-    let groupArray: $ReadOnlyArray<BaseActivityGroupResponse>;
-    if (Array.isArray(group)) {
-      groupArray = group;
+    let groupArray: $ReadOnlyArray<string>;
+    let markArg = group;
+    if (group === true) {
+      groupArray = this.state.activityOrder;
+    } else if (Array.isArray(group)) {
+      groupArray = group.map((g) => g.id);
+      markArg = groupArray;
     } else {
-      groupArray = [group];
+      markArg = group.id;
+      groupArray = [group.id];
     }
     try {
       await this.doFeedRequest({
         limit: 0,
         id_gte: this.state.activityOrder[0],
-        ['mark_' + type]: groupArray.map((g) => g.id),
+        ['mark_' + type]: markArg,
       });
     } catch (e) {
       this.props.errorHandler(e, 'get-notification-counts', {
@@ -692,9 +702,9 @@ export class FeedManager {
       const counterKey = 'un' + type;
       let activities = prevState.activities;
       let counter = prevState[counterKey];
-      for (const g of groupArray) {
-        const markerPath = [g.id, 'is_' + type];
-        if (activities.getIn(markerPath)) {
+      for (const groupId of groupArray) {
+        const markerPath = [groupId, 'is_' + type];
+        if (activities.getIn(markerPath) !== false) {
           continue;
         }
         activities = activities.setIn(markerPath, true);
@@ -1392,7 +1402,7 @@ export class FeedManager {
   refreshUnreadUnseen = async () => {
     let response: FR;
     try {
-      response = await this.doFeedRequest({ limit: 1 });
+      response = await this.doFeedRequest({ limit: 0 });
     } catch (e) {
       this.props.errorHandler(e, 'get-notification-counts', {
         feedGroup: this.props.feedGroup,
