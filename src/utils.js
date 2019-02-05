@@ -190,7 +190,7 @@ export const textRenderer = (
   text
     .split(' ')
     .map((word, i) => {
-      if (word[0] === '@') {
+      if (/^@[^\s]+$/.test(word)) {
         return (
           <a
             onClick={() => onClickMention && onClickMention(word)}
@@ -200,8 +200,11 @@ export const textRenderer = (
             {word}
           </a>
         );
-      }
-      if (word[0] === '#') {
+      } else if (
+        word[0] === '#' &&
+        !/^#\d+$/.test(word) &&
+        /^#[a-zA-Z0-9_]+$/.test(word)
+      ) {
         return (
           <a
             onClick={() => onClickHashtag && onClickHashtag(word)}
