@@ -60,7 +60,7 @@ export type FeedCtx = {|
   onToggleChildReaction: ToggleChildReactionCallbackFunction,
   onAddChildReaction: AddChildReactionCallbackFunction,
   onRemoveChildReaction: RemoveChildReactionCallbackFunction,
-  onRemoveActivity: (activityId: string, kind: string) => Promise<mixed>,
+  onRemoveActivity: (activityId: string) => Promise<mixed>,
   getActivityPath: (
     activity: BaseActivityResponse | string,
     ...Array<string>
@@ -554,17 +554,75 @@ export class FeedManager {
     }
     delete togglingReactions[reaction.id];
   };
+
   _removeActivityFromState = (activityId: string) =>
-    this.setState((prevState) => {
-      const activities = prevState.activities.removeIn(
-        this.getActivityPath(activityId),
-        (v = 0) => v - 1,
-      );
-      const activityOrder = prevState.activityOrder.filter(
-        (id) => id !== activityId,
-      );
-      return { activities, activityOrder };
-    });
+    this.setState(
+      ({
+        activities,
+        activityOrder,
+        activityIdToPath,
+        activityIdToPaths,
+        reactionIdToPaths,
+      }) => {
+        const path = this.getActivityPath(activityId);
+        let outerId = activityId;
+        if (path.length > 1) {
+          // It's an aggregated group we should update the paths of everything in
+          // the list
+          const groupArrayPath = path.slice(0, -1);
+          activityIdToPath = this.removeFoundActivityIdPath(
+            activities.getIn(groupArrayPath).toJS(),
+            activityIdToPath,
+            groupArrayPath,
+          );
+          activityIdToPaths = this.removeFoundActivityIdPaths(
+            activities.getIn(groupArrayPath).toJS(),
+            activityIdToPaths,
+            groupArrayPath,
+          );
+          reactionIdToPaths = this.removeFoundReactionIdPaths(
+            activities.getIn(groupArrayPath).toJS(),
+            reactionIdToPaths,
+            groupArrayPath,
+          );
+        }
+
+        activities = activities.removeIn(path);
+        if (path.length > 1) {
+          const groupArrayPath = path.slice(0, -1);
+          if (activities.getIn(groupArrayPath).size === 0) {
+            outerId = path[0]; //
+          } else {
+            outerId = null;
+          }
+          activityIdToPath = this.addFoundActivityIdPath(
+            activities.getIn(groupArrayPath).toJS(),
+            activityIdToPath,
+            groupArrayPath,
+          );
+          activityIdToPaths = this.addFoundActivityIdPaths(
+            activities.getIn(groupArrayPath).toJS(),
+            activityIdToPaths,
+            groupArrayPath,
+          );
+          reactionIdToPaths = this.addFoundReactionIdPaths(
+            activities.getIn(groupArrayPath).toJS(),
+            reactionIdToPaths,
+            groupArrayPath,
+          );
+        }
+        if (outerId != null) {
+          activityOrder = activityOrder.filter((id) => id !== outerId);
+        }
+        return {
+          activities,
+          activityOrder,
+          activityIdToPaths,
+          reactionIdToPaths,
+          activityIdToPath,
+        };
+      },
+    );
 
   onRemoveActivity = async (activityId: string) => {
     try {
@@ -778,6 +836,56 @@ export class FeedManager {
     return map;
   };
 
+  removeFoundActivityIdPaths = (
+    data: any,
+    previous: {},
+    basePath: $ReadOnlyArray<mixed>,
+  ) => {
+    const map = previous;
+    const currentPath = [...basePath];
+    function addFoundActivities(obj) {
+      if (Array.isArray(obj)) {
+        obj.forEach((v, i) => {
+          currentPath.push(i);
+          addFoundActivities(v);
+          currentPath.pop();
+        });
+      } else if (isPlainObject(obj)) {
+        if (obj.id && obj.actor && obj.verb && obj.object) {
+          if (!map[obj.id]) {
+            map[obj.id] = [];
+          }
+          _.remove(map[obj.id], (path) => _.isEqual(path, currentPath));
+        }
+        for (const k in obj) {
+          currentPath.push(k);
+          addFoundActivities(obj[k]);
+          currentPath.pop();
+        }
+      }
+    }
+
+    addFoundActivities(data);
+    return map;
+  };
+
+  removeFoundActivityIdPath = (
+    data: any[],
+    previous: {},
+    basePath: $ReadOnlyArray<mixed>,
+  ) => {
+    const map = previous;
+    const currentPath = [...basePath];
+    data.forEach((obj, i) => {
+      currentPath.push(i);
+      if (_.isEqual(map[obj.id], currentPath)) {
+        delete map[obj.id];
+      }
+      currentPath.pop();
+    });
+    return map;
+  };
+
   addFoundReactionIdPaths = (
     data: any,
     previous: {},
@@ -808,6 +916,50 @@ export class FeedManager {
     }
 
     addFoundReactions(data);
+    return map;
+  };
+
+  addFoundActivityIdPaths = (
+    data: any,
+    previous: {},
+    basePath: $ReadOnlyArray<mixed>,
+  ) => {
+    const map = previous;
+    const currentPath = [...basePath];
+    function addFoundActivities(obj) {
+      if (Array.isArray(obj)) {
+        obj.forEach((v, i) => {
+          currentPath.push(i);
+          addFoundActivities(v);
+          currentPath.pop();
+        });
+      } else if (isPlainObject(obj)) {
+        if (obj.id && obj.actor && obj.verb && obj.object) {
+          if (!map[obj.id]) {
+            map[obj.id] = [];
+          }
+          map[obj.id].push([...currentPath]);
+        }
+        for (const k in obj) {
+          currentPath.push(k);
+          addFoundActivities(obj[k]);
+          currentPath.pop();
+        }
+      }
+    }
+    addFoundActivities(data);
+    return map;
+  };
+
+  addFoundActivityIdPath = (
+    data: Array<{ id: string }>,
+    previous: {},
+    basePath: $ReadOnlyArray<mixed>,
+  ) => {
+    const map = previous;
+    data.forEach((obj, i) => {
+      map[obj.id] = [...basePath, i];
+    });
     return map;
   };
 
