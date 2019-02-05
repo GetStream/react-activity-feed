@@ -688,8 +688,8 @@ export class FeedManager {
     }
     try {
       await this.doFeedRequest({
-        limit: 0,
-        id_gte: this.state.activityOrder[0],
+        limit: 1,
+        id_lte: this.state.activityOrder[0],
         ['mark_' + type]: markArg,
       });
     } catch (e) {
