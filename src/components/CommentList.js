@@ -19,7 +19,7 @@ export type Props = {|
   activityPath?: ?Array<string>,
   /** Show and load comments starting with the oldest reaction first, instead
    * of the default where comments are displayed and loaded most recent first.
-   * */
+   */
   oldestToNewest: boolean,
   /** Reverse the order the comments are displayed in. */
   reverseOrder: boolean,
