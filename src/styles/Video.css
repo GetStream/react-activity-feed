@@ -15,6 +15,7 @@
       width: 100%;
     }
   }
+
   &__video {
     overflow: hidden;
     border-radius: $borderRadius;
@@ -23,11 +24,13 @@
     height: 150px;
     display: flex;
     background: #fafafa;
+
     video {
       background: black;
       height: inherit;
       width: 150px;
     }
+
     &--content {
       flex: 1;
       color: $fontColor;
@@ -35,28 +38,35 @@
       display: flex;
       flex-direction: column;
     }
+
     &--link {
       flex: 1;
       display: flex;
       align-items: flex-end;
+
       a {
         color: $primary;
         font-size: 14px;
         text-decoration: none;
       }
     }
+
     &--title {
       size: 16px;
       font-weight: 700;
     }
+
     @media screen and (max-width: 475px) {
       height: 100px;
+
       &--content {
         padding: 8px;
       }
+
       &--link {
         display: none;
       }
+
       video {
         height: inherit;
         width: 100px;

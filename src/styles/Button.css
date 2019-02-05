@@ -6,15 +6,19 @@
   width: auto;
   overflow: visible;
   background: transparent;
+
   /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
   line-height: normal;
+
   /* Corrects font smoothing for webkit */
   -webkit-font-smoothing: inherit;
   -moz-osx-font-smoothing: inherit;
   text-align: inherit;
+
   /* Corrects inability to style clickable `input` types in iOS */
   -webkit-appearance: none;
   outline: none;
+
   /* endreset */
 
   padding: 8px 16px;
@@ -37,6 +41,7 @@
 
   &:disabled {
     cursor: not-allowed;
+
     &:active {
       box-shadow: none;
     }
@@ -44,29 +49,37 @@
 
   &--primary {
     background-color: $primary;
+
     &:disabled {
       background-color: color($primary tint(35%));
     }
+
     &:active {
-      box-shadow: 0px 0px 0px 3px color($primary shade(10%));
+      box-shadow: 0 0 0 3px color($primary shade(10%));
     }
   }
+
   &--info {
     background-color: $info;
+
     &:disabled {
       background-color: color($info tint(35%));
     }
+
     &:active {
-      box-shadow: 0px 0px 0px 3px color($info shade(10%));
+      box-shadow: 0 0 0 3px color($info shade(10%));
     }
   }
+
   &--faded {
     background-color: color($faded shade(30%));
+
     &:disabled {
       background-color: color(color($faded shade(30%)) tint(35%));
     }
+
     &:active {
-      box-shadow: 0px 0px 0px 3px color(color($faded shade(30%)) shade(10%));
+      box-shadow: 0 0 0 3px color(color($faded shade(30%)) shade(10%));
     }
   }
 }

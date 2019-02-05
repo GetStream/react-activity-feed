@@ -45,7 +45,7 @@ export default class Dropdown extends React.Component<Props, State> {
 
   // $FlowFixMe
   showMenu = (e) => {
-    e.preventDefault();
+    e.stopPropagation();
 
     this.setState({ open: true }, () => {
       document.addEventListener('click', this.hideMenu);

@@ -5,13 +5,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   &__left {
     flex: 1;
+
     & > div {
       margin: 0 8px;
+
       &:first-child {
         margin-left: 0;
       }
+
       &:last-child {
         margin-right: 0;
       }
@@ -20,11 +24,14 @@
 
   &__right {
     display: flex;
+
     & > div {
       margin: 0 8px;
+
       &:first-child {
         margin-left: 0;
       }
+
       &:last-child {
         margin-right: 0;
       }

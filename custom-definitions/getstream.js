@@ -1,18 +1,19 @@
 // @flow
 declare module 'getstream' {
-  declare type TimestampedResponse = {
+  declare type TimestampedResponse = {|
     created_at: string,
     updated_at: string,
-  };
+  |};
 
-  declare type DurationResponse = {
+  declare type DurationResponse = {|
     duration: string,
-  };
+  |};
 
-  declare type UserResponse<Data> = {
+  declare type UserResponse<Data> = {|
     id: string,
     data: Data,
-  } & TimestampedResponse;
+    ...TimestampedResponse,
+  |};
 
   declare type FollowCounts = {
     following_count: number,
@@ -70,8 +71,9 @@ declare module 'getstream' {
       height?: string,
     }>,
     audios: Array<{
-      type: string,
-      audio: string,
+      type?: string,
+      secure_url?: string,
+      audio?: string,
     }>,
     url: string,
   };
@@ -79,7 +81,8 @@ declare module 'getstream' {
   declare class StreamImageStore {
     upload: (
       uri: string | Blob | File,
-      name?: string,
+      name?: ?string,
+      contentType?: ?string,
     ) => Promise<{ file: string }>;
     delete: (uri: string) => Promise<{}>;
     process: (uri: string, options?: {}) => Promise<{}>;
@@ -94,7 +97,8 @@ declare module 'getstream' {
   declare class StreamFileStore {
     upload: (
       uri: string | Blob | File,
-      name?: string,
+      name?: ?string,
+      contentType?: ?string,
     ) => Promise<{ file: string }>;
     delete: (uri: string) => Promise<{}>;
   }
@@ -133,6 +137,10 @@ declare module 'getstream' {
       entryId: ?string,
       data: EntryData,
     ): Promise<CollectionEntry<EntryData>>;
+    get(
+      collection: string,
+      entryId: string,
+    ): Promise<CollectionEntry<EntryData>>;
     delete(collection: string, entryId: string): Promise<{}>;
     update(
       collection: string,
@@ -164,7 +172,7 @@ declare module 'getstream' {
     time?: string,
     actor: StreamUser<UserData>,
     verb: string,
-    object: string | StreamUser<UserData> | CollectionEntry<mixed>,
+    object: string | StreamUser<UserData> | CollectionEntry<{}>,
     target?: string,
   } & CustomActivityData;
 
@@ -172,8 +180,13 @@ declare module 'getstream' {
 
   declare type FeedRequestOptions = {
     withReactionCounts?: boolean,
+    withRecentReactions?: boolean,
     withOwnReactions?: boolean,
-    withOwnReactions?: boolean,
+    reactions?: {
+      recent?: boolean,
+      own?: boolean,
+      counts?: boolean,
+    },
     limit?: number,
     offset?: number,
     id_lt?: string,
@@ -197,6 +210,10 @@ declare module 'getstream' {
     id_gte?: string,
   };
 
+  declare type FollowRequestOptions = {
+    limit?: number,
+  };
+
   declare class StreamFeed<UserData, CustomActivityData> {
     id: string;
     slug: string;
@@ -216,6 +233,11 @@ declare module 'getstream' {
     ): Promise<Array<ActivityResponse<UserData, CustomActivityData>>>;
     subscribe((any) => void): Subscription;
     removeActivity(id: string | { foreignId: string }): Promise<{}>;
+    follow(
+      targetFeedGroup: string,
+      targetUserId: string | StreamUser<UserData>,
+      options?: FollowRequestOptions,
+    ): Promise<DurationResponse>;
   }
   declare type Subscription = {
     then: (success: () => mixed, failure: (err: Error) => mixed) => Promise<{}>,
@@ -241,7 +263,7 @@ declare module 'getstream' {
     foreign_id: string,
     time: string,
 
-    actor: UserResponse<UserData> | 'NotFound',
+    actor: UserResponse<UserData> | string | {| error: string |},
     verb: string,
     object: string | Object, // Limit this type more
     target: string,
@@ -271,8 +293,8 @@ declare module 'getstream' {
     id: string,
     verb: string,
     activities: $ReadOnlyArray<ActivityResponse<UserData, CustomActivityData>>,
-    read?: boolean,
-    seen?: boolean,
+    is_read?: boolean,
+    is_seen?: boolean,
   };
 
   declare type ReactionResponse<UserData, ReactionData> = {

@@ -1,5 +1,3 @@
-### Disclaimer: This library is in beta! Breaking changes will very likely occur.
-
 ### Note: You can see the code used to generate the examples in these docs by pressing the "view code" button bellow them. You can then even edit these code snippets to render your changes in real time.
 This library provides components that interact with Stream's APIs.
 In order to use the components you need to have an account and you need to nest

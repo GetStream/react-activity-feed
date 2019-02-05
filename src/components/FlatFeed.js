@@ -5,11 +5,19 @@ import Activity from './Activity';
 import NewActivitiesNotification from './NewActivitiesNotification';
 import type { Props as NotifierProps } from './NewActivitiesNotification';
 import LoadMorePaginator from './LoadMorePaginator';
+import FeedPlaceholder from './FeedPlaceholder';
+import LoadingIndicator from './LoadingIndicator';
 
 import { Feed, FeedContext } from '../Context';
 import { smartRender } from '../utils';
 
-import type { BaseFeedCtx, BaseClient, Renderable } from '../types';
+import type {
+  BaseFeedCtx,
+  BaseClient,
+  Renderable,
+  BaseActivityResponse,
+  BaseReaction,
+} from '../types';
 import type {
   FeedRequestOptions,
   FeedResponse,
@@ -17,25 +25,50 @@ import type {
 } from 'getstream';
 
 type Props = {|
+  /** The feed group part of the feed that should be displayed */
   feedGroup: string,
+  /** The user_id part of the feed that should be displayed */
   userId?: string,
-  /** read options for the API client (eg. limit, ranking, ...) */
+  /** Read options for the API client (eg. limit, ranking, ...) */
   options?: FeedRequestOptions,
+  /** The component used to render an activity in the feed */
   Activity: Renderable,
-  /** the component to use to render new activities notification */
+  /** The component to use to render new activities notification */
   Notifier: Renderable,
   /** By default pagination is done with a "Load more" button, you can use
    * InifiniteScrollPaginator to enable infinite scrolling */
   Paginator: Renderable,
-  /** if true, feed shows the Notifier component when new activities are added */
+  /** Component to show when there are no activities in the feed **/
+  Placeholder: Renderable,
+  /** If true, feed shows the Notifier component when new activities are added */
   notify: boolean,
-  //** the feed read hander (change only for advanced/complex use-cases) */
+  /** The feed read handler (change only for advanced/complex use-cases) */
   doFeedRequest?: (
     client: BaseClient,
     feedGroup: string,
     userId?: string,
     options?: FeedRequestOptions,
   ) => Promise<FeedResponse<{}, {}>>,
+  /** Override reaction add request */
+  doReactionAddRequest?: (
+    kind: string,
+    activity: BaseActivityResponse,
+    data?: {},
+    options: {},
+  ) => mixed,
+  /** Override reaction delete request */
+  doReactionDeleteRequest?: (id: string) => mixed,
+  /** Override child reaction add request */
+  doChildReactionAddRequest?: (
+    kind: string,
+    activity: BaseReaction,
+    data?: {},
+    options: {},
+  ) => mixed,
+  /** Override child reaction delete request */
+  doChildReactionDeleteRequest?: (id: string) => mixed,
+  /** The location that should be used for analytics when liking in the feed,
+   * this is only useful when you have analytics enabled for your app. */
   analyticsLocation?: string,
 |};
 
@@ -56,6 +89,7 @@ export default class FlatFeed extends React.Component<Props> {
         {...props}
       />
     ),
+    Placeholder: FeedPlaceholder,
     Paginator: LoadMorePaginator,
   };
 
@@ -67,6 +101,10 @@ export default class FlatFeed extends React.Component<Props> {
         options={this.props.options}
         notify={this.props.notify}
         doFeedRequest={this.props.doFeedRequest}
+        doReactionAddRequest={this.props.doReactionAddRequest}
+        doReactionDeleteRequest={this.props.doReactionDeleteRequest}
+        doChildReactionAddRequest={this.props.doChildReactionAddRequest}
+        doChildReactionDeleteRequest={this.props.doChildReactionDeleteRequest}
       >
         <FeedContext.Consumer>
           {(feedCtx) => <FlatFeedInner {...this.props} {...feedCtx} />}
@@ -131,12 +169,25 @@ class FlatFeedInner extends React.Component<PropsInner> {
       loadNextPage,
       hasNextPage,
       refreshing,
+      hasDoneRequest,
       loadReverseNextPage,
       hasReverseNextPage,
     } = this.props;
     if (hasReverseNextPage) {
       notifierProps.onClick = loadReverseNextPage;
       notifierProps.labelFunction = () => 'Load activities';
+    }
+
+    if (this.props.activities.size === 0 && this.props.hasDoneRequest) {
+      return smartRender(this.props.Placeholder);
+    }
+
+    if (refreshing && !hasDoneRequest) {
+      return (
+        <div style={{ padding: 40, backgroundColor: 'rgb(247, 247, 247' }}>
+          <LoadingIndicator />
+        </div>
+      );
     }
 
     return (

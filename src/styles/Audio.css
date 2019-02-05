@@ -8,11 +8,13 @@
     display: flex;
     background: #f1f1f1;
   }
+
   &__image {
     height: 80px;
     width: 80px;
     position: relative;
     z-index: $z2;
+
     &--overlay {
       width: inherit;
       height: inherit;
@@ -27,12 +29,14 @@
       align-items: center;
       justify-content: center;
     }
+
     &--button {
       margin: 0;
       padding: 0;
       display: flex;
       align-items: center;
     }
+
     img {
       z-index: $z1;
       position: absolute;
@@ -43,18 +47,21 @@
       object-fit: cover;
     }
   }
+
   &__content {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     padding: 8px 16px;
     width: 100%;
+
     &--title {
       color: $fontColor;
       margin: 0;
       padding: 0;
       line-height: 1;
     }
+
     &--subtitle {
       margin: 0;
       padding: 0;
@@ -62,6 +69,7 @@
       font-size: 12px;
       color: color($fontColor tint(40%));
     }
+
     &--progress {
       height: 6px;
       width: 100%;
@@ -69,6 +77,7 @@
       background: color($black a(10%));
       padding: 1px;
       margin: 2px 0;
+
       > div {
         height: 4px;
         border-radius: 4px;

@@ -6,11 +6,12 @@
 .raf-dropdown__button {
   cursor: pointer;
 }
+
 .raf-dropdown__box {
   /* Menu BG: */
   position: absolute;
   top: 20px;
-  right: 0px;
+  right: 0;
   display: inline-block;
   background: #313e47;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
@@ -24,6 +25,7 @@
   margin: 0;
   padding: 0;
   list-style-type: none;
+
   a {
     font-size: 14px;
     color: white;

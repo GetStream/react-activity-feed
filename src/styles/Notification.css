@@ -4,6 +4,7 @@
   padding: 18px;
   background: color($black tint(97%));
   cursor: pointer;
+
   &:hover {
     background: color($black tint(98%));
   }
@@ -13,26 +14,38 @@
   margin-right: 16px;
 }
 
-.raf-notification p {
+.raf-notification {
   font-size: 14px;
-  margin-top: 0px;
+  margin-top: 0;
   margin-bottom: 0;
   color: color($fontColor tint(10%));
   font-weight: 350;
   line-height: 16px;
 }
 
-.raf-notification p strong {
+.raf-notification strong {
   color: $fontColor;
   font-weight: 900;
 }
 
-.raf-notification p small {
+.raf-notification small {
   font-size: 12px;
 }
 
 .raf-notification__content {
   flex: 1;
+}
+
+.raf-notification__header .raf-dropdown {
+  .raf-icon-button {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .raf-dropdown__button {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }
 
 .raf-notification__extra {

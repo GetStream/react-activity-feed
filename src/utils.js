@@ -1,6 +1,11 @@
 // @flow
 import * as React from 'react';
 import moment from 'moment';
+import URL from 'url-parse';
+import anchorme from 'anchorme';
+import { truncate } from 'lodash';
+import type { UserResponse } from './types';
+
 import type { Renderable, RenderableButNotElement, FileLike } from './types';
 // import type { UserResponse } from 'getstream';
 
@@ -43,15 +48,24 @@ export const getRetinaImage = (images: string) =>
     .split('|')
     .map((item, i) => `${item} ${i + 1}x`)
     .join(', ');
-// $FlowFixMe
-export function userOrDefault(user: any | 'NotFound') {
-  if (user === 'NotFound' || user.error) {
-    return {
-      id: 'NotFound',
-      data: { name: 'Unknown', profileImage: undefined },
-    };
+
+export function userOrDefault(
+  user: UserResponse | string | {| error: string |},
+): UserResponse {
+  let actor: UserResponse;
+  const notFound = {
+    id: '!not-found',
+    created_at: '',
+    updated_at: '',
+    data: { name: 'Unknown', profileImage: '' },
+  };
+  if (typeof user === 'string' || typeof user.error === 'string') {
+    actor = notFound;
+  } else {
+    //$FlowBug
+    actor = (user: any);
   }
-  return user;
+  return actor;
 }
 
 export function sleep(ms: number): Promise<void> {
@@ -161,3 +175,80 @@ export function inputValueFromEvent(
   const inputTarget: { value?: string } = (target: any);
   return inputTarget.value;
 }
+
+export function sanitizeURL(url: ?string): ?string {
+  if (url == null) {
+    return url;
+  }
+
+  const proto = URL(url).protocol;
+  // allow http, https, ftp
+  // IMPORTANT: Don't allow data: protocol because of:
+  // <a href="data:text/html;base64,PHNjcmlwdD5hbGVydCgneHNzJyk7PC9zY3JpcHQ+" target="_blank">here</a>
+  if (proto === 'https:' || proto === 'http:' || proto === 'ftp:') {
+    return url;
+  }
+  return undefined;
+}
+
+export const textRenderer = (
+  text: string,
+  parentClass: string,
+  onClickMention?: (word: string) => mixed,
+  onClickHashtag?: (word: string) => mixed,
+) =>
+  text
+    .split(' ')
+    .map((word, i) => {
+      if (/^@[^\s]+$/.test(word)) {
+        return (
+          <a
+            onClick={() => onClickMention && onClickMention(word)}
+            className={`${parentClass}__mention`}
+            key={`item-${i}`}
+          >
+            {word}
+          </a>
+        );
+      } else if (
+        word[0] === '#' &&
+        !/^#\d+$/.test(word) &&
+        /^#[a-zA-Z0-9_]+$/.test(word)
+      ) {
+        return (
+          <a
+            onClick={() => onClickHashtag && onClickHashtag(word)}
+            className={`${parentClass}__hashtag`}
+            key={`item-${i}`}
+          >
+            {word}
+          </a>
+        );
+      }
+      if (anchorme.validate.url(word) || anchorme.validate.email(word)) {
+        const link = anchorme(word, { list: true });
+        if (
+          link[0].protocol !== 'http://' &&
+          link[0].protocol !== 'https://' &&
+          link[0].protocol !== 'mailto:'
+        ) {
+          return word;
+        }
+        const url = link[0].protocol + link[0].encoded;
+        const urlText = truncate(link[0].encoded, { length: 33 });
+        return (
+          <a
+            href={url}
+            className={`${parentClass}__link`}
+            target="blank"
+            rel="noopener"
+            key={`item-${i}`}
+          >
+            {urlText}
+          </a>
+        );
+      }
+
+      return word;
+    })
+    .reduce((accu, elem) => (accu === null ? [elem] : [accu, ' ', elem]));

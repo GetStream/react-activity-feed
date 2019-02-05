@@ -7,6 +7,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+Nothing yet
+
+## 0.7.0
+
+### Breaking changes
+
+- `AvatarGroup` now takes a list of `UserResponse` in it's `user` argument
+  instead of a list of `UserData`.
+
+### Added
+
+- Support marking notification groups as read and seen through the
+  `onMarkAsSeen` and `onMarkAsRead` handlers.
+- The default `Notification` item has
+- `onClickUser` handler for `AvatarGroup`
+- `onClickUser` handler for `Notification` is now forwarded to the embedded
+  `AvatarGroup` as well.
+
+### Fixed
+
+- Calling `onRemoveActivity` on a notification feed now updates the state
+  correctly.
+
+## 0.6.23
+
+### Changed
+
+- Improved detection of mentions and hashtags
+
+### Added
+
+- Detection of mentions, hashtags and urls in comments
+- Click handlers for mentions and hashtags in comments
+
+## 0.6.22
+
+### SECURITY FIX
+
+- An XSS issue is fixed in this release. Please upgrade! You're affected by the
+  issue if you use the default `Activity` and/or the `Video` component.
+
+## 0.6.0
+
 ### Breaking Changes
 
 - `onToggleReaction` and `onAddReaction` arguments have changed.

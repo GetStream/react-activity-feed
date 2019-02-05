@@ -3,26 +3,35 @@
   border-radius: 4px;
   overflow: hidden;
   margin: 8px 0;
+  position: relative;
+
   ol {
+    position: relative;
     margin: 0;
     padding: 0;
     list-style: none;
+
     li {
+      position: relative;
       padding: 8px 16px;
       border-bottom: 1px solid color($black a(10%));
+
       &:last-child {
         border-color: transparent;
       }
     }
   }
+
   &__file {
     position: relative;
     display: flex;
     align-items: center;
     cursor: pointer;
+
     &:hover {
       background: #fafafa;
     }
+
     a {
       flex: 1;
       margin: 0 8px;
@@ -32,23 +41,28 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
     svg {
       min-width: 25px;
     }
+
     &--uploading {
       opacity: 0.4;
     }
+
     &--failed {
       a {
         display: flex;
         align-items: center;
         color: color($fontColor tint(39%));
-        &:after {
+
+        &::after {
           text-decoration: none;
         }
       }
     }
   }
+
   &__image {
     min-width: 25px;
     display: flex;
@@ -63,7 +77,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1000;
   }
+
+  &__close-button {
+    position: relative;
+    z-index: 10000;
+  }
+
   &__failed {
     padding: 3px 6px;
     margin-left: 8px;
@@ -72,6 +93,7 @@
     background: color($error tint(39%));
     font-size: 12px;
   }
+
   &__retry {
     text-decoration: none;
     padding: 3px 6px;
@@ -81,18 +103,23 @@
     background: color($primary tint(39%));
     font-size: 12px;
   }
+
   .svg-inline--fa {
     color: $fontColor;
   }
+
   .fa-file-excel {
     color: #207245;
   }
+
   .fa-file-powerpoint {
     color: #cb4a32;
   }
+
   .fa-file-word {
     color: #2c599d;
   }
+
   .fa-file-pdf {
     color: #f82903;
   }

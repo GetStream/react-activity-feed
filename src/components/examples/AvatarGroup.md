@@ -3,16 +3,22 @@ AvatarGroup
 ```js
 const users = [
   {
-    name: 'Jaap Bakker',
-    profileImage: 'https://randomuser.me/api/portraits/men/1.jpg',
+    data: {
+      name: 'Jaap Bakker',
+      profileImage: 'https://randomuser.me/api/portraits/men/1.jpg',
+    },
   },
   {
-    name: 'Sloan Humfrey',
-    profileImage: 'https://randomuser.me/api/portraits/women/1.jpg',
+    data: {
+      name: 'Sloan Humfrey',
+      profileImage: 'https://randomuser.me/api/portraits/women/1.jpg',
+    },
   },
   {
-    name: 'James Dean',
-    profileImage: 'https://randomuser.me/api/portraits/men/3.jpg',
+    data: {
+      name: 'James Dean',
+      profileImage: 'https://randomuser.me/api/portraits/men/3.jpg',
+    },
   },
 ];
 

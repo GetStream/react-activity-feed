@@ -13,6 +13,7 @@ import type {
 } from 'getstream';
 import type {
   BaseActivityResponse,
+  BaseActivityGroupResponse,
   BaseAppCtx,
   BaseClient,
   BaseReaction,
@@ -54,6 +55,7 @@ export type FeedCtx = {|
   loadReverseNextPage: () => Promise<mixed>,
   hasReverseNextPage: boolean,
   refreshing: boolean,
+  hasDoneRequest: boolean,
   realtimeAdds: Array<{}>,
   realtimeDeletes: Array<{}>,
   onToggleReaction: ToggleReactionCallbackFunction,
@@ -62,7 +64,17 @@ export type FeedCtx = {|
   onToggleChildReaction: ToggleChildReactionCallbackFunction,
   onAddChildReaction: AddChildReactionCallbackFunction,
   onRemoveChildReaction: RemoveChildReactionCallbackFunction,
-  onRemoveActivity: (activityId: string, kind: string) => Promise<mixed>,
+  onRemoveActivity: (activityId: string) => Promise<mixed>,
+  onMarkAsRead: (
+    group:
+      | BaseActivityGroupResponse
+      | $ReadOnlyArray<BaseActivityGroupResponse>,
+  ) => Promise<mixed>,
+  onMarkAsSeen: (
+    group:
+      | BaseActivityGroupResponse
+      | $ReadOnlyArray<BaseActivityGroupResponse>,
+  ) => Promise<mixed>,
   getActivityPath: (
     activity: BaseActivityResponse | string,
     ...Array<string>
@@ -70,19 +82,44 @@ export type FeedCtx = {|
 |};
 
 export type FeedProps = {|
+  /** The feed group part of the feed */
   feedGroup: string,
+  /** The user_id part of the feed */
   userId?: string,
+  /** Read options for the API client (eg. limit, ranking, ...) */
   options?: FeedRequestOptions,
-  analyticsLocation?: string,
+  /** If true, feed shows the Notifier component when new activities are added */
   notify?: boolean,
-  //** the feed read hander (change only for advanced/complex use-cases) */
+  /** The feed read handler (change only for advanced/complex use-cases) */
   doFeedRequest?: (
     client: BaseClient,
     feedGroup: string,
     userId?: string,
     options?: FeedRequestOptions,
   ) => Promise<FeedResponse<{}, {}>>,
+  /* Components to display in the feed */
   children?: React.Node,
+  /** Override reaction add request */
+  doReactionAddRequest?: (
+    kind: string,
+    activity: BaseActivityResponse,
+    data?: {},
+    options: {},
+  ) => mixed,
+  /** Override reaction delete request */
+  doReactionDeleteRequest?: (id: string) => mixed,
+  /** Override child reaction add request */
+  doChildReactionAddRequest?: (
+    kind: string,
+    activity: BaseReaction,
+    data?: {},
+    options: {},
+  ) => mixed,
+  /** Override child reaction delete request */
+  doChildReactionDeleteRequest?: (id: string) => mixed,
+  /** The location that should be used for analytics when liking in the feed,
+   * this is only useful when you have analytics enabled for your app. */
+  analyticsLocation?: string,
 |};
 
 type FeedManagerState = {|
@@ -258,12 +295,21 @@ export class FeedManager {
   ) => {
     let reaction;
     try {
-      reaction = await this.props.client.reactions.add(
-        kind,
-        activity,
-        data,
-        options,
-      );
+      if (this.props.doReactionAddRequest) {
+        reaction = await this.props.doReactionAddRequest(
+          kind,
+          activity,
+          data,
+          options,
+        );
+      } else {
+        reaction = await this.props.client.reactions.add(
+          kind,
+          activity,
+          data,
+          options,
+        );
+      }
     } catch (e) {
       this.props.errorHandler(e, 'add-reaction', {
         kind,
@@ -317,7 +363,11 @@ export class FeedManager {
     options: { trackAnalytics?: boolean } = {},
   ) => {
     try {
-      await this.props.client.reactions.delete(id);
+      if (this.props.doReactionDeleteRequest) {
+        await this.props.doReactionDeleteRequest(id);
+      } else {
+        await this.props.client.reactions.delete(id);
+      }
     } catch (e) {
       this.props.errorHandler(e, 'delete-reaction', {
         kind,
@@ -399,12 +449,21 @@ export class FeedManager {
   ) => {
     let childReaction;
     try {
-      childReaction = await this.props.client.reactions.addChild(
-        kind,
-        reaction,
-        data,
-        options,
-      );
+      if (this.props.doChildReactionAddRequest) {
+        childReaction = await this.props.doChildReactionAddRequest(
+          kind,
+          reaction,
+          data,
+          options,
+        );
+      } else {
+        childReaction = await this.props.client.reactions.addChild(
+          kind,
+          reaction,
+          data,
+          options,
+        );
+      }
     } catch (e) {
       this.props.errorHandler(e, 'add-child-reaction', {
         kind,
@@ -447,7 +506,11 @@ export class FeedManager {
     options: { trackAnalytics?: boolean } = {},
   ) => {
     try {
-      await this.props.client.reactions.delete(id);
+      if (this.props.doChildReactionDeleteRequest) {
+        await this.props.doChildReactionDeleteRequest(id);
+      } else {
+        await this.props.client.reactions.delete(id);
+      }
     } catch (e) {
       this.props.errorHandler(e, 'delete-reaction', {
         kind,
@@ -505,17 +568,75 @@ export class FeedManager {
     }
     delete togglingReactions[reaction.id];
   };
+
   _removeActivityFromState = (activityId: string) =>
-    this.setState((prevState) => {
-      const activities = prevState.activities.removeIn(
-        this.getActivityPath(activityId),
-        (v = 0) => v - 1,
-      );
-      const activityOrder = prevState.activityOrder.filter(
-        (id) => id !== activityId,
-      );
-      return { activities, activityOrder };
-    });
+    this.setState(
+      ({
+        activities,
+        activityOrder,
+        activityIdToPath,
+        activityIdToPaths,
+        reactionIdToPaths,
+      }) => {
+        const path = this.getActivityPath(activityId);
+        let outerId = activityId;
+        if (path.length > 1) {
+          // It's an aggregated group we should update the paths of everything in
+          // the list
+          const groupArrayPath = path.slice(0, -1);
+          activityIdToPath = this.removeFoundActivityIdPath(
+            activities.getIn(groupArrayPath).toJS(),
+            activityIdToPath,
+            groupArrayPath,
+          );
+          activityIdToPaths = this.removeFoundActivityIdPaths(
+            activities.getIn(groupArrayPath).toJS(),
+            activityIdToPaths,
+            groupArrayPath,
+          );
+          reactionIdToPaths = this.removeFoundReactionIdPaths(
+            activities.getIn(groupArrayPath).toJS(),
+            reactionIdToPaths,
+            groupArrayPath,
+          );
+        }
+
+        activities = activities.removeIn(path);
+        if (path.length > 1) {
+          const groupArrayPath = path.slice(0, -1);
+          if (activities.getIn(groupArrayPath).size === 0) {
+            outerId = path[0]; //
+          } else {
+            outerId = null;
+          }
+          activityIdToPath = this.addFoundActivityIdPath(
+            activities.getIn(groupArrayPath).toJS(),
+            activityIdToPath,
+            groupArrayPath,
+          );
+          activityIdToPaths = this.addFoundActivityIdPaths(
+            activities.getIn(groupArrayPath).toJS(),
+            activityIdToPaths,
+            groupArrayPath,
+          );
+          reactionIdToPaths = this.addFoundReactionIdPaths(
+            activities.getIn(groupArrayPath).toJS(),
+            reactionIdToPaths,
+            groupArrayPath,
+          );
+        }
+        if (outerId != null) {
+          activityOrder = activityOrder.filter((id) => id !== outerId);
+        }
+        return {
+          activities,
+          activityOrder,
+          activityIdToPaths,
+          reactionIdToPaths,
+          activityIdToPath,
+        };
+      },
+    );
 
   onRemoveActivity = async (activityId: string) => {
     try {
@@ -529,6 +650,58 @@ export class FeedManager {
       return;
     }
     return this._removeActivityFromState(activityId);
+  };
+
+  onMarkAsRead = (
+    group:
+      | BaseActivityGroupResponse
+      | $ReadOnlyArray<BaseActivityGroupResponse>,
+  ) => this._onMarkAs('read', group);
+
+  onMarkAsSeen = (
+    group:
+      | BaseActivityGroupResponse
+      | $ReadOnlyArray<BaseActivityGroupResponse>,
+  ) => this._onMarkAs('seen', group);
+
+  _onMarkAs = async (
+    type: 'seen' | 'read',
+    group:
+      | BaseActivityGroupResponse
+      | $ReadOnlyArray<BaseActivityGroupResponse>,
+  ) => {
+    let groupArray: $ReadOnlyArray<BaseActivityGroupResponse>;
+    if (Array.isArray(group)) {
+      groupArray = group;
+    } else {
+      groupArray = [group];
+    }
+    try {
+      await this.doFeedRequest({
+        limit: 0,
+        id_gte: this.state.activityOrder[0],
+        ['mark_' + type]: groupArray.map((g) => g.id),
+      });
+    } catch (e) {
+      this.props.errorHandler(e, 'get-notification-counts', {
+        feedGroup: this.props.feedGroup,
+        userId: this.props.userId,
+      });
+    }
+    this.setState((prevState) => {
+      const counterKey = 'un' + type;
+      let activities = prevState.activities;
+      let counter = prevState[counterKey];
+      for (const g of groupArray) {
+        const markerPath = [g.id, 'is_' + type];
+        if (activities.getIn(markerPath)) {
+          continue;
+        }
+        activities = activities.setIn(markerPath, true);
+        counter--;
+      }
+      return { activities, [counterKey]: counter };
+    });
   };
 
   getOptions = (extraOptions?: FeedRequestOptions = {}): FeedRequestOptions => {
@@ -730,6 +903,56 @@ export class FeedManager {
     return map;
   };
 
+  removeFoundActivityIdPaths = (
+    data: any,
+    previous: {},
+    basePath: $ReadOnlyArray<mixed>,
+  ) => {
+    const map = previous;
+    const currentPath = [...basePath];
+    function addFoundActivities(obj) {
+      if (Array.isArray(obj)) {
+        obj.forEach((v, i) => {
+          currentPath.push(i);
+          addFoundActivities(v);
+          currentPath.pop();
+        });
+      } else if (isPlainObject(obj)) {
+        if (obj.id && obj.actor && obj.verb && obj.object) {
+          if (!map[obj.id]) {
+            map[obj.id] = [];
+          }
+          _.remove(map[obj.id], (path) => _.isEqual(path, currentPath));
+        }
+        for (const k in obj) {
+          currentPath.push(k);
+          addFoundActivities(obj[k]);
+          currentPath.pop();
+        }
+      }
+    }
+
+    addFoundActivities(data);
+    return map;
+  };
+
+  removeFoundActivityIdPath = (
+    data: any[],
+    previous: {},
+    basePath: $ReadOnlyArray<mixed>,
+  ) => {
+    const map = previous;
+    const currentPath = [...basePath];
+    data.forEach((obj, i) => {
+      currentPath.push(i);
+      if (_.isEqual(map[obj.id], currentPath)) {
+        delete map[obj.id];
+      }
+      currentPath.pop();
+    });
+    return map;
+  };
+
   addFoundReactionIdPaths = (
     data: any,
     previous: {},
@@ -760,6 +983,50 @@ export class FeedManager {
     }
 
     addFoundReactions(data);
+    return map;
+  };
+
+  addFoundActivityIdPaths = (
+    data: any,
+    previous: {},
+    basePath: $ReadOnlyArray<mixed>,
+  ) => {
+    const map = previous;
+    const currentPath = [...basePath];
+    function addFoundActivities(obj) {
+      if (Array.isArray(obj)) {
+        obj.forEach((v, i) => {
+          currentPath.push(i);
+          addFoundActivities(v);
+          currentPath.pop();
+        });
+      } else if (isPlainObject(obj)) {
+        if (obj.id && obj.actor && obj.verb && obj.object) {
+          if (!map[obj.id]) {
+            map[obj.id] = [];
+          }
+          map[obj.id].push([...currentPath]);
+        }
+        for (const k in obj) {
+          currentPath.push(k);
+          addFoundActivities(obj[k]);
+          currentPath.pop();
+        }
+      }
+    }
+    addFoundActivities(data);
+    return map;
+  };
+
+  addFoundActivityIdPath = (
+    data: Array<{ id: string }>,
+    previous: {},
+    basePath: $ReadOnlyArray<mixed>,
+  ) => {
+    const map = previous;
+    data.forEach((obj, i) => {
+      map[obj.id] = [...basePath, i];
+    });
     return map;
   };
 
@@ -1212,6 +1479,9 @@ class FeedInner extends React.Component<FeedInnerProps, FeedState> {
       onAddChildReaction: manager.onAddChildReaction,
       onRemoveChildReaction: manager.onRemoveChildReaction,
       onRemoveActivity: manager.onRemoveActivity,
+      onMarkAsRead: manager.onMarkAsRead,
+      onMarkAsSeen: manager.onMarkAsSeen,
+      hasDoneRequest: state.lastResponse != null,
       refresh: manager.refresh,
       refreshUnreadUnseen: manager.refreshUnreadUnseen,
       loadNextReactions: manager.loadNextReactions,

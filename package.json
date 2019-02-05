@@ -1,6 +1,6 @@
 {
   "name": "react-activity-feed",
-  "version": "0.6.5",
+  "version": "0.7.0",
   "description": "React components to create activity and notification feeds",
   "author": "GetStream",
   "license": "BSD-3-Clause",
@@ -25,12 +25,12 @@
   "scripts": {
     "test": "cross-env CI=1 react-scripts test --env=jsdom",
     "test:watch": "react-scripts test --env=jsdom",
-    "eslint": "eslint '**/*.js' --max-warnings 0",
+    "eslint": "eslint '**/*.{js,md}' --max-warnings 0",
     "flow": "flow",
-    "prettier": "prettier --list-different '**/*.{js,ts,md,css}'",
-    "prettier-fix": "prettier --write '**/*.{js,ts,md,css}'",
-    "lint": "yarn prettier && yarn eslint",
-    "lint-fix": "prettier --write '**/*.{js,ts,md,css}' && eslint --fix '**/*.js'",
+    "prettier": "prettier --list-different '**/*.{js,ts,md,json}' .eslintrc.json .prettierrc .babelrc",
+    "prettier-fix": "prettier --write '**/*.{js,ts,md,json}' .eslintrc.json .prettierrc .babelrc",
+    "lint": "prettier --list-different '**/*.{js,ts,md,json}' .eslintrc.json .prettierrc .babelrc && eslint '**/*.{js,md}' --max-warnings 0 && stylelint '**/*.{css,scss}'",
+    "lint-fix": "prettier --write '**/*.{js,ts,md,json}' .eslintrc.json .prettierrc .babelrc && eslint --fix '**/*.{js,md}' --max-warnings 0 && stylelint --fix '**/*.{css,scss}'",
     "build": "mkdir -p dist && rollup -c",
     "build:webpack": "webpack --env dev && webpack --env build",
     "start": "mkdir -p dist && rollup -c -w",
@@ -39,9 +39,23 @@
     "prepare": "yarn run build && yarn run build:webpack",
     "preversion": "yarn install && git add yarn.lock && cd example && yarn install && git add yarn.lock",
     "version": "yarn docs && git add docs && git add example yarn.lock",
-    "postversion": "git push && git push --tags",
+    "postversion": "git push && git push --tags && npm publish",
     "predeploy": "cd example && yarn install && yarn run build",
     "deploy": "gh-pages -d example/build"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "dotgit/hooks/pre-commit-format.sh && dotgit/hooks/pre-commit-reject-binaries.py"
+    }
+  },
+  "stylelint": {
+    "extends": "stylelint-config-standard",
+    "rules": {
+      "no-descending-specificity": null,
+      "no-duplicate-selectors": null,
+      "block-no-empty": null,
+      "declaration-block-no-duplicate-properties": null
+    }
   },
   "peerDependencies": {
     "react": "^15.0.0 || ^16.0.0",
@@ -53,10 +67,11 @@
     "@babel/node": "^7.0.0",
     "@babel/plugin-external-helpers": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
-    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "@babel/runtime-corejs2": "^7.2.0",
     "babel-eslint": "^8.2.5",
     "babel-loader": "^8.0.0-beta.4",
     "babel-plugin-add-module-exports": "^0.2.1",
@@ -76,6 +91,7 @@
     "file-loader": "^2.0.0",
     "flow-bin": "^0.80.0",
     "gh-pages": "^1.2.0",
+    "husky": "^1.3.1",
     "ignore-loader": "^0.1.2",
     "postcss-color-function": "^4.0.1",
     "postcss-cssnext": "^3.1.0",
@@ -98,6 +114,8 @@
     "rollup-plugin-postcss": "^1.6.2",
     "rollup-plugin-replace": "^2.1.0",
     "rollup-plugin-url": "^2.0.0",
+    "stylelint": "^9.10.1",
+    "stylelint-config-standard": "^18.2.0",
     "sugarss": "^2.0.0",
     "uglifyjs-webpack-plugin": "^1.2.7",
     "url-loader": "^1.1.2",
@@ -112,10 +130,11 @@
     "@babel/runtime": "^7.1.2",
     "@fortawesome/fontawesome-svg-core": "^1.2.4",
     "@fortawesome/free-regular-svg-icons": "^5.3.1",
-    "@fortawesome/react-fontawesome": "^0.1.3",
+    "@fortawesome/react-fontawesome": "^0.1.4",
     "@webscopeio/react-textarea-autocomplete": "^4.0.0",
     "anchorme": "^1.1.2",
     "emoji-mart": "^2.8.1",
+    "eslint-plugin-markdown": "^1.0.0",
     "getstream": "^4.0.7",
     "immutable": "^4.0.0-rc.9",
     "lodash": "^4.17.11",

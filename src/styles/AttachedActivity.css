@@ -4,8 +4,18 @@
   padding: 10px 10px 12px;
   border-radius: 3px;
 }
+
 .raf-attached-activity__author,
 .raf-attached-activity__content {
   color: $fontColor;
   margin: 0;
+}
+
+.raf-attached-activity__images {
+  display: flex;
+  margin: 0 -5px;
+}
+
+.raf-attached-activity__images > * {
+  margin: 0 5px;
 }

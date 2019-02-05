@@ -1,23 +1,28 @@
 .raf-avatar-group__avatar:first-of-type {
   margin: 0 -15px 0 0;
 }
+
 .raf-avatar-group__avatar .raf-avatar--circle {
   border: 1px solid $white;
 
-  /* firefox fix for 1px shine translucent gap between image and border*/
+  /* firefox fix for 1px shine translucent gap between image and border */
   background: $white;
 }
 
 .raf-avatar-group__avatar {
   display: inline-block;
+
   /* position: relative; */
+
   /* transform: translateX(-50%); */
   padding: 0;
   margin: 0 -15px;
   transition: all 0.1s ease-in;
+
   &:hover {
     margin-right: 0;
   }
+
   &:last-of-type {
     &:hover {
       margin: 0 -15px;

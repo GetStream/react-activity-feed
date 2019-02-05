@@ -6,6 +6,7 @@ import NewActivitiesNotification from './NewActivitiesNotification';
 import LoadMorePaginator from './LoadMorePaginator';
 import Notification from './Notification';
 import LoadingIndicator from './LoadingIndicator';
+import FeedPlaceholder from './FeedPlaceholder';
 
 import { smartRender } from '../utils';
 
@@ -14,28 +15,55 @@ import type {
   BaseFeedCtx,
   BaseClient,
   Renderable,
+  BaseReaction,
 } from '../types';
 import type { FeedRequestOptions, FeedResponse } from 'getstream';
 
 type Props = {|
+  /** The feed group part of the feed that should be displayed */
   feedGroup: string,
+  /** The user_id part of the feed that should be displayed */
   userId?: string,
+  /** read options for the API client (eg. limit, mark_seen, ...) */
   options?: FeedRequestOptions,
+  /** the component used to render a group in the feed */
   Group: Renderable,
   /** if true, feed shows the NewActivitiesNotification component when new activities are added */
   notify: boolean,
-  /** the component to use to render new activities notification */
+  /** The component used to render the new activities notification */
   Notifier: Renderable,
   /** By default pagination is done with a "Load more" button, you can use
    * InifiniteScrollPaginator to enable infinite scrolling */
   Paginator: Renderable,
-  //** the feed read hander (change only for advanced/complex use-cases) */
+  /** Component to show when there are no activities in the feed **/
+  Placeholder: Renderable,
+  /** The feed read handler (change only for advanced/complex use-cases) */
   doFeedRequest?: (
     client: BaseClient,
     feedGroup: string,
     userId?: string,
     options?: FeedRequestOptions,
   ) => Promise<FeedResponse<{}, {}>>,
+  /** Override reaction add request */
+  doReactionAddRequest?: (
+    kind: string,
+    activity: BaseActivityResponse,
+    data?: {},
+    options: {},
+  ) => mixed,
+  /** Override reaction delete request */
+  doReactionDeleteRequest?: (id: string) => mixed,
+  /** Override child reaction add request */
+  doChildReactionAddRequest?: (
+    kind: string,
+    activity: BaseReaction,
+    data?: {},
+    options: {},
+  ) => mixed,
+  /** Override child reaction delete request */
+  doChildReactionDeleteRequest?: (id: string) => mixed,
+  /** The location that should be used for analytics when liking in the feed,
+   * this is only useful when you have analytics enabled for your app. */
   analyticsLocation?: string,
 |};
 
@@ -51,6 +79,7 @@ export default class NotificationFeed extends React.Component<Props> {
     notify: false,
     Notifier: NewActivitiesNotification,
     Paginator: LoadMorePaginator,
+    Placeholder: FeedPlaceholder,
   };
 
   render() {
@@ -61,6 +90,10 @@ export default class NotificationFeed extends React.Component<Props> {
         options={makeDefaultOptions(this.props.options)}
         notify={this.props.notify}
         doFeedRequest={this.props.doFeedRequest}
+        doReactionAddRequest={this.props.doReactionAddRequest}
+        doReactionDeleteRequest={this.props.doReactionDeleteRequest}
+        doChildReactionAddRequest={this.props.doChildReactionAddRequest}
+        doChildReactionDeleteRequest={this.props.doChildReactionDeleteRequest}
       >
         <FeedContext.Consumer>
           {(feedCtx) => <NotificationFeedInner {...this.props} {...feedCtx} />}
@@ -115,6 +148,12 @@ class NotificationFeedInner extends React.Component<PropsInner> {
       onToggleReaction: this.props.onToggleReaction,
       onAddReaction: this.props.onAddReaction,
       onRemoveReaction: this.props.onRemoveReaction,
+      onToggleChildReaction: this.props.onToggleChildReaction,
+      onAddChildReaction: this.props.onAddChildReaction,
+      onRemoveChildReaction: this.props.onRemoveChildReaction,
+      onRemoveActivity: this.props.onRemoveActivity,
+      onMarkAsRead: this.props.onMarkAsRead,
+      onMarkAsSeen: this.props.onMarkAsSeen,
     };
     return smartRender(this.props.Group, args);
   };
@@ -125,28 +164,38 @@ class NotificationFeedInner extends React.Component<PropsInner> {
       deletes: this.props.realtimeDeletes,
       onClick: this._refresh,
     };
-    const { loadNextPage, hasNextPage, refreshing } = this.props;
+    const {
+      loadNextPage,
+      hasNextPage,
+      refreshing,
+      hasDoneRequest,
+    } = this.props;
+
+    if (this.props.activities.size === 0 && hasDoneRequest) {
+      return smartRender(this.props.Placeholder);
+    }
+
+    if (refreshing && !hasDoneRequest) {
+      return (
+        <div style={{ padding: 40, backgroundColor: 'rgb(247, 247, 247' }}>
+          <LoadingIndicator />
+        </div>
+      );
+    }
+
     return (
       <React.Fragment>
-        {refreshing ? (
-          <div style={{ padding: 40, backgroundColor: 'rgb(247, 247, 247' }}>
-            <LoadingIndicator />
-          </div>
-        ) : (
-          <React.Fragment>
-            {smartRender(this.props.Notifier, notifierProps)}
-            {smartRender(this.props.Paginator, {
-              loadNextPage,
-              hasNextPage,
-              refreshing,
-              children: this.props.activityOrder.map((id) =>
-                this._renderWrappedGroup({
-                  item: this.props.activities.get(id),
-                }),
-              ),
-            })}
-          </React.Fragment>
-        )}
+        {smartRender(this.props.Notifier, notifierProps)}
+        {smartRender(this.props.Paginator, {
+          loadNextPage,
+          hasNextPage,
+          refreshing,
+          children: this.props.activityOrder.map((id) =>
+            this._renderWrappedGroup({
+              item: this.props.activities.get(id),
+            }),
+          ),
+        })}
       </React.Fragment>
     );
   }

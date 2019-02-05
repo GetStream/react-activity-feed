@@ -2,6 +2,7 @@
 import React from 'react';
 import IconButton from './IconButton';
 import type { OgData } from '../types';
+import { sanitizeURL } from '../utils';
 import URL from 'url-parse';
 
 type Props = {|
@@ -43,7 +44,7 @@ export default class Video extends React.Component<Props> {
         break;
       }
     }
-    const url = video.secure_url || video.video;
+    const url = sanitizeURL(video.secure_url || video.video);
 
     if (video.type === 'text/html') {
       return (
@@ -98,7 +99,7 @@ export default class Video extends React.Component<Props> {
               {this.props.og.description}
             </div>
             <div className="raf-video__video--link">
-              <a href={this.props.og.url} target="blank">
+              <a href={sanitizeURL(this.props.og.url)} target="blank">
                 {this.props.og.site_name}
               </a>
             </div>

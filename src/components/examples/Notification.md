@@ -9,11 +9,18 @@ const activities = [
         profileImage: 'https://randomuser.me/api/portraits/men/72.jpg',
       },
     },
-    verb: 'follow',
+    verb: 'like',
     object: {
       verb: 'post',
+      attachments: {
+        files: [],
+        images: [
+          'https://stream-cloud-uploads.imgix.net/images/41814/11e5d349-9d62-4b9b-b28f-520ce8aa8598.3356358479_a0e3ee8a05_b.jpg?s=467019eb0965b7a8633a93e0a2a362d2',
+          'https://stream-cloud-uploads.imgix.net/images/41814/a5db2d18-1803-4300-906f-579af270edf1.3356358479_a0e3ee8a05_b.jpg?s=65db066cf45ee7895529725a8d478c14',
+        ],
+      },
       object:
-        'Winds 2 is the Open Source megalocosmos flat earth effect of anti-gravity food chemicals...',
+        'https://stream-cloud-uploads.imgix.net/images/41814/a5db2d18-1803-4300-906f-579af270edf1.3356358479_a0e3ee8a05_b.jpg?s=65db066cf45ee7895529725a8d478c14',
       actor: {
         data: {
           name: 'Josh',
@@ -29,7 +36,7 @@ const activities = [
         profileImage: 'https://randomuser.me/api/portraits/women/72.jpg',
       },
     },
-    verb: 'heart',
+    verb: 'like',
     object: {
       verb: 'post',
     },
@@ -41,7 +48,7 @@ const activities = [
         profileImage: 'https://randomuser.me/api/portraits/women/7.jpg',
       },
     },
-    verb: 'heart',
+    verb: 'like',
     object: {
       verb: 'post',
     },
