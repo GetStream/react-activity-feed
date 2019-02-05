@@ -9,7 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Nothing yet
 
-## 0.7.1
+## 0.7.2 - 2019-02-05
+
+### Added
+
+- Support marking all notifications as read/seen by using `true` as an argument to
+  `onMarkAsRead`/`onMarkAsSeen`
+
+## Fixed
+
+- `onClickUser` handler for `Notification` is now forwarded to the embedded
+  `AvatarGroup` as well.
+
+## 0.7.1 - 2019-02-05
 
 ### Added
 
@@ -17,7 +29,7 @@ Nothing yet
 - Support for displaying comments in revered order, i.e. the load more button at
   the top.
 
-## 0.7.0
+## 0.7.0 - 2019-02-05
 
 ### Breaking changes
 
@@ -30,15 +42,13 @@ Nothing yet
   `onMarkAsSeen` and `onMarkAsRead` handlers.
 - The default `Notification` item has
 - `onClickUser` handler for `AvatarGroup`
-- `onClickUser` handler for `Notification` is now forwarded to the embedded
-  `AvatarGroup` as well.
 
 ### Fixed
 
 - Calling `onRemoveActivity` on a notification feed now updates the state
   correctly.
 
-## 0.6.23
+## 0.6.23 - 2019-02-05
 
 ### Changed
 
@@ -49,14 +59,14 @@ Nothing yet
 - Detection of mentions, hashtags and urls in comments
 - Click handlers for mentions and hashtags in comments
 
-## 0.6.22
+## 0.6.22 - 2019-01-31
 
 ### SECURITY FIX
 
 - An XSS issue is fixed in this release. Please upgrade! You're affected by the
   issue if you use the default `Activity` and/or the `Video` component.
 
-## 0.6.0
+## 0.6.0 - 2019-12-14
 
 ### Breaking Changes
 
