@@ -271,8 +271,8 @@ declare module 'getstream' {
     id: string,
     verb: string,
     activities: $ReadOnlyArray<ActivityResponse<UserData, CustomActivityData>>,
-    read?: boolean,
-    seen?: boolean,
+    is_read?: boolean,
+    is_seen?: boolean,
   };
 
   declare type ReactionResponse<UserData, ReactionData> = {

@@ -4,6 +4,7 @@ import * as React from 'react';
 import type {
   ActivityArgData,
   ActivityResponse,
+  ActivityGroupResponse,
   StreamClient,
   ReactionKindMap,
   UserResponse,
@@ -68,6 +69,7 @@ export type RenderableButNotElement = ?(
 export type Renderable = RenderableButNotElement | React.Element<any>;
 
 export type BaseActivityResponse = ActivityResponse<{}, {}>;
+export type BaseActivityGroupResponse = ActivityGroupResponse<{}, {}>;
 export type BaseAppCtx = AppCtx<{}>;
 export type BaseFeedCtx = FeedCtx;
 export type BaseClient = StreamClient<{}>;

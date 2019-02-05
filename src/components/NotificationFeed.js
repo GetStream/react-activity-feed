@@ -152,6 +152,8 @@ class NotificationFeedInner extends React.Component<PropsInner> {
       onAddChildReaction: this.props.onAddChildReaction,
       onRemoveChildReaction: this.props.onRemoveChildReaction,
       onRemoveActivity: this.props.onRemoveActivity,
+      onMarkAsRead: this.props.onMarkAsRead,
+      onMarkAsSeen: this.props.onMarkAsSeen,
     };
     return smartRender(this.props.Group, args);
   };
