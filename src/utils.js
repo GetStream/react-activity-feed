@@ -4,6 +4,7 @@ import moment from 'moment';
 import URL from 'url-parse';
 import anchorme from 'anchorme';
 import { truncate } from 'lodash';
+import type { UserResponse } from './types';
 
 import type { Renderable, RenderableButNotElement, FileLike } from './types';
 // import type { UserResponse } from 'getstream';
@@ -47,15 +48,24 @@ export const getRetinaImage = (images: string) =>
     .split('|')
     .map((item, i) => `${item} ${i + 1}x`)
     .join(', ');
-// $FlowFixMe
-export function userOrDefault(user: any | 'NotFound') {
-  if (user === 'NotFound' || user.error) {
-    return {
-      id: 'NotFound',
-      data: { name: 'Unknown', profileImage: undefined },
-    };
+
+export function userOrDefault(
+  user: UserResponse | string | {| error: string |},
+): UserResponse {
+  let actor: UserResponse;
+  const notFound = {
+    id: '!not-found',
+    created_at: '',
+    updated_at: '',
+    data: { name: 'Unknown', profileImage: '' },
+  };
+  if (typeof user === 'string' || typeof user.error === 'string') {
+    actor = notFound;
+  } else {
+    //$FlowBug
+    actor = (user: any);
   }
-  return user;
+  return actor;
 }
 
 export function sleep(ms: number): Promise<void> {

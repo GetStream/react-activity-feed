@@ -7,7 +7,7 @@ import type {
   ActivityGroupResponse,
   StreamClient,
   ReactionKindMap,
-  UserResponse,
+  UserResponse as StreamUserResponse,
   ReactionRequestOptions,
   ReactionResponse,
   OgData as OgDataGetStream,
@@ -77,7 +77,7 @@ export type BaseClient = StreamClient<{}>;
 export type BaseReaction = ReactionResponse<{}, {}>;
 export type BaseReactionMap = ReactionKindMap<Object, Object>;
 
-export type BaseUserResponse = UserResponse<{}>;
+export type BaseUserResponse = StreamUserResponse<{}>;
 
 export type UserData = {
   name?: string,
@@ -104,6 +104,8 @@ export type CustomActivityData = {
 export type CustomActivityArgData = ActivityArgData<{}, CustomActivityData>;
 
 export type ActivityData = ActivityResponse<UserData, CustomActivityData>;
+
+export type UserResponse = StreamUserResponse<UserData>;
 
 export type ToggleReactionCallbackFunction = (
   kind: string,

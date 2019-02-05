@@ -8,7 +8,7 @@ export type Props = {|
   alt?: string,
   rounded?: boolean,
   circle?: boolean,
-  onClick?: () => mixed,
+  onClick?: (e: SyntheticEvent<>) => mixed,
 |};
 
 /**

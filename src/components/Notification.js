@@ -3,13 +3,26 @@ import React from 'react';
 import Avatar from './Avatar';
 import AvatarGroup from './AvatarGroup';
 import AttachedActivity from './AttachedActivity';
+import Dropdown from './Dropdown';
+import Link from './Link';
 
 import { humanizeTimestamp, userOrDefault } from '../utils';
+import type { UserResponse, BaseActivityGroupResponse } from '../types';
 
 type Props = {
+  /* The activity group to display in this notification */
   activityGroup: any,
-  onClickNotification?: () => mixed,
-  onClickUser?: () => mixed,
+  /* Callback to call when clicking on a notification */
+  onClickNotification?: (activityGroup: BaseActivityGroupResponse) => mixed,
+  /* Callback to call when clicking on a user in the notification */
+  onClickUser?: (UserResponse) => mixed,
+  /* Callback to mark a notification as read, if not supplied the dropdown to
+   * mark as read will not bu shown */
+  onMarkAsRead?: ?(
+    group:
+      | BaseActivityGroupResponse
+      | $ReadOnlyArray<BaseActivityGroupResponse>,
+  ) => Promise<mixed>,
 };
 
 /**
@@ -18,47 +31,72 @@ type Props = {
  * @example ./examples/Notification.md
  */
 export default class Notification extends React.Component<Props> {
-  // $FlowFixMe
-  getUsers = (activities: any) => {
-    const users = [];
-    activities.forEach((item) => users.push(item.actor.data));
-    return users;
+  getUsers = (activities: any) =>
+    activities.map((item) => userOrDefault(item.actor));
+
+  _getOnClickUser(actor: UserResponse) {
+    return this.props.onClickUser
+      ? (e: SyntheticEvent<>) => this.onClickUser(e, actor)
+      : undefined;
+  }
+
+  onClickUser = (e: SyntheticEvent<>, actor: any) => {
+    const { onClickUser } = this.props;
+    if (onClickUser) {
+      e.stopPropagation();
+      return onClickUser(userOrDefault(actor));
+    }
+  };
+
+  _getOnClickNotification() {
+    return this.props.onClickNotification
+      ? this.onClickNotification
+      : undefined;
+  }
+
+  onClickNotification = (e: SyntheticEvent<>) => {
+    const { onClickNotification } = this.props;
+    if (onClickNotification) {
+      e.stopPropagation();
+      return onClickNotification(this.props.activityGroup);
+    }
   };
 
   render() {
     let headerText, headerSubtext;
-    const activities = this.props.activityGroup.activities;
-    const lastActivity = activities[0];
-    const lastActor = userOrDefault(lastActivity.actor);
+    const { activityGroup, onMarkAsRead } = this.props;
+    const activities = activityGroup.activities;
+    const latestActivity = activities[0];
+    const lastActor = userOrDefault(latestActivity.actor);
 
     if (activities.length === 1) {
       headerText = lastActor.data.name;
     } else if (activities.length > 1 && activities.length < 1 + 1 + 1) {
-      headerText = `${lastActor.data.name} and 1 other `;
+      headerText = `${lastActor.data.name || 'Unknown'} and 1 other `;
     } else {
-      headerText = `${lastActor.data.name} and ${activities.length -
-        1} others `;
+      headerText = `${lastActor.data.name ||
+        'Unknown'} and ${activities.length - 1} others `;
     }
 
-    if (typeof lastActivity.object === 'string') {
+    if (typeof latestActivity.object === 'string') {
       return null;
     }
 
-    if (lastActivity.verb === 'like') {
+    if (latestActivity.verb === 'like') {
       headerSubtext = 'liked';
-      headerSubtext += ` your ${lastActivity.object.verb}`;
+      headerSubtext += ` your ${latestActivity.object.verb}`;
       // icon = HeartIcon;
-    } else if (lastActivity.verb === 'repost') {
+    } else if (latestActivity.verb === 'repost') {
       headerSubtext = `reposted`;
-      headerSubtext += ` your ${lastActivity.object.verb}`;
+      headerSubtext += ` your ${latestActivity.object.verb}`;
       // icon = RepostIcon;
-    } else if (lastActivity.verb === 'follow') {
+    } else if (latestActivity.verb === 'follow') {
       headerSubtext = `followed`;
       headerSubtext += ` you`;
       // icon = RepostIcon;
-    } else if (lastActivity.verb === 'comment') {
+    } else if (latestActivity.verb === 'comment') {
       headerSubtext = `commented`;
-      headerSubtext += ` on your ${lastActivity.object.verb}`;
+      headerSubtext += ` on your ${latestActivity.object.verb}`;
       // icon = RepostIcon;
     } else {
       console.warn(
@@ -67,39 +105,47 @@ export default class Notification extends React.Component<Props> {
       return null;
     }
 
-    this.getUsers(activities);
-
     return (
       <div
-        onClick={
-          this.props.onClickNotification
-            ? this.props.onClickNotification
-            : () => console.log('this.props.onClickNotification')
-        }
+        onClick={this._getOnClickNotification()}
         className={
           'raf-notification' +
-          (this.props.activityGroup.read ? ' raf-notification--read' : '')
+          (activityGroup.is_read ? ' raf-notification--read' : '')
         }
       >
         <Avatar
-          onClick={this.props.onClickUser}
+          onClick={this._getOnClickUser(lastActor)}
           image={lastActor.data.profileImage}
           circle
           size={30}
         />
         <div className="raf-notification__content">
-          <p>
+          <div className="raf-notification__header">
             <strong>{headerText}</strong> {headerSubtext}
-          </p>
-          <p>
-            <small>{humanizeTimestamp(lastActivity.time)}</small>
-          </p>
-          {lastActivity.verb !== 'follow' ? (
-            <AttachedActivity activity={lastActivity.object} />
+            {!activityGroup.is_read && onMarkAsRead && (
+              <Dropdown>
+                <div>
+                  <Link
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onMarkAsRead(activityGroup);
+                    }}
+                  >
+                    Mark&nbsp;as&nbsp;read
+                  </Link>
+                </div>
+              </Dropdown>
+            )}
+          </div>
+          <div>
+            <small>{humanizeTimestamp(latestActivity.time)}</small>
+          </div>
+          {latestActivity.verb !== 'follow' ? (
+            <AttachedActivity activity={latestActivity.object} />
           ) : null}
         </div>
         <div className="raf-notification__extra">
-          {activities.length > 1 && lastActivity.verb === 'follow' ? (
+          {activities.length > 1 && latestActivity.verb === 'follow' ? (
             <AvatarGroup
               avatarSize={30}
               users={this.getUsers(activities.slice(1, activities.length))}
