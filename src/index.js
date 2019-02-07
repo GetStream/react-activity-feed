@@ -64,6 +64,10 @@ export {
 export {
   default as NewActivitiesNotification,
 } from './components/NewActivitiesNotification';
+export {
+  default as InfiniteScrollPaginator,
+} from './components/InfiniteScrollPaginator';
+export { default as LoadMorePaginator } from './components/LoadMorePaginator';
 
 // Activity sub components
 export { default as AttachedActivity } from './components/AttachedActivity';
