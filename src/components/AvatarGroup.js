@@ -1,12 +1,18 @@
 // @flow
 import React from 'react';
 import Avatar from './Avatar';
-import type { UserData } from '../types';
+import type { UserResponse } from '../types';
+import { userOrDefault } from '../utils';
 
 export type Props = {|
-  users: UserData[],
+  /* The list of users to display */
+  users: UserResponse[],
+  /* The size of the avatar in px */
   avatarSize: number,
+  /* The limit of avatars to display */
   limit: number,
+  /* Callback to call when clicking on a user in the notification */
+  onClickUser?: (UserResponse) => mixed,
 |};
 /**
  * Component is described here.
@@ -18,6 +24,21 @@ export default class AvatarGroup extends React.Component<Props> {
     avatarSize: 30,
     limit: 5,
   };
+
+  _getOnClickUser(user: UserResponse) {
+    return this.props.onClickUser
+      ? (e: SyntheticEvent<>) => this.onClickUser(e, user)
+      : undefined;
+  }
+
+  onClickUser = (e: SyntheticEvent<>, user: UserResponse) => {
+    const { onClickUser } = this.props;
+    if (onClickUser) {
+      e.stopPropagation();
+      return onClickUser(userOrDefault(user));
+    }
+  };
+
   render() {
     return (
       <div className="raf-avatar-group">
@@ -25,7 +46,8 @@ export default class AvatarGroup extends React.Component<Props> {
           this.props.users.slice(0, this.props.limit).map((user, i) => (
             <div className="raf-avatar-group__avatar" key={`avatar-${i}`}>
               <Avatar
-                image={user && user.profileImage}
+                onClick={this._getOnClickUser(user)}
+                image={user && user.data.profileImage}
                 size={this.props.avatarSize}
                 circle
               />

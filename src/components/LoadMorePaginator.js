@@ -13,6 +13,8 @@ type Props = {|
   hasNextPage: boolean,
   /** indicates if there there's currently any refreshing taking place */
   refreshing: boolean,
+  /** display the items in opposite order */
+  reverse: boolean,
   /** The paginated content to display */
   children: React.Node,
 |};
@@ -24,13 +26,14 @@ export default class LoadMorePaginator extends React.Component<Props> {
   render() {
     return (
       <React.Fragment>
-        {this.props.children}
+        {!this.props.reverse && this.props.children}
         {this.props.hasNextPage
           ? smartRender(this.props.LoadMoreButton, {
               refreshing: this.props.refreshing,
               onClick: this.props.loadNextPage,
             })
           : null}
+        {this.props.reverse && this.props.children}
       </React.Fragment>
     );
   }

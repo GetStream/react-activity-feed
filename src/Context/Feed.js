@@ -9,9 +9,11 @@ import type {
   FeedResponse,
   ReactionRequestOptions,
   ReactionFilterResponse,
+  ReactionFilterOptions,
 } from 'getstream';
 import type {
   BaseActivityResponse,
+  BaseActivityGroupResponse,
   BaseAppCtx,
   BaseClient,
   BaseReaction,
@@ -22,7 +24,8 @@ import type {
   AddChildReactionCallbackFunction,
   RemoveChildReactionCallbackFunction,
 } from '../types';
-import { isPlainObject } from 'lodash';
+import { generateRandomId } from '../utils';
+import isPlainObject from 'lodash/isPlainObject';
 
 import type { AppCtx } from './StreamApp';
 import { StreamApp } from './StreamApp';
@@ -45,6 +48,7 @@ export type FeedCtx = {|
     activityId: string,
     kind: string,
     activityPath?: ?Array<string>,
+    oldestToNewest?: boolean,
   ) => Promise<mixed>,
   loadNextPage: () => Promise<mixed>,
   hasNextPage: boolean,
@@ -60,7 +64,19 @@ export type FeedCtx = {|
   onToggleChildReaction: ToggleChildReactionCallbackFunction,
   onAddChildReaction: AddChildReactionCallbackFunction,
   onRemoveChildReaction: RemoveChildReactionCallbackFunction,
-  onRemoveActivity: (activityId: string, kind: string) => Promise<mixed>,
+  onRemoveActivity: (activityId: string) => Promise<mixed>,
+  onMarkAsRead: (
+    group:
+      | true
+      | BaseActivityGroupResponse
+      | $ReadOnlyArray<BaseActivityGroupResponse>,
+  ) => Promise<mixed>,
+  onMarkAsSeen: (
+    group:
+      | true
+      | BaseActivityGroupResponse
+      | $ReadOnlyArray<BaseActivityGroupResponse>,
+  ) => Promise<mixed>,
   getActivityPath: (
     activity: BaseActivityResponse | string,
     ...Array<string>
@@ -554,17 +570,75 @@ export class FeedManager {
     }
     delete togglingReactions[reaction.id];
   };
+
   _removeActivityFromState = (activityId: string) =>
-    this.setState((prevState) => {
-      const activities = prevState.activities.removeIn(
-        this.getActivityPath(activityId),
-        (v = 0) => v - 1,
-      );
-      const activityOrder = prevState.activityOrder.filter(
-        (id) => id !== activityId,
-      );
-      return { activities, activityOrder };
-    });
+    this.setState(
+      ({
+        activities,
+        activityOrder,
+        activityIdToPath,
+        activityIdToPaths,
+        reactionIdToPaths,
+      }) => {
+        const path = this.getActivityPath(activityId);
+        let outerId = activityId;
+        if (path.length > 1) {
+          // It's an aggregated group we should update the paths of everything in
+          // the list
+          const groupArrayPath = path.slice(0, -1);
+          activityIdToPath = this.removeFoundActivityIdPath(
+            activities.getIn(groupArrayPath).toJS(),
+            activityIdToPath,
+            groupArrayPath,
+          );
+          activityIdToPaths = this.removeFoundActivityIdPaths(
+            activities.getIn(groupArrayPath).toJS(),
+            activityIdToPaths,
+            groupArrayPath,
+          );
+          reactionIdToPaths = this.removeFoundReactionIdPaths(
+            activities.getIn(groupArrayPath).toJS(),
+            reactionIdToPaths,
+            groupArrayPath,
+          );
+        }
+
+        activities = activities.removeIn(path);
+        if (path.length > 1) {
+          const groupArrayPath = path.slice(0, -1);
+          if (activities.getIn(groupArrayPath).size === 0) {
+            outerId = path[0]; //
+          } else {
+            outerId = null;
+          }
+          activityIdToPath = this.addFoundActivityIdPath(
+            activities.getIn(groupArrayPath).toJS(),
+            activityIdToPath,
+            groupArrayPath,
+          );
+          activityIdToPaths = this.addFoundActivityIdPaths(
+            activities.getIn(groupArrayPath).toJS(),
+            activityIdToPaths,
+            groupArrayPath,
+          );
+          reactionIdToPaths = this.addFoundReactionIdPaths(
+            activities.getIn(groupArrayPath).toJS(),
+            reactionIdToPaths,
+            groupArrayPath,
+          );
+        }
+        if (outerId != null) {
+          activityOrder = activityOrder.filter((id) => id !== outerId);
+        }
+        return {
+          activities,
+          activityOrder,
+          activityIdToPaths,
+          reactionIdToPaths,
+          activityIdToPath,
+        };
+      },
+    );
 
   onRemoveActivity = async (activityId: string) => {
     try {
@@ -580,6 +654,66 @@ export class FeedManager {
     return this._removeActivityFromState(activityId);
   };
 
+  onMarkAsRead = (
+    group:
+      | true
+      | BaseActivityGroupResponse
+      | $ReadOnlyArray<BaseActivityGroupResponse>,
+  ) => this._onMarkAs('read', group);
+
+  onMarkAsSeen = (
+    group:
+      | true
+      | BaseActivityGroupResponse
+      | $ReadOnlyArray<BaseActivityGroupResponse>,
+  ) => this._onMarkAs('seen', group);
+
+  _onMarkAs = async (
+    type: 'seen' | 'read',
+    group:
+      | true
+      | BaseActivityGroupResponse
+      | $ReadOnlyArray<BaseActivityGroupResponse>,
+  ) => {
+    let groupArray: $ReadOnlyArray<string>;
+    let markArg = group;
+    if (group === true) {
+      groupArray = this.state.activityOrder;
+    } else if (Array.isArray(group)) {
+      groupArray = group.map((g) => g.id);
+      markArg = groupArray;
+    } else {
+      markArg = group.id;
+      groupArray = [group.id];
+    }
+    try {
+      await this.doFeedRequest({
+        limit: 1,
+        id_lte: this.state.activityOrder[0],
+        ['mark_' + type]: markArg,
+      });
+    } catch (e) {
+      this.props.errorHandler(e, 'get-notification-counts', {
+        feedGroup: this.props.feedGroup,
+        userId: this.props.userId,
+      });
+    }
+    this.setState((prevState) => {
+      const counterKey = 'un' + type;
+      let activities = prevState.activities;
+      let counter = prevState[counterKey];
+      for (const groupId of groupArray) {
+        const markerPath = [groupId, 'is_' + type];
+        if (activities.getIn(markerPath) !== false) {
+          continue;
+        }
+        activities = activities.setIn(markerPath, true);
+        counter--;
+      }
+      return { activities, [counterKey]: counter };
+    });
+  };
+
   getOptions = (extraOptions?: FeedRequestOptions = {}): FeedRequestOptions => {
     const propOpts = { ...this.props.options };
     const { id_gt, id_gte, id_lt, id_lte, offset } = extraOptions;
@@ -589,6 +723,7 @@ export class FeedManager {
       delete propOpts.id_lt;
       delete propOpts.id_lte;
       delete propOpts.offset;
+      delete propOpts.refresh;
     }
 
     return {
@@ -778,6 +913,56 @@ export class FeedManager {
     return map;
   };
 
+  removeFoundActivityIdPaths = (
+    data: any,
+    previous: {},
+    basePath: $ReadOnlyArray<mixed>,
+  ) => {
+    const map = previous;
+    const currentPath = [...basePath];
+    function addFoundActivities(obj) {
+      if (Array.isArray(obj)) {
+        obj.forEach((v, i) => {
+          currentPath.push(i);
+          addFoundActivities(v);
+          currentPath.pop();
+        });
+      } else if (isPlainObject(obj)) {
+        if (obj.id && obj.actor && obj.verb && obj.object) {
+          if (!map[obj.id]) {
+            map[obj.id] = [];
+          }
+          _.remove(map[obj.id], (path) => _.isEqual(path, currentPath));
+        }
+        for (const k in obj) {
+          currentPath.push(k);
+          addFoundActivities(obj[k]);
+          currentPath.pop();
+        }
+      }
+    }
+
+    addFoundActivities(data);
+    return map;
+  };
+
+  removeFoundActivityIdPath = (
+    data: any[],
+    previous: {},
+    basePath: $ReadOnlyArray<mixed>,
+  ) => {
+    const map = previous;
+    const currentPath = [...basePath];
+    data.forEach((obj, i) => {
+      currentPath.push(i);
+      if (_.isEqual(map[obj.id], currentPath)) {
+        delete map[obj.id];
+      }
+      currentPath.pop();
+    });
+    return map;
+  };
+
   addFoundReactionIdPaths = (
     data: any,
     previous: {},
@@ -808,6 +993,50 @@ export class FeedManager {
     }
 
     addFoundReactions(data);
+    return map;
+  };
+
+  addFoundActivityIdPaths = (
+    data: any,
+    previous: {},
+    basePath: $ReadOnlyArray<mixed>,
+  ) => {
+    const map = previous;
+    const currentPath = [...basePath];
+    function addFoundActivities(obj) {
+      if (Array.isArray(obj)) {
+        obj.forEach((v, i) => {
+          currentPath.push(i);
+          addFoundActivities(v);
+          currentPath.pop();
+        });
+      } else if (isPlainObject(obj)) {
+        if (obj.id && obj.actor && obj.verb && obj.object) {
+          if (!map[obj.id]) {
+            map[obj.id] = [];
+          }
+          map[obj.id].push([...currentPath]);
+        }
+        for (const k in obj) {
+          currentPath.push(k);
+          addFoundActivities(obj[k]);
+          currentPath.pop();
+        }
+      }
+    }
+    addFoundActivities(data);
+    return map;
+  };
+
+  addFoundActivityIdPath = (
+    data: Array<{ id: string }>,
+    previous: {},
+    basePath: $ReadOnlyArray<mixed>,
+  ) => {
+    const map = previous;
+    data.forEach((obj, i) => {
+      map[obj.id] = [...basePath, i];
+    });
     return map;
   };
 
@@ -1082,24 +1311,52 @@ export class FeedManager {
     activityId: string,
     kind: string,
     activityPath?: ?Array<string>,
+    oldestToNewest?: boolean,
   ) => {
+    let options: ReactionFilterOptions = {
+      activity_id: activityId,
+      kind,
+    };
+
+    let orderPrefix = 'latest';
+    if (oldestToNewest) {
+      orderPrefix = 'oldest';
+    }
+
     if (!activityPath) {
       activityPath = this.getActivityPath(activityId);
     }
-    const latestReactionsPath = [...activityPath, 'latest_reactions', kind];
+    const latestReactionsPath = [
+      ...activityPath,
+      orderPrefix + '_reactions',
+      kind,
+    ];
     const nextUrlPath = [
       ...activityPath,
-      'latest_reactions_extra',
+      orderPrefix + '_reactions_extra',
       kind,
       'next',
     ];
     const refreshingPath = [
       ...activityPath,
-      'latest_reactions_extra',
+      orderPrefix + '_reactions_extra',
       kind,
       'refreshing',
     ];
-    const nextUrl = this.state.activities.getIn(nextUrlPath, '');
+
+    const reactions_extra = this.state.activities.getIn([
+      ...activityPath,
+      orderPrefix + '_reactions_extra',
+    ]);
+    let nextUrl = 'https://api.stream-io-api.com/';
+    if (reactions_extra) {
+      nextUrl = reactions_extra.getIn([kind, 'next'], '');
+    } else if (oldestToNewest) {
+      // If it's the first request and oldest to newest make sure
+      // order is reversed by this trick with a non existant id.
+      options.id_gt = 'non-existant-' + generateRandomId();
+    }
+
     const refreshing = this.state.activities.getIn(refreshingPath, false);
 
     if (!nextUrl || refreshing) {
@@ -1110,10 +1367,9 @@ export class FeedManager {
       activities: prevState.activities.setIn(refreshingPath, true),
     }));
 
-    const options = {
+    options = {
       ...URL(nextUrl, true).query,
-      activity_id: activityId,
-      kind,
+      ...options,
     };
 
     let response;
@@ -1137,7 +1393,7 @@ export class FeedManager {
         response,
         prevState.reactionIdToPaths,
         latestReactionsPath,
-        prevState.activities.getIn(latestReactionsPath, immutable).toJS()
+        prevState.activities.getIn(latestReactionsPath, immutable.List()).toJS()
           .length,
       ),
     }));
@@ -1146,7 +1402,7 @@ export class FeedManager {
   refreshUnreadUnseen = async () => {
     let response: FR;
     try {
-      response = await this.doFeedRequest({ limit: 1 });
+      response = await this.doFeedRequest({ limit: 0 });
     } catch (e) {
       this.props.errorHandler(e, 'get-notification-counts', {
         feedGroup: this.props.feedGroup,
@@ -1233,6 +1489,8 @@ class FeedInner extends React.Component<FeedInnerProps, FeedState> {
       onAddChildReaction: manager.onAddChildReaction,
       onRemoveChildReaction: manager.onRemoveChildReaction,
       onRemoveActivity: manager.onRemoveActivity,
+      onMarkAsRead: manager.onMarkAsRead,
+      onMarkAsSeen: manager.onMarkAsSeen,
       hasDoneRequest: state.lastResponse != null,
       refresh: manager.refresh,
       refreshUnreadUnseen: manager.refreshUnreadUnseen,
