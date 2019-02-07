@@ -1,6 +1,5 @@
-body,
-[class^='raf-'],
-[class*=' raf-'] {
+body [class^='raf-'],
+body [class*=' raf-'] {
   font-family: Avenir, Arial, Helvetica, sans-serif;
   box-sizing: border-box;
 }
