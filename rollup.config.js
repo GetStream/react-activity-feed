@@ -1,4 +1,5 @@
 // @flow
+/* globals __dirname */
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import external from 'rollup-plugin-peer-deps-external';
@@ -6,6 +7,9 @@ import postcss from 'rollup-plugin-postcss';
 import json from 'rollup-plugin-json';
 import url from 'rollup-plugin-url';
 import replace from 'rollup-plugin-replace';
+import resolve from 'rollup-plugin-node-resolve';
+import alias from 'rollup-plugin-alias';
+import path from 'path';
 
 import pkg from './package.json';
 
@@ -19,6 +23,17 @@ const baseConfig = {
     chokidar: false,
   },
 };
+
+const ignoredBrowserModules = [
+  'jsonwebtoken',
+  'http',
+  'https',
+  'zlib',
+  'crypto',
+  'domain',
+  'stream',
+  'sshpk',
+];
 
 const normalBundle = {
   ...baseConfig,
@@ -92,5 +107,64 @@ const normalBundle = {
   ],
 };
 
+const fullBrowserBundle = {
+  ...baseConfig,
+  output: [
+    {
+      file: pkg.jsdelivr,
+      format: 'iife',
+      sourcemap: true,
+      name: 'window', // write all exported values to window
+      extend: true, // extend window, not overwrite it
+      browser: true,
+      globals: {
+        react: 'React',
+        'react-dom': 'ReactDOM',
+      },
+    },
+  ],
+  plugins: [
+    replace({
+      'process.env.NODE_ENV': JSON.stringify('production'),
+    }),
+    external(),
+    alias({
+      request: path.resolve(
+        __dirname,
+        'node_modules/@stream-io/xmlhttp-request/index.js',
+      ),
+    }),
+    babel({
+      runtimeHelpers: true,
+      exclude: 'node_modules/**',
+    }),
+    {
+      name: 'browser-remapper',
+      //$FlowFixMe
+      resolveId: (importee) =>
+        ignoredBrowserModules.includes(importee) ? importee : null,
+      //$FlowFixMe
+      load: (id) =>
+        ignoredBrowserModules.includes(id) ? 'export default null;' : null,
+    },
+
+    {
+      name: 'ignore-css-and-scss',
+      //$FlowFixMe
+      resolveId: (importee) => (importee.match(/.s?css$/) ? importee : null),
+      //$FlowFixMe
+      load: (id) => (id.match(/.s?css$/) ? '' : null),
+    },
+    commonjs(),
+    resolve({
+      browser: true,
+      preferBuiltins: false,
+    }),
+    url(),
+    json(),
+    // terser(),
+  ],
+};
+
 export default () =>
-  process.env.ROLLUP_WATCH ? [normalBundle] : [normalBundle];
+  process.env.ROLLUP_WATCH ? [normalBundle] : [normalBundle, fullBrowserBundle];
