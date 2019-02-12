@@ -1,7 +1,7 @@
 //@flow
 import * as React from 'react';
 import InfiniteScroll from './InfiniteScroll';
-import LoadingIndicator from './LoadingIndicator';
+import { LoadingIndicator } from 'react-file-utils';
 
 type Props = {|
   /** callback to load the next page */

@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import LoadingIndicator from './LoadingIndicator';
+import { LoadingIndicator } from 'react-file-utils';
 
 export type Props = {|
   children: React.Node,

@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import IconButton from './IconButton';
+import { IconButton } from 'react-file-utils';
 
 export type Props = {|
   children?: React.Node,

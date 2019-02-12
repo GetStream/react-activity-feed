@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import IconButton from './IconButton';
+import { IconButton } from 'react-file-utils';
 import { sanitizeURL } from '../utils';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

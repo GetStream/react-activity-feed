@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 
-import LoadingIndicator from './LoadingIndicator';
+import { LoadingIndicator } from 'react-file-utils';
 
 import { emojiIndex } from 'emoji-mart';
 import ReactTextareaAutocomplete from '@webscopeio/react-textarea-autocomplete';

@@ -6,7 +6,7 @@ import UserBar from './UserBar';
 import Card from './Card';
 import Audio from './Audio';
 import Video from './Video';
-import FileIcon from './FileIcon';
+import { FileIcon } from 'react-file-utils';
 import Gallery from './Gallery';
 
 import type { ActivityData, Renderable } from '../types';
@@ -141,7 +141,7 @@ export default class Activity extends React.Component<Props> {
             {attachments.files.map(({ name, url, mimeType }, i) => (
               <a href={sanitizeURL(url)} download key={i}>
                 <li className="raf-activity__file">
-                  <FileIcon mimeType={mimeType} /> {name}
+                  <FileIcon mimeType={mimeType} filename={name} /> {name}
                 </li>
               </a>
             ))}

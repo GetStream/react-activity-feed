@@ -2,7 +2,7 @@
 
 import React from 'react';
 import placeholder from '../images/placeholder.png';
-import IconButton from './IconButton';
+import { IconButton } from 'react-file-utils';
 import { sanitizeURL } from '../utils';
 
 export type Props = {|

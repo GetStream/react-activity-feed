@@ -140,6 +140,7 @@
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "react-dropzone": "^5.1.1",
+    "react-file-utils": "^0.3.2",
     "react-images": "^0.5.19",
     "stream-analytics": "^2.7.2"
   }

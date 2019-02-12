@@ -11,14 +11,16 @@ import Card from './Card';
 import Video from './Video';
 import Audio from './Audio';
 import EmojiPicker from './EmojiPicker';
-import ImageUploadButton from './ImageUploadButton';
-import FileUploadButton from './FileUploadButton';
-import ImagePreviewer from './ImagePreviewer';
-import FilePreviewer from './FilePreviewer';
-import ImageDropzone from './ImageDropzone';
+import {
+  ImageUploadButton,
+  FileUploadButton,
+  ImagePreviewer,
+  FilePreviewer,
+  ImageDropzone,
+  LoadingIndicator,
+} from 'react-file-utils';
 import Button from './Button';
 import Title from './Title';
-import LoadingIndicator from './LoadingIndicator';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark } from '@fortawesome/free-regular-svg-icons';
 import _ from 'lodash';

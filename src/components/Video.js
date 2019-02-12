@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import IconButton from './IconButton';
+import { IconButton } from 'react-file-utils';
 import type { OgData } from '../types';
 import { sanitizeURL } from '../utils';
 import URL from 'url-parse';

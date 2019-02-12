@@ -1,4 +1,6 @@
 // @flow
+import './styles/vendor/react-file-utils.css';
+import './styles/vendor/emoji-mart.css';
 import './App.css';
 import './styles/Activity.css';
 import './styles/ActivityFooter.css';
@@ -16,20 +18,11 @@ import './styles/Dropdown.css';
 import './styles/DropdownPanel.css';
 import './styles/EmojiPicker.css';
 import './styles/FeedPlaceholder.css';
-import './styles/FileInput.css';
-import './styles/FilePreviewer.css';
-import './styles/FileUploadButton.css';
 import './styles/Flex.css';
 import './styles/FollowButton.css';
 import './styles/Gallery.css';
 import './styles/IconBadge.css';
-import './styles/IconButton.css';
-import './styles/ImageDropzone.css';
-import './styles/ImageInput.css';
-import './styles/ImagePreviewer.css';
-import './styles/ImageUploadButton.css';
 import './styles/Link.css';
-import './styles/LoadingIndicator.css';
 import './styles/LoadMoreButton.css';
 import './styles/Modal.css';
 import './styles/NewActivitiesNotification.css';
@@ -41,8 +34,6 @@ import './styles/PanelHeader.css';
 import './styles/ReactionIcon.css';
 import './styles/StatusUpdateForm.css';
 import './styles/Textarea.css';
-import './styles/Thumbnail.css';
-import './styles/ThumbnailPlaceholder.css';
 import './styles/TimeHeader.css';
 import './styles/Title.css';
 import './styles/UserBar.css';
@@ -96,20 +87,8 @@ export { default as CommentField } from './components/CommentField';
 
 // Generic components
 export { default as Button } from './components/Button';
-export { default as LoadingIndicator } from './components/LoadingIndicator';
-export { default as Thumbnail } from './components/Thumbnail';
 export { default as DataLabel } from './components/DataLabel';
 
 // Emoji stuff
 export { default as Textarea } from './components/Textarea';
 export { default as EmojiPicker } from './components/EmojiPicker';
-
-// Upload related components
-export { default as FileInput } from './components/FileInput';
-export { default as FilePreviewer } from './components/FilePreviewer';
-export { default as FileUploadButton } from './components/FileUploadButton';
-export { default as ImageDropzone } from './components/ImageDropzone';
-export { default as ImagePreviewer } from './components/ImagePreviewer';
-export { default as ImageInput } from './components/ImageInput';
-export { default as ImageUploadButton } from './components/ImageUploadButton';
-export { default as FileIcon } from './components/FileIcon';

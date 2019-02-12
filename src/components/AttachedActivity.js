@@ -3,7 +3,7 @@ import React from 'react';
 import { userOrDefault } from '../utils';
 import type { ActivityData } from '../types';
 
-import Thumbnail from './Thumbnail';
+import { Thumbnail } from 'react-file-utils';
 
 type Props = {|
   activity: ActivityData,
