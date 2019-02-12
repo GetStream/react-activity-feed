@@ -7,34 +7,26 @@ import json from 'rollup-plugin-json';
 import url from 'rollup-plugin-url';
 import replace from 'rollup-plugin-replace';
 
-import atImport from 'postcss-easy-import';
-import cssnext from 'postcss-cssnext';
-import nested from 'postcss-nested';
-import colorFunction from 'postcss-color-function';
-import vars from 'postcss-simple-vars';
-
 import pkg from './package.json';
-
-import { variables } from './src/variables';
 
 import process from 'process';
 process.env.NODE_ENV = 'production';
 
-export default {
+const baseConfig = {
   input: 'src/index.js',
+  cache: false,
+  watch: {
+    chokidar: false,
+  },
+};
+
+const normalBundle = {
+  ...baseConfig,
   output: [
     {
       file: pkg.main,
       format: 'cjs',
       sourcemap: true,
-      browser: true,
-    },
-    {
-      file: pkg.main,
-      format: 'umd',
-      sourcemap: true,
-      name: 'index.umd',
-      browser: true,
     },
     {
       file: pkg.module,
@@ -42,15 +34,12 @@ export default {
       sourcemap: true,
     },
   ],
-  watch: {
-    chokidar: false,
-  },
   external: [
     'anchorme',
     'moment',
     'getstream',
     'react-images',
-    'lodash',
+    'react-file-utils',
     'emoji-mart',
     '@webscopeio/react-textarea-autocomplete',
     '@webscopeio/react-textarea-autocomplete/style.css',
@@ -60,6 +49,14 @@ export default {
     'url-parse',
     'stream-analytics',
     'prop-types',
+    'lodash/isPlainObject',
+    'lodash/uniq',
+    'lodash/difference',
+    'lodash/includes',
+    'lodash/debounce',
+    'lodash/isEqual',
+    'lodash/remove',
+    'lodash/truncate',
     '@fortawesome/react-fontawesome',
     '@fortawesome/free-regular-svg-icons',
     '@babel/runtime/regenerator',
@@ -81,23 +78,19 @@ export default {
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
     external(),
-    postcss({
-      plugins: [
-        atImport(),
-        nested(),
-        vars({ variables }),
-        colorFunction(),
-        cssnext(),
-      ],
-      modules: false,
-      extract: true,
-    }),
-    url(),
     babel({
       runtimeHelpers: true,
       exclude: 'node_modules/**',
     }),
+    postcss({
+      modules: false,
+      extract: true,
+    }),
+    url(),
     commonjs(),
     json(),
   ],
 };
+
+export default () =>
+  process.env.ROLLUP_WATCH ? [normalBundle] : [normalBundle];

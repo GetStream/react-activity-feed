@@ -23,7 +23,10 @@ import Button from './Button';
 import Title from './Title';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark } from '@fortawesome/free-regular-svg-icons';
-import _ from 'lodash';
+import _uniq from 'lodash/uniq';
+import _debounce from 'lodash/debounce';
+import _difference from 'lodash/difference';
+import _includes from 'lodash/includes';
 import anchorme from 'anchorme';
 
 import { StreamApp } from '../Context';
@@ -133,7 +136,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
 
   constructor(props) {
     super(props);
-    this._handleOgDebounced = _.debounce(this.handleOG, 250, {
+    this._handleOgDebounced = _debounce(this.handleOG, 250, {
       leading: true,
       trailing: true,
     });
@@ -148,18 +151,18 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       exclude: (info) =>
         info.protocol !== 'https://' && info.protocol !== 'http://',
     });
-    const urls = _.uniq(urlInfos.map((info) => info.protocol + info.encoded));
+    const urls = _uniq(urlInfos.map((info) => info.protocol + info.encoded));
 
     this.setState(
       (prevState) => {
         const oldUrls = prevState.ogUrlOrder;
-        newUrls = _.difference(urls, oldUrls);
-        removedUrls = _.difference(oldUrls, urls);
+        newUrls = _difference(urls, oldUrls);
+        removedUrls = _difference(oldUrls, urls);
         const newState: $Shape<State> = {
           ogUrlOrder: urls,
         };
 
-        if (!_.includes(urls, prevState.ogActiveUrl)) {
+        if (!_includes(urls, prevState.ogActiveUrl)) {
           // !urls.includes(prevState.ogActiveUrl) replaced with lodash
           newState.ogActiveUrl = null;
           for (const url of urls) {

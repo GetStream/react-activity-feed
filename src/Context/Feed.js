@@ -3,7 +3,6 @@
 import * as React from 'react';
 import immutable from 'immutable';
 import URL from 'url-parse';
-import _ from 'lodash';
 import type {
   FeedRequestOptions,
   FeedResponse,
@@ -25,7 +24,9 @@ import type {
   RemoveChildReactionCallbackFunction,
 } from '../types';
 import { generateRandomId } from '../utils';
-import isPlainObject from 'lodash/isPlainObject';
+import _isPlainObject from 'lodash/isPlainObject';
+import _isEqual from 'lodash/isEqual';
+import _remove from 'lodash/remove';
 
 import type { AppCtx } from './StreamApp';
 import { StreamApp } from './StreamApp';
@@ -785,7 +786,7 @@ export class FeedManager {
           addFoundActivities(v);
           currentPath.pop();
         });
-      } else if (isPlainObject(obj)) {
+      } else if (_isPlainObject(obj)) {
         if (obj.id && obj.actor && obj.verb && obj.object) {
           if (!map[obj.id]) {
             map[obj.id] = [];
@@ -818,7 +819,7 @@ export class FeedManager {
           addFoundReactions(v);
           currentPath.pop();
         });
-      } else if (isPlainObject(obj)) {
+      } else if (_isPlainObject(obj)) {
         if (obj.id && obj.kind && obj.data) {
           if (!map[obj.id]) {
             map[obj.id] = [];
@@ -856,7 +857,7 @@ export class FeedManager {
           addFoundReactions(v);
           currentPath.pop();
         });
-      } else if (isPlainObject(obj)) {
+      } else if (_isPlainObject(obj)) {
         if (obj.id && obj.kind && obj.data) {
           if (!map[obj.id]) {
             map[obj.id] = [];
@@ -894,12 +895,12 @@ export class FeedManager {
           removeFoundReactions(v);
           currentPath.pop();
         });
-      } else if (isPlainObject(obj)) {
+      } else if (_isPlainObject(obj)) {
         if (obj.id && obj.kind && obj.data) {
           if (!map[obj.id]) {
             map[obj.id] = [];
           }
-          _.remove(map[obj.id], (path) => _.isEqual(path, currentPath));
+          _remove(map[obj.id], (path) => _isEqual(path, currentPath));
         }
         for (const k in obj) {
           currentPath.push(k);
@@ -927,12 +928,12 @@ export class FeedManager {
           addFoundActivities(v);
           currentPath.pop();
         });
-      } else if (isPlainObject(obj)) {
+      } else if (_isPlainObject(obj)) {
         if (obj.id && obj.actor && obj.verb && obj.object) {
           if (!map[obj.id]) {
             map[obj.id] = [];
           }
-          _.remove(map[obj.id], (path) => _.isEqual(path, currentPath));
+          _remove(map[obj.id], (path) => _isEqual(path, currentPath));
         }
         for (const k in obj) {
           currentPath.push(k);
@@ -955,7 +956,7 @@ export class FeedManager {
     const currentPath = [...basePath];
     data.forEach((obj, i) => {
       currentPath.push(i);
-      if (_.isEqual(map[obj.id], currentPath)) {
+      if (_isEqual(map[obj.id], currentPath)) {
         delete map[obj.id];
       }
       currentPath.pop();
@@ -977,7 +978,7 @@ export class FeedManager {
           addFoundReactions(v);
           currentPath.pop();
         });
-      } else if (isPlainObject(obj)) {
+      } else if (_isPlainObject(obj)) {
         if (obj.id && obj.kind && obj.data) {
           if (!map[obj.id]) {
             map[obj.id] = [];
@@ -1010,7 +1011,7 @@ export class FeedManager {
           addFoundActivities(v);
           currentPath.pop();
         });
-      } else if (isPlainObject(obj)) {
+      } else if (_isPlainObject(obj)) {
         if (obj.id && obj.actor && obj.verb && obj.object) {
           if (!map[obj.id]) {
             map[obj.id] = [];
@@ -1456,7 +1457,7 @@ class FeedInner extends React.Component<FeedInnerProps, FeedState> {
     const feedDifferent =
       this.props.userId !== prevProps.userId ||
       this.props.feedGroup !== prevProps.feedGroup;
-    const optionsDifferent = !_.isEqual(this.props.options, prevProps.options);
+    const optionsDifferent = !_isEqual(this.props.options, prevProps.options);
     const doFeedRequestDifferent =
       this.props.doFeedRequest !== prevProps.doFeedRequest;
 

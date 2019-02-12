@@ -35,8 +35,8 @@ module.exports = {
   plugins: {
     'postcss-easy-import': {},
     'postcss-cssnext': {},
+    'postcss-simple-vars': { variables },
     'postcss-nested': {},
     'postcss-color-function': {},
-    'postcss-simple-vars': { variables },
   },
 };

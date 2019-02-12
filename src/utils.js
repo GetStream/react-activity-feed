@@ -3,7 +3,7 @@ import * as React from 'react';
 import moment from 'moment';
 import URL from 'url-parse';
 import anchorme from 'anchorme';
-import { truncate } from 'lodash';
+import _truncate from 'lodash/truncate';
 import type { UserResponse } from './types';
 
 import type { Renderable, RenderableButNotElement, FileLike } from './types';
@@ -235,7 +235,7 @@ export const textRenderer = (
           return word;
         }
         const url = link[0].protocol + link[0].encoded;
-        const urlText = truncate(link[0].encoded, { length: 33 });
+        const urlText = _truncate(link[0].encoded, { length: 33 });
         return (
           <a
             href={url}
