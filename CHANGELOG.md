@@ -9,6 +9,56 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Nothing yet
 
+## 0.8.0 - 2019-02-12
+
+### Breaking changes
+
+Components related to uploading files have been moved to the separate
+[`react-file-utils`](https://github.com/GetStream/react-file-utils) library.
+These components are not exported anymore from this library for clarity and
+consistency. Following is the list of components that have been moved to
+`react-file-utils`:
+
+- `FileIcon`
+- `FilePreviewer`
+- `FileUploadButton`
+- `IconButton`
+- `ImageDropzone`
+- `ImagePreviewer`
+- `ImageUploadButton`
+- `LoadingIndicator`
+- `Thumbnail`
+- `ThumbnailPlaceholder`
+
+What you need to change:
+
+- If you imported any of these components directly from `react-activity-feed`
+  you should now import them from `react-file-utils`.
+- If you've overridden the styles for these components you will need to modify
+  it to change the class prefix from `raf-` to `rfu-`.
+
+### Fixed
+
+- `DropdownPanenl`/`NotificationDropdown`: Correct some styling issues
+
+### Chore
+
+- Fix build warnings
+
+## 0.7.5 - 2019-02-12
+
+### Changed
+
+- `StatusUpdateForm`: Pass response of adding the activity to `onSuccess`
+  callback
+
+## 0.7.4 - 2019-02-12
+
+### Fixed
+
+- Don't override styling on body
+- Export the Paginator components
+
 ## 0.7.3 - 2019-02-05
 
 ### Fixed
