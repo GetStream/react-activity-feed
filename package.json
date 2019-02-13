@@ -33,11 +33,10 @@
     "lint": "prettier --list-different '**/*.{js,ts,md,json}' .eslintrc.json .prettierrc .babelrc && eslint '**/*.{js,md}' --max-warnings 0 && stylelint '**/*.{css,scss}'",
     "lint-fix": "prettier --write '**/*.{js,ts,md,json}' .eslintrc.json .prettierrc .babelrc && eslint --fix '**/*.{js,md}' --max-warnings 0 && stylelint --fix '**/*.{css,scss}'",
     "build": "mkdir -p dist && rollup -c",
-    "build:webpack": "webpack --env dev && webpack --env build",
     "start": "mkdir -p dist && rollup -c -w",
     "docs": "styleguidist build",
     "docs-server": "styleguidist server",
-    "prepare": "yarn run build && yarn run build:webpack",
+    "prepare": "yarn run build",
     "preversion": "yarn install && git add yarn.lock && cd example && yarn install && git add yarn.lock",
     "version": "yarn docs && git add docs && git add example yarn.lock",
     "postversion": "git push && git push --tags && npm publish",
@@ -89,11 +88,9 @@
     "eslint-plugin-promise": "^4.0.0",
     "eslint-plugin-react": "^7.10.0",
     "faker": "^4.1.0",
-    "file-loader": "^2.0.0",
     "flow-bin": "^0.80.0",
     "gh-pages": "^1.2.0",
     "husky": "^1.3.1",
-    "ignore-loader": "^0.1.2",
     "postcss-color-function": "^4.0.1",
     "postcss-cssnext": "^3.1.0",
     "postcss-easy-import": "^3.0.0",
@@ -122,11 +119,7 @@
     "stylelint": "^9.10.1",
     "stylelint-config-standard": "^18.2.0",
     "sugarss": "^2.0.0",
-    "uglifyjs-webpack-plugin": "^1.2.7",
-    "url-loader": "^1.1.2",
-    "webpack": "^4.12.2",
-    "webpack-cli": "^3.1.2",
-    "yargs": "^10.0.3"
+    "webpack": "^4.12.2"
   },
   "files": [
     "dist"
