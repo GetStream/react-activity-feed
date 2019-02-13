@@ -35,7 +35,9 @@ export default class DropdownPanel extends React.Component<Props> {
       >
         <div className="raf-dropdown-panel__header">{this.props.Header}</div>
         <div className="raf-dropdown-panel__content">{this.props.children}</div>
-        <div className="raf-dropdown-panel__footer">{this.props.Footer}</div>
+        {this.props.Footer != null && (
+          <div className="raf-dropdown-panel__footer">{this.props.Footer}</div>
+        )}
       </div>
     );
   }

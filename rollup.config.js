@@ -8,7 +8,9 @@ import json from 'rollup-plugin-json';
 import url from 'rollup-plugin-url';
 import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
+import globals from 'rollup-plugin-node-globals';
 import alias from 'rollup-plugin-alias';
+import { terser } from 'rollup-plugin-terser';
 import path from 'path';
 
 import pkg from './package.json';
@@ -162,7 +164,14 @@ const fullBrowserBundle = {
     }),
     url(),
     json(),
-    // terser(),
+    globals({
+      process: true,
+      buffer: true,
+      global: false,
+      dirname: false,
+      filename: false,
+    }),
+    terser(),
   ],
 };
 
