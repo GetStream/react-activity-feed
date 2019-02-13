@@ -10,7 +10,6 @@ import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
 import globals from 'rollup-plugin-node-globals';
 import alias from 'rollup-plugin-alias';
-import { terser } from 'rollup-plugin-terser';
 import path from 'path';
 
 import pkg from './package.json';
@@ -171,7 +170,6 @@ const fullBrowserBundle = {
       dirname: false,
       filename: false,
     }),
-    terser(),
   ],
 };
 
