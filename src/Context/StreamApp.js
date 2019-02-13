@@ -8,7 +8,7 @@ import type { StreamClient, StreamUser } from 'getstream';
 
 import type { ErrorHandler } from '../types';
 
-import { FeedManager } from './Feed';
+import { FeedManager } from './FeedManager';
 import type { FeedProps } from './Feed';
 import { handleError } from '../errors';
 
