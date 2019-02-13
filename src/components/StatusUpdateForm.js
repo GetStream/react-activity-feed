@@ -38,6 +38,7 @@ import {
 } from '../utils';
 import type {
   BaseAppCtx,
+  BaseActivityResponse,
   OgData,
   CustomActivityArgData,
   ImageUpload,
@@ -71,9 +72,9 @@ type Props = {|
   /** Add extra footer item */
   FooterItem?: React.Node,
   /** A callback to run after the activity is posted successfully */
-  onSuccess?: () => mixed,
+  onSuccess?: (response: BaseActivityResponse) => mixed,
   /** Override Post request */
-  doRequest?: (activityData: {}) => mixed,
+  doRequest?: (activityData: {}) => Promise<BaseActivityResponse>,
 |};
 
 /**
@@ -324,9 +325,9 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
 
     const modifiedActivity = this.props.modifyActivityData(activity);
     if (this.props.doRequest) {
-      await this.props.doRequest(modifiedActivity);
+      return await this.props.doRequest(modifiedActivity);
     } else {
-      await this.props.client
+      return await this.props.client
         .feed(this.props.feedGroup, this.props.userId)
         .addActivity(modifiedActivity);
     }
@@ -335,8 +336,9 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   onSubmitForm = async (e) => {
     e.preventDefault();
     this.setState({ submitting: true });
+    let response;
     try {
-      await this.addActivity();
+      response = await this.addActivity();
     } catch (e) {
       this.setState({ submitting: false });
       this.props.errorHandler(e, 'add-activity', {
@@ -357,7 +359,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       submitting: false,
     });
     if (this.props.onSuccess) {
-      this.props.onSuccess();
+      this.props.onSuccess(response);
     }
   };
   _getTextAreaElement = () => this.textInputRef.current;
