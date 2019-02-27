@@ -280,11 +280,8 @@ export class FeedManager {
       return;
     }
     this.trackAnalytics('un' + kind, activity, options.trackAnalytics);
-    if (this.state.reactionActivities[id]) {
-      this._removeActivityFromState(this.state.reactionActivities[id]);
-    }
 
-    return this.setState((prevState) => {
+    this.setState((prevState) => {
       let { activities } = prevState;
       const { reactionIdToPaths } = prevState;
       for (const path of this.getActivityPaths(activity)) {
@@ -314,6 +311,10 @@ export class FeedManager {
 
       return { activities, reactionIdToPaths };
     });
+
+    if (this.state.reactionActivities[id]) {
+      this._removeActivityFromState(this.state.reactionActivities[id]);
+    }
   };
 
   onToggleReaction = async (
@@ -500,6 +501,19 @@ export class FeedManager {
             activities.getIn(groupArrayPath).toJS(),
             reactionIdToPaths,
             groupArrayPath,
+          );
+        } else {
+          // Otherwise remove all things inside this activity from the path
+          // objects
+          activityIdToPaths = this.removeFoundActivityIdPaths(
+            activities.get(activityId).toJS(),
+            activityIdToPaths,
+            [activityId],
+          );
+          reactionIdToPaths = this.removeFoundReactionIdPaths(
+            activities.get(activityId).toJS(),
+            reactionIdToPaths,
+            [activityId],
           );
         }
 
