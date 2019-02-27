@@ -4,7 +4,7 @@ import moment from 'moment';
 import URL from 'url-parse';
 import anchorme from 'anchorme';
 import _truncate from 'lodash/truncate';
-import { extractHashtags, extractMentions } from 'twitter-text';
+import twitter from 'twitter-text';
 import type { UserResponse } from './types';
 
 import type { Renderable, RenderableButNotElement, FileLike } from './types';
@@ -202,7 +202,7 @@ export const textRenderer = (
     .split(' ')
     .map((word, i) => {
       if (onClickMention && word[0] === '@') {
-        const mention = extractMentions(word);
+        const mention = twitter.extractMentions(word);
         if (!mention.length) return word;
 
         return (
@@ -218,7 +218,7 @@ export const textRenderer = (
           </React.Fragment>
         );
       } else if (onClickHashtag && word[0] === '#') {
-        const hashtag = extractHashtags(word);
+        const hashtag = twitter.extractHashtags(word);
         if (!hashtag.length) return word;
 
         return (
