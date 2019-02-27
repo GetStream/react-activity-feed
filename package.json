@@ -140,6 +140,7 @@
     "react-file-utils": "^0.3.2",
     "react-images": "^0.5.19",
     "stream-analytics": "^2.7.2",
+    "twitter-text": "^3.0.0",
     "url-loader": "^1.1.2"
   }
 }

@@ -4,6 +4,7 @@ import moment from 'moment';
 import URL from 'url-parse';
 import anchorme from 'anchorme';
 import _truncate from 'lodash/truncate';
+import twitter from 'twitter-text';
 import type { UserResponse } from './types';
 
 import type { Renderable, RenderableButNotElement, FileLike } from './types';
@@ -200,29 +201,37 @@ export const textRenderer = (
   text
     .split(' ')
     .map((word, i) => {
-      if (/^@[^\s]+$/.test(word)) {
+      if (onClickMention && word[0] === '@') {
+        const mention = twitter.extractMentions(word);
+        if (!mention.length) return word;
+
         return (
-          <a
-            onClick={() => onClickMention && onClickMention(word)}
-            className={`${parentClass}__mention`}
-            key={`item-${i}`}
-          >
-            {word}
-          </a>
+          <React.Fragment key={`item-${i}`}>
+            <a
+              onClick={() => onClickMention && onClickMention(mention[0])}
+              className={`${parentClass}__mention`}
+            >
+              @{mention[0]}
+            </a>
+            {mention[0].length !== word.length - 1 &&
+              word.slice(mention[0].length + 1)}
+          </React.Fragment>
         );
-      } else if (
-        word[0] === '#' &&
-        !/^#\d+$/.test(word) &&
-        /^#[a-zA-Z0-9_]+$/.test(word)
-      ) {
+      } else if (onClickHashtag && word[0] === '#') {
+        const hashtag = twitter.extractHashtags(word);
+        if (!hashtag.length) return word;
+
         return (
-          <a
-            onClick={() => onClickHashtag && onClickHashtag(word)}
-            className={`${parentClass}__hashtag`}
-            key={`item-${i}`}
-          >
-            {word}
-          </a>
+          <React.Fragment key={`item-${i}`}>
+            <a
+              onClick={() => onClickHashtag && onClickHashtag(hashtag[0])}
+              className={`${parentClass}__hashtag`}
+            >
+              #{hashtag[0]}
+            </a>
+            {hashtag[0].length !== word.length - 1 &&
+              word.slice(hashtag[0].length + 1)}
+          </React.Fragment>
         );
       }
       if (anchorme.validate.url(word) || anchorme.validate.email(word)) {
