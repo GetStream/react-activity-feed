@@ -62,6 +62,7 @@ const normalBundle = {
     'emoji-mart/css/emoji-mart.css',
     'react-dropzone',
     'immutable',
+    'twitter-text',
     'url-parse',
     'stream-analytics',
     'prop-types',
