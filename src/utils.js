@@ -201,36 +201,40 @@ export const textRenderer = (
   text
     .split(' ')
     .map((word, i) => {
-      if (onClickMention && word[0] === '@') {
+      if (onClickMention && word.includes('@')) {
         const mention = twitter.extractMentions(word);
         if (!mention.length) return word;
 
         return (
           <React.Fragment key={`item-${i}`}>
+            {!word.startsWith(`@${mention[0]}`) &&
+              word.slice(0, word.indexOf(mention[0]) - 1)}
             <a
               onClick={() => onClickMention && onClickMention(mention[0])}
               className={`${parentClass}__mention`}
             >
               @{mention[0]}
             </a>
-            {mention[0].length !== word.length - 1 &&
-              word.slice(mention[0].length + 1)}
+            {!word.endsWith(mention[0]) &&
+              word.slice(word.indexOf(mention[0]) + mention[0].length)}
           </React.Fragment>
         );
-      } else if (onClickHashtag && word[0] === '#') {
+      } else if (onClickHashtag && word.includes('#')) {
         const hashtag = twitter.extractHashtags(word);
         if (!hashtag.length) return word;
 
         return (
           <React.Fragment key={`item-${i}`}>
+            {!word.startsWith(`#${hashtag[0]}`) &&
+              word.slice(0, word.indexOf(hashtag[0]) - 1)}
             <a
               onClick={() => onClickHashtag && onClickHashtag(hashtag[0])}
               className={`${parentClass}__hashtag`}
             >
               #{hashtag[0]}
             </a>
-            {hashtag[0].length !== word.length - 1 &&
-              word.slice(hashtag[0].length + 1)}
+            {!word.endsWith(hashtag[0]) &&
+              word.slice(word.indexOf(hashtag[0]) + hashtag[0].length)}
           </React.Fragment>
         );
       }
