@@ -1,0 +1,237 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`utils -> textRenderer is renders # with callback func correctly 1`] = `
+Array [
+  <a
+    className="__hashtag"
+    onClick={[Function]}
+  >
+    #
+    stream
+  </a>,
+  "'s",
+  " ",
+  <a
+    className="__hashtag"
+    onClick={[Function]}
+  >
+    #
+    stream
+  </a>,
+  "!",
+  " ",
+  <a
+    className="__hashtag"
+    onClick={[Function]}
+  >
+    #
+    stream
+  </a>,
+  "?",
+  " ",
+  "(",
+  <a
+    className="__hashtag"
+    onClick={[Function]}
+  >
+    #
+    stream
+  </a>,
+  ")",
+  " ",
+  "[",
+  <a
+    className="__hashtag"
+    onClick={[Function]}
+  >
+    #
+    stream
+  </a>,
+  "]",
+  " ",
+  <a
+    className="__hashtag"
+    onClick={[Function]}
+  >
+    #
+    stream
+  </a>,
+  ";",
+  " ",
+  <a
+    className="__hashtag"
+    onClick={[Function]}
+  >
+    #
+    stream
+  </a>,
+  ":",
+  " ",
+  <a
+    className="__hashtag"
+    onClick={[Function]}
+  >
+    #
+    stream
+  </a>,
+  ",",
+  " ",
+  <a
+    className="__hashtag"
+    onClick={[Function]}
+  >
+    #
+    stream
+  </a>,
+  " ",
+  <a
+    className="__hashtag"
+    onClick={[Function]}
+  >
+    #
+    stream_stream
+  </a>,
+]
+`;
+
+exports[`utils -> textRenderer is renders # without callback func correctly 1`] = `
+Array [
+  "#stream's",
+  " ",
+  "#stream!",
+  " ",
+  "#stream?",
+  " ",
+  "(#stream)",
+  " ",
+  "[#stream]",
+  " ",
+  "#stream;",
+  " ",
+  "#stream:",
+  " ",
+  "#stream,",
+  " ",
+  "#stream",
+  " ",
+  "#stream_stream",
+]
+`;
+
+exports[`utils -> textRenderer is renders @ with callback func correctly  1`] = `
+Array [
+  <a
+    className="__mention"
+    onClick={[Function]}
+  >
+    @
+    allison
+  </a>,
+  "'s",
+  " ",
+  <a
+    className="__mention"
+    onClick={[Function]}
+  >
+    @
+    allison
+  </a>,
+  "!",
+  " ",
+  <a
+    className="__mention"
+    onClick={[Function]}
+  >
+    @
+    allison
+  </a>,
+  "?",
+  " ",
+  "(",
+  <a
+    className="__mention"
+    onClick={[Function]}
+  >
+    @
+    allison
+  </a>,
+  ")",
+  " ",
+  "[",
+  <a
+    className="__mention"
+    onClick={[Function]}
+  >
+    @
+    allison
+  </a>,
+  "]",
+  " ",
+  <a
+    className="__mention"
+    onClick={[Function]}
+  >
+    @
+    allison
+  </a>,
+  ";",
+  " ",
+  <a
+    className="__mention"
+    onClick={[Function]}
+  >
+    @
+    allison
+  </a>,
+  ":",
+  " ",
+  <a
+    className="__mention"
+    onClick={[Function]}
+  >
+    @
+    allison
+  </a>,
+  ",",
+  " ",
+  <a
+    className="__mention"
+    onClick={[Function]}
+  >
+    @
+    allison
+  </a>,
+  " ",
+  <a
+    className="__mention"
+    onClick={[Function]}
+  >
+    @
+    allison_allison
+  </a>,
+]
+`;
+
+exports[`utils -> textRenderer is renders @ without callback func correctly  1`] = `
+Array [
+  "@allison's",
+  " ",
+  "@allison!",
+  " ",
+  "@allison?",
+  " ",
+  "(@allison)",
+  " ",
+  "[@allison]",
+  " ",
+  "@allison;",
+  " ",
+  "@allison:",
+  " ",
+  "@allison,",
+  " ",
+  "@allison",
+  " ",
+  "@allison_allison",
+]
+`;
