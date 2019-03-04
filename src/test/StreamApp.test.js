@@ -1,6 +1,6 @@
 // @flow
 
-import { StreamApp } from './';
+import { StreamApp } from '..';
 
 describe('StreamApp', () => {
   it('is truthy', () => {
