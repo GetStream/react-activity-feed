@@ -171,3 +171,25 @@ export type Emoji = {
   skin: ?number,
   unified: string,
 };
+
+export type Trigger = {
+  [triggerChar: string]: {|
+    output?: (
+      item: Object | string,
+      trigger?: string,
+    ) =>
+      | {|
+          key?: ?string,
+          text: string,
+          caretPosition: 'start' | 'end' | 'next' | number,
+        |}
+      | string
+      | null,
+    dataProvider: (
+      token: string,
+    ) => Promise<Array<Object | string>> | Array<Object | string>,
+    allowWhitespace?: boolean,
+    afterWhitespace?: boolean,
+    component: React.Element<any>,
+  |},
+};

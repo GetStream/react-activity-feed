@@ -9,6 +9,7 @@ import { inputValueFromEvent } from '../utils';
 import type {
   AddReactionCallbackFunction,
   BaseActivityResponse,
+  Trigger,
 } from '../types';
 
 export type Props = {|
@@ -18,6 +19,7 @@ export type Props = {|
   placeholder: string,
   image?: string,
   onSuccess?: () => mixed,
+  trigger?: Trigger,
 |};
 
 type State = {|
@@ -92,6 +94,7 @@ export default class CommentField extends React.Component<Props, State> {
             value={this.state.text}
             placeholder={this.props.placeholder}
             onChange={this._onChange}
+            trigger={this.props.trigger}
             onPaste={() => null}
             maxLength={280}
             innerRef={this.textareaRef}

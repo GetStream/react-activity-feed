@@ -5,6 +5,8 @@ import { LoadingIndicator } from 'react-file-utils';
 
 import { emojiIndex } from 'emoji-mart';
 import ReactTextareaAutocomplete from '@webscopeio/react-textarea-autocomplete';
+import type { Trigger } from '../types';
+
 import '@webscopeio/react-textarea-autocomplete/style.css';
 
 export type Props = {|
@@ -15,6 +17,7 @@ export type Props = {|
   onPaste: (event: SyntheticClipboardEvent<HTMLTextAreaElement>) => mixed,
   value?: string,
   innerRef?: any,
+  trigger?: Trigger,
 |};
 
 const AutocompleteItem = ({ entity: { id, native } }) => (
@@ -32,10 +35,11 @@ export default class Textarea extends React.Component<Props> {
   static defaultProps = {
     rows: 3,
     placeholder: 'Share your opinion',
+    trigger: {},
   };
 
   render() {
-    const { innerRef } = this.props;
+    const { innerRef, trigger } = this.props;
     return (
       <ReactTextareaAutocomplete
         loadingComponent={LoadingIndicator}
@@ -52,6 +56,7 @@ export default class Textarea extends React.Component<Props> {
               caretPosition: 'next',
             }),
           },
+          ...trigger,
         }}
         innerRef={
           innerRef &&
