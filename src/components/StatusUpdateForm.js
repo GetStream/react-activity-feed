@@ -44,6 +44,7 @@ import type {
   ImageUpload,
   FileUpload,
   FileLike,
+  Trigger,
 } from '../types';
 
 import type { ActivityArgData } from 'getstream';
@@ -75,6 +76,7 @@ type Props = {|
   onSuccess?: (response: BaseActivityResponse) => mixed,
   /** Override Post request */
   doRequest?: (activityData: {}) => Promise<BaseActivityResponse>,
+  trigger?: Trigger,
 |};
 
 /**
@@ -610,6 +612,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                   placeholder="Type your post... "
                   value={this.state.text}
                   onChange={this._onChange}
+                  trigger={this.props.trigger}
                   onPaste={async (event) => {
                     const { items } = event.clipboardData;
                     if (!dataTransferItemsHaveFiles(items)) {
