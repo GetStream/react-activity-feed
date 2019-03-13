@@ -1288,7 +1288,11 @@ export class FeedManager {
 
     let response;
     try {
-      response = await this.props.client.reactions.filter(options);
+      if (this.props.doReactionsFilterRequest) {
+        response = await this.props.doReactionsFilterRequest(options);
+      } else {
+        response = await this.props.client.reactions.filter(options);
+      }
     } catch (e) {
       this.setState({ refreshing: false });
       this.props.errorHandler(e, 'get-reactions-next-page', {

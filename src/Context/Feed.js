@@ -107,6 +107,8 @@ export type FeedProps = {|
   ) => mixed,
   /** Override child reaction delete request */
   doChildReactionDeleteRequest?: (id: string) => mixed,
+  /** Override reactions filter request */
+  doReactionsFilterRequest?: (options: {}) => Promise<Object>,
   /** The location that should be used for analytics when liking in the feed,
    * this is only useful when you have analytics enabled for your app. */
   analyticsLocation?: string,
