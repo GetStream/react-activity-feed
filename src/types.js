@@ -68,6 +68,10 @@ export type RenderableButNotElement = ?(
 );
 export type Renderable = RenderableButNotElement | React.Element<any>;
 
+export type ReactRefObjectOrFunction<ElementType> =
+  | { -current: React.ElementRef<ElementType> | null }
+  | ((React.ElementRef<ElementType> | null) => mixed);
+
 export type BaseActivityResponse = ActivityResponse<{}, {}>;
 export type BaseActivityGroupResponse = ActivityGroupResponse<{}, {}>;
 export type BaseAppCtx = AppCtx<{}>;

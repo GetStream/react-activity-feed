@@ -89,6 +89,11 @@ export { default as CommentField } from './components/CommentField';
 export { default as Button } from './components/Button';
 export { default as DataLabel } from './components/DataLabel';
 
-// Emoji stuff
+// StatusUpdateForm sub components
 export { default as Textarea } from './components/Textarea';
 export { default as EmojiPicker } from './components/EmojiPicker';
+export { default as Title } from './components/Title';
+export { default as Panel } from './components/Panel';
+export { default as PanelHeading } from './components/PanelHeader';
+export { default as PanelFooter } from './components/PanelFooter';
+export { default as PanelContent } from './components/PanelContent';
