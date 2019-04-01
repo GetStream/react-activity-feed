@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { humanizeTimestamp } from '../utils';
 import Avatar from './Avatar';
 
@@ -17,6 +17,7 @@ export type Props = {|
   onClickUser?: () => mixed,
   follow?: boolean,
   Right?: Renderable,
+  AfterUsername?: React.Node,
 |};
 
 /**
@@ -47,6 +48,7 @@ export default class UserBar extends React.Component<Props> {
           >
             {this.props.username}
           </p>
+          {this.props.AfterUsername}
           {this.props.icon !== undefined ? (
             <img src={this.props.icon} alt="icon" />
           ) : null}
