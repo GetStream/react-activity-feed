@@ -17,7 +17,7 @@ export type Props = {|
   onClickUser?: () => mixed,
   follow?: boolean,
   Right?: Renderable,
-  FollowButton?: React.Node,
+  AfterUsername?: React.Node,
 |};
 
 /**
@@ -48,7 +48,7 @@ export default class UserBar extends React.Component<Props> {
           >
             {this.props.username}
           </p>
-          {this.props.FollowButton}
+          {this.props.AfterUsername}
           {this.props.icon !== undefined ? (
             <img src={this.props.icon} alt="icon" />
           ) : null}
