@@ -107,6 +107,24 @@ export class StreamApp extends React.Component<
   constructor(props: StreamAppProps<Object>) {
     super(props);
 
+    this.state = this.initClientState();
+  }
+
+  componentDidUpdate(prevProps: StreamAppProps<Object>) {
+    if (
+      this.props.apiKey !== prevProps.apiKey ||
+      this.props.token !== prevProps.token ||
+      this.props.appId !== prevProps.appId
+    ) {
+      this.setState(this.initClientState(), () => this.getUserInfo());
+    }
+  }
+
+  componentDidMount() {
+    this.getUserInfo();
+  }
+
+  initClientState = () => {
     const client: StreamClient<Object> = stream.connect(
       this.props.apiKey,
       this.props.token,
@@ -122,7 +140,8 @@ export class StreamApp extends React.Component<
       });
       analyticsClient.setUser(client.userId);
     }
-    this.state = {
+
+    const state = {
       client,
       user: client.currentUser,
       userData: client.currentUser.data,
@@ -133,23 +152,19 @@ export class StreamApp extends React.Component<
       sharedFeedManagers: {},
       errorHandler: this.props.errorHandler,
     };
+
     for (const feedProps of this.props.sharedFeeds) {
       const manager = new FeedManager({
         ...feedProps,
-        ...this.state,
+        ...state,
       });
-      this.state.sharedFeedManagers[manager.feed().id] = manager;
+      state.sharedFeedManagers[manager.feed().id] = manager;
     }
-  }
 
-  componentDidUpdate(prevProps: StreamAppProps<Object>) {
-    const appIdDifferent = this.props.appId !== prevProps.appId;
-    if (appIdDifferent) {
-      //TODO: Implement
-    }
-  }
+    return state;
+  };
 
-  async componentDidMount() {
+  getUserInfo = async () => {
     try {
       await this.state.user.getOrCreate(this.props.defaultUserData);
     } catch (e) {
@@ -159,7 +174,7 @@ export class StreamApp extends React.Component<
       return;
     }
     this.state.changedUserData();
-  }
+  };
 
   render() {
     return (
