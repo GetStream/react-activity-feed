@@ -114,8 +114,7 @@ export class StreamApp extends React.Component<
     if (
       this.props.apiKey !== prevProps.apiKey ||
       this.props.token !== prevProps.token ||
-      this.props.appId !== prevProps.appId ||
-      this.props.options !== prevProps.options
+      this.props.appId !== prevProps.appId
     ) {
       this.setState(this.initClientState(), () => this.getUserInfo());
     }
