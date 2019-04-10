@@ -1,11 +1,11 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 import { LoadingIndicator } from 'react-file-utils';
 
 import { emojiIndex } from 'emoji-mart';
 import ReactTextareaAutocomplete from '@webscopeio/react-textarea-autocomplete';
-import type { Trigger } from '../types';
+import type { Trigger, ReactRefObjectOrFunction } from '../types';
 
 import '@webscopeio/react-textarea-autocomplete/style.css';
 
@@ -16,7 +16,11 @@ export type Props = {|
   onChange: (event: SyntheticEvent<HTMLTextAreaElement> | Event) => mixed,
   onPaste: (event: SyntheticClipboardEvent<HTMLTextAreaElement>) => mixed,
   value?: string,
-  innerRef?: any,
+  /** A ref that is bound to the textarea element */
+  innerRef?: ReactRefObjectOrFunction<HTMLTextAreaElement>,
+  /** An extra trigger for ReactTextareaAutocomplete, this can be used to show
+   * a menu when typing @xxx or #xxx, in addition to the emoji menu when typing
+   * :xxx  */
   trigger?: Trigger,
 |};
 
@@ -60,8 +64,12 @@ export default class Textarea extends React.Component<Props> {
         }}
         innerRef={
           innerRef &&
-          ((ref) => {
-            innerRef.current = ref;
+          ((el) => {
+            if (typeof innerRef === 'function') {
+              innerRef(el);
+            } else if (this.props.innerRef != null) {
+              innerRef.current = el;
+            }
           })
         }
         rows={this.props.rows}

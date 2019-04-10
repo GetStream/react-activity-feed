@@ -45,6 +45,7 @@ import type {
   FileUpload,
   FileLike,
   Trigger,
+  ReactRefObjectOrFunction,
 } from '../types';
 
 import type { ActivityArgData } from 'getstream';
@@ -76,7 +77,12 @@ type Props = {|
   onSuccess?: (response: BaseActivityResponse) => mixed,
   /** Override Post request */
   doRequest?: (activityData: {}) => Promise<BaseActivityResponse>,
+  /** An extra trigger for ReactTextareaAutocomplete, this can be used to show
+   * a menu when typing @xxx or #xxx, in addition to the emoji menu when typing
+   * :xxx  */
   trigger?: Trigger,
+  /** A ref that is bound to the textarea element */
+  innerRef?: ReactRefObjectOrFunction<HTMLTextAreaElement>,
 |};
 
 /**
@@ -124,6 +130,15 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   _handleOgDebounced: (string) => mixed;
 
   textInputRef = React.createRef();
+
+  attachTextInputRef = (el) => {
+    this.textInputRef.current = el;
+    if (typeof this.props.innerRef === 'function') {
+      this.props.innerRef(el);
+    } else if (this.props.innerRef != null) {
+      this.props.innerRef.current = el;
+    }
+  };
 
   state = {
     text: '',
