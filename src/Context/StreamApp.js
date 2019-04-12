@@ -13,6 +13,7 @@ import type { FeedProps } from './Feed';
 import { handleError } from '../errors';
 
 export const StreamContext = React.createContext({
+  changedUserData: () => {},
   sharedFeedManagers: {},
 });
 
@@ -23,6 +24,7 @@ export type AppCtx<UserData> = {|
   // will stay the same all the time. Because of this react won't notice that
   // the internal fields changed so it thinks it doesn't need to rerender.
   userData: ?UserData,
+  changedUserData: () => void,
   changeNotificationCounts?: any,
   analyticsClient?: any,
   sharedFeedManagers: { [string]: FeedManager },
@@ -108,7 +110,11 @@ export class StreamApp extends React.Component<
   constructor(props: StreamAppProps<Object>) {
     super(props);
 
-    this.state = StreamApp.initClientState(props);
+    this.state = StreamApp.initClientState(props, {
+      changedUserData: () => {
+        this.setState({ userData: this.state.user.data });
+      },
+    });
   }
 
   componentDidUpdate(prevProps: StreamAppProps<Object>) {
@@ -130,16 +136,19 @@ export class StreamApp extends React.Component<
     state: StreamAppState<Object>,
   ) {
     if (
-      state.apiKey !== props.apiKey ||
-      state.token !== props.token ||
-      state.appId !== props.appId
+      state.client.apiKey !== props.apiKey ||
+      state.client.token !== props.token ||
+      state.client.appId !== props.appId
     ) {
-      return StreamApp.initClientState(props);
+      return StreamApp.initClientState(props, state);
     }
     return null;
   }
 
-  static initClientState = function(props: StreamAppProps<Object>) {
+  static initClientState = function(
+    props: StreamAppProps<Object>,
+    state: Object,
+  ) {
     const client: StreamClient<Object> = stream.connect(
       props.apiKey,
       props.token,
@@ -156,7 +165,8 @@ export class StreamApp extends React.Component<
       analyticsClient.setUser(client.userId);
     }
 
-    const state = {
+    const newState = {
+      ...state,
       client,
       user: client.currentUser,
       userData: client.currentUser.data,
@@ -171,12 +181,12 @@ export class StreamApp extends React.Component<
     for (const feedProps of props.sharedFeeds) {
       const manager = new FeedManager({
         ...feedProps,
-        ...state,
+        ...newState,
       });
-      state.sharedFeedManagers[manager.feed().id] = manager;
+      newState.sharedFeedManagers[manager.feed().id] = manager;
     }
 
-    return state;
+    return newState;
   };
 
   getUserInfo = async () => {
@@ -188,7 +198,7 @@ export class StreamApp extends React.Component<
       });
       return;
     }
-    this.setState({ userData: this.state.user.data });
+    this.state.changedUserData();
   };
 
   render() {
