@@ -134,15 +134,12 @@ export class StreamApp extends React.Component<
       state.token !== props.token ||
       state.appId !== props.appId
     ) {
-      return StreamApp.initClientState(props, state);
+      return StreamApp.initClientState(props);
     }
     return null;
   }
 
-  static initClientState = function(
-    props: StreamAppProps<Object>,
-    state: Object = {},
-  ) {
+  static initClientState = function(props: StreamAppProps<Object>) {
     const client: StreamClient<Object> = stream.connect(
       props.apiKey,
       props.token,
@@ -159,8 +156,7 @@ export class StreamApp extends React.Component<
       analyticsClient.setUser(client.userId);
     }
 
-    const newState = {
-      ...state,
+    const state = {
       client,
       user: client.currentUser,
       userData: client.currentUser.data,
@@ -175,12 +171,12 @@ export class StreamApp extends React.Component<
     for (const feedProps of props.sharedFeeds) {
       const manager = new FeedManager({
         ...feedProps,
-        ...newState,
+        ...state,
       });
-      newState.sharedFeedManagers[manager.feed().id] = manager;
+      state.sharedFeedManagers[manager.feed().id] = manager;
     }
 
-    return newState;
+    return state;
   };
 
   getUserInfo = async () => {
