@@ -29,9 +29,6 @@ export type AppCtx<UserData> = {|
   analyticsClient?: any,
   sharedFeedManagers: { [string]: FeedManager },
   errorHandler: ErrorHandler,
-  appId: string | number,
-  apiKey: string,
-  token: string,
 |};
 
 type StreamAppProps<UserData> = {|
