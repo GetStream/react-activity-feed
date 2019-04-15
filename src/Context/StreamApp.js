@@ -107,7 +107,11 @@ export class StreamApp extends React.Component<
   constructor(props: StreamAppProps<Object>) {
     super(props);
 
-    this.state = this.initClientState();
+    this.state = StreamApp.initClientState(props, {
+      changedUserData: () => {
+        this.setState({ userData: this.state.user.data });
+      },
+    });
   }
 
   componentDidUpdate(prevProps: StreamAppProps<Object>) {
@@ -116,7 +120,7 @@ export class StreamApp extends React.Component<
       this.props.token !== prevProps.token ||
       this.props.appId !== prevProps.appId
     ) {
-      this.setState(this.initClientState(), () => this.getUserInfo());
+      this.getUserInfo();
     }
   }
 
@@ -124,44 +128,62 @@ export class StreamApp extends React.Component<
     this.getUserInfo();
   }
 
-  initClientState = () => {
+  static getDerivedStateFromProps(
+    props: StreamAppProps<Object>,
+    state: StreamAppState<Object>,
+  ) {
+    if (
+      state.client.apiKey !== props.apiKey ||
+      state.client.token !== props.token ||
+      state.client.appId !== props.appId
+    ) {
+      return StreamApp.initClientState(props, state);
+    }
+    return null;
+  }
+
+  static initClientState = function(
+    props: StreamAppProps<Object>,
+    state: Object,
+  ) {
     const client: StreamClient<Object> = stream.connect(
-      this.props.apiKey,
-      this.props.token,
-      this.props.appId,
-      this.props.options || {},
+      props.apiKey,
+      props.token,
+      props.appId,
+      props.options || {},
     );
 
     let analyticsClient;
-    if (this.props.analyticsToken) {
+    if (props.analyticsToken) {
       analyticsClient = new StreamAnalytics({
-        apiKey: this.props.apiKey,
-        token: this.props.analyticsToken,
+        apiKey: props.apiKey,
+        token: props.analyticsToken,
       });
       analyticsClient.setUser(client.userId);
     }
 
-    const state = {
+    const newState = {
+      ...state,
       client,
       user: client.currentUser,
       userData: client.currentUser.data,
-      changedUserData: () => {
-        this.setState({ userData: this.state.user.data });
-      },
       analyticsClient,
       sharedFeedManagers: {},
-      errorHandler: this.props.errorHandler,
+      errorHandler: props.errorHandler,
+      apiKey: props.apiKey,
+      token: props.token,
+      appId: props.appId,
     };
 
-    for (const feedProps of this.props.sharedFeeds) {
+    for (const feedProps of props.sharedFeeds) {
       const manager = new FeedManager({
         ...feedProps,
-        ...state,
+        ...newState,
       });
-      state.sharedFeedManagers[manager.feed().id] = manager;
+      newState.sharedFeedManagers[manager.feed().id] = manager;
     }
 
-    return state;
+    return newState;
   };
 
   getUserInfo = async () => {
