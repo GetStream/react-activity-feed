@@ -134,7 +134,7 @@ export class StreamApp extends React.Component<
   ) {
     if (
       state.client.apiKey !== props.apiKey ||
-      state.client.token !== props.token ||
+      state.client.userToken !== props.token ||
       state.client.appId !== props.appId
     ) {
       return StreamApp.initClientState(props, state);

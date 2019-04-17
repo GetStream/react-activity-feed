@@ -43,7 +43,7 @@ declare module 'getstream' {
 
   declare class StreamClient<UserData, CollectionEntryData = {}> {
     userId: string;
-    token: string;
+    userToken: string;
     appId: string | number;
     apiKey: string;
     currentUser: StreamUser<UserData>;
