@@ -26,7 +26,7 @@ export default class Video extends React.Component<Props> {
   };
 
   render() {
-    const { videos } = this.props.og;
+    const { videos, images = [] } = this.props.og;
     let video: {
       video?: string,
       secure_url?: string,
@@ -65,6 +65,7 @@ export default class Video extends React.Component<Props> {
         controls: true,
         // Try fetching length of video etc
         preload: 'metadata',
+        poster: images[0] && images[0].image ? images[0].image : '',
       };
 
       const parsedUrl = new URL(url);
