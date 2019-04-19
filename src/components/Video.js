@@ -65,8 +65,13 @@ export default class Video extends React.Component<Props> {
         controls: true,
         // Try fetching length of video etc
         preload: 'metadata',
-        poster: images[0] && images[0].image ? images[0].image : '',
+        poster: '',
       };
+
+      if (images[0]) {
+        if (images[0].secure_url) videoProps.poster = images[0].secure_url;
+        else if (images[0].image) videoProps.poster = images[0].image;
+      }
 
       const parsedUrl = new URL(url);
 
