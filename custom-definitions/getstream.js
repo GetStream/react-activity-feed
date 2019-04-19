@@ -64,7 +64,10 @@ declare module 'getstream' {
     title: string,
     description: string,
     site_name: string,
-    images: Array<{ image: string }>,
+    images: Array<{
+      image?: string,
+      secure_url?: string,
+    }>,
     videos: Array<{
       video?: string,
       secure_url?: string,
