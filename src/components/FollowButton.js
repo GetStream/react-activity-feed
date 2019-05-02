@@ -3,7 +3,7 @@ import React from 'react';
 
 export type Props = {|
   /** callback function used on click */
-  clicked?: () => mixed,
+  onClick?: () => mixed,
   /** initial follow state */
   followed?: boolean,
 |};
@@ -24,14 +24,14 @@ export default class FollowButton extends React.Component<Props, State> {
   }
 
   render() {
-    const { clicked, followed } = this.props;
+    const { onClick, followed } = this.props;
     return (
       <div
         className={`raf-follow-button ${
           followed ? 'raf-follow-button--active' : ''
         }`}
         role="button"
-        onClick={clicked}
+        onClick={onClick}
       >
         {followed ? 'Following' : 'Follow'}
       </div>
