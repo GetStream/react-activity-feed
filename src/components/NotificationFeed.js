@@ -44,6 +44,8 @@ type Props = {|
     userId?: string,
     options?: FeedRequestOptions,
   ) => Promise<FeedResponse<{}, {}>>,
+  /** Override activity delete request */
+  doActivityDeleteRequest?: (id: string) => mixed,
   /** Override reaction add request */
   doReactionAddRequest?: (
     kind: string,
@@ -90,6 +92,7 @@ export default class NotificationFeed extends React.Component<Props> {
         options={makeDefaultOptions(this.props.options)}
         notify={this.props.notify}
         doFeedRequest={this.props.doFeedRequest}
+        doActivityDeleteRequest={this.props.doActivityDeleteRequest}
         doReactionAddRequest={this.props.doReactionAddRequest}
         doReactionDeleteRequest={this.props.doReactionDeleteRequest}
         doChildReactionAddRequest={this.props.doChildReactionAddRequest}

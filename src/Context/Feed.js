@@ -87,6 +87,8 @@ export type FeedProps = {|
     userId?: string,
     options?: FeedRequestOptions,
   ) => Promise<FeedResponse<{}, {}>>,
+  /** Override activity delete request */
+  doActivityDeleteRequest?: (id: string) => mixed,
   /* Components to display in the feed */
   children?: React.Node,
   /** Override reaction add request */

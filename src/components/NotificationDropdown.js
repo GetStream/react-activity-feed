@@ -44,6 +44,8 @@ type Props = {|
     userId?: string,
     options?: FeedRequestOptions,
   ) => Promise<FeedResponse<{}, {}>>,
+  /** Override activity delete request */
+  doActivityDeleteRequest?: (id: string) => mixed,
   /** Override reaction add request */
   doReactionAddRequest?: (
     kind: string,
@@ -202,6 +204,7 @@ class NotificationDropdownInner extends React.Component<PropsInner, State> {
                 Paginator={this.props.Paginator}
                 Placeholder={this.props.Placeholder}
                 doFeedRequest={this.props.doFeedRequest}
+                doActivityDeleteRequest={this.props.doActivityDeleteRequest}
                 doReactionAddRequest={this.props.doReactionAddRequest}
                 doReactionDeleteRequest={this.props.doReactionDeleteRequest}
                 doChildReactionAddRequest={this.props.doChildReactionAddRequest}
