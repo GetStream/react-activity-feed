@@ -87,7 +87,7 @@ export default class Activity extends React.Component<Props> {
     const { attachments = {} } = this.props.activity;
 
     return (
-      <div>
+      <div className="raf-activity__content">
         {!!text && (
           <div style={{ padding: '8px 16px' }}>
             <p>

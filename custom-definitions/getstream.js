@@ -43,7 +43,9 @@ declare module 'getstream' {
 
   declare class StreamClient<UserData, CollectionEntryData = {}> {
     userId: string;
-    token: string;
+    userToken: string;
+    appId: string | number;
+    apiKey: string;
     currentUser: StreamUser<UserData>;
     user(id: string): StreamUser<UserData>;
     createUserToken(string): string;
@@ -62,7 +64,10 @@ declare module 'getstream' {
     title: string,
     description: string,
     site_name: string,
-    images: Array<{ image: string }>,
+    images: Array<{
+      image?: string,
+      secure_url?: string,
+    }>,
     videos: Array<{
       video?: string,
       secure_url?: string,

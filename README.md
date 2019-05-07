@@ -1,9 +1,12 @@
 # react-activity-feed
 
-> React components to create activity and notification feeds
+> React components to create activity and notification feeds using Stream
 
 [![NPM](https://img.shields.io/npm/v/react-activity-feed.svg)](https://www.npmjs.com/package/react-activity-feed)
 [![Build Status](https://travis-ci.org/GetStream/react-activity-feed.svg?branch=master)](https://travis-ci.org/GetStream/react-activity-feed)
+[![Component Reference](https://img.shields.io/badge/docs-component%20reference-blue.svg)](https://getstream.github.io/react-activity-feed/)
+
+You can sign up for a Stream account at https://getstream.io/get_started/.
 
 ## Install
 
