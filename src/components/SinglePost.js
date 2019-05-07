@@ -13,6 +13,8 @@ type Props = {|
   options?: FeedRequestOptions,
   analyticsLocation?: string,
   Activity?: Renderable,
+  /** Override activity delete request */
+  doActivityDeleteRequest?: (id: string) => mixed,
   /** Override reaction add request */
   doReactionAddRequest?: (
     kind: string,
@@ -57,6 +59,7 @@ export default class SinglePost extends React.Component<Props> {
               .feed(feedGroup, userId)
               .getActivityDetail(this.props.activityId, options)
           }
+          doActivityDeleteRequest={this.props.doActivityDeleteRequest}
           doReactionAddRequest={this.props.doReactionAddRequest}
           doReactionDeleteRequest={this.props.doReactionDeleteRequest}
           doChildReactionAddRequest={this.props.doChildReactionAddRequest}
