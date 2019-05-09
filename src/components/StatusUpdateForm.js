@@ -83,6 +83,8 @@ type Props = {|
   trigger?: Trigger,
   /** A ref that is bound to the textarea element */
   innerRef?: ReactRefObjectOrFunction<HTMLTextAreaElement>,
+  /** The header to display */
+  Header: React.Node,
 |};
 
 /**
@@ -96,6 +98,7 @@ export default class StatusUpdateForm extends React.Component<Props> {
     feedGroup: 'user',
     activityVerb: 'post',
     modifyActivityData: (d: {}) => d,
+    Header: <Title>New Post</Title>,
   };
 
   render() {
@@ -602,9 +605,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       <Panel>
         <form onSubmit={this.onSubmitForm}>
           <ImageDropzone handleFiles={this._uploadNewFiles}>
-            <PanelHeading>
-              <Title>New Post</Title>
-            </PanelHeading>
+            <PanelHeading>{this.props.Header}</PanelHeading>
             <PanelContent>
               <div style={{ display: 'flex' }}>
                 <React.Fragment>
