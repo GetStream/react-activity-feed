@@ -185,7 +185,12 @@ class FlatFeedInner extends React.Component<PropsInner> {
     }
 
     if (this.props.activities.size === 0 && this.props.hasDoneRequest) {
-      return smartRender(this.props.Placeholder);
+      return (
+        <React.Fragment>
+          {smartRender(this.props.Notifier, notifierProps)}
+          {smartRender(this.props.Placeholder)}
+        </React.Fragment>
+      );
     }
 
     if (refreshing && !hasDoneRequest) {

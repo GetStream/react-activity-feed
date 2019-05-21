@@ -175,7 +175,12 @@ class NotificationFeedInner extends React.Component<PropsInner> {
     } = this.props;
 
     if (this.props.activities.size === 0 && hasDoneRequest) {
-      return smartRender(this.props.Placeholder);
+      return (
+        <React.Fragment>
+          {smartRender(this.props.Notifier, notifierProps)}
+          {smartRender(this.props.Placeholder)}
+        </React.Fragment>
+      );
     }
 
     if (refreshing && !hasDoneRequest) {
