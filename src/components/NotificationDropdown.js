@@ -16,6 +16,7 @@ import type {
   BaseActivityResponse,
   BaseReaction,
 } from '../types';
+
 import type { FeedRequestOptions, FeedResponse } from 'getstream';
 
 type Props = {|
@@ -37,6 +38,10 @@ type Props = {|
   Paginator: Renderable,
   /** Component to show when there are no activities in the feed **/
   Placeholder: Renderable,
+  /** Header component  **/
+  Header?: Renderable,
+  /** Footer component **/
+  Footer?: Renderable,
   /** The feed read handler (change only for advanced/complex use-cases) */
   doFeedRequest?: (
     client: BaseClient,
@@ -193,7 +198,12 @@ class NotificationDropdownInner extends React.Component<PropsInner, State> {
           }}
         >
           {this.state.open && (
-            <DropdownPanel arrow right={this.props.right}>
+            <DropdownPanel
+              arrow
+              right={this.props.right}
+              Header={this.props.Header}
+              Footer={this.props.Footer}
+            >
               <NotificationFeed
                 feedGroup={this.props.feedGroup}
                 userId={this.props.userId}

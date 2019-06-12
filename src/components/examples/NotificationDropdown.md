@@ -7,3 +7,21 @@
   <NotificationDropdown />
 </StreamApp>
 ```
+
+```js
+const Header = () => (
+  <p style={{ margin: 0, padding: 0, backgroundColor: 'green' }}>Header</p>
+);
+
+const Footer = () => (
+  <p style={{ margin: 0, padding: 0, backgroundColor: 'green' }}>Footer</p>
+);
+
+<StreamApp
+  apiKey="3fjzn67nznwt"
+  appId="41814"
+  token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZXhhbXBsZS11c2VyIn0.XEKjtzD2AIQMLXH6kfJlL8P_JV4CBYvcMsmQCFjyY2U"
+>
+  <NotificationDropdown Header={<Header />} Footer={<Footer />} />
+</StreamApp>;
+```

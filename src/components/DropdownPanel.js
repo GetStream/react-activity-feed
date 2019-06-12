@@ -1,10 +1,13 @@
 // @flow
 import * as React from 'react';
+import { smartRender } from '../utils';
+
+import type { Renderable } from '../types';
 
 export type Props = {|
   children?: React.Node,
-  Header?: React.Node,
-  Footer?: React.Node,
+  Header?: Renderable,
+  Footer?: Renderable,
   left: boolean,
   right: boolean,
   arrow: boolean,
@@ -33,10 +36,16 @@ export default class DropdownPanel extends React.Component<Props> {
             : 'raf-dropdown-panel--left raf-dropdown-panel--arrow-left'
         }`}
       >
-        <div className="raf-dropdown-panel__header">{this.props.Header}</div>
+        {this.props.Header != null && (
+          <div className="raf-dropdown-panel__header">
+            {smartRender(this.props.Header, {}, null)}
+          </div>
+        )}
         <div className="raf-dropdown-panel__content">{this.props.children}</div>
         {this.props.Footer != null && (
-          <div className="raf-dropdown-panel__footer">{this.props.Footer}</div>
+          <div className="raf-dropdown-panel__footer">
+            {smartRender(this.props.Footer, {}, null)}
+          </div>
         )}
       </div>
     );
