@@ -38,13 +38,13 @@ type Props = {|
   /** By default pagination is done with a "Load more" button, you can use
    * InifiniteScrollPaginator to enable infinite scrolling */
   Paginator: Renderable,
-  /** Component to show when there are no activities in the feed **/
+  /** Component to show when there are no activities in the feed */
   Placeholder: Renderable,
-  /** Icon component  **/
+  /** Icon component  */
   Icon?: Renderable,
-  /** Header component  **/
+  /** Header component  */
   Header?: Renderable,
-  /** Footer component **/
+  /** Footer component */
   Footer?: Renderable,
   /** The feed read handler (change only for advanced/complex use-cases) */
   doFeedRequest?: (
