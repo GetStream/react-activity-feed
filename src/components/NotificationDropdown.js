@@ -17,6 +17,8 @@ import type {
   BaseReaction,
 } from '../types';
 
+import { smartRender } from '../utils';
+
 import type { FeedRequestOptions, FeedResponse } from 'getstream';
 
 type Props = {|
@@ -38,6 +40,8 @@ type Props = {|
   Paginator: Renderable,
   /** Component to show when there are no activities in the feed **/
   Placeholder: Renderable,
+  /** Icon component  **/
+  Icon?: Renderable,
   /** Header component  **/
   Header?: Renderable,
   /** Footer component **/
@@ -179,7 +183,9 @@ class NotificationDropdownInner extends React.Component<PropsInner, State> {
           onClick={this.openDropdown}
           showNumber={true}
           hidden={!this.props.notify}
-        />
+        >
+          {this.props.Icon && smartRender(this.props.Icon, {}, null)}
+        </IconBadge>
 
         <div
           ref={this.dropdownRef}
