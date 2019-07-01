@@ -16,6 +16,9 @@ import type {
   BaseActivityResponse,
   BaseReaction,
 } from '../types';
+
+import { smartRender } from '../utils';
+
 import type { FeedRequestOptions, FeedResponse } from 'getstream';
 
 type Props = {|
@@ -35,8 +38,14 @@ type Props = {|
   /** By default pagination is done with a "Load more" button, you can use
    * InifiniteScrollPaginator to enable infinite scrolling */
   Paginator: Renderable,
-  /** Component to show when there are no activities in the feed **/
+  /** Component to show when there are no activities in the feed */
   Placeholder: Renderable,
+  /** Icon component  */
+  Icon?: Renderable,
+  /** Header component  */
+  Header?: Renderable,
+  /** Footer component */
+  Footer?: Renderable,
   /** The feed read handler (change only for advanced/complex use-cases) */
   doFeedRequest?: (
     client: BaseClient,
@@ -44,6 +53,8 @@ type Props = {|
     userId?: string,
     options?: FeedRequestOptions,
   ) => Promise<FeedResponse<{}, {}>>,
+  /** Override activity delete request */
+  doActivityDeleteRequest?: (id: string) => mixed,
   /** Override reaction add request */
   doReactionAddRequest?: (
     kind: string,
@@ -172,7 +183,9 @@ class NotificationDropdownInner extends React.Component<PropsInner, State> {
           onClick={this.openDropdown}
           showNumber={true}
           hidden={!this.props.notify}
-        />
+        >
+          {this.props.Icon && smartRender(this.props.Icon, {}, null)}
+        </IconBadge>
 
         <div
           ref={this.dropdownRef}
@@ -191,7 +204,12 @@ class NotificationDropdownInner extends React.Component<PropsInner, State> {
           }}
         >
           {this.state.open && (
-            <DropdownPanel arrow right={this.props.right}>
+            <DropdownPanel
+              arrow
+              right={this.props.right}
+              Header={this.props.Header}
+              Footer={this.props.Footer}
+            >
               <NotificationFeed
                 feedGroup={this.props.feedGroup}
                 userId={this.props.userId}
@@ -202,6 +220,7 @@ class NotificationDropdownInner extends React.Component<PropsInner, State> {
                 Paginator={this.props.Paginator}
                 Placeholder={this.props.Placeholder}
                 doFeedRequest={this.props.doFeedRequest}
+                doActivityDeleteRequest={this.props.doActivityDeleteRequest}
                 doReactionAddRequest={this.props.doReactionAddRequest}
                 doReactionDeleteRequest={this.props.doReactionDeleteRequest}
                 doChildReactionAddRequest={this.props.doChildReactionAddRequest}

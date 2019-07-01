@@ -44,6 +44,8 @@ type Props = {|
     userId?: string,
     options?: FeedRequestOptions,
   ) => Promise<FeedResponse<{}, {}>>,
+  /** Override activity delete request */
+  doActivityDeleteRequest?: (id: string) => mixed,
   /** Override reaction add request */
   doReactionAddRequest?: (
     kind: string,
@@ -90,6 +92,7 @@ export default class NotificationFeed extends React.Component<Props> {
         options={makeDefaultOptions(this.props.options)}
         notify={this.props.notify}
         doFeedRequest={this.props.doFeedRequest}
+        doActivityDeleteRequest={this.props.doActivityDeleteRequest}
         doReactionAddRequest={this.props.doReactionAddRequest}
         doReactionDeleteRequest={this.props.doReactionDeleteRequest}
         doChildReactionAddRequest={this.props.doChildReactionAddRequest}
@@ -172,7 +175,12 @@ class NotificationFeedInner extends React.Component<PropsInner> {
     } = this.props;
 
     if (this.props.activities.size === 0 && hasDoneRequest) {
-      return smartRender(this.props.Placeholder);
+      return (
+        <React.Fragment>
+          {smartRender(this.props.Notifier, notifierProps)}
+          {smartRender(this.props.Placeholder)}
+        </React.Fragment>
+      );
     }
 
     if (refreshing && !hasDoneRequest) {

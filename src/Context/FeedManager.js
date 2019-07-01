@@ -556,7 +556,11 @@ export class FeedManager {
 
   onRemoveActivity = async (activityId: string) => {
     try {
-      await this.feed().removeActivity(activityId);
+      if (this.props.doActivityDeleteRequest) {
+        await this.props.doActivityDeleteRequest(activityId);
+      } else {
+        await this.feed().removeActivity(activityId);
+      }
     } catch (e) {
       this.props.errorHandler(e, 'delete-activity', {
         activityId: this.props.feedGroup,

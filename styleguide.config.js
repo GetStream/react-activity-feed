@@ -31,6 +31,7 @@ module.exports = {
   styleguideDir: 'docs',
   assetsDir: 'src/assets',
   webpackConfig: require('./webpack.config.styleguidist.js'),
+  serverPort: 6068,
   styleguideComponents: {
     PathlineRenderer: path.join(
       __dirname,
