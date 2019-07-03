@@ -16,6 +16,8 @@ type Props = {|
   refreshing: boolean,
   /** display the items in opposite order */
   reverse: boolean,
+  /** threshold to trigger the loadNextPage */
+  threshold: number,
   /** The paginated content to display */
   children: React.Node,
   /** Component to show when paginator is loading **/
@@ -25,6 +27,7 @@ type Props = {|
 export default class InfiniteScrollPaginator extends React.Component<Props> {
   static defaultProps = {
     Loader: <LoadingIndicator />,
+    threshold: 250,
   };
 
   render() {
@@ -34,6 +37,7 @@ export default class InfiniteScrollPaginator extends React.Component<Props> {
         hasMore={this.props.hasNextPage}
         isLoading={this.props.refreshing}
         isReverse={this.props.reverse}
+        threshold={this.props.threshold}
         loader={
           <React.Fragment key="loading-indicator">
             {smartRender(this.props.Loader)}
