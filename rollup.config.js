@@ -157,11 +157,11 @@ const fullBrowserBundle = {
       //$FlowFixMe
       load: (id) => (id.match(/.s?css$/) ? '' : null),
     },
-    commonjs(),
     resolve({
       browser: true,
       preferBuiltins: false,
     }),
+    commonjs(),
     url(),
     json(),
     globals({
