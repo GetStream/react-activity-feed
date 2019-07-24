@@ -211,6 +211,7 @@ class FeedInner extends React.Component<FeedInnerProps, FeedState> {
       refreshing: state.refreshing,
       unread: state.unread,
       unseen: state.unseen,
+      feedManager: manager,
     };
   };
 
