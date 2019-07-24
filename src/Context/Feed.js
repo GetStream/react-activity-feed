@@ -46,6 +46,7 @@ export type FeedCtx = {|
   hasDoneRequest: boolean,
   realtimeAdds: Array<{}>,
   realtimeDeletes: Array<{}>,
+  feedManager: FeedManager,
   onToggleReaction: ToggleReactionCallbackFunction,
   onAddReaction: AddReactionCallbackFunction,
   onRemoveReaction: RemoveReactionCallbackFunction,
