@@ -8,6 +8,7 @@ import {
   NotificationDropdown,
   Activity,
   LikeButton,
+  StreamContext,
 } from 'react-activity-feed';
 import 'react-activity-feed/dist/index.es.css';
 
@@ -20,6 +21,7 @@ export default class App extends Component<{}> {
           appId="41814"
           token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZXhhbXBsZS11c2VyIn0.XEKjtzD2AIQMLXH6kfJlL8P_JV4CBYvcMsmQCFjyY2U"
         >
+          <Example />
           <div
             style={{
               background: '#fff', //#1A1A14
@@ -59,5 +61,25 @@ export default class App extends Component<{}> {
         </StreamApp>
       </div>
     );
+  }
+}
+
+class Example extends React.Component {
+  render() {
+    return (
+      <StreamContext.Consumer>
+        {(appCtx) => <ExampleInner {...appCtx} />}
+      </StreamContext.Consumer>
+    );
+  }
+}
+
+class ExampleInner extends React.Component {
+  onClickDiv = () => {
+    this.props.changedUserData();
+  };
+
+  render() {
+    return <button onClick={this.onClickDiv}>TEST</button>;
   }
 }
