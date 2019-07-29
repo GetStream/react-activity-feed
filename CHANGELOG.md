@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Nothing yet
 
+## 0.9.20 - 2019-07-24
+
+### Added
+
+- Exposing FeedManager via FeedContext
+
 ## 0.8.0 - 2019-02-12
 
 ### Breaking changes

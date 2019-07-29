@@ -46,6 +46,7 @@ export type FeedCtx = {|
   hasDoneRequest: boolean,
   realtimeAdds: Array<{}>,
   realtimeDeletes: Array<{}>,
+  feedManager: FeedManager,
   onToggleReaction: ToggleReactionCallbackFunction,
   onAddReaction: AddReactionCallbackFunction,
   onRemoveReaction: RemoveReactionCallbackFunction,
@@ -211,6 +212,7 @@ class FeedInner extends React.Component<FeedInnerProps, FeedState> {
       refreshing: state.refreshing,
       unread: state.unread,
       unseen: state.unseen,
+      feedManager: manager,
     };
   };
 
