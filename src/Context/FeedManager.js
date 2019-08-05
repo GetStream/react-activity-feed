@@ -94,7 +94,10 @@ export class FeedManager {
     this.subscribe();
   }
   unregister(callback: () => mixed) {
-    this.registeredCallbacks.splice(this.registeredCallbacks.indexOf(callback));
+    this.registeredCallbacks.splice(
+      this.registeredCallbacks.indexOf(callback),
+      1,
+    );
     this.unsubscribe();
   }
 
