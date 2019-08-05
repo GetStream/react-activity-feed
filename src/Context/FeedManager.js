@@ -97,7 +97,7 @@ export class FeedManager {
     this.registeredCallbacks.splice(
       this.registeredCallbacks.indexOf(callback),
       1,
-    );```
+    );
     this.unsubscribe();
   }
 
