@@ -60,7 +60,7 @@ export function userOrDefault(
     updated_at: '',
     data: { name: 'Unknown', profileImage: '' },
   };
-  if (typeof user === 'string' || typeof user.error === 'string') {
+  if (!user || typeof user === 'string' || typeof user.error === 'string') {
     actor = notFound;
   } else {
     //$FlowBug
