@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Nothing yet
 
+## 0.9.23 - 2019-10-01
+
+### Added
+
+- Props `useWindow` and `getScrollParent` to `InfiniteScrollPaginator`. This allows you to add scrollListeners to a diffent element than the window.
+
 ## 0.9.20 - 2019-07-24
 
 ### Added
