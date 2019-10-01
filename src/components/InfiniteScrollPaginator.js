@@ -23,12 +23,15 @@ type Props = {|
   children: React.Node,
   /** Component to show when paginator is loading **/
   Loader: Renderable,
+  /** If false, scroll listeners will be attached to the parent element instead of the window  **/
+  useWindow: boolean,
 |};
 
 export default class InfiniteScrollPaginator extends React.Component<Props> {
   static defaultProps = {
     Loader: <LoadingIndicator />,
     threshold: 250,
+    useWindow: true,
   };
 
   render() {
