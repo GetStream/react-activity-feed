@@ -658,14 +658,14 @@ export class FeedManager {
 
   doFeedRequest = async (options: FeedRequestOptions): Promise<FR> => {
     if (this.props.doFeedRequest) {
-      return this.props.doFeedRequest(
+      return await this.props.doFeedRequest(
         this.props.client,
         this.props.feedGroup,
         this.props.userId,
         options,
       );
     }
-    return this.feed().get(options);
+    return await this.feed().get(options);
   };
 
   feed = () => this.props.client.feed(this.props.feedGroup, this.props.userId);
