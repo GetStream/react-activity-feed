@@ -197,8 +197,9 @@ export const textRenderer = (
   parentClass: string,
   onClickMention?: (word: string) => mixed,
   onClickHashtag?: (word: string) => mixed,
-) =>
-  text
+) => {
+  if (text === undefined) return;
+  return text
     .split(' ')
     .map((word, i) => {
       if (onClickMention && word.includes('@')) {
@@ -265,3 +266,4 @@ export const textRenderer = (
       return word;
     })
     .reduce((accu, elem) => (accu === null ? [elem] : [accu, ' ', elem]));
+};

@@ -10,6 +10,7 @@ import type { Renderable } from '../types';
 type Props = {|
   /** callback to load the next page */
   loadNextPage: () => mixed,
+  getScrollParent: () => mixed,
   /** indicates if there is a next page to load */
   hasNextPage: boolean,
   /** indicates if there there's currently any refreshing taking place */
@@ -38,6 +39,8 @@ export default class InfiniteScrollPaginator extends React.Component<Props> {
         isLoading={this.props.refreshing}
         isReverse={this.props.reverse}
         threshold={this.props.threshold}
+        getScrollParent={this.props.getScrollParent}
+        useWindow={this.props.useWindow}
         loader={
           <React.Fragment key="loading-indicator">
             {smartRender(this.props.Loader)}

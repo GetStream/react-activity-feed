@@ -656,7 +656,7 @@ export class FeedManager {
     };
   };
 
-  doFeedRequest = (options: FeedRequestOptions): Promise<FR> => {
+  doFeedRequest = async (options: FeedRequestOptions): Promise<FR> => {
     if (this.props.doFeedRequest) {
       return this.props.doFeedRequest(
         this.props.client,

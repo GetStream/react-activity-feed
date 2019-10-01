@@ -8,20 +8,33 @@ import {
   NotificationDropdown,
   Activity,
   LikeButton,
-  StreamContext,
+  CommentField,
+  CommentList,
+  CommentItem,
+  InfiniteScrollPaginator,
 } from 'react-activity-feed';
 import 'react-activity-feed/dist/index.es.css';
 
+const apiKey = '6hwxyxcq4rpe';
+const appId = '35808';
+const token =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYmF0bWFuIn0.8MshXS9c3Du81ul3mWwuT6HH06fP45O-GvrOuJA82y4';
+
 export default class App extends Component<{}> {
+  containerRef = React.createRef();
+
   render() {
     return (
-      <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-        <StreamApp
-          apiKey="3fjzn67nznwt"
-          appId="41814"
-          token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZXhhbXBsZS11c2VyIn0.XEKjtzD2AIQMLXH6kfJlL8P_JV4CBYvcMsmQCFjyY2U"
-        >
-          <Example />
+      <div
+        ref={this.containerRef}
+        style={{
+          maxWidth: '600px',
+          maxHeight: '500px',
+          overflow: 'scroll',
+          margin: '0 auto',
+        }}
+      >
+        <StreamApp apiKey={apiKey} appId={appId} token={token}>
           <div
             style={{
               background: '#fff', //#1A1A14
@@ -40,46 +53,54 @@ export default class App extends Component<{}> {
             <NotificationDropdown arrow right />
           </div>
           <StatusUpdateForm
-            submitHandler={(e) => {
-              alert(e);
-            }}
+          // submitHandler={(e) => {
+          //   alert(e);
+          // }}
           />
           <FlatFeed
-            feedGroup="user"
+            feedGroup="timeline"
             notify
-            Activity={(props) => (
-              <Activity
+            options={{
+              limit: 6,
+              // withOwnChildren: true,
+              // withRecentReactions: true
+            }}
+            Paginator={(props) => (
+              <InfiniteScrollPaginator
+                useWindow={false}
+                threshold={10}
                 {...props}
-                Footer={
-                  <div style={{ padding: '8px 16px 0px' }}>
-                    <LikeButton {...props} />
-                  </div>
-                }
+                getScrollParent={() => this.containerRef}
+              />
+            )}
+            Activity={(activityProps) => (
+              <Activity
+                {...activityProps}
+                Footer={() => (
+                  <React.Fragment>
+                    <CommentField
+                      activity={activityProps.activity}
+                      onAddReaction={activityProps.onAddReaction}
+                    />
+                    <CommentList
+                      activityId={activityProps.activity.id}
+                      CommentItem={(props) => (
+                        <React.Fragment>
+                          <CommentItem {...props} />
+                          <LikeButton
+                            reaction={props.comment}
+                            {...activityProps}
+                          />
+                        </React.Fragment>
+                      )}
+                    />
+                  </React.Fragment>
+                )}
               />
             )}
           />
         </StreamApp>
       </div>
     );
-  }
-}
-
-class Example extends React.Component {
-  render() {
-    return (
-      <StreamContext.Consumer>
-        {(appCtx) => <ExampleInner {...appCtx} />}
-      </StreamContext.Consumer>
-    );
-  }
-}
-
-class ExampleInner extends React.Component {
-  onClickDiv = () => {
-    this.props.changedUserData();
-  };
-
-  render() {
-    return <button onClick={this.onClickDiv}>TEST</button>;
   }
 }
