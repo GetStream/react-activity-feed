@@ -27,8 +27,7 @@ export const smartRender = (
   }
   if (React.isValidElement(ElementOrComponentOrLiteral)) {
     // Flow cast through any, to make flow believe it's a React.Element
-    const element = ((ElementOrComponentOrLiteral: any): React.Element<any>);
-    return element;
+    return ((ElementOrComponentOrLiteral: any): React.Element<any>);
   }
 
   // Flow cast through any to remove React.Element after previous check
@@ -96,14 +95,9 @@ export function dataTransferItemsHaveFiles(
   }
   return false;
 }
-export async function dataTransferItemsToFiles(
-  items: ?(DataTransferItem[]),
-): Promise<FileLike[]> {
-  if (!items || !items.length) {
-    return [];
-  }
+
+function getFileLikes(items) {
   const fileLikes = [];
-  const blobPromises = [];
   for (const item of items) {
     if (item.kind === 'file') {
       const file = item.getAsFile();
@@ -112,12 +106,24 @@ export async function dataTransferItemsToFiles(
       }
     }
   }
+  return fileLikes;
+}
+
+export async function dataTransferItemsToFiles(
+  items: ?(DataTransferItem[]),
+): Promise<FileLike[]> {
+  if (!items || !items.length) {
+    return [];
+  }
+
+  const fileLikes = getFileLikes(items);
   // If there are files inside the DataTransferItem prefer those
   if (fileLikes.length) {
     return fileLikes;
   }
 
   // Otherwise extract images from html
+  const blobPromises = [];
   const parser = new DOMParser();
   for (const item of items) {
     if (item.type === 'text/html') {

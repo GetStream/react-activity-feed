@@ -70,13 +70,12 @@ export default class CommentField extends React.Component<Props, State> {
   componentDidMount() {
     if (this.textareaRef.current) {
       this.textareaRef.current.addEventListener('keydown', (e) => {
-        if (e.which === 13) {
-          if (
-            this.textareaRef.current &&
-            this.textareaRef.current.nextSibling === null
-          ) {
-            this.onSubmitForm(e);
-          }
+        if (
+          e.which === 13 &&
+          this.textareaRef.current &&
+          this.textareaRef.current.nextSibling === null
+        ) {
+          this.onSubmitForm(e);
         }
       });
     }

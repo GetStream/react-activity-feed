@@ -1,10 +1,11 @@
 {
-  "plugins": ["babel", "markdown"],
+  "plugins": ["babel", "markdown", "sonarjs"],
   "extends": [
     "eslint:recommended",
     "plugin:flowtype/recommended",
     "plugin:react/recommended",
-    "plugin:jest/recommended"
+    "plugin:jest/recommended",
+    "plugin:sonarjs/recommended"
   ],
   "rules": {
     "no-console": 0,
@@ -35,7 +36,9 @@
       }
     ],
     "flowtype/generic-spacing": 0,
-    "flowtype/space-after-type-colon": 0
+    "flowtype/space-after-type-colon": 0,
+    "sonarjs/cognitive-complexity": ["error", 30],
+    "sonarjs/no-duplicate-string": ["error", 5]
   },
   "env": {
     "es6": true,
