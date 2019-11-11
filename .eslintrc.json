@@ -59,5 +59,10 @@
         "no-undef": 0
       }
     }
-  ]
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
 }
