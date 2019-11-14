@@ -67,7 +67,7 @@ export default class Notification extends React.Component<Props> {
     let headerText, headerSubtext;
     const { activityGroup, onMarkAsRead } = this.props;
     const activities = activityGroup.activities;
-    const latestActivity = activities[0];
+    let latestActivity = activities[0];
     const lastActor = userOrDefault(latestActivity.actor);
 
     if (activities.length === 1) {
@@ -80,7 +80,7 @@ export default class Notification extends React.Component<Props> {
     }
 
     if (typeof latestActivity.object === 'string') {
-      return null;
+      latestActivity.object = JSON.parse(latestActivity.object)
     }
 
     if (latestActivity.verb === 'like') {
