@@ -41,7 +41,6 @@ export default class Textarea extends React.Component<Props> {
     placeholder: 'Share your opinion',
     trigger: {},
   };
-
   render() {
     const { innerRef, trigger } = this.props;
     return (
@@ -74,8 +73,8 @@ export default class Textarea extends React.Component<Props> {
         }
         rows={this.props.rows}
         maxLength={this.props.maxLength}
-        className="raf-textarea__textarea"
-        containerClassName="raf-textarea"
+        className="w-100"
+        containerClassName="w-100"
         dropdownClassName="raf-emojisearch"
         listClassName="raf-emojisearch__list"
         itemClassName="raf-emojisearch__item"
@@ -83,6 +82,7 @@ export default class Textarea extends React.Component<Props> {
         onChange={this.props.onChange}
         onSelect={this.props.onChange}
         onPaste={this.props.onPaste}
+        onInput={this.props.onInput}
         value={this.props.value}
       />
     );

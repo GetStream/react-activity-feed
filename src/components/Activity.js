@@ -23,6 +23,7 @@ type Props = {
   Content?: Renderable,
   Footer?: Renderable,
   HeaderRight?: Renderable,
+  EditFeed?: Renderable,
   onPress?: () => mixed,
   onClickUser?: (?any) => mixed,
   sub?: string,
@@ -40,6 +41,21 @@ type Props = {
  * @example ./examples/Activity.md
  */
 export default class Activity extends React.Component<Props> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      editMode: false,
+    };
+  }
+
+  handleEdit = () => {
+    const { editMode } = this.state;
+
+    this.setState({
+      editMode: !editMode,
+    });
+  };
+
   _getOnClickUser() {
     return this.props.onClickUser ? this.onClickUser : undefined;
   }
@@ -48,21 +64,20 @@ export default class Activity extends React.Component<Props> {
     const actor = userOrDefault(this.props.activity.actor);
 
     return (
-      <div style={{ padding: '8px 16px' }}>
-        <UserBar
-          username={actor.data.name}
-          avatar={actor.data.profileImage}
-          onClickUser={this._getOnClickUser()}
-          subtitle={
-            this.props.HeaderRight != null
-              ? humanizeTimestamp(this.props.activity.time)
-              : undefined
-          }
-          timestamp={this.props.activity.time}
-          icon={this.props.icon}
-          Right={this.props.HeaderRight}
-        />
-      </div>
+      <UserBar
+        username={actor.data.name}
+        avatar={actor.data.profileImage}
+        onClickUser={this._getOnClickUser()}
+        subtitle={
+          this.props.HeaderRight != null
+            ? humanizeTimestamp(this.props.activity.time)
+            : undefined
+        }
+        timestamp={this.props.activity.time}
+        icon={this.props.icon}
+        Right={this.props.HeaderRight}
+        handleEdit={this.handleEdit}
+      />
     );
   };
 
@@ -87,18 +102,16 @@ export default class Activity extends React.Component<Props> {
     const { attachments = {} } = this.props.activity;
 
     return (
-      <div className="raf-activity__content">
+      <div className="mt-2">
         {!!text && (
-          <div style={{ padding: '8px 16px' }}>
-            <p>
-              {textRenderer(
-                text,
-                'raf-activity',
-                this.props.onClickMention,
-                this.props.onClickHashtag,
-              )}
-            </p>
-          </div>
+          <p>
+            {textRenderer(
+              text,
+              'raf-activity',
+              this.props.onClickMention,
+              this.props.onClickHashtag,
+            )}
+          </p>
         )}
 
         {this.props.activity.verb === 'repost' &&
@@ -154,14 +167,21 @@ export default class Activity extends React.Component<Props> {
   renderFooter = () => null;
 
   render() {
+    const { editMode } = this.state;
     return (
-      <div className="raf-activity">
-        <React.Fragment>
-          {smartRender(this.props.Header, {}, this.renderHeader)}
-          {smartRender(this.props.Content, {}, this.renderContent)}
-          {smartRender(this.props.Footer, {}, this.renderFooter)}
-        </React.Fragment>
-      </div>
+      <React.Fragment>
+        {editMode ? (
+          smartRender(this.props.EditFeed, {}, () => {})
+        ) : (
+          <div className="feed-body bg-white margin-bottom-15">
+            <div className="feed-content">
+              {smartRender(this.props.Header, {}, this.renderHeader)}
+              {smartRender(this.props.Content, {}, this.renderContent)}
+              {smartRender(this.props.Footer, {}, this.renderFooter)}
+            </div>
+          </div>
+        )}
+      </React.Fragment>
     );
   }
 }

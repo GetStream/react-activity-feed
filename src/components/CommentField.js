@@ -4,7 +4,9 @@ import React from 'react';
 import Avatar from './Avatar';
 import Button from './Button';
 import Textarea from './Textarea';
-import { inputValueFromEvent } from '../utils';
+import { inputValueFromEvent, autoSize } from '../utils';
+import photo from '../images/photo.svg';
+import icoSend from '../images/ic-send.svg';
 
 import type {
   AddReactionCallbackFunction,
@@ -39,7 +41,7 @@ export default class CommentField extends React.Component<Props, State> {
   };
 
   static defaultProps = {
-    placeholder: 'Start Typing...',
+    placeholder: 'Write a comment...',
   };
 
   onSubmitForm = async (e: SyntheticEvent<HTMLFormElement>) => {
@@ -83,11 +85,11 @@ export default class CommentField extends React.Component<Props, State> {
 
   render() {
     return (
-      <form onSubmit={this.onSubmitForm} className="raf-comment-field">
+      <form onSubmit={this.onSubmitForm} className="send-comment">
         {this.props.image ? (
           <Avatar image={this.props.image} circle size={39} />
         ) : null}
-        <div className="raf-comment-field__group">
+        <div className="d-flex align-items-center rounded group px-3 py-2">
           <Textarea
             rows={1}
             value={this.state.text}
@@ -95,16 +97,18 @@ export default class CommentField extends React.Component<Props, State> {
             onChange={this._onChange}
             trigger={this.props.trigger}
             onPaste={() => null}
-            maxLength={280}
             innerRef={this.textareaRef}
+            onInput={autoSize}
           />
           <Button
-            buttonStyle="primary"
             disabled={this.state.text === ''}
+            hidden={this.state.text === ''}
             type="submit"
           >
-            post
+            <img src={icoSend} alt="" className="cursor margin-left-10" />
           </Button>
+
+          <img src={photo} alt="" className="cursor margin-left-10" />
         </div>
       </form>
     );
