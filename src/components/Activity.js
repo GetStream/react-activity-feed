@@ -45,6 +45,7 @@ export default class Activity extends React.Component<Props> {
     super(props);
     this.state = {
       editMode: false,
+      contentEdited: null,
     };
   }
 
@@ -53,6 +54,15 @@ export default class Activity extends React.Component<Props> {
 
     this.setState({
       editMode: !editMode,
+    });
+  };
+
+  handleUpdate = (editContent) => {
+    const { editMode } = this.state;
+
+    this.setState({
+      editMode: !editMode,
+      contentEdited: editContent,
     });
   };
 
@@ -90,6 +100,7 @@ export default class Activity extends React.Component<Props> {
 
   renderContent = () => {
     let { text } = this.props.activity;
+    const { contentEdited } = this.state;
 
     if (text === undefined) {
       if (typeof this.props.activity.object === 'string') {
@@ -98,7 +109,14 @@ export default class Activity extends React.Component<Props> {
         text = '';
       }
     }
+
     text = text.trim();
+
+    //*********************************TODO
+    if (contentEdited) {
+      text = contentEdited;
+    }
+
     const { attachments = {} } = this.props.activity;
 
     return (
@@ -167,11 +185,20 @@ export default class Activity extends React.Component<Props> {
   renderFooter = () => null;
 
   render() {
-    const { editMode } = this.state;
+    const { editMode, contentEdited } = this.state;
+    const { activity } = this.props;
+
     return (
       <React.Fragment>
         {editMode ? (
-          smartRender(this.props.EditFeed, {}, () => {})
+          smartRender(
+            this.props.EditFeed,
+            {
+              content: contentEdited ? contentEdited : activity.object,
+              handleUpdate: this.handleUpdate,
+            },
+            () => {},
+          )
         ) : (
           <div className="feed-body bg-white margin-bottom-15">
             <div className="feed-content">
