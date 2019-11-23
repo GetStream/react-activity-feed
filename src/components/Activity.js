@@ -66,6 +66,12 @@ export default class Activity extends React.Component<Props> {
     });
   };
 
+  handleCloseEdit = () => {
+    this.setState({
+      editMode: false,
+    });
+  };
+
   _getOnClickUser() {
     return this.props.onClickUser ? this.onClickUser : undefined;
   }
@@ -102,20 +108,17 @@ export default class Activity extends React.Component<Props> {
     let { text } = this.props.activity;
     const { contentEdited } = this.state;
 
-    if (text === undefined) {
-      if (typeof this.props.activity.object === 'string') {
-        text = this.props.activity.object;
-      } else {
-        text = '';
+    if (!contentEdited) {
+      if (text === undefined) {
+        if (typeof this.props.activity.object === 'string') {
+          text = this.props.activity.object;
+        } else {
+          text = '';
+        }
       }
-    }
 
-    text = text.trim();
-
-    //*********************************TODO
-    if (contentEdited) {
-      text = contentEdited;
-    }
+      text = text.trim();
+    } else text = contentEdited;
 
     const { attachments = {} } = this.props.activity;
 
@@ -196,6 +199,7 @@ export default class Activity extends React.Component<Props> {
             {
               content: contentEdited ? contentEdited : activity.object,
               handleUpdate: this.handleUpdate,
+              handleCloseEdit: this.handleCloseEdit,
             },
             () => {},
           )
