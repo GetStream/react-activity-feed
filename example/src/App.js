@@ -15,10 +15,10 @@ import {
 } from 'react-activity-feed';
 import 'react-activity-feed/dist/index.es.css';
 
-const apiKey = '6hwxyxcq4rpe';
-const appId = '35808';
+const apiKey = 'zsq32mmzdbnt';
+const appId = '62183';
 const token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYmF0bWFuIn0.8MshXS9c3Du81ul3mWwuT6HH06fP45O-GvrOuJA82y4';
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMiJ9.IuKlbDoc1b_oXTdaQxdZ-eov-uj3HZ-9mmwVnsjNs6I';
 
 export default class App extends Component<{}> {
   containerRef = React.createRef();
