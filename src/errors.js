@@ -29,9 +29,7 @@ export const getErrorMessage = (
   const text = response.body.detail;
 
   /* eslint-disable no-magic-numbers */
-  if (statusCode >= 400 && statusCode < 500) {
-    return text;
-  } else if (statusCode >= 500 && statusCode < 600) {
+  if (statusCode >= 400 && statusCode < 600) {
     return text;
   }
   /* eslint-enable no-magic-numbers */

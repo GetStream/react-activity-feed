@@ -94,15 +94,16 @@ export type FileInfo = {
   url: string,
   mimeType: string,
 };
+export type Attachments = {
+  images?: Array<string>,
+  og?: ?OgData,
+  files?: Array<FileInfo>,
+};
 export type CustomActivityData = {
   text?: string,
   link?: boolean,
   image?: string,
-  attachments?: {
-    images?: Array<string>,
-    og?: ?OgData,
-    files?: Array<FileInfo>,
-  },
+  attachments?: Attachments,
 };
 
 export type CustomActivityArgData = ActivityArgData<{}, CustomActivityData>;

@@ -17,6 +17,8 @@ import ThumbUp from '../assets/images/thumb.svg';
 import ThumbUpFilled from '../assets/images/thumb-filled.svg';
 import Comment from '../assets/images/comment.svg';
 
+/* eslint sonarjs/no-duplicate-string: 0 */
+
 export type Props = {|
   Header?: Renderable,
   Content?: Renderable,
