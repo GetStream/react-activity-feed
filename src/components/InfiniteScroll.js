@@ -218,7 +218,6 @@ export default class InfiniteScroll extends Component {
     delete props.getScrollParent;
 
     props.ref = (node) => {
-      z;
       this.scrollComponent = node;
       if (ref) {
         ref(node);

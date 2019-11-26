@@ -89,7 +89,7 @@ export default class CommentField extends React.Component<Props, State> {
         {this.props.image ? (
           <Avatar image={this.props.image} circle size={39} />
         ) : null}
-        <div className="d-flex align-items-center rounded group px-3 py-2">
+        <div className="textarea-wrapper">
           <Textarea
             rows={1}
             value={this.state.text}
@@ -107,7 +107,6 @@ export default class CommentField extends React.Component<Props, State> {
           >
             <img src={icoSend} alt="" className="cursor margin-left-10" />
           </Button>
-
           <img src={photo} alt="" className="cursor margin-left-10" />
         </div>
       </form>
