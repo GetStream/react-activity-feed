@@ -167,6 +167,7 @@ class NotificationFeedInner extends React.Component<PropsInner> {
       deletes: this.props.realtimeDeletes,
       onClick: this._refresh,
     };
+
     const {
       loadNextPage,
       hasNextPage,
