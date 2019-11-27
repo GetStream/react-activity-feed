@@ -58,7 +58,6 @@ const normalBundle = {
     'react-file-utils',
     'emoji-mart',
     '@webscopeio/react-textarea-autocomplete',
-    '@webscopeio/react-textarea-autocomplete/style.css',
     'emoji-mart/css/emoji-mart.css',
     'react-dropzone',
     'immutable',
