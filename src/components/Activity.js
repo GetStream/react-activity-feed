@@ -8,7 +8,6 @@ import Audio from './Audio';
 import Video from './Video';
 import { FileIcon } from 'react-file-utils';
 import Gallery from './Gallery';
-
 import type { ActivityData, Renderable } from '../types';
 import {
   smartRender,
@@ -23,7 +22,6 @@ type Props = {
   Content?: Renderable,
   Footer?: Renderable,
   HeaderRight?: Renderable,
-  EditFeed?: Renderable,
   onPress?: () => mixed,
   onClickUser?: (?any) => mixed,
   sub?: string,
@@ -120,21 +118,26 @@ export default class Activity extends React.Component<Props> {
       text = text.trim();
     } else text = contentEdited;
 
-    const { attachments = {} } = this.props.activity;
+    const textReduced = this.props.SeeMore ? (text.length > 500 ? text.slice(0,500) + '...'  : text) : text
 
+    const { attachments = {}, id } = this.props.activity;
     return (
       <div className="mt-2">
         {!!text && (
-          <p>
+          <p className="mb-0">
             {textRenderer(
-              text,
+              textReduced,
               'raf-activity',
               this.props.onClickMention,
               this.props.onClickHashtag,
             )}
-          </p>
+          </p> 
         )}
 
+        {this.props.SeeMore && text.length > 500 ? smartRender(
+          this.props.SeeMore,{},() => {},
+        ) : ''}
+ 
         {this.props.activity.verb === 'repost' &&
           this.props.activity.object instanceof Object && (
             <Card {...this.props.activity.object.data} />
