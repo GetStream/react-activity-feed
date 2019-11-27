@@ -90,6 +90,7 @@ export default class FlatFeed extends React.Component<Props> {
       <NewActivitiesNotification
         labelPlural="activities"
         labelSingle="activity"
+
         {...props}
       />
     ),
@@ -187,7 +188,7 @@ class FlatFeedInner extends React.Component<PropsInner> {
       return (
         <React.Fragment>
           {smartRender(this.props.Notifier, notifierProps)}
-          {smartRender(this.props.Placeholder)}
+          {notifierProps.adds.length ? '' : smartRender(this.props.Placeholder)}
         </React.Fragment>
       );
     }
