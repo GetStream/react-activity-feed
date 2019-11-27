@@ -3,9 +3,9 @@
 const activityId = 'aba1d300-dc4a-11e8-8080-80010edf5810';
 
 <StreamApp
-  apiKey="3fjzn67nznwt"
-  appId="41814"
-  token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZXhhbXBsZS11c2VyIn0.XEKjtzD2AIQMLXH6kfJlL8P_JV4CBYvcMsmQCFjyY2U"
+  apiKey="fpwesm5u2evu"
+  appId="64527"
+  token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZXhhbXBsZS11c2VyIn0.cM6zFlcQ68qP2LLz-Y6fPeNglfOuwB2aeBUaQild1wg"
 >
   <SinglePost
     activityId={activityId}

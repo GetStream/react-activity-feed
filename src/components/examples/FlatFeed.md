@@ -2,9 +2,9 @@
 
 ```js
 <StreamApp
-  apiKey="3fjzn67nznwt"
-  appId="41814"
-  token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZXhhbXBsZS11c2VyIn0.XEKjtzD2AIQMLXH6kfJlL8P_JV4CBYvcMsmQCFjyY2U"
+  apiKey="fpwesm5u2evu"
+  appId="64527"
+  token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZXhhbXBsZS11c2VyIn0.cM6zFlcQ68qP2LLz-Y6fPeNglfOuwB2aeBUaQild1wg"
 >
   <FlatFeed
     Activity={(props) => (
@@ -22,9 +22,9 @@
 
 ```js
 <StreamApp
-  apiKey="3fjzn67nznwt"
-  appId="41814"
-  token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZXhhbXBsZS11c2VyIn0.XEKjtzD2AIQMLXH6kfJlL8P_JV4CBYvcMsmQCFjyY2U"
+  apiKey="fpwesm5u2evu"
+  appId="64527"
+  token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZXhhbXBsZS11c2VyIn0.cM6zFlcQ68qP2LLz-Y6fPeNglfOuwB2aeBUaQild1wg"
 >
   <FlatFeed
     options={{ limit: 3, withRecentReactions: true }}

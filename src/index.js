@@ -61,6 +61,7 @@ export {
 export { default as LoadMorePaginator } from './components/LoadMorePaginator';
 
 // Activity sub components
+export { default as ActivityFooter } from './components/ActivityFooter';
 export { default as AttachedActivity } from './components/AttachedActivity';
 export { default as UserBar } from './components/UserBar';
 export { default as Card } from './components/Card';
