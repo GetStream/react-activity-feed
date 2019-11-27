@@ -99,7 +99,7 @@ export default class Notification extends React.Component<Props> {
       headerSubtext += ` on your ${latestActivity.object.verb}`;
       // icon = RepostIcon;
     } else if (latestActivity.verb === 'post') {
-      headerSubtext = `just posted a new Feed on ${latestActivity.target || 'General'}`;
+      headerSubtext = `just posted a new Feed on `;
     } else {
       console.warn(
         'No notification styling found for your verb, please create your own custom Notification group.',
@@ -123,7 +123,8 @@ export default class Notification extends React.Component<Props> {
         />
         <div className="raf-notification__content">
           <div className="raf-notification__header">
-            <strong>{headerText}</strong> {headerSubtext}
+            <strong>{headerText}</strong> {headerSubtext} <strong>{ latestActivity.target || 'General'}} </strong>
+            
             {!activityGroup.is_read && onMarkAsRead && (
               <Dropdown>
                 <div>
