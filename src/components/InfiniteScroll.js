@@ -113,7 +113,6 @@ export default class InfiniteScroll extends Component {
     } else if (this.props.useWindow === false) {
       scrollEl = this.getParentElement(this.scrollComponent);
     }
-
     scrollEl.addEventListener(
       'mousewheel',
       this.mousewheelListener,

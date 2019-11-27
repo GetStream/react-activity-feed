@@ -161,7 +161,6 @@ class FlatFeedInner extends React.Component<PropsInner> {
       activity: item,
       ...this._childProps(),
     };
-
     return smartRender(this.props.Activity, { ...args });
   };
 
@@ -200,7 +199,6 @@ class FlatFeedInner extends React.Component<PropsInner> {
         </div>
       );
     }
-
     return (
       <React.Fragment>
         {smartRender(this.props.Notifier, notifierProps)}

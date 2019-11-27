@@ -42,23 +42,20 @@ export default class ReactionIcon extends React.Component<Props> {
       dimensions.width = this.props.width;
     }
     const label = count === 1 ? this.props.labelSingle : this.props.labelPlural;
-
     return (
-      <div className="raf-reaction-icon" onClick={this.props.onPress}>
+      <span
+        onClick={this.props.onPress}
+        className="cursor d-flex align-items-center"
+      >
         {this.props.icon ? (
-          <img
-            className="raf-reaction-icon__image"
-            src={this.props.icon}
-            alt=""
-          />
+          <img src={this.props.icon} className="mr-1" alt="" />
         ) : null}
         {count != null ? (
-          <p className="raf-reaction-icon__label">
+          <span className={`${this.props.activeHeart ? 'heart-active' : ''}`}>
             {count}
-            {label && ' ' + label}
-          </p>
+          </span>
         ) : null}
-      </div>
+      </span>
     );
   }
 }

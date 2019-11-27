@@ -8,8 +8,8 @@ import type {
   ToggleChildReactionCallbackFunction,
 } from '../types';
 
-import likebuttonActive from '../images/like-active@1x.png';
-import likebuttonInactive from '../images/like@1x.png';
+import likebuttonActive from '../images/heart-active.svg';
+import likebuttonInactive from '../images/heart.svg';
 
 type Props = {|
   /** The activity received from stream that should be liked when pressing the
@@ -41,6 +41,7 @@ export default class LikeButton extends React.Component<Props> {
     if (reaction && onToggleChildReaction) {
       return onToggleChildReaction('like', reaction, {}, {});
     }
+
     return onToggleReaction('like', activity, {}, {});
   };
 
@@ -60,7 +61,6 @@ export default class LikeButton extends React.Component<Props> {
       counts = activity.reaction_counts;
       own_reactions = activity.own_reactions;
     }
-
     return (
       <ReactionToggleIcon
         counts={counts}
@@ -69,8 +69,8 @@ export default class LikeButton extends React.Component<Props> {
         onPress={this._onPress}
         activeIcon={likebuttonActive}
         inactiveIcon={likebuttonInactive}
-        labelSingle="like"
-        labelPlural="likes"
+        labelSingle="Cheers"
+        labelPlural="Cheers"
       />
     );
   }

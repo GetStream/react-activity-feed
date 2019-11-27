@@ -32,49 +32,35 @@ export default class UserBar extends React.Component<Props> {
       time = humanizeTimestamp(this.props.timestamp);
     }
     return (
-      <div className="raf-user-bar">
-        {this.props.avatar ? (
+      <div className="d-flex justify-content-between">
+        <div className="d-flex">
           <Avatar
             onClick={this.props.onClickUser}
             size={50}
             circle
             image={this.props.avatar}
           />
-        ) : null}
-        <div className="raf-user-bar__details">
-          <p
-            className="raf-user-bar__username"
-            onClick={this.props.onClickUser}
-          >
-            {this.props.username}
-          </p>
-          {this.props.AfterUsername}
-          {this.props.icon !== undefined ? (
-            <img src={this.props.icon} alt="icon" />
-          ) : null}
-          {this.props.subtitle ? (
-            <p className="raf-user-bar__subtitle">
+          <div>
+            <div className="author">
+              <label className="mb-0" onClick={this.props.onClickUser}>
+                {' '}
+                {this.props.username}
+              </label>
               <time
-                dateTime={this.props.timestamp}
-                title={this.props.timestamp}
-              >
-                {this.props.subtitle}
-              </time>
-            </p>
-          ) : null}
-        </div>
-        <React.Fragment>
-          {smartRender(this.props.Right, {}, () => (
-            <p className="raf-user-bar__extra">
-              <time
+                className="time d-block"
                 dateTime={this.props.timestamp}
                 title={this.props.timestamp}
               >
                 {time}
               </time>
-            </p>
-          ))}
-        </React.Fragment>
+            </div>
+          </div>
+        </div>
+        {smartRender(
+          this.props.Right,
+          { handleEdit: this.props.handleEdit },
+          () => {},
+        )}
       </div>
     );
   }

@@ -47,13 +47,18 @@ export default class ReactionToggleIcon extends React.Component<Props> {
       ...restProps
     } = this.props;
     let icon = inactiveIcon;
+    let activeHeart = false;
     if (own_reactions && own_reactions[kind] && own_reactions[kind].length) {
       icon = activeIcon;
+      activeHeart = true;
     }
     return (
-      <div className="raf-reaction-toggle-icon">
-        <ReactionIcon icon={icon} kind={kind} {...restProps} />
-      </div>
+      <ReactionIcon
+        icon={icon}
+        kind={kind}
+        activeHeart={activeHeart}
+        {...restProps}
+      />
     );
   }
 }

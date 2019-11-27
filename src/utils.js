@@ -29,7 +29,6 @@ export const smartRender = (
     // Flow cast through any, to make flow believe it's a React.Element
     return ((ElementOrComponentOrLiteral: any): React.Element<any>);
   }
-
   // Flow cast through any to remove React.Element after previous check
   const ComponentOrLiteral = ((ElementOrComponentOrLiteral: any): RenderableButNotElement);
   if (
@@ -272,4 +271,14 @@ export const textRenderer = (
       return word;
     })
     .reduce((accu, elem) => (accu === null ? [elem] : [accu, ' ', elem]));
+};
+
+export const autoSize = (e) => {
+  e.target.style.cssText = 'height:auto';
+  if (e.target.scrollHeight >= 200) {
+    e.target.classList.add('overflow-auto');
+    e.target.style.cssText = `height:${200}px`;
+  } else {
+    e.target.style.cssText = `height:${e.target.scrollHeight}px`;
+  }
 };
