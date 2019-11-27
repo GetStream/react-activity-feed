@@ -123,7 +123,7 @@ export default class Notification extends React.Component<Props> {
         />
         <div className="raf-notification__content">
           <div className="raf-notification__header">
-            <strong>{headerText}</strong> {headerSubtext} <strong>{ latestActivity.target || 'General'}} </strong>
+            <strong>{headerText}</strong> {headerSubtext} <strong>{ latestActivity.target || 'General' } </strong>
             
             {!activityGroup.is_read && onMarkAsRead && (
               <Dropdown>
