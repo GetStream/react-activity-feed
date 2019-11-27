@@ -70,13 +70,12 @@ export default class Notification extends React.Component<Props> {
     const latestActivity = activities[0];
     const lastActor = userOrDefault(latestActivity.actor);
 
-    if (activities.length === 1) {
+    if (activities.length === 1 ) {
       headerText = lastActor.data.name;
     } else if (activities.length > 1 && activities.length < 1 + 1 + 1) {
-      headerText = `${lastActor.data.name || 'Unknown'} and 1 other `;
+      headerText = `${lastActor.data.name || 'Unknown'}`;
     } else {
-      headerText = `${lastActor.data.name ||
-        'Unknown'} and ${activities.length - 1} others `;
+      headerText = `${lastActor.data.name || 'Unknown'}`;
     }
 
     if (typeof latestActivity.object === 'string') {
@@ -100,8 +99,7 @@ export default class Notification extends React.Component<Props> {
       headerSubtext += ` on your ${latestActivity.object.verb}`;
       // icon = RepostIcon;
     } else if (latestActivity.verb === 'post') {
-      headerSubtext = `posted`;
-      headerSubtext += ` a new Feed on ${latestActivity.object.verb}`;
+      headerSubtext = `just posted a new Feed on ${latestActivity.target || 'General'}`;
     } else {
       console.warn(
         'No notification styling found for your verb, please create your own custom Notification group.',
