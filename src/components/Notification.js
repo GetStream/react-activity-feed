@@ -99,6 +99,9 @@ export default class Notification extends React.Component<Props> {
       headerSubtext = `commented`;
       headerSubtext += ` on your ${latestActivity.object.verb}`;
       // icon = RepostIcon;
+    } else if (latestActivity.verb === 'post') {
+      headerSubtext = `posted`;
+      headerSubtext += ` a new Feed on ${latestActivity.object.verb}`;
     } else {
       console.warn(
         'No notification styling found for your verb, please create your own custom Notification group.',
