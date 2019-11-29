@@ -122,16 +122,16 @@ export default class Activity extends React.Component<Props> {
 
     const { attachments = {}, id } = this.props.activity;
     return (
-      <div className="mt-2">
+      <div>
         {!!text && (
-          <p className="mb-0">
+          <div className="pre-line break-word">
             {textRenderer(
               textReduced,
               'raf-activity',
               this.props.onClickMention,
               this.props.onClickHashtag,
             )}
-          </p> 
+          </div> 
         )}
 
         {this.props.SeeMore && text.length > 500 ? smartRender(
