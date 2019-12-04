@@ -23,7 +23,6 @@ type Props = {
   Content?: Renderable,
   Footer?: Renderable,
   HeaderRight?: Renderable,
-  onPress?: () => mixed,
   onClickUser?: (?any) => mixed,
   sub?: string,
   icon?: string,
