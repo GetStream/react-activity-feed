@@ -33,6 +33,8 @@ type Props = {|
   options?: FeedRequestOptions,
   /** The component used to render an activity in the feed */
   Activity: Renderable,
+  /** Component to show when the feed is refreshing **/
+  LoadingIndicator: Renderable,
   /** The component to use to render new activities notification */
   Notifier: Renderable,
   /** By default pagination is done with a "Load more" button, you can use
@@ -95,6 +97,7 @@ export default class FlatFeed extends React.Component<Props> {
     ),
     Placeholder: FeedPlaceholder,
     Paginator: LoadMorePaginator,
+    LoadingIndicator,
   };
 
   render() {
@@ -195,8 +198,8 @@ class FlatFeedInner extends React.Component<PropsInner> {
 
     if (refreshing && !hasDoneRequest) {
       return (
-        <div style={{ padding: 40, backgroundColor: 'rgb(247, 247, 247' }}>
-          <LoadingIndicator />
+        <div className="raf-loading-indicator">
+          {smartRender(this.props.LoadingIndicator, {})}
         </div>
       );
     }

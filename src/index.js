@@ -24,6 +24,7 @@ import './styles/Gallery.css';
 import './styles/IconBadge.css';
 import './styles/Link.css';
 import './styles/LoadMoreButton.css';
+import './styles/LoadingIndicator.css';
 import './styles/Modal.css';
 import './styles/NewActivitiesNotification.css';
 import './styles/Notification.css';
