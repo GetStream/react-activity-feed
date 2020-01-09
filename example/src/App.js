@@ -12,13 +12,14 @@ import {
   CommentList,
   CommentItem,
   InfiniteScrollPaginator,
+  FeedContext,
 } from 'react-activity-feed';
 import 'react-activity-feed/dist/index.es.css';
 
-const apiKey = 'zsq32mmzdbnt';
-const appId = '62183';
+const apiKey = 'sesb46h7zb6p';
+const appId = '66001';
 const token =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMiJ9.IuKlbDoc1b_oXTdaQxdZ-eov-uj3HZ-9mmwVnsjNs6I';
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYmF0bWFuIn0.8aYd7O_fx-1YMx28DXG1n274o4pa3SjHnRM8AIHLqkE';
 
 export default class App extends Component<{}> {
   containerRef = React.createRef();
@@ -29,8 +30,8 @@ export default class App extends Component<{}> {
         ref={this.containerRef}
         style={{
           maxWidth: '600px',
-          maxHeight: '500px',
-          overflow: 'scroll',
+          // maxHeight: '500px',
+          // overflow: 'scroll',
           margin: '0 auto',
         }}
       >

@@ -7,8 +7,7 @@ export const handleError = (
   type: FlowRequestTypes,
   detail: Object,
 ) => {
-  console.warn(error);
-  alert(getErrorMessage(error, type, detail));
+  console.warn(error, type, detail);
 };
 
 export const getErrorMessage = (
