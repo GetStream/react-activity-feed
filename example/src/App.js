@@ -12,7 +12,6 @@ import {
   CommentList,
   CommentItem,
   InfiniteScrollPaginator,
-  FeedContext,
 } from 'react-activity-feed';
 import 'react-activity-feed/dist/index.es.css';
 
