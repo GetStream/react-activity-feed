@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Nothing yet
 
+## 0.9.26 - 2020-01-09
+
+- Removed alerts from library
+
 ## 0.9.24 - 2019-11-25
 
 - Add ActivityFooter component to exported components
