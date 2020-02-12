@@ -600,6 +600,17 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     this._handleOgDebounced(text);
   };
 
+  _getUploads = (uploadOrder, uploads) => {
+    let currentUploads = []
+    uploadOrder.forEach(
+      (id) => {
+        if(uploads[id]) 
+          currentUploads.push(uploads[id]);
+        }
+    )
+    return currentUploads;
+  }
+
   render() {
     const activeOg = this._activeOg();
     const availableOg = this._availableOg();
@@ -741,11 +752,9 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                   </ol>
                 </React.Fragment>
               )}
-              {this.state.imageOrder.length > 0 && (
+              {this._getUploads(this.state.imageOrder, this.state.imageUploads).length > 0 &&  (
                 <ImagePreviewer
-                  imageUploads={this.state.imageOrder.map(
-                    (id) => this.state.imageUploads[id],
-                  )}
+                  imageUploads={this._getUploads(this.state.imageOrder, this.state.imageUploads)}
                   handleRemove={this._removeImage}
                   handleRetry={this._uploadImage}
                   handleFiles={this._uploadNewFiles}
@@ -753,9 +762,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
               )}
               {this.state.fileOrder.length > 0 && (
                 <FilePreviewer
-                  uploads={this.state.fileOrder.map(
-                    (id) => this.state.fileUploads[id],
-                  )}
+                  uploads={this._getUploads(this.state.fileOrder, this.state.fileUploads)}
                   handleRemove={this._removeFile}
                   handleRetry={this._uploadFile}
                   handleFiles={this._uploadNewFiles}
