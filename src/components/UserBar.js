@@ -4,6 +4,7 @@ import { humanizeTimestamp } from '../utils';
 import Avatar from './Avatar';
 
 import type { Renderable } from '../types';
+import type { Streami18Ctx } from '../Context';
 
 import { smartRender } from '../utils';
 import { withTranslationContext } from '../Context';
@@ -19,7 +20,7 @@ export type Props = {|
   follow?: boolean,
   Right?: Renderable,
   AfterUsername?: React.Node,
-|};
+|} & Streami18Ctx;
 
 /**
  * Component is described here.

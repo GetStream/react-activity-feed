@@ -3,10 +3,11 @@ import React from 'react';
 import { Picker } from 'emoji-mart';
 import type { Emoji } from '../types';
 import { withTranslationContext } from '../Context';
+import type { Streami18Ctx } from '../Context';
 
 type Props = {|
   onSelect?: (emoji: Emoji) => mixed,
-|};
+|} & Streami18Ctx;
 
 type State = {|
   open: boolean,

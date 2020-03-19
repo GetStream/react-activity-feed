@@ -10,6 +10,8 @@ import { FileIcon } from 'react-file-utils';
 import Gallery from './Gallery';
 
 import type { ActivityData, Renderable } from '../types';
+import type { Streami18Ctx } from '../Context';
+
 import {
   smartRender,
   sanitizeURL,
@@ -31,7 +33,7 @@ type Props = {
   onClickHashtag?: (word: string) => mixed,
   /** Handler for any routing you may do on clicks on Mentions */
   onClickMention?: (word: string) => mixed,
-};
+} & Streami18Ctx;
 
 /**
  * Component is described here.

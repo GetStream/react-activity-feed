@@ -3,8 +3,9 @@
 import React from 'react';
 import Link from './Link';
 import { withTranslationContext } from '../Context';
+import type { Streami18Ctx } from '../Context';
 
-export type Props = {|
+export type Props = Streami18Ctx & {|
   adds: Array<{}>,
   deletes: Array<{}>,
   labelSingle?: string,

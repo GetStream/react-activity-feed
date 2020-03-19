@@ -17,6 +17,7 @@ import { Streami18n } from '../Streami18n';
 export const StreamContext = React.createContext({
   changedUserData: () => {},
   sharedFeedManagers: {},
+  client: null,
 });
 
 export const TranslationContext = React.createContext({
@@ -24,13 +25,17 @@ export const TranslationContext = React.createContext({
   moment: (input) => Moment(input),
 });
 
-export function withTranslationContext(OriginalComponent) {
-  const ContextAwareComponent = function ContextComponent(props) {
+export function withTranslationContext(
+  OriginalComponent: React.ComponentType<any>,
+) {
+  const ContextAwareComponent = function ContextComponent(props: {}) {
     return (
       <TranslationContext.Consumer>
-        {(translationContext) => (
-          <OriginalComponent {...translationContext} {...props} />
-        )}
+        {(translationContext) =>
+          OriginalComponent && (
+            <OriginalComponent {...translationContext} {...props} />
+          )
+        }
       </TranslationContext.Consumer>
     );
   };
@@ -56,6 +61,11 @@ export type AppCtx<UserData> = {|
   analyticsClient?: any,
   sharedFeedManagers: { [string]: FeedManager },
   errorHandler: ErrorHandler,
+|};
+
+export type Streami18Ctx = {|
+  t: (msg: string, data?: Object) => string,
+  moment: (input: Moment.MomentInput) => Moment.Moment,
 |};
 
 type StreamAppProps<UserData> = {|
@@ -85,10 +95,11 @@ type StreamAppProps<UserData> = {|
   /** A callback to handle errors produced by the components. This should
    * probably hook into your own notification system. */
   errorHandler: ErrorHandler,
+  i18nInstance: Streami18n,
   children?: React.Node,
 |};
 
-type StreamAppState<UserData> = AppCtx<UserData>;
+type StreamAppState<UserData> = AppCtx<UserData> & Streami18Ctx;
 
 /**
  * Manages the connection with Stream. Any components that should talk to
@@ -138,6 +149,8 @@ export class StreamApp extends React.Component<
       changedUserData: () => {
         this.setState({ userData: this.state.user.data });
       },
+      t: null,
+      moment: null,
     });
   }
 
@@ -243,12 +256,13 @@ export class StreamApp extends React.Component<
   render() {
     if (!this.state.t) return null;
 
+    const { t, moment, ...streamContextValue } = this.state;
     return (
-      <StreamContext.Provider value={{ ...this.state }}>
+      <StreamContext.Provider value={streamContextValue}>
         <TranslationContext.Provider
           value={{
-            t: this.state.t,
-            moment: this.state.moment,
+            t,
+            moment,
           }}
         >
           <React.Fragment>

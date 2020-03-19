@@ -4,13 +4,17 @@ import URL from 'url-parse';
 import anchorme from 'anchorme';
 import _truncate from 'lodash/truncate';
 import twitter from 'twitter-text';
-import { utc, min } from 'moment';
+import Moment, { utc, min } from 'moment';
 import type { UserResponse } from './types';
 
 import type { Renderable, RenderableButNotElement, FileLike } from './types';
+
 // import type { UserResponse } from 'getstream';
 
-export function humanizeTimestamp(timestamp: string | number, moment): string {
+export function humanizeTimestamp(
+  timestamp: string | number,
+  moment: (input: Moment.MomentInput) => Moment.Moment,
+): string {
   const time = utc(timestamp); // parse time as UTC
   const now = moment();
   // Not in future humanized time

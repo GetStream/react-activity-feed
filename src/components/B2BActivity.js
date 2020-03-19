@@ -16,6 +16,7 @@ import ThumbUp from '../assets/images/thumb.svg';
 import ThumbUpFilled from '../assets/images/thumb-filled.svg';
 import Comment from '../assets/images/comment.svg';
 import { withTranslationContext } from '../Context';
+import type { Streami18Ctx } from '../Context';
 
 /* eslint sonarjs/no-duplicate-string: 0 */
 
@@ -25,7 +26,7 @@ export type Props = {|
   Footer?: Renderable,
   activity: any,
   onToggleReaction: any,
-|};
+|} & Streami18Ctx;
 
 type State = {|
   showComments: boolean,

@@ -4,12 +4,13 @@ import * as React from 'react';
 import Button from './Button';
 
 import { withTranslationContext } from '../Context';
+import type { Streami18Ctx } from '../Context';
 
 type Props = {|
   onClick: () => mixed,
   refreshing: boolean,
   children: React.Node,
-|};
+|} & Streami18Ctx;
 
 class LoadMoreButton extends React.Component<Props> {
   render() {

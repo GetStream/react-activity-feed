@@ -6,6 +6,7 @@ import type { Comment } from '../types';
 
 import { humanizeTimestamp, textRenderer } from '../utils';
 import { withTranslationContext } from '../Context';
+import type { Streami18Ctx } from '../Context';
 
 export type Props = {|
   comment: Comment,
@@ -14,7 +15,7 @@ export type Props = {|
   onClickHashtag?: (word: string) => mixed,
   /** Handler for any routing you may do on clicks on Mentions */
   onClickMention?: (word: string) => mixed,
-|};
+|} & Streami18Ctx;
 
 /**
  * Component is described here.

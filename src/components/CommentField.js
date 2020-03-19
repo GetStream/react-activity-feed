@@ -12,7 +12,7 @@ import type {
   Trigger,
 } from '../types';
 import { withTranslationContext } from '../Context';
-
+import type { Streami18Ctx } from '../Context';
 export type Props = {|
   activity: BaseActivityResponse,
   onAddReaction: AddReactionCallbackFunction,
@@ -21,7 +21,7 @@ export type Props = {|
   image?: string,
   onSuccess?: () => mixed,
   trigger?: Trigger,
-|};
+|} & Streami18Ctx;
 
 type State = {|
   text: string,

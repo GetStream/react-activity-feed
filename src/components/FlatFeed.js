@@ -4,6 +4,7 @@ import * as React from 'react';
 import Activity from './Activity';
 import NewActivitiesNotification from './NewActivitiesNotification';
 import type { Props as NotifierProps } from './NewActivitiesNotification';
+import type { Streami18Ctx } from '../Context';
 import LoadMorePaginator from './LoadMorePaginator';
 import FeedPlaceholder from './FeedPlaceholder';
 import { LoadingIndicator } from 'react-file-utils';
@@ -76,7 +77,7 @@ type Props = {|
   /** The location that should be used for analytics when liking in the feed,
    * this is only useful when you have analytics enabled for your app. */
   analyticsLocation?: string,
-|};
+|} & Streami18Ctx;
 
 /**
  * Renders a feed of activities, this component is a StreamApp consumer
@@ -169,10 +170,11 @@ class FlatFeedInner extends React.Component<PropsInner> {
   };
 
   render() {
-    const notifierProps: NotifierProps = {
+    const notifierProps = {
       adds: this.props.realtimeAdds,
       deletes: this.props.realtimeDeletes,
       onClick: this._refresh,
+      labelFunction: () => '',
     };
     const {
       loadNextPage,

@@ -49,6 +49,7 @@ import type {
   Trigger,
   ReactRefObjectOrFunction,
 } from '../types';
+import type { Streami18Ctx } from '../Context';
 
 import type { ActivityArgData } from 'getstream';
 
@@ -87,7 +88,7 @@ type Props = {|
   innerRef?: ReactRefObjectOrFunction<HTMLTextAreaElement>,
   /** The header to display */
   Header: React.Node,
-|};
+|} & Streami18Ctx;
 
 /**
  * Component is described here.
@@ -103,11 +104,11 @@ class StatusUpdateForm extends React.Component<Props> {
   };
 
   render() {
-    const { t } = this.props;
-    const Header = Header ? Header : <Title>{t('New Post')}</Title>;
+    const { t, Header } = this.props;
+    const HeaderComponent = Header ? Header : <Title>{t('New Post')}</Title>;
     const forwardedProps = {
       ...this.props,
-      Header,
+      Header: HeaderComponent,
     };
     return (
       <StreamApp.Consumer>

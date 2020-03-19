@@ -2,6 +2,7 @@
 import * as React from 'react';
 import type { ReactionCounts } from 'getstream';
 import { withTranslationContext } from '../Context';
+import type { Streami18Ctx } from '../Context';
 
 type Props = {|
   /** The icon to display */
@@ -20,7 +21,7 @@ type Props = {|
   labelSingle?: string,
   /** The label to display if the count is more than one (e.g "likes") */
   labelPlural?: string,
-|};
+|} & Streami18Ctx;
 
 /**
  * Component is described here.
@@ -54,7 +55,12 @@ class ReactionIcon extends React.Component<Props> {
       dimensions.width = width;
     }
 
-    let label = count === 1 ? `1 ${labelSingle}` : `${count} ${labelPlural}`;
+    if (!count) count = 0;
+    let label;
+
+    if (labelSingle && labelPlural) {
+      label = count === 1 ? `1 ${labelSingle}` : `${count} ${labelPlural}`;
+    }
 
     if (!labelSingle || !labelPlural) {
       switch (kind) {

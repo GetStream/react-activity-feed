@@ -8,6 +8,7 @@ import Link from './Link';
 
 import { humanizeTimestamp, userOrDefault } from '../utils';
 import type { UserResponse, BaseActivityGroupResponse } from '../types';
+import type { Streami18Ctx } from '../Context';
 import { withTranslationContext } from '../Context';
 
 type Props = {
@@ -25,7 +26,7 @@ type Props = {
       | BaseActivityGroupResponse
       | $ReadOnlyArray<BaseActivityGroupResponse>,
   ) => Promise<mixed>,
-};
+} & Streami18Ctx;
 
 /**
  * Component is described here.
