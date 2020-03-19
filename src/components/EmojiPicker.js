@@ -2,6 +2,7 @@
 import React from 'react';
 import { Picker } from 'emoji-mart';
 import type { Emoji } from '../types';
+import { withTranslationContext } from '../Context';
 
 type Props = {|
   onSelect?: (emoji: Emoji) => mixed,
@@ -16,7 +17,7 @@ type State = {|
  *
  * @example ./examples/EmojiPicker.md
  */
-export default class EmojiPicker extends React.Component<Props, State> {
+class EmojiPicker extends React.Component<Props, State> {
   emojiPicker = React.createRef();
   state = {
     open: false,
@@ -44,6 +45,7 @@ export default class EmojiPicker extends React.Component<Props, State> {
   };
 
   render() {
+    const { t } = this.props;
     return (
       <div className="raf-emoji-picker">
         {' '}
@@ -51,7 +53,7 @@ export default class EmojiPicker extends React.Component<Props, State> {
           <div className="raf-emoji-picker__container" ref={this.emojiPicker}>
             <Picker
               emoji="point_up"
-              title="Pick your emoji…"
+              title={t('Pick your emoji')}
               onSelect={this.props.onSelect}
             />
           </div>
@@ -78,3 +80,5 @@ export default class EmojiPicker extends React.Component<Props, State> {
     );
   }
 }
+
+export default withTranslationContext(EmojiPicker);

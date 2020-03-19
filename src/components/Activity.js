@@ -13,10 +13,10 @@ import type { ActivityData, Renderable } from '../types';
 import {
   smartRender,
   sanitizeURL,
-  humanizeTimestamp,
   userOrDefault,
   textRenderer,
 } from '../utils';
+import { withTranslationContext } from '../Context';
 
 type Props = {
   Header?: Renderable,
@@ -38,12 +38,13 @@ type Props = {
  *
  * @example ./examples/Activity.md
  */
-export default class Activity extends React.Component<Props> {
+class Activity extends React.Component<Props> {
   _getOnClickUser() {
     return this.props.onClickUser ? this.onClickUser : undefined;
   }
 
   renderHeader = () => {
+    const { moment } = this.props;
     const actor = userOrDefault(this.props.activity.actor);
 
     return (
@@ -54,7 +55,7 @@ export default class Activity extends React.Component<Props> {
           onClickUser={this._getOnClickUser()}
           subtitle={
             this.props.HeaderRight != null
-              ? humanizeTimestamp(this.props.activity.time)
+              ? moment(this.props.activity.time).fromNow()
               : undefined
           }
           timestamp={this.props.activity.time}
@@ -164,3 +165,5 @@ export default class Activity extends React.Component<Props> {
     );
   }
 }
+
+export default withTranslationContext(Activity);

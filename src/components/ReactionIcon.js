@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react';
 import type { ReactionCounts } from 'getstream';
+import { withTranslationContext } from '../Context';
 
 type Props = {|
   /** The icon to display */
@@ -27,38 +28,70 @@ type Props = {|
  * @example ./examples/ReactionIcon.md
  */
 
-export default class ReactionIcon extends React.Component<Props> {
+class ReactionIcon extends React.Component<Props> {
   render() {
+    const {
+      counts,
+      kind,
+      height,
+      width,
+      labelSingle,
+      labelPlural,
+      onPress,
+      icon,
+      t,
+    } = this.props;
     let count = null;
-    if (this.props.counts && this.props.kind) {
-      count = this.props.counts[this.props.kind] || 0;
+    if (counts && kind) {
+      count = counts[kind] || 0;
     }
 
     const dimensions = {};
-    if (this.props.height !== undefined) {
-      dimensions.height = this.props.height;
+    if (height !== undefined) {
+      dimensions.height = height;
     }
-    if (this.props.width !== undefined) {
-      dimensions.width = this.props.width;
+    if (width !== undefined) {
+      dimensions.width = width;
     }
-    const label = count === 1 ? this.props.labelSingle : this.props.labelPlural;
+
+    let label = count === 1 ? `1 ${labelSingle}` : `${count} ${labelPlural}`;
+
+    if (!labelSingle || !labelPlural) {
+      switch (kind) {
+        case 'like':
+          label =
+            count === 1
+              ? t('1 like')
+              : t('{{ countLikes }} likes', { countLikes: count });
+          break;
+        case 'repost':
+          label =
+            count === 1
+              ? t('1 repost')
+              : t('{{ countReposts }} reposts', { countReposts: count });
+          break;
+        case 'comment':
+          label =
+            count === 1
+              ? t('1 comment')
+              : t('{{ countComments }} comments', { countComments: count });
+          break;
+        default:
+          break;
+      }
+    }
 
     return (
-      <div className="raf-reaction-icon" onClick={this.props.onPress}>
-        {this.props.icon ? (
-          <img
-            className="raf-reaction-icon__image"
-            src={this.props.icon}
-            alt=""
-          />
+      <div className="raf-reaction-icon" onClick={onPress}>
+        {icon ? (
+          <img className="raf-reaction-icon__image" src={icon} alt="" />
         ) : null}
         {count != null ? (
-          <p className="raf-reaction-icon__label">
-            {count}
-            {label && ' ' + label}
-          </p>
+          <p className="raf-reaction-icon__label">{label && ' ' + label}</p>
         ) : null}
       </div>
     );
   }
 }
+
+export default withTranslationContext(ReactionIcon);

@@ -8,7 +8,7 @@ import LoadMorePaginator from './LoadMorePaginator';
 import FeedPlaceholder from './FeedPlaceholder';
 import { LoadingIndicator } from 'react-file-utils';
 
-import { Feed, FeedContext } from '../Context';
+import { Feed, FeedContext, withTranslationContext } from '../Context';
 import { smartRender } from '../utils';
 
 import type {
@@ -83,7 +83,7 @@ type Props = {|
  * and must always be a child of the `<StreamApp>` element
  * @example ./examples/FlatFeed.md
  */
-export default class FlatFeed extends React.Component<Props> {
+class FlatFeed extends React.Component<Props> {
   static defaultProps = {
     feedGroup: 'timeline',
     notify: false,
@@ -181,10 +181,11 @@ class FlatFeedInner extends React.Component<PropsInner> {
       hasDoneRequest,
       loadReverseNextPage,
       hasReverseNextPage,
+      t,
     } = this.props;
     if (hasReverseNextPage) {
       notifierProps.onClick = loadReverseNextPage;
-      notifierProps.labelFunction = () => 'Load activities';
+      notifierProps.labelFunction = () => t('Load activities');
     }
 
     if (this.props.activities.size === 0 && this.props.hasDoneRequest) {
@@ -232,3 +233,5 @@ class ImmutableItemWrapper extends React.PureComponent<ImmutableItemWrapperProps
     return this.props.renderItem(this.props.item.toJS());
   }
 }
+
+export default withTranslationContext(FlatFeed);

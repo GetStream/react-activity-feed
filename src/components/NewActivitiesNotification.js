@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from './Link';
+import { withTranslationContext } from '../Context';
 
 export type Props = {|
   adds: Array<{}>,
@@ -25,7 +26,7 @@ export type Props = {|
  *
  * @example ./examples/NewActivitiesNotification.md
  */
-export default class NewActivitiesNotification extends React.Component<Props> {
+class NewActivitiesNotification extends React.Component<Props> {
   static defaultProps = {
     labelSingle: 'notification',
     labelPlural: 'notifications',
@@ -40,6 +41,7 @@ export default class NewActivitiesNotification extends React.Component<Props> {
       labelSingle,
       labelPlural,
       labelFunction,
+      t,
     } = this.props;
     const addCount = (adds || []).length;
     const deleteCount = (deletes || []).length;
@@ -56,9 +58,27 @@ export default class NewActivitiesNotification extends React.Component<Props> {
     if (addCount === 0) {
       return null;
     }
-    return `You have ${addCount} new ${(addCount > 1
-      ? labelPlural
-      : labelSingle) || ''}`;
+    let singleNotificationText = '';
+    let pluralNotificationText = '';
+
+    if (labelSingle) {
+      singleNotificationText = `You have 1 new ${labelSingle}`;
+    } else {
+      singleNotificationText = t('You have 1 new notification');
+    }
+
+    if (labelPlural) {
+      pluralNotificationText = `You have ${addCount} new ${labelPlural}`;
+    } else {
+      pluralNotificationText = t(
+        'You have {{ notificationCount }} new notifications',
+        {
+          notificationCount: addCount,
+        },
+      );
+    }
+
+    return addCount > 1 ? pluralNotificationText : singleNotificationText;
   };
   render() {
     const label = this._labelFunction();
@@ -77,3 +97,5 @@ export default class NewActivitiesNotification extends React.Component<Props> {
     );
   }
 }
+
+export default withTranslationContext(NewActivitiesNotification);

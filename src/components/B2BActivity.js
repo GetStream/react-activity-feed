@@ -11,11 +11,11 @@ import ReactionIcon from './ReactionIcon';
 import Link from './Link';
 import type { Renderable } from '../types';
 import { smartRender } from '../utils';
-import moment from 'moment';
 
 import ThumbUp from '../assets/images/thumb.svg';
 import ThumbUpFilled from '../assets/images/thumb-filled.svg';
 import Comment from '../assets/images/comment.svg';
+import { withTranslationContext } from '../Context';
 
 /* eslint sonarjs/no-duplicate-string: 0 */
 
@@ -36,7 +36,7 @@ type State = {|
  *
  * @example ./examples/B2BActivity.md
  */
-export default class B2BActivity extends React.Component<Props, State> {
+class B2BActivity extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -45,7 +45,7 @@ export default class B2BActivity extends React.Component<Props, State> {
   }
 
   renderHeader = () => {
-    const { activity } = this.props;
+    const { activity, moment } = this.props;
     return (
       <Flex
         a="center"
@@ -136,7 +136,7 @@ export default class B2BActivity extends React.Component<Props, State> {
   };
 
   renderFooter = () => {
-    const { activity } = this.props;
+    const { activity, t } = this.props;
     return (
       <React.Fragment>
         <Flex
@@ -153,21 +153,17 @@ export default class B2BActivity extends React.Component<Props, State> {
               onPress={() => this.props.onToggleReaction('like', activity, {})}
               activeIcon={ThumbUpFilled}
               inactiveIcon={ThumbUp}
-              labelSingle="like"
-              labelPlural="likes"
             />
             <ReactionIcon
               counts={activity.reaction_counts}
               kind="comment"
               onPress={() => this.setState({ showComments: true })}
               icon={Comment}
-              labelSingle="comment"
-              labelPlural="comments"
             />
           </Flex>
           {this.state.showComments && (
             <Flex>
-              <Link>Details</Link>
+              <Link>{t('Details')}</Link>
             </Flex>
           )}
         </Flex>
@@ -187,3 +183,5 @@ export default class B2BActivity extends React.Component<Props, State> {
     );
   }
 }
+
+export default withTranslationContext(B2BActivity);

@@ -1,20 +1,20 @@
 // @flow
 import * as React from 'react';
-import moment from 'moment';
 import URL from 'url-parse';
 import anchorme from 'anchorme';
 import _truncate from 'lodash/truncate';
 import twitter from 'twitter-text';
+import { utc, min } from 'moment';
 import type { UserResponse } from './types';
 
 import type { Renderable, RenderableButNotElement, FileLike } from './types';
 // import type { UserResponse } from 'getstream';
 
-export function humanizeTimestamp(timestamp: string | number): string {
-  const time = moment.utc(timestamp); // parse time as UTC
+export function humanizeTimestamp(timestamp: string | number, moment): string {
+  const time = utc(timestamp); // parse time as UTC
   const now = moment();
   // Not in future humanized time
-  return moment.min(time, now).from(now);
+  return min(time, now).from(now);
 }
 
 export const smartRender = (

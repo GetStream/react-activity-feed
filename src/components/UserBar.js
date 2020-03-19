@@ -6,6 +6,7 @@ import Avatar from './Avatar';
 import type { Renderable } from '../types';
 
 import { smartRender } from '../utils';
+import { withTranslationContext } from '../Context';
 
 export type Props = {|
   username: ?string,
@@ -25,11 +26,12 @@ export type Props = {|
  *
  * @example ./examples/UserBar.md
  */
-export default class UserBar extends React.Component<Props> {
+class UserBar extends React.Component<Props> {
   render() {
+    const { moment } = this.props;
     let time = this.props.time;
     if (time === undefined && this.props.timestamp != null) {
-      time = humanizeTimestamp(this.props.timestamp);
+      time = humanizeTimestamp(this.props.timestamp, moment);
     }
     return (
       <div className="raf-user-bar">
@@ -79,3 +81,5 @@ export default class UserBar extends React.Component<Props> {
     );
   }
 }
+
+export default withTranslationContext(UserBar);

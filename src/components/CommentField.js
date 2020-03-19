@@ -11,6 +11,7 @@ import type {
   BaseActivityResponse,
   Trigger,
 } from '../types';
+import { withTranslationContext } from '../Context';
 
 export type Props = {|
   activity: BaseActivityResponse,
@@ -31,15 +32,11 @@ type State = {|
  *
  * @example ./examples/CommentField.md
  */
-export default class CommentField extends React.Component<Props, State> {
+class CommentField extends React.Component<Props, State> {
   textareaRef = React.createRef();
 
   state = {
     text: '',
-  };
-
-  static defaultProps = {
-    placeholder: 'Start Typing...',
   };
 
   onSubmitForm = async (e: SyntheticEvent<HTMLFormElement>) => {
@@ -82,6 +79,7 @@ export default class CommentField extends React.Component<Props, State> {
   }
 
   render() {
+    const { t, placeholder } = this.props;
     return (
       <form onSubmit={this.onSubmitForm} className="raf-comment-field">
         {this.props.image ? (
@@ -91,7 +89,7 @@ export default class CommentField extends React.Component<Props, State> {
           <Textarea
             rows={1}
             value={this.state.text}
-            placeholder={this.props.placeholder}
+            placeholder={placeholder || t('Start Typing...')}
             onChange={this._onChange}
             trigger={this.props.trigger}
             onPaste={() => null}
@@ -103,10 +101,12 @@ export default class CommentField extends React.Component<Props, State> {
             disabled={this.state.text === ''}
             type="submit"
           >
-            post
+            {t('post')}
           </Button>
         </div>
       </form>
     );
   }
 }
+
+export default withTranslationContext(CommentField);
