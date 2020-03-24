@@ -29,10 +29,10 @@ export type Props = {|
  */
 class UserBar extends React.Component<Props> {
   render() {
-    const { moment } = this.props;
+    const { tDateTimeParser } = this.props;
     let time = this.props.time;
     if (time === undefined && this.props.timestamp != null) {
-      time = humanizeTimestamp(this.props.timestamp, moment);
+      time = humanizeTimestamp(this.props.timestamp, tDateTimeParser);
     }
     return (
       <div className="raf-user-bar">

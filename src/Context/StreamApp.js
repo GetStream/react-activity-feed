@@ -11,7 +11,8 @@ import type { ErrorHandler } from '../types';
 import { FeedManager } from './FeedManager';
 import type { FeedProps } from './Feed';
 import { handleError } from '../errors';
-import Moment from 'moment';
+import Dayjs from 'dayjs';
+
 import { Streami18n } from '../Streami18n';
 
 export const StreamContext = React.createContext({
@@ -22,7 +23,7 @@ export const StreamContext = React.createContext({
 
 export const TranslationContext = React.createContext({
   t: (msg) => msg,
-  moment: (input) => Moment(input),
+  tDateTimeParser: (input) => Dayjs(input),
 });
 
 export function withTranslationContext(
@@ -65,7 +66,7 @@ export type AppCtx<UserData> = {|
 
 export type Streami18Ctx = {|
   t: (msg: string, data?: Object) => string,
-  moment: (input: Moment.MomentInput) => Moment.Moment,
+  tDateTimeParser: (input?: string | number) => Function,
 |};
 
 type StreamAppProps<UserData> = {|
@@ -150,7 +151,7 @@ export class StreamApp extends React.Component<
         this.setState({ userData: this.state.user.data });
       },
       t: null,
-      moment: null,
+      tDateTimeParser: null,
     });
   }
 
@@ -179,8 +180,8 @@ export class StreamApp extends React.Component<
       this.setState({ t });
     });
 
-    const { t, moment } = await streami18n.getTranslators();
-    this.setState({ t, moment });
+    const { t, tDateTimeParser } = await streami18n.getTranslators();
+    this.setState({ t, tDateTimeParser });
   }
 
   static getDerivedStateFromProps(
@@ -256,13 +257,13 @@ export class StreamApp extends React.Component<
   render() {
     if (!this.state.t) return null;
 
-    const { t, moment, ...streamContextValue } = this.state;
+    const { t, tDateTimeParser, ...streamContextValue } = this.state;
     return (
       <StreamContext.Provider value={streamContextValue}>
         <TranslationContext.Provider
           value={{
             t,
-            moment,
+            tDateTimeParser,
           }}
         >
           <React.Fragment>

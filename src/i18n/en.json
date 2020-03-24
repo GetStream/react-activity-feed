@@ -13,7 +13,6 @@
   "Type your post... ": "Type your post... ",
   "You have 1 new notification": "You have 1 new notification",
   "You have {{ notificationCount }} new notifications": "You have {{ notificationCount }} new notifications",
-  "post": "post",
   "{{ actorName }} and 1 other commented on your {{ activityVerb }}": "{{ actorName }} and 1 other commented on your {{ activityVerb }}",
   "{{ actorName }} and 1 other followed you": "{{ actorName }} and 1 other followed you",
   "{{ actorName }} and 1 other liked your {{ activityVerb }}": "{{ actorName }} and 1 other liked your {{ activityVerb }}",

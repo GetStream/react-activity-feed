@@ -67,7 +67,7 @@ class Notification extends React.Component<Props> {
 
   render() {
     let headerText, headerSubtext;
-    const { activityGroup, onMarkAsRead, t, moment } = this.props;
+    const { activityGroup, onMarkAsRead, t, tDateTimeParser } = this.props;
     const activities = activityGroup.activities;
     const latestActivity = activities[0];
     const lastActor = userOrDefault(latestActivity.actor);
@@ -223,7 +223,9 @@ class Notification extends React.Component<Props> {
             )}
           </div>
           <div>
-            <small>{humanizeTimestamp(latestActivity.time, moment)}</small>
+            <small>
+              {humanizeTimestamp(latestActivity.time, tDateTimeParser)}
+            </small>
           </div>
           {latestActivity.verb !== 'follow' ? (
             <AttachedActivity activity={latestActivity.object} />

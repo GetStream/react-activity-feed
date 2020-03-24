@@ -174,7 +174,7 @@ class FlatFeedInner extends React.Component<PropsInner> {
       adds: this.props.realtimeAdds,
       deletes: this.props.realtimeDeletes,
       onClick: this._refresh,
-      labelFunction: () => '',
+      labelFunction: undefined,
     };
     const {
       loadNextPage,

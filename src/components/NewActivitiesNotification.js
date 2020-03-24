@@ -29,8 +29,6 @@ export type Props = Streami18Ctx & {|
  */
 class NewActivitiesNotification extends React.Component<Props> {
   static defaultProps = {
-    labelSingle: 'notification',
-    labelPlural: 'notifications',
     adds: [],
     deletes: [],
   };

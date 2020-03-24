@@ -46,7 +46,7 @@ class B2BActivity extends React.Component<Props, State> {
   }
 
   renderHeader = () => {
-    const { activity, moment } = this.props;
+    const { activity, tDateTimeParser } = this.props;
     return (
       <Flex
         a="center"
@@ -64,7 +64,7 @@ class B2BActivity extends React.Component<Props, State> {
               margin: '4px 0',
             }}
           >
-            {moment(activity.timestamp).format('MMMM DD LT')}
+            {tDateTimeParser(activity.timestamp).format('MMMM DD LT')}
           </p>
         </Flex>
         <Flex a="center" style={{ margin: 0 }}>

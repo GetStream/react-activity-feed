@@ -46,7 +46,7 @@ class Activity extends React.Component<Props> {
   }
 
   renderHeader = () => {
-    const { moment } = this.props;
+    const { tDateTimeParser } = this.props;
     const actor = userOrDefault(this.props.activity.actor);
 
     return (
@@ -57,7 +57,7 @@ class Activity extends React.Component<Props> {
           onClickUser={this._getOnClickUser()}
           subtitle={
             this.props.HeaderRight != null
-              ? moment(this.props.activity.time).fromNow()
+              ? tDateTimeParser(this.props.activity.time).fromNow()
               : undefined
           }
           timestamp={this.props.activity.time}

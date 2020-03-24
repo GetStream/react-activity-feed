@@ -101,7 +101,7 @@ class CommentField extends React.Component<Props, State> {
             disabled={this.state.text === ''}
             type="submit"
           >
-            {t('post')}
+            {t('Post')}
           </Button>
         </div>
       </form>
