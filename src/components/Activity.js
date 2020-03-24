@@ -17,6 +17,7 @@ import {
   sanitizeURL,
   userOrDefault,
   textRenderer,
+  humanizeTimestamp,
 } from '../utils';
 import { withTranslationContext } from '../Context';
 
@@ -57,7 +58,7 @@ class Activity extends React.Component<Props> {
           onClickUser={this._getOnClickUser()}
           subtitle={
             this.props.HeaderRight != null
-              ? tDateTimeParser(this.props.activity.time).fromNow()
+              ? humanizeTimestamp(this.props.activity.time, tDateTimeParser)
               : undefined
           }
           timestamp={this.props.activity.time}
