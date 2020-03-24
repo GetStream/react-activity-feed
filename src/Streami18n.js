@@ -28,7 +28,7 @@ import 'dayjs/locale/it';
 // These locale imports also set these locale globally.
 // So As a last step I am going to import english locale
 // to make sure I don't mess up language at other places in app.
-import 'dayjs/locale/en-gb';
+import 'dayjs/locale/en';
 
 Dayjs.extend(updateLocale);
 
@@ -120,153 +120,15 @@ Dayjs.updateLocale('ru', {
   },
 });
 
-/**
- * Wrapper around [i18next](https://www.i18next.com/) class for Stream related translations.
- * Instance of this class should be provided to Chat component to handle translations.
- * Stream provides following list of in-built translations:
- * 1. English (en)
- * 2. Dutch (nl)
- * 3. Russian (ru)
- * 4. Turkish (tr)
- * 5. French (fr)
- * 6. Italian (it)
- * 7. Hindi (hi)
- *
- * Simplest way to start using chat components in one of the in-built languages would be following:
- *
- * ```
- * const i18n = new Streami18n({ language 'nl' });
- * <Chat client={chatClient} i18nInstance={i18n}>
- *  ...
- * </Chat>
- * ```
- *
- * If you would like to override certain keys in in-built translation.
- * UI will be automatically updated in this case.
- *
- * ```
- * const i18n = new Streami18n({
- *  language: 'nl',
- *  translationsForLanguage: {
- *    'Nothing yet...': 'Nog Niet ...',
- *    '{{ firstUser }} and {{ secondUser }} are typing...': '{{ firstUser }} en {{ secondUser }} zijn aan het typen...',
- *  }
- * });
- *
- * If you would like to register additional languages, use registerTranslation. You can add as many languages as you want:
- *
- * i18n.registerTranslation('zh', {
- *  'Nothing yet...': 'Nog Niet ...',
- *  '{{ firstUser }} and {{ secondUser }} are typing...': '{{ firstUser }} en {{ secondUser }} zijn aan het typen...',
- * });
- *
- * <Chat client={chatClient} i18nInstance={i18n}>
- *  ...
- * </Chat>
- * ```
- *
- * You can use the same function to add whole new language as well.
- *
- * ```
- * const i18n = new Streami18n();
- *
- * i18n.registerTranslation('mr', {
- *  'Nothing yet...': 'काहीही नाही  ...',
- *  '{{ firstUser }} and {{ secondUser }} are typing...': '{{ firstUser }} आणि {{ secondUser }} टीपी करत आहेत ',
- * });
- *
- * // Make sure to call setLanguage to reflect new language in UI.
- * i18n.setLanguage('it');
- * <Chat client={chatClient} i18nInstance={i18n}>
- *  ...
- * </Chat>
- * ```
- *
- * ## Datetime translations
- *
- * Stream react chat components uses [dayjs](https://day.js.org/en/) internally by default to format datetime stamp.
- * e.g., in ChannelPreview, MessageContent components.
- * Dayjs has locale support as well - https://day.js.org/docs/en/i18n/i18n
- * Dayjs is a lightweight alternative to Momentjs with the same modern API.
- *
- * Dayjs provides locale config for plenty of languages, you can check the whole list of locale configs at following url
- * https://github.com/iamkun/dayjs/tree/dev/src/locale
- *
- * You can either provide the dayjs locale config while registering
- * language with Streami18n (either via constructor or registerTranslation()) or you can provide your own Dayjs or Moment instance
- * to Streami18n constructor, which will be then used internally (using the language locale) in components.
- *
- * 1. Via language registration
- *
- * e.g.,
- * ```
- * const i18n = new Streami18n({
- *  language: 'nl',
- *  dayjsLocaleConfigForLanguage: {
- *    months: [...],
- *    monthsShort: [...],
- *    calendar: {
- *      sameDay: ...'
- *    }
- *  }
- * });
- * ```
- *
- * Similarly, you can add locale config for moment while registering translation via `registerTranslation` function.
- *
- * e.g.,
- * ```
- * const i18n = new Streami18n();
- *
- * i18n.registerTranslation(
- *  'mr',
- *  {
- *    'Nothing yet...': 'काहीही नाही  ...',
- *    '{{ firstUser }} and {{ secondUser }} are typing...': '{{ firstUser }} आणि {{ secondUser }} टीपी करत आहेत ',
- *  },
- *  {
- *    months: [...],
- *    monthsShort: [...],
- *    calendar: {
- *      sameDay: ...'
- *    }
- *  }
- * );
- *```
- * 2. Provide your own Moment object
- *
- * ```js
- * import 'moment/locale/nl';
- * import 'moment/locale/it';
- * // or if you want to include all locales
- * import 'moment/min/locales';
- *
- * import Moment from moment
- *
- * const i18n = new Streami18n({
- *  language: 'nl',
- *  DateTimeParser: Moment
- * })
- * ```
- *
- * 3. Provide your own Dayjs object
- *
- * ```js
- * import Dayjs from 'dayjs'
- *
- * import 'dayjs/locale/nl';
- * import 'dayjs/locale/it';
- * // or if you want to include all locales
- * import 'dayjs/min/locales';
- *
- * const i18n = new Streami18n({
- *  language: 'nl',
- *  DateTimeParser: Dayjs
- * })
- * ```
- * If you would like to stick with english language for datetimes in Stream compoments, you can set `disableDateTimeTranslations` to true.
- *
- */
+const en_locale = {
+  weekdays: 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split(
+    '_',
+  ),
+  months: 'January_February_March_April_May_June_July_August_September_October_November_December'.split(
+    '_',
+  ),
+};
+
 const defaultStreami18nOptions = {
   language: 'en',
   disableDateTimeTranslations: false,
@@ -293,7 +155,7 @@ export class Streami18n {
     it: { [defaultNS]: itTranslations },
   };
   /**
-   * dayjs.defineLanguage('nl') also changes the global locale. We don't want to do that
+   * dayjs.updateLocale('nl') also changes the global locale. We don't want to do that
    * when user calls registerTranslation() function. So intead we will store the locale configs
    * given to registerTranslation() function in `dayjsLocales` object, and register the required locale
    * with moment, when setLanguage is called.
@@ -320,8 +182,8 @@ export class Streami18n {
    *    [Config object](https://momentjs.com/docs/#/i18n/changing-locale/) for internal moment object,
    *    corresponding to language (param)
    *
-   *  - Moment (function) Moment instance. e.g. import Moment from 'moment';
-   *    Make sure to load all the required locales in this Moment instance that you will be provide to Streami18n
+   *  - DateTimeParser (function) Moment or Dayjs instance/function.
+   *    Make sure to load all the required locales in this Moment or Dayjs instance that you will be provide to Streami18n
    *
    * @param {*} options
    */
@@ -389,7 +251,7 @@ export class Streami18n {
       finalOptions.dayjsLocaleConfigForLanguage;
 
     if (dayjsLocaleConfigForLanguage) {
-      this.DateTimeParser.updateLocale(this.currentLanguage, {
+      this.addOrUpdateLocale(this.currentLanguage, {
         ...dayjsLocaleConfigForLanguage,
       });
     } else if (!this.localeExists(this.currentLanguage)) {
@@ -407,7 +269,6 @@ export class Streami18n {
       ) {
         return this.DateTimeParser(timestamp).locale(defaultLng);
       }
-
       return this.DateTimeParser(timestamp).locale(this.currentLanguage);
     };
   }
@@ -467,6 +328,12 @@ export class Streami18n {
    */
   async getTranslators() {
     if (!this.initialized) {
+      if (this.dayjsLocales[this.currentLanguage]) {
+        this.addOrUpdateLocale(
+          this.currentLanguage,
+          this.dayjsLocales[this.currentLanguage],
+        );
+      }
       return await this.init();
     } else {
       return {
@@ -513,6 +380,15 @@ export class Streami18n {
     }
   }
 
+  addOrUpdateLocale(key, config) {
+    if (this.localeExists(key)) {
+      Dayjs.updateLocale(key, { ...config });
+    } else {
+      // Merging the custom locale config with en config, so missing keys can default to english.
+      Dayjs.locale({ name: key, ...{ ...en_locale, ...config } }, null, true);
+    }
+  }
+
   /**
    * Changes the language.
    * @param {*} language
@@ -525,7 +401,10 @@ export class Streami18n {
     try {
       const t = await this.i18nInstance.changeLanguage(language);
       if (this.dayjsLocales[language]) {
-        this.DateTimeParser.updateLocale(language, this.dayjsLocales[language]);
+        this.addOrUpdateLocale(
+          this.currentLanguage,
+          this.dayjsLocales[this.currentLanguage],
+        );
       }
 
       this.setLanguageCallback(t);
