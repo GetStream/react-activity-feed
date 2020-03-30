@@ -79,6 +79,10 @@ module.exports = {
       exampleMode: 'collapse',
       usageMode: 'expand',
     },
+    {
+      name: 'Internationalisation (i18n)',
+      content: 'docs/Streami18n.md',
+    },
     // {
     //   name: 'Cookbook',
     //   content: 'docs/cookbook.md',

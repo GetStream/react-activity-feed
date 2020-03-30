@@ -55,49 +55,54 @@ const readGroup = {
   read: true,
   activities,
 };
-
-<div style={{ padding: 20, backgroundColor: 'grey' }}>
-  <DropdownPanel
-    arrow
-    Header={
-      <React.Fragment>
+<StreamApp
+  apiKey="fpwesm5u2evu"
+  appId="64527"
+  token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZXhhbXBsZS11c2VyIn0.cM6zFlcQ68qP2LLz-Y6fPeNglfOuwB2aeBUaQild1wg"
+>
+  <div style={{ padding: 20, backgroundColor: 'grey' }}>
+    <DropdownPanel
+      arrow
+      Header={
+        <React.Fragment>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: 10,
+            }}
+          >
+            <Title size={14}>Notifications</Title>
+            <Link>Mark as read</Link>
+          </div>
+          <NewActivitiesNotification adds={[{}, {}, {}, {}, {}]} />
+        </React.Fragment>
+      }
+      Footer={
         <div
           style={{
             display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
             padding: 10,
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
-          <Title size={14}>Notifications</Title>
-          <Link>Mark as read</Link>
+          <Link to="#">View All Notifications</Link>
         </div>
-        <NewActivitiesNotification adds={[{}, {}, {}, {}, {}]} />
-      </React.Fragment>
-    }
-    Footer={
-      <div
-        style={{
-          display: 'flex',
-          padding: 10,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Link to="#">View All Notifications</Link>
-      </div>
-    }
-  >
-    <Notification activityGroup={unreadGroup} />
-    <Notification activityGroup={unreadGroup} />
-    <Notification activityGroup={unreadGroup} />
-    <Notification activityGroup={unreadGroup} />
-    <Notification activityGroup={unreadGroup} />
-    <Notification activityGroup={unreadGroup} />
-    <Notification activityGroup={readGroup} />
-    <Notification activityGroup={readGroup} />
-    <Notification activityGroup={readGroup} />
-    <Notification activityGroup={readGroup} />
-  </DropdownPanel>
-</div>;
+      }
+    >
+      <Notification activityGroup={unreadGroup} />
+      <Notification activityGroup={unreadGroup} />
+      <Notification activityGroup={unreadGroup} />
+      <Notification activityGroup={unreadGroup} />
+      <Notification activityGroup={unreadGroup} />
+      <Notification activityGroup={unreadGroup} />
+      <Notification activityGroup={readGroup} />
+      <Notification activityGroup={readGroup} />
+      <Notification activityGroup={readGroup} />
+      <Notification activityGroup={readGroup} />
+    </DropdownPanel>
+  </div>;
+</StreamApp>
 ```

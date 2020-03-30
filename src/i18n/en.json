@@ -10,7 +10,7 @@
   "Pick your emoji": "Pick your emoji",
   "Post": "Post",
   "Start Typing...": "Start Typing...",
-  "Type your post... ": "Type your post... ",
+  "Type your post...": "Type your post...",
   "You have 1 new notification": "You have 1 new notification",
   "You have {{ notificationCount }} new notifications": "You have {{ notificationCount }} new notifications",
   "{{ actorName }} and 1 other commented on your {{ activityVerb }}": "{{ actorName }} and 1 other commented on your {{ activityVerb }}",

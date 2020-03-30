@@ -93,7 +93,7 @@ class ReactionIcon extends React.Component<Props> {
           <img className="raf-reaction-icon__image" src={icon} alt="" />
         ) : null}
         {count != null ? (
-          <p className="raf-reaction-icon__label">{label && ' ' + label}</p>
+          <p className="raf-reaction-icon__label">{label}</p>
         ) : null}
       </div>
     );

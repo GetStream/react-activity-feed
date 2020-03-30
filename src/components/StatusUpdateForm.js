@@ -635,7 +635,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                 </React.Fragment>
                 <Textarea
                   innerRef={this.textInputRef}
-                  placeholder={t('Type your post... ')}
+                  placeholder={t('Type your post...')}
                   value={this.state.text}
                   onChange={this._onChange}
                   trigger={this.props.trigger}

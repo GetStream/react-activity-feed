@@ -6,9 +6,9 @@ import _truncate from 'lodash/truncate';
 import twitter from 'twitter-text';
 import type { UserResponse } from './types';
 import Dayjs from 'dayjs';
-import type { Renderable, RenderableButNotElement, FileLike } from './types';
 import utc from 'dayjs/plugin/utc';
 import minMax from 'dayjs/plugin/minMax';
+import type { Renderable, RenderableButNotElement, FileLike } from './types';
 Dayjs.extend(utc);
 Dayjs.extend(minMax);
 

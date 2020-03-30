@@ -1,4 +1,4 @@
-Wrapper around [i18next](https://www.i18next.com/) class for Stream related translations.
+Streami18n - Wrapper around [i18next](https://www.i18next.com/) class for Stream related translations.
 
 ### API
 
