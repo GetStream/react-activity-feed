@@ -2,9 +2,6 @@
   "1 comment": "1 commentaire",
   "1 like": "1 J'aime",
   "1 repost": "1 partage",
-  "{{ countComments }} comments": "{{ countComments }} commentaires",
-  "{{ countLikes }} likes": "{{ countLikes }} J'aime",
-  "{{ countReposts }} reposts": "{{ countReposts }} partages",
   "Details": "Voir les commentaires",
   "Load activities": "Voir les nouvelles publications",
   "Load more": "voir plus",
@@ -27,5 +24,8 @@
   "{{ actorName }} commented on your {{ activityVerb }}": "{{ actorName }} a commenté votre {{ activityVerb }}",
   "{{ actorName }} followed you": "{{ actorName }} vous suit désormais",
   "{{ actorName }} liked your {{ activityVerb }}": "{{ actorName }} a aimé votre {{ activityVerb }}",
-  "{{ actorName }} reposted your {{ activityVerb }}": "{{ actorName }} a partagé votre {{ activityVerb }}"
+  "{{ actorName }} reposted your {{ activityVerb }}": "{{ actorName }} a partagé votre {{ activityVerb }}",
+  "{{ countComments }} comments": "{{ countComments }} commentaires",
+  "{{ countLikes }} likes": "{{ countLikes }} J'aime",
+  "{{ countReposts }} reposts": "{{ countReposts }} partages"
 }

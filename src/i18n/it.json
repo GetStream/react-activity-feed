@@ -2,9 +2,6 @@
   "1 comment": "1 commento",
   "1 like": "1 mi piace",
   "1 repost": "1 condivisione",
-  "{{ countComments }} comments": "{{ countComments }} commenti",
-  "{{ countLikes }} likes": "{{ countLikes }} mi piace",
-  "{{ countReposts }} reposts": "{{ countReposts }} condivisioni",
   "Details": "Dettagli",
   "Load activities": "Carica attivitá",
   "Load more": "Carica altro",
@@ -27,5 +24,8 @@
   "{{ actorName }} commented on your {{ activityVerb }}": "{{ actorName }} ha commentato il tuo {{ activityVerb }}",
   "{{ actorName }} followed you": "{{ actorName }} ha iniziato a seguirti",
   "{{ actorName }} liked your {{ activityVerb }}": "A {{ actorName }} piace il tuo {{ activityVerb }}",
-  "{{ actorName }} reposted your {{ activityVerb }}": "{{ actorName }} ha condiviso il tuo {{ activityVerb }}"
+  "{{ actorName }} reposted your {{ activityVerb }}": "{{ actorName }} ha condiviso il tuo {{ activityVerb }}",
+  "{{ countComments }} comments": "{{ countComments }} commenti",
+  "{{ countLikes }} likes": "{{ countLikes }} mi piace",
+  "{{ countReposts }} reposts": "{{ countReposts }} condivisioni"
 }

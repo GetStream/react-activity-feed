@@ -2,9 +2,6 @@
   "1 comment": "1 yorum",
   "1 like": "1 beğeni",
   "1 repost": "1 paylaşım",
-  "{{ countComments }} comments": "{{ countComments }} yorum",
-  "{{ countLikes }} likes": "{{ countLikes }} beğeni",
-  "{{ countReposts }} reposts": "{{ countReposts }} paylaşım",
   "Details": "Detaylar",
   "Load activities": "Aktiviteleri yükle",
   "Load more": "Daha fazla yükle",
@@ -27,5 +24,8 @@
   "{{ actorName }} commented on your {{ activityVerb }}": "{{ actorName }} {{ activityVerb }}'ine yorum yaptı",
   "{{ actorName }} followed you": "{{ actorName }} seni takip etti",
   "{{ actorName }} liked your {{ activityVerb }}": "{{ actorName }} senin {{ activityVerb }}'ini beğendi",
-  "{{ actorName }} reposted your {{ activityVerb }}": "{{ actorName }} senin {{ activityVerb }}'ini paylaştı"
+  "{{ actorName }} reposted your {{ activityVerb }}": "{{ actorName }} senin {{ activityVerb }}'ini paylaştı",
+  "{{ countComments }} comments": "{{ countComments }} yorum",
+  "{{ countLikes }} likes": "{{ countLikes }} beğeni",
+  "{{ countReposts }} reposts": "{{ countReposts }} paylaşım"
 }

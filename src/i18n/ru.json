@@ -2,9 +2,6 @@
   "1 comment": "1 комментарий",
   "1 like": "1 лайк",
   "1 repost": "1 репост",
-  "{{ countComments }} comments": "{{ countComments }} комментариев",
-  "{{ countLikes }} likes": "{{ countLikes }} лайков",
-  "{{ countReposts }} reposts": "{{ countReposts }} репостов",
   "Details": "Детали",
   "Load activities": "Загрузка активити",
   "Load more": "Загрузить еще",
@@ -27,5 +24,8 @@
   "{{ actorName }} commented on your {{ activityVerb }}": "{{ actorName }} оставил комментарий на вашем {{ activityVerb }}",
   "{{ actorName }} followed you": "{{ actorName }} зафоловили вас",
   "{{ actorName }} liked your {{ activityVerb }}": "{{ actorName }} понравилось ваше {{ activityVerb }}",
-  "{{ actorName }} reposted your {{ activityVerb }}": "{{ actorName }} зарепостил ваше {{ activityVerb }}"
+  "{{ actorName }} reposted your {{ activityVerb }}": "{{ actorName }} зарепостил ваше {{ activityVerb }}",
+  "{{ countComments }} comments": "{{ countComments }} комментариев",
+  "{{ countLikes }} likes": "{{ countLikes }} лайков",
+  "{{ countReposts }} reposts": "{{ countReposts }} репостов"
 }

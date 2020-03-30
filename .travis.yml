@@ -7,3 +7,4 @@ script:
   - yarn flow
   - yarn test
   - yarn docs
+  - yarn validate-translations
