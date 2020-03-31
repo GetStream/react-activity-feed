@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Nothing yet
 
+## 0.10.1 - 2020-03-31
+
+- Adding i18n support. Please read the docs here: https://getstream.github.io/react-activity-feed/#internationalisation-i18n
+
+## 0.10.0 - 2020-03-31
+
+**THIS IS A BAD VERSION/RELEASE, PLESAE USE 0.10.1**
+
 ## 0.9.26 - 2020-01-09
 
 - Removed alerts from library
