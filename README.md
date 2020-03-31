@@ -50,6 +50,10 @@ export default class App extends Component {
 }
 ```
 
+## Internationalisation (i18n)
+
+Please refer to i18n docs - https://getstream.github.io/react-activity-feed/#internationalisation-i18n
+
 ## License
 
 BSD-3-Clause © [Stream.io Inc.](https://getstream.io)
