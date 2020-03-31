@@ -8,6 +8,8 @@ import Link from './Link';
 
 import { humanizeTimestamp, userOrDefault } from '../utils';
 import type { UserResponse, BaseActivityGroupResponse } from '../types';
+import type { Streami18Ctx } from '../Context';
+import { withTranslationContext } from '../Context';
 
 type Props = {
   /* The activity group to display in this notification */
@@ -24,14 +26,14 @@ type Props = {
       | BaseActivityGroupResponse
       | $ReadOnlyArray<BaseActivityGroupResponse>,
   ) => Promise<mixed>,
-};
+} & Streami18Ctx;
 
 /**
  * Component is described here.
  *
  * @example ./examples/Notification.md
  */
-export default class Notification extends React.Component<Props> {
+class Notification extends React.Component<Props> {
   getUsers = (activities: any) =>
     activities.map((item) => userOrDefault(item.actor));
 
@@ -65,45 +67,127 @@ export default class Notification extends React.Component<Props> {
 
   render() {
     let headerText, headerSubtext;
-    const { activityGroup, onMarkAsRead } = this.props;
+    const { activityGroup, onMarkAsRead, t, tDateTimeParser } = this.props;
     const activities = activityGroup.activities;
     const latestActivity = activities[0];
     const lastActor = userOrDefault(latestActivity.actor);
-
-    if (activities.length === 1) {
-      headerText = lastActor.data.name;
-    } else if (activities.length > 1 && activities.length < 1 + 1 + 1) {
-      headerText = `${lastActor.data.name || 'Unknown'} and 1 other `;
-    } else {
-      headerText = `${lastActor.data.name ||
-        'Unknown'} and ${activities.length - 1} others `;
-    }
 
     if (typeof latestActivity.object === 'string') {
       return null;
     }
 
-    if (latestActivity.verb === 'like') {
-      headerSubtext = 'liked';
-      headerSubtext += ` your ${latestActivity.object.verb}`;
-      // icon = HeartIcon;
-    } else if (latestActivity.verb === 'repost') {
-      headerSubtext = `reposted`;
-      headerSubtext += ` your ${latestActivity.object.verb}`;
-      // icon = RepostIcon;
-    } else if (latestActivity.verb === 'follow') {
-      headerSubtext = `followed`;
-      headerSubtext += ` you`;
-      // icon = RepostIcon;
-    } else if (latestActivity.verb === 'comment') {
-      headerSubtext = `commented`;
-      headerSubtext += ` on your ${latestActivity.object.verb}`;
-      // icon = RepostIcon;
+    if (activities.length === 1) {
+      switch (latestActivity.verb) {
+        case 'like':
+          headerText = t('{{ actorName }} liked your {{ activityVerb }}', {
+            actorName: lastActor.data.name,
+            activityVerb: latestActivity.object.verb,
+          });
+          break;
+        case 'repost':
+          headerText = t('{{ actorName }} reposted your {{ activityVerb }}', {
+            actorName: lastActor.data.name,
+            activityVerb: latestActivity.object.verb,
+          });
+          break;
+        case 'follow':
+          headerText = t('{{ actorName }} followed you', {
+            actorName: lastActor.data.name,
+          });
+          break;
+        case 'comment':
+          headerText = t(
+            '{{ actorName }} commented on your {{ activityVerb }}',
+            {
+              actorName: lastActor.data.name,
+              activityVerb: latestActivity.object.verb,
+            },
+          );
+          break;
+        default:
+          console.warn(
+            'No notification styling found for your verb, please create your own custom Notification group.',
+          );
+      }
+    } else if (activities.length > 1 && activities.length < 1 + 1 + 1) {
+      switch (latestActivity.verb) {
+        case 'like':
+          headerText = t(
+            '{{ actorName }} and 1 other liked your {{ activityVerb }}',
+            {
+              actorName: lastActor.data.name,
+              activityVerb: latestActivity.object.verb,
+            },
+          );
+          break;
+        case 'repost':
+          headerText = t(
+            '{{ actorName }} and 1 other reposted your {{ activityVerb }}',
+            {
+              actorName: lastActor.data.name,
+              activityVerb: latestActivity.object.verb,
+            },
+          );
+          break;
+        case 'follow':
+          headerText = t('{{ actorName }} and 1 other followed you', {
+            actorName: lastActor.data.name,
+          });
+          break;
+        case 'comment':
+          headerText = t(
+            '{{ actorName }} and 1 other commented on your {{ activityVerb }}',
+            {
+              actorName: lastActor.data.name,
+              activityVerb: latestActivity.object.verb,
+            },
+          );
+          break;
+        default:
+          console.warn(
+            'No notification styling found for your verb, please create your own custom Notification group.',
+          );
+      }
     } else {
-      console.warn(
-        'No notification styling found for your verb, please create your own custom Notification group.',
-      );
-      return null;
+      switch (latestActivity.verb) {
+        case 'like':
+          headerText = t(
+            '{{ actorName }} and {{ countOtherActors }} others liked your {{ activityVerb }}',
+            {
+              actorName: lastActor.data.name,
+              activityVerb: latestActivity.object.verb,
+            },
+          );
+          break;
+        case 'repost':
+          headerText = t(
+            '{{ actorName }} and {{ countOtherActors }} others reposted your {{ activityVerb }}',
+            {
+              actorName: lastActor.data.name,
+              activityVerb: latestActivity.object.verb,
+            },
+          );
+          break;
+        case 'follow':
+          headerText = t(
+            '{{ actorName }} and {{ countOtherActors }} others followed you',
+            { actorName: lastActor.data.name },
+          );
+          break;
+        case 'comment':
+          headerText = t(
+            '{{ actorName }} and {{ countOtherActors }} others commented on your {{ activityVerb }}',
+            {
+              actorName: lastActor.data.name,
+              activityVerb: latestActivity.object.verb,
+            },
+          );
+          break;
+        default:
+          console.warn(
+            'No notification styling found for your verb, please create your own custom Notification group.',
+          );
+      }
     }
 
     return (
@@ -139,7 +223,9 @@ export default class Notification extends React.Component<Props> {
             )}
           </div>
           <div>
-            <small>{humanizeTimestamp(latestActivity.time)}</small>
+            <small>
+              {humanizeTimestamp(latestActivity.time, tDateTimeParser)}
+            </small>
           </div>
           {latestActivity.verb !== 'follow' ? (
             <AttachedActivity activity={latestActivity.object} />
@@ -158,3 +244,5 @@ export default class Notification extends React.Component<Props> {
     );
   }
 }
+
+export default withTranslationContext(Notification);

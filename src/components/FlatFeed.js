@@ -4,11 +4,12 @@ import * as React from 'react';
 import Activity from './Activity';
 import NewActivitiesNotification from './NewActivitiesNotification';
 import type { Props as NotifierProps } from './NewActivitiesNotification';
+import type { Streami18Ctx } from '../Context';
 import LoadMorePaginator from './LoadMorePaginator';
 import FeedPlaceholder from './FeedPlaceholder';
 import { LoadingIndicator } from 'react-file-utils';
 
-import { Feed, FeedContext } from '../Context';
+import { Feed, FeedContext, withTranslationContext } from '../Context';
 import { smartRender } from '../utils';
 
 import type {
@@ -76,14 +77,14 @@ type Props = {|
   /** The location that should be used for analytics when liking in the feed,
    * this is only useful when you have analytics enabled for your app. */
   analyticsLocation?: string,
-|};
+|} & Streami18Ctx;
 
 /**
  * Renders a feed of activities, this component is a StreamApp consumer
  * and must always be a child of the `<StreamApp>` element
  * @example ./examples/FlatFeed.md
  */
-export default class FlatFeed extends React.Component<Props> {
+class FlatFeed extends React.Component<Props> {
   static defaultProps = {
     feedGroup: 'timeline',
     notify: false,
@@ -169,10 +170,11 @@ class FlatFeedInner extends React.Component<PropsInner> {
   };
 
   render() {
-    const notifierProps: NotifierProps = {
+    const notifierProps = {
       adds: this.props.realtimeAdds,
       deletes: this.props.realtimeDeletes,
       onClick: this._refresh,
+      labelFunction: undefined,
     };
     const {
       loadNextPage,
@@ -181,10 +183,11 @@ class FlatFeedInner extends React.Component<PropsInner> {
       hasDoneRequest,
       loadReverseNextPage,
       hasReverseNextPage,
+      t,
     } = this.props;
     if (hasReverseNextPage) {
       notifierProps.onClick = loadReverseNextPage;
-      notifierProps.labelFunction = () => 'Load activities';
+      notifierProps.labelFunction = () => t('Load activities');
     }
 
     if (this.props.activities.size === 0 && this.props.hasDoneRequest) {
@@ -232,3 +235,5 @@ class ImmutableItemWrapper extends React.PureComponent<ImmutableItemWrapperProps
     return this.props.renderItem(this.props.item.toJS());
   }
 }
+
+export default withTranslationContext(FlatFeed);

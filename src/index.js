@@ -100,3 +100,6 @@ export { default as Panel } from './components/Panel';
 export { default as PanelHeading } from './components/PanelHeader';
 export { default as PanelFooter } from './components/PanelFooter';
 export { default as PanelContent } from './components/PanelContent';
+
+export { Streami18n } from './Streami18n';
+export * from './i18n/index.js';

@@ -6,6 +6,7 @@ import external from 'rollup-plugin-peer-deps-external';
 import postcss from 'rollup-plugin-postcss';
 import json from 'rollup-plugin-json';
 import url from 'rollup-plugin-url';
+import copy from 'rollup-plugin-copy';
 import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
 import globals from 'rollup-plugin-node-globals';
@@ -52,7 +53,24 @@ const normalBundle = {
   ],
   external: [
     'anchorme',
-    'moment',
+    'i18next',
+    'dayjs',
+    'dayjs/locale/nl',
+    'dayjs/locale/it',
+    'dayjs/locale/ru',
+    'dayjs/locale/tr',
+    'dayjs/locale/fr',
+    'dayjs/locale/hi',
+    'dayjs/locale/es',
+    'dayjs/locale/en',
+    'dayjs',
+    'dayjs/plugin/calendar',
+    'dayjs/plugin/updateLocale',
+    'dayjs/plugin/localizedFormat',
+    'dayjs/plugin/localeData',
+    'dayjs/plugin/relativeTime',
+    'dayjs/plugin/minMax',
+    'dayjs/plugin/utc',
     'getstream',
     'react-images',
     'react-file-utils',
@@ -106,6 +124,9 @@ const normalBundle = {
     url(),
     commonjs(),
     json(),
+    copy({
+      targets: [{ src: 'src/i18n/*.json', dest: 'dist/i18n' }],
+    }),
   ],
 };
 

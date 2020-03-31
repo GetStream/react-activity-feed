@@ -4,8 +4,10 @@ import { humanizeTimestamp } from '../utils';
 import Avatar from './Avatar';
 
 import type { Renderable } from '../types';
+import type { Streami18Ctx } from '../Context';
 
 import { smartRender } from '../utils';
+import { withTranslationContext } from '../Context';
 
 export type Props = {|
   username: ?string,
@@ -18,18 +20,19 @@ export type Props = {|
   follow?: boolean,
   Right?: Renderable,
   AfterUsername?: React.Node,
-|};
+|} & Streami18Ctx;
 
 /**
  * Component is described here.
  *
  * @example ./examples/UserBar.md
  */
-export default class UserBar extends React.Component<Props> {
+class UserBar extends React.Component<Props> {
   render() {
+    const { tDateTimeParser } = this.props;
     let time = this.props.time;
     if (time === undefined && this.props.timestamp != null) {
-      time = humanizeTimestamp(this.props.timestamp);
+      time = humanizeTimestamp(this.props.timestamp, tDateTimeParser);
     }
     return (
       <div className="raf-user-bar">
@@ -79,3 +82,5 @@ export default class UserBar extends React.Component<Props> {
     );
   }
 }
+
+export default withTranslationContext(UserBar);

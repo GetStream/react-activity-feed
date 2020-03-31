@@ -30,7 +30,7 @@ import _difference from 'lodash/difference';
 import _includes from 'lodash/includes';
 import anchorme from 'anchorme';
 
-import { StreamApp } from '../Context';
+import { StreamApp, withTranslationContext } from '../Context';
 import {
   generateRandomId,
   dataTransferItemsToFiles,
@@ -49,6 +49,7 @@ import type {
   Trigger,
   ReactRefObjectOrFunction,
 } from '../types';
+import type { Streami18Ctx } from '../Context';
 
 import type { ActivityArgData } from 'getstream';
 
@@ -87,7 +88,7 @@ type Props = {|
   innerRef?: ReactRefObjectOrFunction<HTMLTextAreaElement>,
   /** The header to display */
   Header: React.Node,
-|};
+|} & Streami18Ctx;
 
 /**
  * Component is described here.
@@ -95,18 +96,23 @@ type Props = {|
  * @example ./examples/StatusUpdateForm.md
  */
 
-export default class StatusUpdateForm extends React.Component<Props> {
+class StatusUpdateForm extends React.Component<Props> {
   static defaultProps = {
     feedGroup: 'user',
     activityVerb: 'post',
     modifyActivityData: (d: {}) => d,
-    Header: <Title>New Post</Title>,
   };
 
   render() {
+    const { t, Header } = this.props;
+    const HeaderComponent = Header ? Header : <Title>{t('New Post')}</Title>;
+    const forwardedProps = {
+      ...this.props,
+      Header: HeaderComponent,
+    };
     return (
       <StreamApp.Consumer>
-        {(appCtx) => <StatusUpdateFormInner {...this.props} {...appCtx} />}
+        {(appCtx) => <StatusUpdateFormInner {...forwardedProps} {...appCtx} />}
       </StreamApp.Consumer>
     );
   }
@@ -601,6 +607,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   };
 
   render() {
+    const { t } = this.props;
     const activeOg = this._activeOg();
     const availableOg = this._availableOg();
     const userData = this.props.user.data || {};
@@ -628,7 +635,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                 </React.Fragment>
                 <Textarea
                   innerRef={this.textInputRef}
-                  placeholder="Type your post... "
+                  placeholder={t('Type your post...')}
                   value={this.state.text}
                   onChange={this._onChange}
                   trigger={this.props.trigger}
@@ -786,7 +793,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                   loading={this.state.submitting}
                   disabled={!this._canSubmit()}
                 >
-                  Post
+                  {t('Post')}
                 </Button>
               </div>
             </PanelFooter>
@@ -796,3 +803,5 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     );
   }
 }
+
+export default withTranslationContext(StatusUpdateForm);

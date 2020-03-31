@@ -5,6 +5,8 @@ import Flex from './Flex';
 import type { Comment } from '../types';
 
 import { humanizeTimestamp, textRenderer } from '../utils';
+import { withTranslationContext } from '../Context';
+import type { Streami18Ctx } from '../Context';
 
 export type Props = {|
   comment: Comment,
@@ -13,14 +15,14 @@ export type Props = {|
   onClickHashtag?: (word: string) => mixed,
   /** Handler for any routing you may do on clicks on Mentions */
   onClickMention?: (word: string) => mixed,
-|};
+|} & Streami18Ctx;
 
 /**
  * Component is described here.
  *
  * @example ./examples/CommentItem.md
  */
-export default class CommentItem extends React.Component<Props> {
+class CommentItem extends React.Component<Props> {
   _user = () => {
     const { user } = this.props.comment;
     return user;
@@ -38,7 +40,7 @@ export default class CommentItem extends React.Component<Props> {
   }
 
   render() {
-    const { comment } = this.props;
+    const { comment, tDateTimeParser } = this.props;
     return (
       <div className="raf-comment-item">
         <Flex a="flex-start" style={{ padding: '8px 0' }}>
@@ -54,7 +56,9 @@ export default class CommentItem extends React.Component<Props> {
         <Flex d="column" style={{ flex: 1, margin: '0 8px' }}>
           <div className="raf-comment-item__content">
             <time dateTime={comment.created_at} title={comment.created_at}>
-              <small>{humanizeTimestamp(comment.created_at)}</small>
+              <small>
+                {humanizeTimestamp(comment.created_at, tDateTimeParser)}
+              </small>
             </time>
             <p>
               <span
@@ -76,3 +80,5 @@ export default class CommentItem extends React.Component<Props> {
     );
   }
 }
+
+export default withTranslationContext(CommentItem);

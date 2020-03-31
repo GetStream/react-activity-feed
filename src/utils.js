@@ -1,20 +1,31 @@
 // @flow
 import * as React from 'react';
-import moment from 'moment';
 import URL from 'url-parse';
 import anchorme from 'anchorme';
 import _truncate from 'lodash/truncate';
 import twitter from 'twitter-text';
 import type { UserResponse } from './types';
-
+import Dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import minMax from 'dayjs/plugin/minMax';
 import type { Renderable, RenderableButNotElement, FileLike } from './types';
+Dayjs.extend(utc);
+Dayjs.extend(minMax);
+
 // import type { UserResponse } from 'getstream';
 
-export function humanizeTimestamp(timestamp: string | number): string {
-  const time = moment.utc(timestamp); // parse time as UTC
-  const now = moment();
-  // Not in future humanized time
-  return moment.min(time, now).from(now);
+export function humanizeTimestamp(
+  timestamp: string | number,
+  tDateTimeParser: (input?: string | number) => Function,
+): string {
+  // Following calculation is based on assumption that tDateTimeParser()
+  // either returns momentjs or dayjs object.
+  const time = tDateTimeParser(timestamp).add(
+    Dayjs(timestamp).utcOffset(),
+    'minute',
+  ); // parse time as UTC
+  const now = tDateTimeParser();
+  return time.from(now);
 }
 
 export const smartRender = (

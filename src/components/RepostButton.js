@@ -6,7 +6,7 @@ import type {
   ToggleReactionCallbackFunction,
 } from '../types';
 
-import { StreamApp } from '../Context';
+import { StreamApp, withTranslationContext } from '../Context';
 
 import repostButtonActive from '../images/repost-active@1x.png';
 import repostButtonInactive from '../images/repost@1x.png';
@@ -29,7 +29,7 @@ type Props = {|
  * @example ./examples/RepostButton.md
  */
 
-export default class RepostButton extends React.Component<Props> {
+class RepostButton extends React.Component<Props> {
   static defaultProps = {
     feedGroup: 'user',
   };
@@ -68,9 +68,9 @@ class RepostButtonInner extends React.Component<PropsInner> {
         }
         activeIcon={repostButtonActive}
         inactiveIcon={repostButtonInactive}
-        labelSingle="repost"
-        labelPlural="reposts"
       />
     );
   }
 }
+
+export default withTranslationContext(RepostButton);

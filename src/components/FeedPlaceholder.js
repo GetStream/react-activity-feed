@@ -1,19 +1,20 @@
 // @flow
 import React from 'react';
+import { withTranslationContext } from '../Context';
+import type { Streami18Ctx } from '../Context';
 
 type Props = {|
   text: string,
-|};
-export default class FeedPlaceholder extends React.Component<Props> {
-  static defaultProps = {
-    text: 'No data to display...',
-  };
-
+|} & Streami18Ctx;
+class FeedPlaceholder extends React.Component<Props> {
   render() {
+    const { t, text } = this.props;
     return (
       <div className="raf-feed-placeholder">
-        <p>{this.props.text}</p>
+        <p>{text || t('No data to display...')}</p>
       </div>
     );
   }
 }
+
+export default withTranslationContext(FeedPlaceholder);

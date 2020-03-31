@@ -10,13 +10,16 @@ import { FileIcon } from 'react-file-utils';
 import Gallery from './Gallery';
 
 import type { ActivityData, Renderable } from '../types';
+import type { Streami18Ctx } from '../Context';
+
 import {
   smartRender,
   sanitizeURL,
-  humanizeTimestamp,
   userOrDefault,
   textRenderer,
+  humanizeTimestamp,
 } from '../utils';
+import { withTranslationContext } from '../Context';
 
 type Props = {
   Header?: Renderable,
@@ -31,19 +34,20 @@ type Props = {
   onClickHashtag?: (word: string) => mixed,
   /** Handler for any routing you may do on clicks on Mentions */
   onClickMention?: (word: string) => mixed,
-};
+} & Streami18Ctx;
 
 /**
  * Component is described here.
  *
  * @example ./examples/Activity.md
  */
-export default class Activity extends React.Component<Props> {
+class Activity extends React.Component<Props> {
   _getOnClickUser() {
     return this.props.onClickUser ? this.onClickUser : undefined;
   }
 
   renderHeader = () => {
+    const { tDateTimeParser } = this.props;
     const actor = userOrDefault(this.props.activity.actor);
 
     return (
@@ -54,7 +58,7 @@ export default class Activity extends React.Component<Props> {
           onClickUser={this._getOnClickUser()}
           subtitle={
             this.props.HeaderRight != null
-              ? humanizeTimestamp(this.props.activity.time)
+              ? humanizeTimestamp(this.props.activity.time, tDateTimeParser)
               : undefined
           }
           timestamp={this.props.activity.time}
@@ -164,3 +168,5 @@ export default class Activity extends React.Component<Props> {
     );
   }
 }
+
+export default withTranslationContext(Activity);
