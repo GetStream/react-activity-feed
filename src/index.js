@@ -1,6 +1,7 @@
 // @flow
 import './styles/vendor/react-file-utils.css';
 import './styles/vendor/emoji-mart.css';
+import './styles/vendor/react-text-area-autocomplete.css';
 import './App.css';
 import './styles/Activity.css';
 import './styles/ActivityFooter.css';
