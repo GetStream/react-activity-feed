@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Nothing yet
 
+## 0.10.2 - 2020-04-10
+
+- Moving `@webscopeio/react-textarea-autocomplete/style.css` to vendor directory, to fix build.
+
 ## 0.10.1 - 2020-03-31
 
 - Adding i18n support. Please read the docs here: https://getstream.github.io/react-activity-feed/#internationalisation-i18n
