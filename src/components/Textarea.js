@@ -7,8 +7,6 @@ import { emojiIndex } from 'emoji-mart';
 import ReactTextareaAutocomplete from '@webscopeio/react-textarea-autocomplete';
 import type { Trigger, ReactRefObjectOrFunction } from '../types';
 
-import '@webscopeio/react-textarea-autocomplete/style.css';
-
 export type Props = {|
   rows: number,
   maxLength?: number,
