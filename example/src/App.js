@@ -58,7 +58,7 @@ export default class App extends Component<{}> {
           // }}
           />
           <FlatFeed
-            feedGroup="timeline"
+            feedGroup="user" // or timeline
             notify
             options={{
               limit: 6,
