@@ -20,8 +20,7 @@
     "getstream.io"
   ],
   "engines": {
-    "node": ">=8",
-    "npm": ">=5"
+    "node": "10 || 12 || >=14"
   },
   "scripts": {
     "test": "cross-env CI=1 react-scripts test --env=jsdom",
@@ -110,7 +109,6 @@
     "react-styleguidist": "^8.0.6",
     "react-test-renderer": "^16.8.3",
     "rollup": "^0.68.2",
-    "rollup-plugin-alias": "^1.5.1",
     "rollup-plugin-babel": "^4.0.3",
     "rollup-plugin-commonjs": "^9.1.8",
     "rollup-plugin-copy": "^3.3.0",
@@ -139,7 +137,7 @@
     "dayjs": "^1.8.23",
     "emoji-mart": "^2.8.1",
     "eslint-plugin-markdown": "^1.0.0",
-    "getstream": "^4.0.7",
+    "getstream": "^5.0.0",
     "i18next": "^19.3.3",
     "immutable": "^4.0.0-rc.9",
     "lodash": "^4.17.11",

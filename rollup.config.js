@@ -1,5 +1,4 @@
 // @flow
-/* globals __dirname */
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import external from 'rollup-plugin-peer-deps-external';
@@ -10,8 +9,6 @@ import copy from 'rollup-plugin-copy';
 import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
 import globals from 'rollup-plugin-node-globals';
-import alias from 'rollup-plugin-alias';
-import path from 'path';
 
 import pkg from './package.json';
 
@@ -151,12 +148,6 @@ const fullBrowserBundle = {
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
     external(),
-    alias({
-      request: path.resolve(
-        __dirname,
-        'node_modules/@stream-io/xmlhttp-request/index.js',
-      ),
-    }),
     babel({
       runtimeHelpers: true,
       exclude: 'node_modules/**',
