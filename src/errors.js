@@ -21,14 +21,14 @@ export const getErrorMessage = (
   }
   const response = error.response;
 
-  if (!response.statusCode || !response.body || !response.body.detail) {
+  if (!response.status || !response.body || !response.body.detail) {
     return fallbackErrorMessage(error, type, detail);
   }
-  const statusCode = response.statusCode;
+  const status = response.status;
   const text = response.body.detail;
 
   /* eslint-disable no-magic-numbers */
-  if (statusCode >= 400 && statusCode < 600) {
+  if (status >= 400 && status < 600) {
     return text;
   }
   /* eslint-enable no-magic-numbers */
