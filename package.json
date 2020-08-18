@@ -135,7 +135,7 @@
     "@webscopeio/react-textarea-autocomplete": "^4.0.0",
     "anchorme": "^1.1.2",
     "dayjs": "^1.8.23",
-    "emoji-mart": "^2.8.1",
+    "emoji-mart": "^3.0.0",
     "eslint-plugin-markdown": "^1.0.0",
     "getstream": "^5.0.0",
     "i18next": "^19.3.3",
