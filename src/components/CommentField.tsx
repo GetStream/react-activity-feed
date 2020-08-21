@@ -14,8 +14,7 @@ import { Streami18Ctx } from '../Context';
 export type Props = {
   activity: BaseActivityResponse;
   onAddReaction: AddReactionCallbackFunction;
-  kind: string;
-  placeholder: string;
+  placeholder?: string;
   image?: string;
   onSuccess?: () => unknown;
   trigger?: Trigger;
