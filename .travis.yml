@@ -4,7 +4,6 @@ node_js:
   - 12
 script:
   - yarn lint
-  - yarn flow
   - yarn test
   - yarn docs
   - yarn validate-translations

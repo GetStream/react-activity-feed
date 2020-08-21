@@ -8,9 +8,9 @@
   "dependencies": {
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
+    "react-activity-feed": "link:..",
     "react-dom": "^16.13.1",
-    "react-scripts": "^3.4.1",
-    "react-activity-feed": "link:.."
+    "react-scripts": "^3.4.1"
   },
   "scripts": {
     "start": "react-scripts start",

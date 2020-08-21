@@ -300,7 +300,7 @@ const i18n = new Streami18n({
 ```js static
 const i18n = new Streami18n({
   language: 'nl',
-  logger: () => null,
+  logger: () => void,
 });
 ```
 

@@ -1,4 +1,3 @@
-// @noflow
 /* globals __dirname */
 /* eslint-env commonjs*/
 const path = require('path');
@@ -98,6 +97,6 @@ module.exports = {
   },
   require: [
     path.join(path.resolve(path.dirname('')), 'dist/index.css'),
-    path.join(path.resolve(path.dirname('')), 'src/styleguide-styles.css'),
+    path.join(path.resolve(path.dirname('')), 'src/styleguide-styles.scss'),
   ],
 };

@@ -1,22 +1,22 @@
-// @flow
-import babel from 'rollup-plugin-babel';
-import commonjs from 'rollup-plugin-commonjs';
+import { DEFAULT_EXTENSIONS } from '@babel/core';
+import babel from '@rollup/plugin-babel';
+import commonjs from '@rollup/plugin-commonjs';
+import json from '@rollup/plugin-json';
+import resolve from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
+import url from '@rollup/plugin-url';
+import process from 'process';
+import copy from 'rollup-plugin-copy';
+import globals from 'rollup-plugin-node-globals';
 import external from 'rollup-plugin-peer-deps-external';
 import postcss from 'rollup-plugin-postcss';
-import json from 'rollup-plugin-json';
-import url from 'rollup-plugin-url';
-import copy from 'rollup-plugin-copy';
-import replace from 'rollup-plugin-replace';
-import resolve from 'rollup-plugin-node-resolve';
-import globals from 'rollup-plugin-node-globals';
-
+import typescript from 'rollup-plugin-typescript2';
 import pkg from './package.json';
 
-import process from 'process';
 process.env.NODE_ENV = 'production';
 
 const baseConfig = {
-  input: 'src/index.js',
+  input: 'src/index.ts',
   cache: false,
   watch: {
     chokidar: false,
@@ -106,17 +106,20 @@ const normalBundle = {
     '@babel/runtime/helpers/classCallCheck',
   ],
   plugins: [
+    typescript(),
     replace({
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
     external(),
     babel({
-      runtimeHelpers: true,
+      babelHelpers: 'runtime',
       exclude: 'node_modules/**',
+      extensions: [...DEFAULT_EXTENSIONS, '.ts', '.tsx'],
     }),
     postcss({
       modules: false,
       extract: true,
+      test: /\.(sass|scss)$/,
     }),
     url(),
     commonjs(),
@@ -136,7 +139,6 @@ const fullBrowserBundle = {
       sourcemap: true,
       name: 'window', // write all exported values to window
       extend: true, // extend window, not overwrite it
-      browser: true,
       globals: {
         react: 'React',
         'react-dom': 'ReactDOM',
@@ -144,29 +146,31 @@ const fullBrowserBundle = {
     },
   ],
   plugins: [
+    resolve({
+      browser: true,
+      preferBuiltins: false,
+    }),
+    typescript(),
     replace({
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
     external(),
     babel({
-      runtimeHelpers: true,
+      babelHelpers: 'runtime',
       exclude: 'node_modules/**',
+      extensions: [...DEFAULT_EXTENSIONS, '.ts', '.tsx'],
     }),
     {
       name: 'browser-remapper',
-      //$FlowFixMe
       resolveId: (importee) =>
         ignoredBrowserModules.includes(importee) ? importee : null,
-      //$FlowFixMe
       load: (id) =>
         ignoredBrowserModules.includes(id) ? 'export default null;' : null,
     },
 
     {
       name: 'ignore-css-and-scss',
-      //$FlowFixMe
       resolveId: (importee) => (importee.match(/.s?css$/) ? importee : null),
-      //$FlowFixMe
       load: (id) => (id.match(/.s?css$/) ? '' : null),
     },
     resolve({
