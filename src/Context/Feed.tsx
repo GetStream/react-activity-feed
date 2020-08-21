@@ -111,7 +111,7 @@ export type FeedProps = {
 export class Feed extends React.Component<FeedProps> {
   // Used to avoid unmount-remount behaviour, which causes
   // unsubscribe-subscribe behaviour.
-  _appCtxWrapperFunc = (appCtx: AppCtx<any>) => (
+  _appCtxWrapperFunc = (appCtx: AppCtx) => (
     <FeedInner {...this.props} {...appCtx} />
   );
 

@@ -1,17 +1,12 @@
-import * as React from 'react';
-import stream from 'getstream';
-
-import StreamAnalytics from 'stream-analytics';
-import { StreamClient, User } from 'getstream';
-
-import { ErrorHandler } from '../types';
-
-import { FeedManager } from './FeedManager';
-import { FeedProps } from './Feed';
-import { handleError } from '../errors';
 import Dayjs from 'dayjs';
-
+import stream, { StreamClient, User } from 'getstream';
+import * as React from 'react';
+import StreamAnalytics from 'stream-analytics';
+import { handleError } from '../errors';
 import { Streami18n } from '../Streami18n';
+import { ErrorHandler, UserData } from '../types';
+import { FeedProps } from './Feed';
+import { FeedManager } from './FeedManager';
 
 export const StreamContext = React.createContext({
   changedUserData: () => {},
@@ -52,13 +47,14 @@ export function withTranslationContext<O>(
   return ContextAwareComponent;
 }
 
-export type AppCtx<UserData> = {
+// TODO generic is overkill here - remove
+export type AppCtx<Data = UserData> = {
   client: StreamClient;
   user: User;
   // We cannot simply take userData from user.data, since the reference to user
   // will stay the same all the time. Because of this react won't notice that
   // the internal fields changed so it thinks it doesn't need to rerender.
-  userData: UserData | null | undefined;
+  userData: Data | null | undefined;
   changedUserData: () => void;
   changeNotificationCounts?: any;
   analyticsClient?: any;
@@ -73,7 +69,8 @@ export type Streami18Ctx = {
   tDateTimeParser: (input?: string | number) => Dayjs.Dayjs;
 };
 
-type StreamAppProps<UserData> = {
+// TODO generic is overkill here - remove
+type StreamAppProps<Data = UserData> = {
   /** The ID of your app, can be found on the [Stream dashboard](https://getstream.io/dashboard) */
   appId: string | number;
 
@@ -101,7 +98,7 @@ type StreamAppProps<UserData> = {
   sharedFeeds?: Array<FeedProps>;
 
   /** The data a user should get when no data is present in stream for this user yet */
-  defaultUserData?: UserData;
+  defaultUserData?: Data;
 
   /** A callback to handle errors produced by the components. This should
    * probably hook into your own notification system. */
@@ -110,16 +107,18 @@ type StreamAppProps<UserData> = {
   children?: React.ReactNode;
 };
 
-type StreamAppState<UserData> = AppCtx<UserData> & Streami18Ctx;
+type StreamAppState = AppCtx &
+  Streami18Ctx & {
+    apiKey: string;
+    token: string;
+    appId: string | number;
+  };
 
 /**
  * Manages the connection with Stream. Any components that should talk to
  * Stream should be a child of this component.
  */
-export class StreamApp extends React.Component<
-  StreamAppProps<object>,
-  StreamAppState<object>
-> {
+export class StreamApp extends React.Component<StreamAppProps, StreamAppState> {
   static defaultProps = {
     sharedFeeds: [
       {
@@ -133,9 +132,7 @@ export class StreamApp extends React.Component<
   };
 
   static Consumer = function StreamAppConsumer(props: {
-    children?: (
-      input: AppCtx<any>,
-    ) => React.ReactElement<any> | null | undefined;
+    children?: (input: AppCtx) => React.ReactNode;
   }) {
     return (
       <StreamContext.Consumer>
@@ -155,7 +152,7 @@ export class StreamApp extends React.Component<
     );
   };
 
-  constructor(props: StreamAppProps<object>) {
+  constructor(props: StreamAppProps) {
     super(props);
 
     this.state = StreamApp.initClientState(props, {
@@ -167,7 +164,7 @@ export class StreamApp extends React.Component<
     });
   }
 
-  componentDidUpdate(prevProps: StreamAppProps<object>) {
+  componentDidUpdate(prevProps: StreamAppProps) {
     if (
       this.props.apiKey !== prevProps.apiKey ||
       this.props.token !== prevProps.token ||
@@ -197,8 +194,8 @@ export class StreamApp extends React.Component<
   }
 
   static getDerivedStateFromProps(
-    props: StreamAppProps<object>,
-    state: StreamAppState<object>,
+    props: StreamAppProps,
+    state: StreamAppState,
   ) {
     if (
       state.client.apiKey !== props.apiKey ||
@@ -210,10 +207,7 @@ export class StreamApp extends React.Component<
     return null;
   }
 
-  static initClientState = function<S>(
-    props: StreamAppProps<object>,
-    state: S,
-  ) {
+  static initClientState = function<S>(props: StreamAppProps, state: S) {
     const client: StreamClient = stream.connect(
       props.apiKey,
       props.token,
@@ -234,7 +228,7 @@ export class StreamApp extends React.Component<
       ...state,
       client,
       user: client.currentUser,
-      userData: client.currentUser, // TODO type issue: client.currentUser.data - doesn't exist?
+      userData: undefined, // TODO type issue: was client.currentUser.data - seems wrong?
       analyticsClient,
       sharedFeedManagers: {},
       errorHandler: props.errorHandler,

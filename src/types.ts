@@ -68,7 +68,7 @@ export type Renderable =
 
 export type BaseActivityResponse = ActivityResponse<{}, {}>;
 export type BaseActivityGroupResponse = ActivityGroupResponse<{}, {}>;
-export type BaseAppCtx = AppCtx<{}>;
+export type BaseAppCtx = AppCtx;
 export type BaseFeedCtx = FeedCtx;
 export type BaseClient = StreamClient;
 
