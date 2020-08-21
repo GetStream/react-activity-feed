@@ -19,7 +19,7 @@ export type Props = {
   image?: string;
   onSuccess?: () => unknown;
   trigger?: Trigger;
-} & Streami18Ctx;
+};
 
 type State = {
   text: string;
@@ -30,7 +30,7 @@ type State = {
  *
  * @example ./examples/CommentField.md
  */
-class CommentField extends React.Component<Props, State> {
+class CommentField extends React.Component<Props & Streami18Ctx, State> {
   textAreaRef: HTMLTextAreaElement | null = null;
 
   state = {
@@ -104,4 +104,4 @@ class CommentField extends React.Component<Props, State> {
   }
 }
 
-export default withTranslationContext(CommentField);
+export default withTranslationContext<Props>(CommentField);

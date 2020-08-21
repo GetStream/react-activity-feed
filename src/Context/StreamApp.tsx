@@ -24,10 +24,14 @@ export const TranslationContext = React.createContext({
   tDateTimeParser: (input) => Dayjs(input),
 });
 
-export function withTranslationContext(
-  OriginalComponent: React.ComponentType<any>,
-) {
-  const ContextAwareComponent = function ContextComponent(props: any) {
+// It's necessary to pass the component's external props without
+// a Streami18Ctx union (O = Original Props) so we can return that
+// type directly here, due to the fact that generated ts declarations
+// were not exporting optionals when using Omit<P, keyof Streami18Ctx>.
+export function withTranslationContext<O>(
+  OriginalComponent: React.ComponentType,
+): React.FC<O> {
+  const ContextAwareComponent = (props) => {
     return (
       <TranslationContext.Consumer>
         {(translationContext) =>
@@ -113,8 +117,8 @@ type StreamAppState<UserData> = AppCtx<UserData> & Streami18Ctx;
  * Stream should be a child of this component.
  */
 export class StreamApp extends React.Component<
-  StreamAppProps<Object>,
-  StreamAppState<Object>
+  StreamAppProps<object>,
+  StreamAppState<object>
 > {
   static defaultProps = {
     sharedFeeds: [
@@ -151,7 +155,7 @@ export class StreamApp extends React.Component<
     );
   };
 
-  constructor(props: StreamAppProps<Object>) {
+  constructor(props: StreamAppProps<object>) {
     super(props);
 
     this.state = StreamApp.initClientState(props, {
@@ -163,7 +167,7 @@ export class StreamApp extends React.Component<
     });
   }
 
-  componentDidUpdate(prevProps: StreamAppProps<Object>) {
+  componentDidUpdate(prevProps: StreamAppProps<object>) {
     if (
       this.props.apiKey !== prevProps.apiKey ||
       this.props.token !== prevProps.token ||
@@ -193,8 +197,8 @@ export class StreamApp extends React.Component<
   }
 
   static getDerivedStateFromProps(
-    props: StreamAppProps<Object>,
-    state: StreamAppState<Object>,
+    props: StreamAppProps<object>,
+    state: StreamAppState<object>,
   ) {
     if (
       state.client.apiKey !== props.apiKey ||
@@ -207,7 +211,7 @@ export class StreamApp extends React.Component<
   }
 
   static initClientState = function<S>(
-    props: StreamAppProps<Object>,
+    props: StreamAppProps<object>,
     state: S,
   ) {
     const client: StreamClient = stream.connect(

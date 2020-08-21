@@ -19,7 +19,7 @@ import {
 import { generateRandomId } from '../utils';
 import { FeedInnerProps } from './Feed';
 
-// type FR = FeedResponse<Object, Object>;
+// type FR = FeedResponse<object, object>;
 type FR = FeedResponse<{}, {}>;
 type RR = ReactionFilterResponse<{}, {}>;
 

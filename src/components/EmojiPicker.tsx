@@ -6,7 +6,7 @@ import { Streami18Ctx } from '../Context';
 
 type Props = {
   onSelect?: (emoji: Emoji) => unknown;
-} & Streami18Ctx;
+};
 
 type State = {
   open: boolean;
@@ -17,7 +17,7 @@ type State = {
  *
  * @example ./examples/EmojiPicker.md
  */
-class EmojiPicker extends React.Component<Props, State> {
+class EmojiPicker extends React.Component<Props & Streami18Ctx, State> {
   emojiPicker = React.createRef<HTMLDivElement>();
   state = {
     open: false,
@@ -81,4 +81,4 @@ class EmojiPicker extends React.Component<Props, State> {
   }
 }
 
-export default withTranslationContext(EmojiPicker);
+export default withTranslationContext<Props>(EmojiPicker);

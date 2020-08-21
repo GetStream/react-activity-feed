@@ -9,9 +9,9 @@ type Props = {
   onClick: () => unknown;
   refreshing: boolean;
   children: React.ReactNode;
-} & Streami18Ctx;
+};
 
-class LoadMoreButton extends React.Component<Props> {
+class LoadMoreButton extends React.Component<Props & Streami18Ctx> {
   render() {
     const { t } = this.props;
     return (
@@ -29,4 +29,4 @@ class LoadMoreButton extends React.Component<Props> {
   }
 }
 
-export default withTranslationContext(LoadMoreButton);
+export default withTranslationContext<Props>(LoadMoreButton);

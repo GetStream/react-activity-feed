@@ -30,14 +30,14 @@ type Props = {
 
   /** Handler for any routing you may do on clicks on Mentions */
   onClickMention?: (word: string) => unknown;
-} & Streami18Ctx;
+};
 
 /**
  * Component is described here.
  *
  * @example ./examples/Activity.md
  */
-class Activity extends React.Component<Props> {
+class Activity extends React.Component<Props & Streami18Ctx> {
   _getOnClickUser() {
     return this.props.onClickUser ? this.onClickUser : undefined;
   }
@@ -164,4 +164,4 @@ class Activity extends React.Component<Props> {
   }
 }
 
-export default withTranslationContext(Activity);
+export default withTranslationContext<Props>(Activity);

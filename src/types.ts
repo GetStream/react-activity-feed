@@ -61,7 +61,10 @@ export type ReactElementCreator = ReactComponentClass | ReactComponentFunction;
 export type RenderableButNotElement =
   | (ReactElementCreator | boolean | number | string)
   | undefined;
-export type Renderable = RenderableButNotElement | ReactElement<any>;
+export type Renderable =
+  | RenderableButNotElement
+  | ReactElement<any>
+  | React.ElementType<any>; // added during TS port
 
 export type BaseActivityResponse = ActivityResponse<{}, {}>;
 export type BaseActivityGroupResponse = ActivityGroupResponse<{}, {}>;
@@ -70,7 +73,7 @@ export type BaseFeedCtx = FeedCtx;
 export type BaseClient = StreamClient;
 
 export type BaseReaction = ReactionResponse<{}, {}>;
-export type BaseReactionMap = ReactionKindMap<Object, Object>;
+export type BaseReactionMap = ReactionKindMap<object, object>;
 
 export type BaseUserResponse = StreamUserResponse<{}>;
 
@@ -183,7 +186,7 @@ export type Trigger = {
       | null;
     dataProvider: (
       token: string,
-    ) => Promise<Array<Object | string>> | Array<Object | string>;
+    ) => Promise<Array<object | string>> | Array<object | string>;
     allowWhitespace?: boolean;
     afterWhitespace?: boolean;
     component: ReactElement<any>;

@@ -8,6 +8,11 @@ import {
   withTranslationContext,
 } from '../Context';
 import {
+  ActivityResponse,
+  FeedRequestOptions,
+  FeedResponse,
+} from '../getstreamCustomTypes';
+import {
   BaseActivityResponse,
   BaseClient,
   BaseFeedCtx,
@@ -19,11 +24,6 @@ import Activity from './Activity';
 import FeedPlaceholder from './FeedPlaceholder';
 import LoadMorePaginator from './LoadMorePaginator';
 import NewActivitiesNotification from './NewActivitiesNotification';
-import {
-  FeedRequestOptions,
-  FeedResponse,
-  ActivityResponse,
-} from '../getstreamCustomTypes';
 
 type Props = {
   /** The feed group part of the feed that should be displayed */
@@ -36,23 +36,23 @@ type Props = {
   options?: FeedRequestOptions;
 
   /** The component used to render an activity in the feed */
-  Activity: Renderable;
+  Activity?: Renderable;
 
   /** Component to show when the feed is refreshing **/
-  LoadingIndicator: Renderable;
+  LoadingIndicator?: Renderable;
 
   /** The component to use to render new activities notification */
-  Notifier: Renderable;
+  Notifier?: Renderable;
 
   /** By default pagination is done with a "Load more" button, you can use
    * InifiniteScrollPaginator to enable infinite scrolling */
-  Paginator: Renderable;
+  Paginator?: Renderable;
 
   /** Component to show when there are no activities in the feed **/
-  Placeholder: Renderable;
+  Placeholder?: Renderable;
 
   /** If true, feed shows the Notifier component when new activities are added */
-  notify: boolean;
+  notify?: boolean;
 
   /** The feed read handler (change only for advanced/complex use-cases) */
   doFeedRequest?: (
@@ -88,19 +88,19 @@ type Props = {
   doChildReactionDeleteRequest?: (id: string) => unknown;
 
   /** Override reactions filter request */
-  doReactionsFilterRequest?: (options: {}) => Promise<Object>;
+  doReactionsFilterRequest?: (options: {}) => Promise<any>;
 
   /** The location that should be used for analytics when liking in the feed,
    * this is only useful when you have analytics enabled for your app. */
   analyticsLocation?: string;
-} & Streami18Ctx;
+};
 
 /**
  * Renders a feed of activities, this component is a StreamApp consumer
  * and must always be a child of the `<StreamApp>` element
  * @example ./examples/FlatFeed.md
  */
-class FlatFeed extends React.Component<Props> {
+class FlatFeed extends React.Component<Props & Streami18Ctx> {
   static defaultProps = {
     feedGroup: 'timeline',
     notify: false,
@@ -140,7 +140,7 @@ class FlatFeed extends React.Component<Props> {
   }
 }
 
-type PropsInner = Props & BaseFeedCtx;
+type PropsInner = Props & Streami18Ctx & BaseFeedCtx;
 class FlatFeedInner extends React.Component<PropsInner> {
   listRef = React.createRef();
   _refresh = async () => {
@@ -177,7 +177,7 @@ class FlatFeedInner extends React.Component<PropsInner> {
     userId: this.props.userId,
   });
 
-  _renderActivity = (item: ActivityResponse<Object, Object>) => {
+  _renderActivity = (item: ActivityResponse<object, object>) => {
     const args = {
       activity: item,
       ...this._childProps(),
@@ -256,4 +256,4 @@ class ImmutableItemWrapper extends React.PureComponent<
   }
 }
 
-export default withTranslationContext(FlatFeed);
+export default withTranslationContext<Props>(FlatFeed);

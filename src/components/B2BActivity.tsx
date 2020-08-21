@@ -25,7 +25,7 @@ export type Props = {
   Footer?: Renderable;
   activity: any;
   onToggleReaction: any;
-} & Streami18Ctx;
+};
 
 type State = {
   showComments: boolean;
@@ -36,8 +36,8 @@ type State = {
  *
  * @example ./examples/B2BActivity.md
  */
-class B2BActivity extends React.Component<Props, State> {
-  constructor(props: Props) {
+class B2BActivity extends React.Component<Props & Streami18Ctx, State> {
+  constructor(props) {
     super(props);
     this.state = {
       showComments: false,
@@ -137,6 +137,7 @@ class B2BActivity extends React.Component<Props, State> {
 
   renderFooter = () => {
     const { activity, t } = this.props;
+    const ReactionIconAny = ReactionIcon as any; // TODO resolve custom type issue
     return (
       <React.Fragment>
         <Flex
@@ -154,7 +155,7 @@ class B2BActivity extends React.Component<Props, State> {
               activeIcon={ThumbUpFilled}
               inactiveIcon={ThumbUp}
             />
-            <ReactionIcon
+            <ReactionIconAny
               counts={activity.reaction_counts}
               kind="comment"
               onPress={() => this.setState({ showComments: true })}
@@ -184,4 +185,4 @@ class B2BActivity extends React.Component<Props, State> {
   }
 }
 
-export default withTranslationContext(B2BActivity);
+export default withTranslationContext<Props>(B2BActivity);

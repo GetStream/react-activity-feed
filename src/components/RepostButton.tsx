@@ -1,11 +1,9 @@
 import * as React from 'react';
-import ReactionToggleIcon from './ReactionToggleIcon';
-import { BaseActivityResponse, ToggleReactionCallbackFunction } from '../types';
-
-import { StreamApp, withTranslationContext } from '../Context';
-
+import { StreamApp, Streami18Ctx, withTranslationContext } from '../Context';
 import repostButtonActive from '../images/repost-active@1x.png';
 import repostButtonInactive from '../images/repost@1x.png';
+import { BaseActivityResponse, ToggleReactionCallbackFunction } from '../types';
+import ReactionToggleIcon from './ReactionToggleIcon';
 
 type Props = {
   /** The feed group part of the feed that the activity should be reposted to,
@@ -27,7 +25,7 @@ type Props = {
  * A repost button ready to be embedded as Activity footer
  * @example ./examples/RepostButton.md
  */
-class RepostButton extends React.Component<Props> {
+class RepostButton extends React.Component<Props & Streami18Ctx> {
   static defaultProps = {
     feedGroup: 'user',
   };
@@ -73,4 +71,4 @@ class RepostButtonInner extends React.Component<PropsInner> {
   }
 }
 
-export default withTranslationContext(RepostButton);
+export default withTranslationContext<Props>(RepostButton);

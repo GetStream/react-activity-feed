@@ -4,8 +4,8 @@ import { Streami18Ctx } from '../Context';
 
 type Props = {
   text: string;
-} & Streami18Ctx;
-class FeedPlaceholder extends React.Component<Props> {
+};
+class FeedPlaceholder extends React.Component<Props & Streami18Ctx> {
   render() {
     const { t, text } = this.props;
     return (
@@ -16,4 +16,4 @@ class FeedPlaceholder extends React.Component<Props> {
   }
 }
 
-export default withTranslationContext(FeedPlaceholder);
+export default withTranslationContext<Props>(FeedPlaceholder);

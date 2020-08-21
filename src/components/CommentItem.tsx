@@ -16,14 +16,14 @@ export type Props = {
 
   /** Handler for any routing you may do on clicks on Mentions */
   onClickMention?: (word: string) => unknown;
-} & Streami18Ctx;
+};
 
 /**
  * Component is described here.
  *
  * @example ./examples/CommentItem.md
  */
-class CommentItem extends React.Component<Props> {
+class CommentItem extends React.Component<Props & Streami18Ctx> {
   _user = () => {
     const { user } = this.props.comment;
     return user;
@@ -82,4 +82,4 @@ class CommentItem extends React.Component<Props> {
   }
 }
 
-export default withTranslationContext(CommentItem);
+export default withTranslationContext<Props>(CommentItem);

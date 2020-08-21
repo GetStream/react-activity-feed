@@ -37,7 +37,7 @@ type Props = {
   doChildReactionDeleteRequest?: (id: string) => unknown;
 
   /** Override reactions filter request */
-  doReactionsFilterRequest?: (options: {}) => Promise<Object>;
+  doReactionsFilterRequest?: (options: {}) => Promise<any>;
 };
 
 /**

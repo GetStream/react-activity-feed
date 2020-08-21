@@ -28,14 +28,14 @@ type Props = {
       | BaseActivityGroupResponse
       | ReadonlyArray<BaseActivityGroupResponse>,
   ) => Promise<unknown> | null | undefined;
-} & Streami18Ctx;
+};
 
 /**
  * Component is described here.
  *
  * @example ./examples/Notification.md
  */
-class Notification extends React.Component<Props> {
+class Notification extends React.Component<Props & Streami18Ctx> {
   getUsers = (activities: any) =>
     activities.map((item) => userOrDefault(item.actor));
 
@@ -247,4 +247,4 @@ class Notification extends React.Component<Props> {
   }
 }
 
-export default withTranslationContext(Notification);
+export default withTranslationContext<Props>(Notification);

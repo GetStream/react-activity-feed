@@ -15,14 +15,14 @@ export type Props = {
   follow?: boolean;
   Right?: Renderable;
   AfterUsername?: React.ReactNode;
-} & Streami18Ctx;
+};
 
 /**
  * Component is described here.
  *
  * @example ./examples/UserBar.md
  */
-class UserBar extends React.Component<Props> {
+class UserBar extends React.Component<Props & Streami18Ctx> {
   render() {
     const { tDateTimeParser } = this.props;
     let time = this.props.time;
@@ -73,4 +73,4 @@ class UserBar extends React.Component<Props> {
   }
 }
 
-export default withTranslationContext(UserBar);
+export default withTranslationContext<Props>(UserBar);

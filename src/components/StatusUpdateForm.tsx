@@ -49,13 +49,13 @@ import Video from './Video';
 
 type Props = {
   /** The feed group part of the feed that the activity should be posted to */
-  feedGroup: string;
+  feedGroup?: string;
 
   /** The user_id part of the feed that the activity should be posted to  */
   userId?: string;
 
   /** The verb that should be used to post the activity */
-  activityVerb: string;
+  activityVerb?: string;
 
   /** If you want to change something about the activity data that this form
    * sends to stream you can do that with this function. This function gets the
@@ -70,7 +70,7 @@ type Props = {
    * />
    * ```
    * */
-  modifyActivityData: (activityData: {}) => ActivityArgData<{}, {}>;
+  modifyActivityData?: (activityData: {}) => ActivityArgData<{}, {}>;
 
   /** Add extra footer item */
   FooterItem?: React.ReactNode;
@@ -90,15 +90,15 @@ type Props = {
   innerRef?: React.RefCallback<HTMLTextAreaElement>;
 
   /** The header to display */
-  Header: React.ReactNode;
-} & Streami18Ctx;
+  Header?: React.ReactNode;
+};
 
 /**
  * Component is described here.
  *
  * @example ./examples/StatusUpdateForm.md
  */
-class StatusUpdateForm extends React.Component<Props> {
+class StatusUpdateForm extends React.Component<Props & Streami18Ctx> {
   static defaultProps = {
     feedGroup: 'user',
     activityVerb: 'post',
@@ -144,7 +144,7 @@ type State = {
   submitting: boolean;
 };
 
-type PropsInner = Props & BaseAppCtx;
+type PropsInner = Props & Streami18Ctx & BaseAppCtx;
 class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   _handleOgDebounced: (input: string) => unknown;
 
@@ -811,4 +811,4 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   }
 }
 
-export default withTranslationContext(StatusUpdateForm);
+export default withTranslationContext<Props>(StatusUpdateForm);

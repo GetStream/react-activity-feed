@@ -26,14 +26,14 @@ type Props = {
 
   /** The label to display if the count is more than one (e.g "likes") */
   labelPlural?: string;
-} & Streami18Ctx;
+};
 
 /**
  * Component is described here.
  *
  * @example ./examples/ReactionIcon.md
  */
-class ReactionIcon extends React.Component<Props> {
+class ReactionIcon extends React.Component<Props & Streami18Ctx> {
   render() {
     const {
       counts,
@@ -94,4 +94,4 @@ class ReactionIcon extends React.Component<Props> {
   }
 }
 
-export default withTranslationContext(ReactionIcon);
+export default withTranslationContext<Props>(ReactionIcon);
