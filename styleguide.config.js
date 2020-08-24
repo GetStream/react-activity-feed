@@ -96,7 +96,7 @@ module.exports = {
     },
   },
   require: [
-    path.join(path.resolve(path.dirname('')), 'dist/index.css'),
-    path.join(path.resolve(path.dirname('')), 'src/styleguide-styles.scss'),
+    path.join(path.resolve(path.dirname('')), 'dist/index.es.css'),
+    path.join(path.resolve(path.dirname('')), 'src/styleguide-styles.css'),
   ],
 };

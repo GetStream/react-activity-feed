@@ -5,5 +5,6 @@ node_js:
 script:
   - yarn lint
   - yarn test
+  - yarn build
   - yarn docs
-  - yarn validate-translations
+  # - yarn validate-translations
