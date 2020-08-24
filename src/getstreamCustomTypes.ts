@@ -1,3 +1,5 @@
+import { UserData, CustomActivityData } from './types';
+
 export type TimestampedResponse = {
   created_at: string;
   updated_at: string;
@@ -123,26 +125,26 @@ export type StreamFeed<UserData, CustomActivityData> = {
   id: string;
   slug: string;
   userId: string;
-  get(
+  get: (
     options?: FeedRequestOptions,
-  ): Promise<FeedResponse<UserData, CustomActivityData>>;
-  getActivityDetail(
+  ) => Promise<FeedResponse<UserData, CustomActivityData>>;
+  getActivityDetail: (
     activityId: string,
     options?: FeedRequestOptions,
-  ): Promise<FeedResponse<UserData, CustomActivityData>>;
-  // addActivity(
-  //   ActivityArgData<UserData, CustomActivityData>,
-  // ): Promise<ActivityResponse<UserData, CustomActivityData>>;
-  // addActivities(
-  //   Array<ActivityArgData<UserData, CustomActivityData>>,
-  // ): Promise<Array<ActivityResponse<UserData, CustomActivityData>>>;
-  // subscribe((any) => void): Subscription;
-  // removeActivity(id: string | { foreignId: string }): Promise<any>;
-  // follow(
-  //   targetFeedGroup: string,
-  //   targetUserId: string | StreamUser<UserData>,
-  //   options?: FollowRequestOptions,
-  // ): Promise<DurationResponse>;
+  ) => Promise<FeedResponse<UserData, CustomActivityData>>;
+  addActivity: (
+    activities: ActivityArgData<UserData, CustomActivityData>,
+  ) => Promise<ActivityResponse<UserData, CustomActivityData>>;
+  addActivities: (
+    activities: Array<ActivityArgData<UserData, CustomActivityData>>,
+  ) => Promise<Array<ActivityResponse<UserData, CustomActivityData>>>;
+  subscribe: () => Subscription;
+  removeActivity: (id: string | { foreignId: string }) => Promise<any>;
+  follow: (
+    targetFeedGroup: string,
+    targetUserId: string | StreamUser<UserData>,
+    options?: FollowRequestOptions,
+  ) => Promise<DurationResponse>;
 };
 export type Subscription = {
   then: (success: () => any, failure: (err: Error) => any) => Promise<any>;

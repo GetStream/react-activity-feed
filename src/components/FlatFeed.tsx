@@ -60,7 +60,7 @@ type Props = {
     feedGroup: string,
     userId?: string,
     options?: FeedRequestOptions,
-  ) => Promise<FeedResponse<any, any>>;
+  ) => Promise<any>; // TODO typing issue in getstream module: should be FeedResponse
 
   /** Override activity delete request */
   doActivityDeleteRequest?: (id: string) => unknown;
