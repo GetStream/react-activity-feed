@@ -41,8 +41,8 @@ export type FeedCtx = {
   hasReverseNextPage: boolean;
   refreshing: boolean;
   hasDoneRequest: boolean;
-  realtimeAdds: Array<{}>;
-  realtimeDeletes: Array<{}>;
+  realtimeAdds: Array<any>;
+  realtimeDeletes: Array<any>;
   feedManager: FeedManager;
   onToggleReaction: ToggleReactionCallbackFunction;
   onAddReaction: AddReactionCallbackFunction;
@@ -78,7 +78,7 @@ export type FeedProps = {
     feedGroup: string,
     userId?: string,
     options?: FeedRequestOptions,
-  ) => Promise<FeedResponse<{}, {}>>;
+  ) => Promise<FeedResponse<any, any>>;
   /** Override activity delete request */
   doActivityDeleteRequest?: (id: string) => any;
   /* Components to display in the feed */
@@ -87,8 +87,8 @@ export type FeedProps = {
   doReactionAddRequest?: (
     kind: string,
     activity: BaseActivityResponse,
-    data?: {},
-    options?: {},
+    data?: any,
+    options?: any,
   ) => any;
   /** Override reaction delete request */
   doReactionDeleteRequest?: (id: string) => any;
@@ -96,8 +96,8 @@ export type FeedProps = {
   doChildReactionAddRequest?: (
     kind: string,
     activity: BaseReaction,
-    data?: {},
-    options?: {},
+    data?: any,
+    options?: any,
   ) => any;
   /** Override child reaction delete request */
   doChildReactionDeleteRequest?: (id: string) => any;

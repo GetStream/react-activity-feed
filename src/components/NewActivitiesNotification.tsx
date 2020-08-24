@@ -4,8 +4,8 @@ import { withTranslationContext } from '../Context';
 import { Streami18Ctx } from '../Context';
 
 export type Props = Streami18Ctx & {
-  adds: Array<{}>;
-  deletes: Array<{}>;
+  adds: Array<any>;
+  deletes: Array<any>;
   labelSingle?: string;
   labelPlural?: string;
 

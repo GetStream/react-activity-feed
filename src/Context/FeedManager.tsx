@@ -19,9 +19,8 @@ import {
 import { generateRandomId } from '../utils';
 import { FeedInnerProps } from './Feed';
 
-// type FR = FeedResponse<object, object>;
-type FR = FeedResponse<{}, {}>;
-type RR = ReactionFilterResponse<{}, {}>;
+type FR = FeedResponse<any, any>;
+type RR = ReactionFilterResponse<any, any>;
 
 type FeedManagerState = {
   activityOrder: string[];
@@ -29,8 +28,8 @@ type FeedManagerState = {
   refreshing: boolean;
   lastResponse?: FR;
   lastReverseResponse?: { next: string };
-  realtimeAdds: Array<{}>;
-  realtimeDeletes: Array<{}>;
+  realtimeAdds: Array<any>;
+  realtimeDeletes: Array<any>;
   subscription?: any;
   activityIdToPath: { [key: string]: string[] };
   // activities created by creating a reaction with targetFeeds. It's a mapping
@@ -889,7 +888,7 @@ export class FeedManager {
     return map;
   };
 
-  addFoundActivityIdPaths = (data: any, previous: {}, basePath: any[]) => {
+  addFoundActivityIdPaths = (data: any, previous: any, basePath: any[]) => {
     const map = previous;
     const currentPath = [...basePath];
     function addFoundActivities(obj) {
@@ -919,7 +918,7 @@ export class FeedManager {
 
   addFoundActivityIdPath = (
     data: Array<{ id: string }>,
-    previous: {},
+    previous: any,
     basePath: any[],
   ) => {
     const map = previous;

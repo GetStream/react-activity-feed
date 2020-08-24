@@ -65,7 +65,7 @@ export type AppCtx<Data = UserData> = {
 };
 
 export type Streami18Ctx = {
-  t: (msg: string, data?: object) => string;
+  t: (msg: string, data?: any) => string;
   tDateTimeParser: (input?: string | number) => Dayjs.Dayjs;
 };
 
@@ -81,7 +81,7 @@ type StreamAppProps<Data = UserData> = {
   token: string;
 
   /** Any options that [`stream.connect()`](https://getstream.io/docs/#setup) accepts */
-  options?: {};
+  options?: any;
   analyticsToken?: string;
 
   /** Normaly feed state is local to the feed component, such as FlatFeed and

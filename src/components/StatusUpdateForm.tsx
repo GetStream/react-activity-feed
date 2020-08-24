@@ -70,7 +70,7 @@ type Props = {
    * />
    * ```
    * */
-  modifyActivityData?: (activityData: {}) => ActivityArgData<{}, {}>;
+  modifyActivityData?: (activityData: any) => ActivityArgData<any, any>;
 
   /** Add extra footer item */
   FooterItem?: React.ReactNode;

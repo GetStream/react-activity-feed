@@ -60,7 +60,7 @@ type Props = {
     feedGroup: string,
     userId?: string,
     options?: FeedRequestOptions,
-  ) => Promise<FeedResponse<{}, {}>>;
+  ) => Promise<FeedResponse<any, any>>;
 
   /** Override activity delete request */
   doActivityDeleteRequest?: (id: string) => unknown;
@@ -69,8 +69,8 @@ type Props = {
   doReactionAddRequest?: (
     kind: string,
     activity: BaseActivityResponse,
-    data?: {},
-    options?: {},
+    data?: any,
+    options?: any,
   ) => unknown;
 
   /** Override reaction delete request */
@@ -80,15 +80,15 @@ type Props = {
   doChildReactionAddRequest?: (
     kind: string,
     activity: BaseReaction,
-    data?: {},
-    options?: {},
+    data?: any,
+    options?: any,
   ) => unknown;
 
   /** Override child reaction delete request */
   doChildReactionDeleteRequest?: (id: string) => unknown;
 
   /** Override reactions filter request */
-  doReactionsFilterRequest?: (options: {}) => Promise<any>;
+  doReactionsFilterRequest?: (options: any) => Promise<any>;
 
   /** The location that should be used for analytics when liking in the feed,
    * this is only useful when you have analytics enabled for your app. */
@@ -177,7 +177,7 @@ class FlatFeedInner extends React.Component<PropsInner> {
     userId: this.props.userId,
   });
 
-  _renderActivity = (item: ActivityResponse<object, object>) => {
+  _renderActivity = (item: ActivityResponse<any, any>) => {
     const args = {
       activity: item,
       ...this._childProps(),

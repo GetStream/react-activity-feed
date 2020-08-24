@@ -48,7 +48,7 @@ export type ImageUpload = UploadInfo & {
 export type ErrorHandler = (
   error: Error,
   type: FlowRequestTypes,
-  details: {},
+  details: any,
 ) => any;
 
 type ReactComponentClass = Component<any>;
@@ -66,16 +66,16 @@ export type Renderable =
   | ReactElement<any>
   | React.ElementType<any>; // added during TS port
 
-export type BaseActivityResponse = ActivityResponse<{}, {}>;
-export type BaseActivityGroupResponse = ActivityGroupResponse<{}, {}>;
+export type BaseActivityResponse = ActivityResponse<any, any>;
+export type BaseActivityGroupResponse = ActivityGroupResponse<any, any>;
 export type BaseAppCtx = AppCtx;
 export type BaseFeedCtx = FeedCtx;
 export type BaseClient = StreamClient;
 
-export type BaseReaction = ReactionResponse<{}, {}>;
-export type BaseReactionMap = ReactionKindMap<object, object>;
+export type BaseReaction = ReactionResponse<any, any>;
+export type BaseReactionMap = ReactionKindMap<any, any>;
 
-export type BaseUserResponse = StreamUserResponse<{}>;
+export type BaseUserResponse = StreamUserResponse<any>;
 
 export type UserData = {
   name?: string;
@@ -100,7 +100,7 @@ export type CustomActivityData = {
   attachments?: Attachments;
 };
 
-export type CustomActivityArgData = ActivityArgData<{}, CustomActivityData>;
+export type CustomActivityArgData = ActivityArgData<any, CustomActivityData>;
 
 export type ActivityData = ActivityResponse<UserData, CustomActivityData>;
 
@@ -174,7 +174,7 @@ export type Emoji = {
 export type Trigger = {
   [triggerChar: string]: {
     output?: (
-      item: object | string,
+      item: any | string,
       trigger?: string,
     ) =>
       | {
@@ -186,7 +186,7 @@ export type Trigger = {
       | null;
     dataProvider: (
       token: string,
-    ) => Promise<Array<object | string>> | Array<object | string>;
+    ) => Promise<Array<any | string>> | Array<any | string>;
     allowWhitespace?: boolean;
     afterWhitespace?: boolean;
     component: ReactElement<any>;

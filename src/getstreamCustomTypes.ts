@@ -77,7 +77,7 @@ export type ActivityArgData<UserData, CustomActivityData> = {
   time?: string;
   actor: StreamUser<UserData>;
   verb: string;
-  object: string | StreamUser<UserData> | CollectionEntry<{}>;
+  object: string | StreamUser<UserData> | CollectionEntry<any>;
   target?: string;
 } & CustomActivityData;
 
@@ -137,7 +137,7 @@ export type StreamFeed<UserData, CustomActivityData> = {
   //   Array<ActivityArgData<UserData, CustomActivityData>>,
   // ): Promise<Array<ActivityResponse<UserData, CustomActivityData>>>;
   // subscribe((any) => void): Subscription;
-  // removeActivity(id: string | { foreignId: string }): Promise<{}>;
+  // removeActivity(id: string | { foreignId: string }): Promise<any>;
   // follow(
   //   targetFeedGroup: string,
   //   targetUserId: string | StreamUser<UserData>,
@@ -145,7 +145,7 @@ export type StreamFeed<UserData, CustomActivityData> = {
   // ): Promise<DurationResponse>;
 };
 export type Subscription = {
-  then: (success: () => any, failure: (err: Error) => any) => Promise<{}>;
+  then: (success: () => any, failure: (err: Error) => any) => Promise<any>;
   cancel: () => any;
 };
 
@@ -170,15 +170,15 @@ export type ActivityResponse<UserData, CustomActivityData> = {
 
   actor: UserResponse<UserData> | string | { error: string };
   verb: string;
-  object: string | object; // Limit this type more
+  object: string | any; // Limit this type more
   target: string;
 
   origin: null | string;
   to: Array<string>;
 
   reaction_counts?: ReactionCounts;
-  own_reactions?: ReactionKindMap<UserData, object>;
-  latest_reactions?: ReactionKindMap<UserData, object>;
+  own_reactions?: ReactionKindMap<UserData, any>;
+  latest_reactions?: ReactionKindMap<UserData, any>;
   latest_reactions_extra?: ReactionExtraKindMap;
   activities?: any; //
 } & CustomActivityData;
@@ -210,7 +210,7 @@ export type ReactionResponse<UserData, ReactionData> = {
   user_id: string;
   user: UserResponse<UserData>;
   children_counts?: ReactionCounts;
-  own_children?: ReactionKindMap<UserData, object>;
-  latest_children?: ReactionKindMap<UserData, object>;
+  own_children?: ReactionKindMap<UserData, any>;
+  latest_children?: ReactionKindMap<UserData, any>;
   latest_children_extra?: ReactionExtraKindMap;
 } & TimestampedResponse;

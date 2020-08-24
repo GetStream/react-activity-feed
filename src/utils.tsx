@@ -29,7 +29,7 @@ export function humanizeTimestamp(
 
 export const smartRender = (
   ElementOrComponentOrLiteral: Renderable,
-  props?: {},
+  props?: any,
   fallback?: Renderable,
 ) => {
   if (ElementOrComponentOrLiteral === undefined) {

@@ -18,8 +18,8 @@ type Props = {
   doReactionAddRequest?: (
     kind: string,
     activity: BaseActivityResponse,
-    data?: {},
-    options?: {},
+    data?: any,
+    options?: any,
   ) => unknown;
 
   /** Override reaction delete request */
@@ -29,8 +29,8 @@ type Props = {
   doChildReactionAddRequest?: (
     kind: string,
     activity: BaseReaction,
-    data?: {},
-    options?: {},
+    data?: any,
+    options?: any,
   ) => unknown;
 
   /** Override child reaction delete request */
