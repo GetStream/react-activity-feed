@@ -272,7 +272,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
 
   _object = () => {
     for (const image of this._orderedImages()) {
-      if (image.url) {
+      if (image && image.url) {
         return image.url;
       }
     }
