@@ -52,6 +52,7 @@ export default class Video extends React.Component<Props> {
     const url = sanitizeURL(video.secure_url || video.video);
 
     if (video.type === 'text/html') {
+      const newUrl = url && url.split('/watch?').join('/embed/');
       return (
         <div className="raf-video__frame">
           {CloseButton}
@@ -61,7 +62,7 @@ export default class Video extends React.Component<Props> {
             type={video.type}
             width={video.width}
             height={video.height}
-            src={url}
+            src={newUrl}
             frameBorder="0"
           />
         </div>
