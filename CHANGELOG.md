@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Nothing yet
 
+## 0.10.3 - 2020-10-13
+
+- Updated Video component to correctly render youtube videos
+
 ## 0.10.2 - 2020-04-10
 
 - Moving `@webscopeio/react-textarea-autocomplete/style.css` to vendor directory, to fix build.
