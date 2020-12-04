@@ -87,6 +87,7 @@
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-jest": "^21.22.0",
     "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-prettier": "^3.2.0",
     "eslint-plugin-promise": "^4.0.0",
     "eslint-plugin-react": "^7.10.0",
     "eslint-plugin-sonarjs": "^0.5.0",

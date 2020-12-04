@@ -1,5 +1,5 @@
 {
-  "plugins": ["babel", "markdown", "sonarjs"],
+  "plugins": ["babel", "markdown", "sonarjs", "prettier"],
   "extends": [
     "eslint:recommended",
     "plugin:flowtype/recommended",
@@ -38,7 +38,8 @@
     "flowtype/generic-spacing": 0,
     "flowtype/space-after-type-colon": 0,
     "sonarjs/cognitive-complexity": ["error", 30],
-    "sonarjs/no-duplicate-string": ["error", 5]
+    "sonarjs/no-duplicate-string": ["error", 5],
+    "prettier/prettier": "error"
   },
   "env": {
     "es6": true,
