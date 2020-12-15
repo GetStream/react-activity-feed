@@ -198,7 +198,7 @@ export class FeedManager {
     data?: {},
     options: { trackAnalytics?: boolean } & ReactionRequestOptions = {},
   ) => {
-    if (!options.userId && this.props.client) {
+    if (!options.userId && this.props.client && this.props.client.userId) {
       options.userId = this.props.client.userId;
     }
 
