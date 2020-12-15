@@ -5,9 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 0.10.5 - 2020-12-15
 
-Nothing yet
+- Add userId to `addReaction` and `addChildReaction` if its missing #131
+- Fix timestamps for comment and userbar #130
+
+## 0.10.4 - 2020-10-19
+
+- Updated Video component to correctly render youtube videos
 
 ## 0.10.3 - 2020-10-13
 
