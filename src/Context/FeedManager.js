@@ -198,6 +198,10 @@ export class FeedManager {
     data?: {},
     options: { trackAnalytics?: boolean } & ReactionRequestOptions = {},
   ) => {
+    if (!options.userId && this.props.userId) {
+      options.userId = this.props.userId;
+    }
+
     let reaction;
     try {
       if (this.props.doReactionAddRequest) {
@@ -353,6 +357,10 @@ export class FeedManager {
     data?: {},
     options: { trackAnalytics?: boolean } & ReactionRequestOptions = {},
   ) => {
+    if (!options.userId && this.props.userId) {
+      options.userId = this.props.userId;
+    }
+
     let childReaction;
     try {
       if (this.props.doChildReactionAddRequest) {
