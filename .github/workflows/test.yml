@@ -1,0 +1,42 @@
+name: Test
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [10, 12, 14]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Cache Dependencies
+        uses: actions/cache@v2
+        with:
+          path: ./node_modules
+          key: modules-${{ matrix.node }}-${{ hashFiles('./yarn.lock') }}
+
+      - name: Install Dependencies & Build
+        run: yarn install --frozen-lockfile
+
+      - name: Lint
+        if: matrix.node == 14
+        run: yarn lint
+
+      - name: Flow check
+        if: matrix.node == 14
+        run: yarn flow
+
+      - name: Unit tests
+        run: yarn test
+
+      - name: Validate translation
+        run: yarn validate-translations
+
+      - name: Docs
+        if: matrix.node == 14
+        run: yarn docs
