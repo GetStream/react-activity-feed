@@ -221,78 +221,99 @@ export function sanitizeURL(url: ?string): ?string {
   return undefined;
 }
 
+const renderWord = (
+  word: string,
+  key: string,
+  parentClass: string,
+  onClickMention?: (word: string) => mixed,
+  onClickHashtag?: (word: string) => mixed,
+) => {
+  if (onClickMention && word.includes('@')) {
+    const mention = twitter.extractMentions(word);
+    if (!mention.length) return word;
+
+    return (
+      <React.Fragment key={key}>
+        {!word.startsWith(`@${mention[0]}`) &&
+          word.slice(0, word.indexOf(mention[0]) - 1)}
+        <a
+          onClick={() => onClickMention && onClickMention(mention[0])}
+          className={`${parentClass}__mention`}
+        >
+          @{mention[0]}
+        </a>
+        {!word.endsWith(mention[0]) &&
+          word.slice(word.indexOf(mention[0]) + mention[0].length)}
+      </React.Fragment>
+    );
+  } else if (onClickHashtag && word.includes('#')) {
+    const hashtag = twitter.extractHashtags(word);
+    if (!hashtag.length) return word;
+
+    return (
+      <React.Fragment key={key}>
+        {!word.startsWith(`#${hashtag[0]}`) &&
+          word.slice(0, word.indexOf(hashtag[0]) - 1)}
+        <a
+          onClick={() => onClickHashtag && onClickHashtag(hashtag[0])}
+          className={`${parentClass}__hashtag`}
+        >
+          #{hashtag[0]}
+        </a>
+        {!word.endsWith(hashtag[0]) &&
+          word.slice(word.indexOf(hashtag[0]) + hashtag[0].length)}
+      </React.Fragment>
+    );
+  }
+  if (anchorme.validate.url(word) || anchorme.validate.email(word)) {
+    const link = anchorme(word, { list: true });
+    if (
+      link[0].protocol !== 'http://' &&
+      link[0].protocol !== 'https://' &&
+      link[0].protocol !== 'mailto:'
+    ) {
+      return word;
+    }
+
+    return (
+      <a
+        href={`${link[0].protocol}${link[0].encoded}`}
+        className={`${parentClass}__link`}
+        target="blank"
+        rel="noopener"
+        key={key}
+      >
+        {_truncate(link[0].encoded, { length: 33 })}
+      </a>
+    );
+  }
+
+  return word;
+};
+
 export const textRenderer = (
   text: string,
   parentClass: string,
   onClickMention?: (word: string) => mixed,
   onClickHashtag?: (word: string) => mixed,
 ) => {
-  if (text === undefined) return;
+  if (!text) return;
+
   return text
-    .split(' ')
-    .map((word, i) => {
-      if (onClickMention && word.includes('@')) {
-        const mention = twitter.extractMentions(word);
-        if (!mention.length) return word;
-
-        return (
-          <React.Fragment key={`item-${i}`}>
-            {!word.startsWith(`@${mention[0]}`) &&
-              word.slice(0, word.indexOf(mention[0]) - 1)}
-            <a
-              onClick={() => onClickMention && onClickMention(mention[0])}
-              className={`${parentClass}__mention`}
-            >
-              @{mention[0]}
-            </a>
-            {!word.endsWith(mention[0]) &&
-              word.slice(word.indexOf(mention[0]) + mention[0].length)}
-          </React.Fragment>
-        );
-      } else if (onClickHashtag && word.includes('#')) {
-        const hashtag = twitter.extractHashtags(word);
-        if (!hashtag.length) return word;
-
-        return (
-          <React.Fragment key={`item-${i}`}>
-            {!word.startsWith(`#${hashtag[0]}`) &&
-              word.slice(0, word.indexOf(hashtag[0]) - 1)}
-            <a
-              onClick={() => onClickHashtag && onClickHashtag(hashtag[0])}
-              className={`${parentClass}__hashtag`}
-            >
-              #{hashtag[0]}
-            </a>
-            {!word.endsWith(hashtag[0]) &&
-              word.slice(word.indexOf(hashtag[0]) + hashtag[0].length)}
-          </React.Fragment>
-        );
-      }
-      if (anchorme.validate.url(word) || anchorme.validate.email(word)) {
-        const link = anchorme(word, { list: true });
-        if (
-          link[0].protocol !== 'http://' &&
-          link[0].protocol !== 'https://' &&
-          link[0].protocol !== 'mailto:'
-        ) {
-          return word;
-        }
-        const url = link[0].protocol + link[0].encoded;
-        const urlText = _truncate(link[0].encoded, { length: 33 });
-        return (
-          <a
-            href={url}
-            className={`${parentClass}__link`}
-            target="blank"
-            rel="noopener"
-            key={`item-${i}`}
-          >
-            {urlText}
-          </a>
-        );
-      }
-
-      return word;
-    })
-    .reduce((accu, elem) => (accu === null ? [elem] : [accu, ' ', elem]));
+    .split(/\r\n|\r|\n/) // first break on line
+    .map((line, i) =>
+      line
+        .split(' ') // break for each word
+        .map((word, j) =>
+          renderWord(
+            word,
+            `item-${i}-${j}`,
+            parentClass,
+            onClickMention,
+            onClickHashtag,
+          ),
+        )
+        .reduce((acc, elem) => (acc ? [acc, ' ', elem] : [elem])),
+    )
+    .reduce((acc, elem) => (acc ? [acc, '\n', elem] : [elem]));
 };
