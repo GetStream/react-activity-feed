@@ -9,6 +9,7 @@ import copy from 'rollup-plugin-copy';
 import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
 import globals from 'rollup-plugin-node-globals';
+import builtins from 'rollup-plugin-node-builtins';
 
 import pkg from './package.json';
 
@@ -136,7 +137,6 @@ const fullBrowserBundle = {
       sourcemap: true,
       name: 'window', // write all exported values to window
       extend: true, // extend window, not overwrite it
-      browser: true,
       globals: {
         react: 'React',
         'react-dom': 'ReactDOM',
@@ -169,10 +169,8 @@ const fullBrowserBundle = {
       //$FlowFixMe
       load: (id) => (id.match(/.s?css$/) ? '' : null),
     },
-    resolve({
-      browser: true,
-      preferBuiltins: false,
-    }),
+    builtins(),
+    resolve({ browser: true }),
     commonjs(),
     url(),
     json(),
