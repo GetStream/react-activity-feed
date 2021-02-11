@@ -9,43 +9,33 @@
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",
   "jsdelivr": "dist/browser.full-bundle.js",
-  "keywords": [
-    "feed",
-    "newsfeed",
-    "activity stream",
-    "react",
-    "notification feed",
-    "stream",
-    "getstream",
-    "getstream.io"
+  "files": [
+    "dist"
   ],
   "engines": {
     "node": "10 || 12 || >=14"
   },
   "scripts": {
-    "test": "cross-env CI=1 react-scripts test --env=jsdom",
-    "test:watch": "react-scripts test --env=jsdom",
+    "test": "react-scripts test --env=jsdom",
     "eslint": "eslint '**/*.{js,md}' --max-warnings 0",
     "prettier": "prettier --list-different '**/*.{js,ts,md,json}' .eslintrc.json .prettierrc .babelrc",
     "prettier-fix": "prettier --write '**/*.{js,ts,md,json}' .eslintrc.json .prettierrc .babelrc",
     "build-translations": "yarn run babel --config-file ./babel.i18next-extract.json 'src/**/*.{js,jsx,ts,tsx}' --quiet && yarn lint-fix",
     "validate-translations": "node scripts/validate-translations.js",
-    "lint": "prettier --list-different '**/*.{js,ts,md,json}' .eslintrc.json .prettierrc .babelrc && eslint '**/*.{js,md}' --max-warnings 0 && stylelint '**/*.{css,scss}'",
-    "lint-fix": "prettier --write '**/*.{js,ts,md,json}' .eslintrc.json .prettierrc .babelrc && eslint --fix '**/*.{js,md}' --max-warnings 0 && stylelint --fix '**/*.{css,scss}'",
+    "lint": "yarn run prettier && yarn run eslint && stylelint '**/*.{css,scss}'",
+    "lint-fix": "yarn run prettier-fix && yarn run eslint --fix && stylelint --fix '**/*.{css,scss}'",
     "build": "mkdir -p dist && yarn build-translations && rollup -c",
     "start": "mkdir -p dist && yarn build-translations && rollup -c -w",
     "docs": "styleguidist build",
     "docs-server": "styleguidist server",
     "prepare": "yarn run build",
-    "preversion": "yarn install && git add yarn.lock && cd example && yarn install && git add yarn.lock",
-    "version": "yarn docs && git add docs && git add example yarn.lock",
-    "postversion": "git push && git push --tags && npm publish",
-    "predeploy": "cd example && yarn install && yarn run build",
-    "deploy": "gh-pages -d example/build"
+    "preversion": "yarn install && yarn lint && yarn test",
+    "version": "yarn docs && git add -A docs",
+    "postversion": "git push && git push --tags && npm publish"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "dotgit/hooks/pre-commit-format.sh && dotgit/hooks/pre-commit-reject-binaries.py"
+      "pre-commit": "yarn run lint"
     }
   },
   "stylelint": {
@@ -58,8 +48,8 @@
     }
   },
   "peerDependencies": {
-    "react": "^16.8.x",
-    "react-dom": "^16.8.x"
+    "react": "^17.0.0 || ^16.8.0",
+    "react-dom": "^17.0.0 || ^16.8.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.0",
@@ -88,7 +78,6 @@
     "eslint-plugin-react": "^7.10.0",
     "eslint-plugin-sonarjs": "^0.5.0",
     "faker": "^4.1.0",
-    "gh-pages": "^1.2.0",
     "husky": "^1.3.1",
     "postcss-color-function": "^4.0.1",
     "postcss-cssnext": "^3.1.0",
@@ -120,9 +109,6 @@
     "sugarss": "^2.0.0",
     "webpack": "^4.12.2"
   },
-  "files": [
-    "dist"
-  ],
   "dependencies": {
     "@babel/runtime": "^7.1.2",
     "@fortawesome/fontawesome-svg-core": "^1.2.4",
@@ -144,5 +130,15 @@
     "twitter-text": "^3.0.0",
     "url-loader": "^1.1.2",
     "url-parse": "^1.4.7"
-  }
+  },
+  "keywords": [
+    "feed",
+    "newsfeed",
+    "activity stream",
+    "react",
+    "notification feed",
+    "stream",
+    "getstream",
+    "getstream.io"
+  ]
 }
