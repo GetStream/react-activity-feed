@@ -1,4 +1,3 @@
-// @flow
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import external from 'rollup-plugin-peer-deps-external';
@@ -154,19 +153,15 @@ const fullBrowserBundle = {
     }),
     {
       name: 'browser-remapper',
-      //$FlowFixMe
       resolveId: (importee) =>
         ignoredBrowserModules.includes(importee) ? importee : null,
-      //$FlowFixMe
       load: (id) =>
         ignoredBrowserModules.includes(id) ? 'export default null;' : null,
     },
 
     {
       name: 'ignore-css-and-scss',
-      //$FlowFixMe
       resolveId: (importee) => (importee.match(/.s?css$/) ? importee : null),
-      //$FlowFixMe
       load: (id) => (id.match(/.s?css$/) ? '' : null),
     },
     resolve({

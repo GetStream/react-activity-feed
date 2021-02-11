@@ -1,17 +1,11 @@
-// @flow
 import * as React from 'react';
-
-type Props = {|
-  label: string,
-  data: string | number,
-|};
 
 /**
  * Component is described here.
  *
  * @example ./examples/DataLabel.md
  */
-export default class DataLabel extends React.Component<Props> {
+export default class DataLabel extends React.Component {
   static defaultProps = {
     label: 'label',
     data: 'data',

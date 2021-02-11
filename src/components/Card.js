@@ -1,28 +1,15 @@
-// @flow
-
 import React from 'react';
 import placeholder from '../images/placeholder.png';
 import { IconButton } from 'react-file-utils';
 import { sanitizeURL } from '../utils';
-
-export type Props = {|
-  image?: ?string,
-  images?: Array<{ image: string }>,
-  alt?: ?string,
-  title?: ?string,
-  url?: string,
-  nolink?: boolean,
-  description?: ?string,
-  handleClose?: (e: SyntheticEvent<>) => mixed,
-|};
 
 /**
  * Component is described here.
  *
  * @example ./examples/Card.md
  */
-export default class Card extends React.Component<Props> {
-  trimUrl = (url: string) => {
+export default class Card extends React.Component {
+  trimUrl = (url) => {
     let trimmedUrl;
     if (url !== undefined || url !== null) {
       trimmedUrl = url
@@ -32,7 +19,7 @@ export default class Card extends React.Component<Props> {
     return trimmedUrl;
   };
 
-  _handleClose = (e: SyntheticEvent<>) => {
+  _handleClose = (e) => {
     if (this.props.handleClose) {
       this.props.handleClose(e);
     }

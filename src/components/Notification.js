@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import Avatar from './Avatar';
 import AvatarGroup from './AvatarGroup';
@@ -7,43 +6,25 @@ import Dropdown from './Dropdown';
 import Link from './Link';
 
 import { humanizeTimestamp, userOrDefault } from '../utils';
-import type { UserResponse, BaseActivityGroupResponse } from '../types';
-import type { Streami18Ctx } from '../Context';
-import { withTranslationContext } from '../Context';
 
-type Props = {
-  /* The activity group to display in this notification */
-  activityGroup: any,
-  /* Callback to call when clicking on a notification */
-  onClickNotification?: (activityGroup: BaseActivityGroupResponse) => mixed,
-  /* Callback to call when clicking on a user in the notification */
-  onClickUser?: (UserResponse) => mixed,
-  /* Callback to mark a notification as read, if not supplied the dropdown used
-   * to mark as read will not be shown */
-  onMarkAsRead?: ?(
-    group:
-      | true
-      | BaseActivityGroupResponse
-      | $ReadOnlyArray<BaseActivityGroupResponse>,
-  ) => Promise<mixed>,
-} & Streami18Ctx;
+import { withTranslationContext } from '../Context';
 
 /**
  * Component is described here.
  *
  * @example ./examples/Notification.md
  */
-class Notification extends React.Component<Props> {
-  getUsers = (activities: any) =>
+class Notification extends React.Component {
+  getUsers = (activities) =>
     activities.map((item) => userOrDefault(item.actor));
 
-  _getOnClickUser(actor: UserResponse) {
+  _getOnClickUser(actor) {
     return this.props.onClickUser
-      ? (e: SyntheticEvent<>) => this.onClickUser(e, actor)
+      ? (e) => this.onClickUser(e, actor)
       : undefined;
   }
 
-  onClickUser = (e: SyntheticEvent<>, actor: any) => {
+  onClickUser = (e, actor) => {
     const { onClickUser } = this.props;
     if (onClickUser) {
       e.stopPropagation();
@@ -57,7 +38,7 @@ class Notification extends React.Component<Props> {
       : undefined;
   }
 
-  onClickNotification = (e: SyntheticEvent<>) => {
+  onClickNotification = (e) => {
     const { onClickNotification } = this.props;
     if (onClickNotification) {
       e.stopPropagation();

@@ -1,27 +1,6 @@
-// @flow
 import * as React from 'react';
-import type { ReactionCounts } from 'getstream';
-import { withTranslationContext } from '../Context';
-import type { Streami18Ctx } from '../Context';
 
-type Props = {|
-  /** The icon to display */
-  icon: string | number,
-  /** The reaction counts for the activity */
-  counts?: ReactionCounts,
-  /** The kind of reaction that this displays */
-  kind: string,
-  /** The height of the icon */
-  height?: number,
-  /** The width of the icon */
-  width?: number,
-  /** Function to call when pressed, usually this should call `props.onToggleReaction` */
-  onPress?: (kind: string) => any,
-  /** The label to display if the count is one (e.g "like") */
-  labelSingle?: string,
-  /** The label to display if the count is more than one (e.g "likes") */
-  labelPlural?: string,
-|} & Streami18Ctx;
+import { withTranslationContext } from '../Context';
 
 /**
  * Component is described here.
@@ -29,7 +8,7 @@ type Props = {|
  * @example ./examples/ReactionIcon.md
  */
 
-class ReactionIcon extends React.Component<Props> {
+class ReactionIcon extends React.Component {
   render() {
     const {
       counts,

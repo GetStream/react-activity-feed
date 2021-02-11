@@ -1,24 +1,12 @@
-// @flow
 import * as React from 'react';
 import { smartRender } from '../utils';
-
-import type { Renderable } from '../types';
-
-export type Props = {|
-  children?: React.Node,
-  Header?: Renderable,
-  Footer?: Renderable,
-  left: boolean,
-  right: boolean,
-  arrow: boolean,
-|};
 
 /**
  * `DropdownPanel` is a more advanced component used to create a notification dropdown for instance, it comes with three parts: `Header`, `Content` and `Footer`. The content has a limited height and the `overflow` is set to `scroll`.
  *
  * @example ./examples/DropdownPanel.md
  */
-export default class DropdownPanel extends React.Component<Props> {
+export default class DropdownPanel extends React.Component {
   static defaultProps = {
     arrow: false,
     left: true,

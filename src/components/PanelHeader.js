@@ -1,11 +1,6 @@
-// @flow
 import * as React from 'react';
 
-export type Props = {|
-  children: React.Node,
-|};
-
-export default class PanelHeading extends React.Component<Props> {
+export default class PanelHeading extends React.Component {
   render() {
     return <div className="raf-panel-header">{this.props.children}</div>;
   }

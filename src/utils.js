@@ -1,23 +1,19 @@
-// @flow
 import * as React from 'react';
 import URL from 'url-parse';
 import anchorme from 'anchorme';
 import _truncate from 'lodash/truncate';
 import twitter from 'twitter-text';
-import type { UserResponse } from './types';
+
 import Dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import minMax from 'dayjs/plugin/minMax';
-import type { Renderable, RenderableButNotElement, FileLike } from './types';
+
 Dayjs.extend(utc);
 Dayjs.extend(minMax);
 
 // import type { UserResponse } from 'getstream';
 
-export function humanizeTimestamp(
-  timestamp: string | number,
-  tDateTimeParser: (input?: string | number) => Function,
-): string {
+export function humanizeTimestamp(timestamp, tDateTimeParser) {
   let time;
   // Following calculation is based on assumption that tDateTimeParser()
   // either returns momentjs or dayjs object.
@@ -40,21 +36,17 @@ export function humanizeTimestamp(
   return time.from(now);
 }
 
-export const smartRender = (
-  ElementOrComponentOrLiteral: Renderable,
-  props?: {},
-  fallback?: Renderable,
-) => {
+export const smartRender = (ElementOrComponentOrLiteral, props, fallback) => {
   if (ElementOrComponentOrLiteral === undefined) {
     ElementOrComponentOrLiteral = fallback;
   }
   if (React.isValidElement(ElementOrComponentOrLiteral)) {
     // Flow cast through any, to make flow believe it's a React.Element
-    return ((ElementOrComponentOrLiteral: any): React.Element<any>);
+    return ElementOrComponentOrLiteral;
   }
 
   // Flow cast through any to remove React.Element after previous check
-  const ComponentOrLiteral = ((ElementOrComponentOrLiteral: any): RenderableButNotElement);
+  const ComponentOrLiteral = ElementOrComponentOrLiteral;
   if (
     typeof ComponentOrLiteral === 'string' ||
     typeof ComponentOrLiteral === 'number' ||
@@ -66,16 +58,14 @@ export const smartRender = (
   return <ComponentOrLiteral {...props} />;
 };
 
-export const getRetinaImage = (images: string) =>
+export const getRetinaImage = (images) =>
   images
     .split('|')
     .map((item, i) => `${item} ${i + 1}x`)
     .join(', ');
 
-export function userOrDefault(
-  user: UserResponse | string | {| error: string |},
-): UserResponse {
-  let actor: UserResponse;
+export function userOrDefault(user) {
+  let actor;
   const notFound = {
     id: '!not-found',
     created_at: '',
@@ -85,13 +75,12 @@ export function userOrDefault(
   if (!user || typeof user === 'string' || typeof user.error === 'string') {
     actor = notFound;
   } else {
-    //$FlowBug
-    actor = (user: any);
+    actor = user;
   }
   return actor;
 }
 
-export function sleep(ms: number): Promise<void> {
+export function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
@@ -105,9 +94,7 @@ function S4() {
   return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
 }
 
-export function dataTransferItemsHaveFiles(
-  items: ?(DataTransferItem[]),
-): boolean {
+export function dataTransferItemsHaveFiles(items) {
   if (!items || !items.length) {
     return false;
   }
@@ -132,9 +119,7 @@ function getFileLikes(items) {
   return fileLikes;
 }
 
-export async function dataTransferItemsToFiles(
-  items: ?(DataTransferItem[]),
-): Promise<FileLike[]> {
+export async function dataTransferItemsToFiles(items) {
   if (!items || !items.length) {
     return [];
   }
@@ -189,9 +174,7 @@ export async function dataTransferItemsToFiles(
   return fileLikes;
 }
 
-export function inputValueFromEvent(
-  event?: ?SyntheticEvent<HTMLTextAreaElement> | ?Event,
-): ?string {
+export function inputValueFromEvent(event) {
   if (!event) {
     return;
   }
@@ -202,11 +185,11 @@ export function inputValueFromEvent(
     target = event.target;
   }
   // Trick flow into believing the target maybe has a value field
-  const inputTarget: { value?: string } = (target: any);
+  const inputTarget = target;
   return inputTarget.value;
 }
 
-export function sanitizeURL(url: ?string): ?string {
+export function sanitizeURL(url) {
   if (url == null) {
     return url;
   }
@@ -221,13 +204,7 @@ export function sanitizeURL(url: ?string): ?string {
   return undefined;
 }
 
-const renderWord = (
-  word: string,
-  key: string,
-  parentClass: string,
-  onClickMention?: (word: string) => mixed,
-  onClickHashtag?: (word: string) => mixed,
-) => {
+const renderWord = (word, key, parentClass, onClickMention, onClickHashtag) => {
   if (onClickMention && word.includes('@')) {
     const mention = twitter.extractMentions(word);
     if (!mention.length) return word;
@@ -292,10 +269,10 @@ const renderWord = (
 };
 
 export const textRenderer = (
-  text: string,
-  parentClass: string,
-  onClickMention?: (word: string) => mixed,
-  onClickHashtag?: (word: string) => mixed,
+  text,
+  parentClass,
+  onClickMention,
+  onClickHashtag,
 ) => {
   if (!text) return;
 

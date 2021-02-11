@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 
 import { Feed, FeedContext } from '../Context';
@@ -10,71 +9,12 @@ import FeedPlaceholder from './FeedPlaceholder';
 
 import { smartRender } from '../utils';
 
-import type {
-  BaseActivityResponse,
-  BaseFeedCtx,
-  BaseClient,
-  Renderable,
-  BaseReaction,
-} from '../types';
-import type { FeedRequestOptions, FeedResponse } from 'getstream';
-
-type Props = {|
-  /** The feed group part of the feed that should be displayed */
-  feedGroup: string,
-  /** The user_id part of the feed that should be displayed */
-  userId?: string,
-  /** read options for the API client (eg. limit, mark_seen, ...) */
-  options?: FeedRequestOptions,
-  /** the component used to render a group in the feed */
-  Group: Renderable,
-  /** if true, feed shows the NewActivitiesNotification component when new activities are added */
-  notify: boolean,
-  /** The component used to render the new activities notification */
-  Notifier: Renderable,
-  /** By default pagination is done with a "Load more" button, you can use
-   * InifiniteScrollPaginator to enable infinite scrolling */
-  Paginator: Renderable,
-  /** Component to show when there are no activities in the feed **/
-  Placeholder: Renderable,
-  /** The feed read handler (change only for advanced/complex use-cases) */
-  doFeedRequest?: (
-    client: BaseClient,
-    feedGroup: string,
-    userId?: string,
-    options?: FeedRequestOptions,
-  ) => Promise<FeedResponse<{}, {}>>,
-  /** Override activity delete request */
-  doActivityDeleteRequest?: (id: string) => mixed,
-  /** Override reaction add request */
-  doReactionAddRequest?: (
-    kind: string,
-    activity: BaseActivityResponse,
-    data?: {},
-    options: {},
-  ) => mixed,
-  /** Override reaction delete request */
-  doReactionDeleteRequest?: (id: string) => mixed,
-  /** Override child reaction add request */
-  doChildReactionAddRequest?: (
-    kind: string,
-    activity: BaseReaction,
-    data?: {},
-    options: {},
-  ) => mixed,
-  /** Override child reaction delete request */
-  doChildReactionDeleteRequest?: (id: string) => mixed,
-  /** The location that should be used for analytics when liking in the feed,
-   * this is only useful when you have analytics enabled for your app. */
-  analyticsLocation?: string,
-|};
-
 /**
  * Renders a notificationfeed, this component is a StreamApp consumer and must
  * always be a child of the `<StreamApp>` element.
  * @example ./examples/NotificationFeed.md
  */
-export default class NotificationFeed extends React.Component<Props> {
+export default class NotificationFeed extends React.Component {
   static defaultProps = {
     feedGroup: 'notification',
     Group: Notification,
@@ -114,8 +54,7 @@ const makeDefaultOptions = (options) => {
   return copy;
 };
 
-type PropsInner = {| ...Props, ...BaseFeedCtx |};
-class NotificationFeedInner extends React.Component<PropsInner> {
+class NotificationFeedInner extends React.Component {
   listRef = React.createRef();
   _refresh = async () => {
     await this.props.refresh(makeDefaultOptions(this.props.options));
@@ -133,7 +72,7 @@ class NotificationFeedInner extends React.Component<PropsInner> {
     this.props.activityOrder.splice(0, this.props.activityOrder.length);
   }
 
-  _renderWrappedGroup = ({ item }: { item: any }) => (
+  _renderWrappedGroup = ({ item }) => (
     <ImmutableItemWrapper
       renderItem={this._renderGroup}
       item={item}
@@ -143,7 +82,7 @@ class NotificationFeedInner extends React.Component<PropsInner> {
     />
   );
 
-  _renderGroup = (item: BaseActivityResponse) => {
+  _renderGroup = (item) => {
     const args = {
       activityGroup: item,
       feedGroup: this.props.feedGroup,
@@ -209,12 +148,7 @@ class NotificationFeedInner extends React.Component<PropsInner> {
   }
 }
 
-type ImmutableItemWrapperProps = {
-  renderItem: (item: any) => any,
-  item: any,
-};
-
-class ImmutableItemWrapper extends React.PureComponent<ImmutableItemWrapperProps> {
+class ImmutableItemWrapper extends React.PureComponent {
   render() {
     return this.props.renderItem(this.props.item.toJS());
   }

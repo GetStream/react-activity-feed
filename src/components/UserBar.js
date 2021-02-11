@@ -1,33 +1,16 @@
-// @flow
 import * as React from 'react';
 import { humanizeTimestamp } from '../utils';
 import Avatar from './Avatar';
 
-import type { Renderable } from '../types';
-import type { Streami18Ctx } from '../Context';
-
 import { smartRender } from '../utils';
 import { withTranslationContext } from '../Context';
-
-export type Props = {|
-  username: ?string,
-  avatar?: string,
-  subtitle?: string,
-  time?: string, // text that should be displayed as the time
-  timestamp?: string | number, // a timestamp that should be humanized
-  icon?: string,
-  onClickUser?: () => mixed,
-  follow?: boolean,
-  Right?: Renderable,
-  AfterUsername?: React.Node,
-|} & Streami18Ctx;
 
 /**
  * Component is described here.
  *
  * @example ./examples/UserBar.md
  */
-class UserBar extends React.Component<Props> {
+class UserBar extends React.Component {
   render() {
     const { tDateTimeParser } = this.props;
     let time = this.props.time;

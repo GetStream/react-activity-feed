@@ -1,20 +1,14 @@
-// @flow
 import React from 'react';
 import { userOrDefault } from '../utils';
-import type { ActivityData } from '../types';
 
 import { Thumbnail } from 'react-file-utils';
-
-type Props = {|
-  activity: ActivityData,
-|};
 
 /**
  * Component is described here.
  *
  * @example ./examples/AttachedActivity.md
  */
-export default class AttachedActivity extends React.Component<Props> {
+export default class AttachedActivity extends React.Component {
   render() {
     const { activity } = this.props;
     const images =
