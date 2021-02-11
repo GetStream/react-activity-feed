@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import Panel from './Panel';
 import PanelContent from './PanelContent';
@@ -9,36 +8,23 @@ import Title from './Title';
 import ReactionToggleIcon from './ReactionToggleIcon';
 import ReactionIcon from './ReactionIcon';
 import Link from './Link';
-import type { Renderable } from '../types';
+
 import { smartRender } from '../utils';
 
 import ThumbUp from '../assets/images/thumb.svg';
 import ThumbUpFilled from '../assets/images/thumb-filled.svg';
 import Comment from '../assets/images/comment.svg';
 import { withTranslationContext } from '../Context';
-import type { Streami18Ctx } from '../Context';
 
 /* eslint sonarjs/no-duplicate-string: 0 */
-
-export type Props = {|
-  Header?: Renderable,
-  Content?: Renderable,
-  Footer?: Renderable,
-  activity: any,
-  onToggleReaction: any,
-|} & Streami18Ctx;
-
-type State = {|
-  showComments: boolean,
-|};
 
 /**
  * Component is described here.
  *
  * @example ./examples/B2BActivity.md
  */
-class B2BActivity extends React.Component<Props, State> {
-  constructor(props: Props) {
+class B2BActivity extends React.Component {
+  constructor(props) {
     super(props);
     this.state = {
       showComments: false,

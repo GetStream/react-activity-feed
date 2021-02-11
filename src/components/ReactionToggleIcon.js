@@ -1,32 +1,5 @@
-// @flow
-
 import React from 'react';
 import ReactionIcon from './ReactionIcon';
-import type { ReactionCounts, ReactionKindMap } from 'getstream';
-
-type Props = {|
-  /** The icon to show when the user has done this reaction (e.g. a filled in heart) */
-  activeIcon: string,
-  /** The icon to show when the user has not done this reaction yet (e.g. an empty in heart) */
-  inactiveIcon: string,
-  /** The kind of reaction that this toggles */
-  kind: string,
-  /** The height of the icon */
-  height?: number,
-  /** The width of the icon */
-  width?: number,
-  /** The map with own reactions */
-  own_reactions: ?ReactionKindMap<{}, {}>,
-  /** The reaction counts for the activity */
-  counts?: ReactionCounts,
-  /** Function to call when pressed, usually this should call
-   * `props.onToggleReaction` */
-  onPress?: (kind: string) => any,
-  /** The label to display if the count is one (e.g "like") */
-  labelSingle?: string,
-  /** The label to display if the count is more than one (e.g "likes") */
-  labelPlural?: string,
-|};
 
 /**
  * A generic component that can be used to toggle a reaction and display it's
@@ -37,7 +10,7 @@ type Props = {|
  *
  * @example ./examples/ReactionToggleIcon.md
  */
-export default class ReactionToggleIcon extends React.Component<Props> {
+export default class ReactionToggleIcon extends React.Component {
   render() {
     const {
       inactiveIcon,

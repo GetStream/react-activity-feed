@@ -1,5 +1,3 @@
-// @flow
-
 import { StreamApp } from '..';
 
 describe('StreamApp', () => {

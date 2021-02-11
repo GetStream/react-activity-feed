@@ -1,10 +1,8 @@
-// @flow
 import * as React from 'react';
 
 import Activity from './Activity';
 import NewActivitiesNotification from './NewActivitiesNotification';
-import type { Props as NotifierProps } from './NewActivitiesNotification';
-import type { Streami18Ctx } from '../Context';
+
 import LoadMorePaginator from './LoadMorePaginator';
 import FeedPlaceholder from './FeedPlaceholder';
 import { LoadingIndicator } from 'react-file-utils';
@@ -12,84 +10,17 @@ import { LoadingIndicator } from 'react-file-utils';
 import { Feed, FeedContext, withTranslationContext } from '../Context';
 import { smartRender } from '../utils';
 
-import type {
-  BaseFeedCtx,
-  BaseClient,
-  Renderable,
-  BaseActivityResponse,
-  BaseReaction,
-} from '../types';
-import type {
-  FeedRequestOptions,
-  FeedResponse,
-  ActivityResponse,
-} from 'getstream';
-
-type Props = {|
-  /** The feed group part of the feed that should be displayed */
-  feedGroup: string,
-  /** The user_id part of the feed that should be displayed */
-  userId?: string,
-  /** Read options for the API client (eg. limit, ranking, ...) */
-  options?: FeedRequestOptions,
-  /** The component used to render an activity in the feed */
-  Activity: Renderable,
-  /** Component to show when the feed is refreshing **/
-  LoadingIndicator: Renderable,
-  /** The component to use to render new activities notification */
-  Notifier: Renderable,
-  /** By default pagination is done with a "Load more" button, you can use
-   * InifiniteScrollPaginator to enable infinite scrolling */
-  Paginator: Renderable,
-  /** Component to show when there are no activities in the feed **/
-  Placeholder: Renderable,
-  /** If true, feed shows the Notifier component when new activities are added */
-  notify: boolean,
-  /** The feed read handler (change only for advanced/complex use-cases) */
-  doFeedRequest?: (
-    client: BaseClient,
-    feedGroup: string,
-    userId?: string,
-    options?: FeedRequestOptions,
-  ) => Promise<FeedResponse<{}, {}>>,
-  /** Override activity delete request */
-  doActivityDeleteRequest?: (id: string) => mixed,
-  /** Override reaction add request */
-  doReactionAddRequest?: (
-    kind: string,
-    activity: BaseActivityResponse,
-    data?: {},
-    options: {},
-  ) => mixed,
-  /** Override reaction delete request */
-  doReactionDeleteRequest?: (id: string) => mixed,
-  /** Override child reaction add request */
-  doChildReactionAddRequest?: (
-    kind: string,
-    activity: BaseReaction,
-    data?: {},
-    options: {},
-  ) => mixed,
-  /** Override child reaction delete request */
-  doChildReactionDeleteRequest?: (id: string) => mixed,
-  /** Override reactions filter request */
-  doReactionsFilterRequest?: (options: {}) => Promise<Object>,
-  /** The location that should be used for analytics when liking in the feed,
-   * this is only useful when you have analytics enabled for your app. */
-  analyticsLocation?: string,
-|} & Streami18Ctx;
-
 /**
  * Renders a feed of activities, this component is a StreamApp consumer
  * and must always be a child of the `<StreamApp>` element
  * @example ./examples/FlatFeed.md
  */
-class FlatFeed extends React.Component<Props> {
+class FlatFeed extends React.Component {
   static defaultProps = {
     feedGroup: 'timeline',
     notify: false,
     Activity,
-    Notifier: (props: NotifierProps) => (
+    Notifier: (props) => (
       <NewActivitiesNotification
         labelPlural="activities"
         labelSingle="activity"
@@ -124,8 +55,7 @@ class FlatFeed extends React.Component<Props> {
   }
 }
 
-type PropsInner = {| ...Props, ...BaseFeedCtx |};
-class FlatFeedInner extends React.Component<PropsInner> {
+class FlatFeedInner extends React.Component {
   listRef = React.createRef();
   _refresh = async () => {
     await this.props.refresh(this.props.options);
@@ -138,7 +68,7 @@ class FlatFeedInner extends React.Component<PropsInner> {
     await this._refresh();
   }
 
-  _renderWrappedActivity = ({ item }: { item: any }) => (
+  _renderWrappedActivity = ({ item }) => (
     <ImmutableItemWrapper
       renderItem={this._renderActivity}
       item={item}
@@ -160,7 +90,7 @@ class FlatFeedInner extends React.Component<PropsInner> {
     userId: this.props.userId,
   });
 
-  _renderActivity = (item: ActivityResponse<Object, Object>) => {
+  _renderActivity = (item) => {
     const args = {
       activity: item,
       ...this._childProps(),
@@ -225,12 +155,7 @@ class FlatFeedInner extends React.Component<PropsInner> {
   }
 }
 
-type ImmutableItemWrapperProps = {
-  renderItem: (item: any) => any,
-  item: any,
-};
-
-class ImmutableItemWrapper extends React.PureComponent<ImmutableItemWrapperProps> {
+class ImmutableItemWrapper extends React.PureComponent {
   render() {
     return this.props.renderItem(this.props.item.toJS());
   }

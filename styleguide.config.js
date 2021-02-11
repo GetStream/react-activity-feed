@@ -1,4 +1,3 @@
-// @noflow
 /* globals __dirname */
 /* eslint-env commonjs*/
 const path = require('path');

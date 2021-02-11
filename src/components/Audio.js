@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import { IconButton } from 'react-file-utils';
 import { sanitizeURL } from '../utils';
@@ -9,24 +8,10 @@ import {
   faPauseCircle,
 } from '@fortawesome/free-regular-svg-icons';
 
-import type { OgData } from '../types';
+export default class Audio extends React.Component {
+  audioRef;
 
-type Props = {|
-  og: OgData,
-  handleClose?: (e: SyntheticEvent<>) => mixed,
-|};
-
-type State = {|
-  open: boolean,
-  playing: boolean,
-  progress: number,
-  updateProgress?: IntervalID | null,
-|};
-
-export default class Audio extends React.Component<Props, State> {
-  audioRef: { current: HTMLAudioElement | null };
-
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
     this.state = {
       open: false,
@@ -45,7 +30,6 @@ export default class Audio extends React.Component<Props, State> {
         playing: true,
         updateProgress: setInterval(this.updateProgress, 500),
       });
-      //$FlowFixMe
       this.audioRef.current.play();
     }
   };
@@ -76,7 +60,7 @@ export default class Audio extends React.Component<Props, State> {
     window.clearInterval(this.state.updateProgress);
   }
 
-  _handleClose = (e: SyntheticEvent<>) => {
+  _handleClose = (e) => {
     if (this.props.handleClose) {
       this.props.handleClose(e);
     }

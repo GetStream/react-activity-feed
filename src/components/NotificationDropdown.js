@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import { Feed, FeedContext } from '../Context';
 import NotificationFeed from './NotificationFeed';
@@ -8,79 +7,8 @@ import LoadMorePaginator from './LoadMorePaginator';
 import FeedPlaceholder from './FeedPlaceholder';
 import IconBadge from './IconBadge';
 import DropdownPanel from './DropdownPanel';
-import type {
-  // BaseActivityResponse,
-  BaseFeedCtx,
-  BaseClient,
-  Renderable,
-  BaseActivityResponse,
-  BaseReaction,
-} from '../types';
 
 import { smartRender } from '../utils';
-
-import type { FeedRequestOptions, FeedResponse } from 'getstream';
-
-type Props = {|
-  /** The feed group part of the feed that should be displayed */
-  feedGroup: string,
-  /** The user_id part of the feed that should be displayed */
-  userId?: string,
-  /** Read options for the API client (eg. limit, mark_seen, ...) */
-  options?: FeedRequestOptions,
-  /** The component used to render a group in the feed */
-  Group: Renderable,
-  /** If true, feed shows the NewActivitiesNotification component when new
-   * activities are added */
-  notify: boolean,
-  /** The component to use to render new activities notification */
-  Notifier: Renderable,
-  /** By default pagination is done with a "Load more" button, you can use
-   * InifiniteScrollPaginator to enable infinite scrolling */
-  Paginator: Renderable,
-  /** Component to show when there are no activities in the feed */
-  Placeholder: Renderable,
-  /** Icon component  */
-  Icon?: Renderable,
-  /** Header component  */
-  Header?: Renderable,
-  /** Footer component */
-  Footer?: Renderable,
-  /** The feed read handler (change only for advanced/complex use-cases) */
-  doFeedRequest?: (
-    client: BaseClient,
-    feedGroup: string,
-    userId?: string,
-    options?: FeedRequestOptions,
-  ) => Promise<FeedResponse<{}, {}>>,
-  /** Override activity delete request */
-  doActivityDeleteRequest?: (id: string) => mixed,
-  /** Override reaction add request */
-  doReactionAddRequest?: (
-    kind: string,
-    activity: BaseActivityResponse,
-    data?: {},
-    options: {},
-  ) => mixed,
-  /** Override reaction delete request */
-  doReactionDeleteRequest?: (id: string) => mixed,
-  /** Override child reaction add request */
-  doChildReactionAddRequest?: (
-    kind: string,
-    activity: BaseReaction,
-    data?: {},
-    options: {},
-  ) => mixed,
-  /** Override child reaction delete request */
-  doChildReactionDeleteRequest?: (id: string) => mixed,
-  /** The location that should be used for analytics when liking in the feed,
-   * this is only useful when you have analytics enabled for your app. */
-  analyticsLocation?: string,
-  /** The width of the dropdown */
-  width?: number,
-  /** Used to position the dropdown different horizontaly */
-  right?: boolean,
-|};
 
 /**
  * IMPORTANT: Changing most of the props below doesn't result in the desired
@@ -89,7 +17,7 @@ type Props = {|
  * @example ./examples/NotificationDropdown.md
  */
 
-export default class NotificationDropdown extends React.Component<Props> {
+export default class NotificationDropdown extends React.Component {
   static defaultProps = {
     feedGroup: 'notification',
     Group: Notification,
@@ -117,15 +45,10 @@ export default class NotificationDropdown extends React.Component<Props> {
   }
 }
 
-type State = {|
-  open: boolean,
-|};
+class NotificationDropdownInner extends React.Component {
+  dropdownRef;
 
-type PropsInner = {| ...Props, ...BaseFeedCtx |};
-class NotificationDropdownInner extends React.Component<PropsInner, State> {
-  dropdownRef: { current: null | HTMLDivElement };
-
-  constructor(props: PropsInner) {
+  constructor(props) {
     super(props);
     this.state = {
       open: false,
@@ -143,7 +66,6 @@ class NotificationDropdownInner extends React.Component<PropsInner, State> {
         open: true,
       },
       () => {
-        //$FlowFixMe
         document.addEventListener('click', this.closeDropdown, false);
       },
     );
@@ -159,7 +81,6 @@ class NotificationDropdownInner extends React.Component<PropsInner, State> {
           open: false,
         },
         () => {
-          //$FlowFixMe
           document.removeEventListener('click', this.closeDropdown, false);
         },
       );
@@ -171,7 +92,6 @@ class NotificationDropdownInner extends React.Component<PropsInner, State> {
   }
 
   componentWillUnmount() {
-    //$FlowFixMe
     document.removeEventListener('click', this.closeDropdown, false);
   }
 

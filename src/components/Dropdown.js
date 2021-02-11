@@ -1,24 +1,15 @@
-// @flow
 import * as React from 'react';
 import { IconButton } from 'react-file-utils';
-
-export type Props = {|
-  children?: React.Node,
-|};
-
-export type State = {|
-  open: boolean,
-|};
 
 /**
  * Simple wrapper for a small dropdown.
  *
  * @example ./examples/Dropdown.md
  */
-export default class Dropdown extends React.Component<Props, State> {
-  dropdownBox: { current: null | HTMLDivElement };
+export default class Dropdown extends React.Component {
+  dropdownBox;
 
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
     this.showMenu = this.showMenu.bind(this);
     this.hideMenu = this.hideMenu.bind(this);
@@ -30,12 +21,10 @@ export default class Dropdown extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
-    // $FlowFixMe
     document.removeEventListener('click', this.hideMenu);
   }
-  // $FlowFixMe
+
   hideMenu = (e) => {
-    // $FlowFixMe
     if (!this.dropdownBox.current.contains(e.target)) {
       this.setState({ open: false }, () => {
         document.removeEventListener('click', this.hideMenu);
@@ -43,7 +32,6 @@ export default class Dropdown extends React.Component<Props, State> {
     }
   };
 
-  // $FlowFixMe
   showMenu = (e) => {
     e.stopPropagation();
 

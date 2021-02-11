@@ -1,5 +1,4 @@
 /* global process */
-// @flow
 
 const stream = require('getstream');
 const faker = require('faker');

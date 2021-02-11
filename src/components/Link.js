@@ -1,17 +1,10 @@
-// @flow
 import * as React from 'react';
-
-export type Props = {|
-  children: React.Node,
-  to?: string,
-  onClick?: (SyntheticEvent<>) => mixed,
-|};
 
 /**
  *
  * @example ./examples/Link.md
  */
-export default class Link extends React.Component<Props> {
+export default class Link extends React.Component {
   render() {
     return (
       <React.Fragment>

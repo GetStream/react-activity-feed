@@ -1,24 +1,12 @@
-// @flow
 import React from 'react';
-
-export type Props = {|
-  /** callback function used on click */
-  onClick?: () => mixed,
-  /** initial follow state */
-  followed?: boolean,
-|};
-
-export type State = {
-  followed: boolean,
-};
 
 /**
  * Component is described here.
  *
  * @example ./examples/FollowButton.md
  */
-export default class FollowButton extends React.Component<Props, State> {
-  constructor(props: Props) {
+export default class FollowButton extends React.Component {
+  constructor(props) {
     super(props);
     this.state = { followed: this.props.followed || false };
   }

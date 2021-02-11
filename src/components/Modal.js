@@ -1,23 +1,15 @@
-// @flow
-
 import * as React from 'react';
 import { IconButton } from 'react-file-utils';
-
-type Props = {|
-  children: React.Node,
-  open: boolean,
-  onClose: () => mixed,
-|};
 
 /**
  * Component is described here.
  *
  * @example ./examples/Modal.md
  */
-export default class Modal extends React.Component<Props> {
-  modalRef: { current: null | HTMLDivElement };
+export default class Modal extends React.Component {
+  modalRef;
 
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
     this.modalRef = React.createRef();
   }
@@ -31,7 +23,6 @@ export default class Modal extends React.Component<Props> {
     this.setBodyStyle();
     if (this.props.open) {
       window.addEventListener('keyup', this.handleKeyUp, false);
-      // $FlowFixMe
       document.addEventListener('click', this.handleOutsideClick, false);
     }
   }
@@ -52,7 +43,7 @@ export default class Modal extends React.Component<Props> {
     window.removeEventListener('click', this.handleOutsideClick, false);
   }
 
-  handleKeyUp = (e: SyntheticKeyboardEvent<>) => {
+  handleKeyUp = (e) => {
     const keys = {
       '27': () => {
         e.preventDefault();
@@ -67,9 +58,9 @@ export default class Modal extends React.Component<Props> {
     }
   };
 
-  handleOutsideClick = (event: SyntheticMouseEvent<HTMLDivElement>) => {
+  handleOutsideClick = (event) => {
     if (this.modalRef !== null || this.modalRef !== undefined) {
-      const target: HTMLElement = (event.target: any);
+      const target = event.target;
       if (
         this.modalRef.current !== null &&
         !this.modalRef.current.contains(target)

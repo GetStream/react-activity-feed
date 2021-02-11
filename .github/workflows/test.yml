@@ -27,10 +27,6 @@ jobs:
         if: matrix.node == 14
         run: yarn lint
 
-      - name: Flow check
-        if: matrix.node == 14
-        run: yarn flow
-
       - name: Unit tests
         run: yarn test
 

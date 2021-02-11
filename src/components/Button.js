@@ -1,22 +1,11 @@
-// @flow
 import * as React from 'react';
 import { LoadingIndicator } from 'react-file-utils';
-
-export type Props = {|
-  children: React.Node,
-  buttonStyle: string,
-  type: 'button' | 'submit' | 'reset',
-  onClick?: (SyntheticEvent<HTMLButtonElement>) => mixed,
-  onKeyPress?: (SyntheticEvent<HTMLButtonElement>) => mixed,
-  disabled: boolean,
-  loading: boolean,
-|};
 
 /**
  *
  * @example ./examples/Button.md
  */
-export default class Button extends React.Component<Props> {
+export default class Button extends React.Component {
   static defaultProps = {
     buttonStyle: 'info',
     type: 'button',

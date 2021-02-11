@@ -1,26 +1,9 @@
-// @flow
 import * as React from 'react';
 
 import { LoadingIndicator } from 'react-file-utils';
 
 import { emojiIndex } from 'emoji-mart';
 import ReactTextareaAutocomplete from '@webscopeio/react-textarea-autocomplete';
-import type { Trigger, ReactRefObjectOrFunction } from '../types';
-
-export type Props = {|
-  rows: number,
-  maxLength?: number,
-  placeholder: string,
-  onChange: (event: SyntheticEvent<HTMLTextAreaElement> | Event) => mixed,
-  onPaste: (event: SyntheticClipboardEvent<HTMLTextAreaElement>) => mixed,
-  value?: string,
-  /** A ref that is bound to the textarea element */
-  innerRef?: ReactRefObjectOrFunction<HTMLTextAreaElement>,
-  /** An extra trigger for ReactTextareaAutocomplete, this can be used to show
-   * a menu when typing @xxx or #xxx, in addition to the emoji menu when typing
-   * :xxx  */
-  trigger?: Trigger,
-|};
 
 const AutocompleteItem = ({ entity: { id, native } }) => (
   <div>
@@ -33,7 +16,7 @@ const AutocompleteItem = ({ entity: { id, native } }) => (
  *
  * @example ./examples/Textarea.md
  */
-export default class Textarea extends React.Component<Props> {
+export default class Textarea extends React.Component {
   static defaultProps = {
     rows: 3,
     placeholder: 'Share your opinion',

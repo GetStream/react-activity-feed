@@ -2,7 +2,6 @@
   "plugins": ["babel", "markdown", "sonarjs"],
   "extends": [
     "eslint:recommended",
-    "plugin:flowtype/recommended",
     "plugin:react/recommended",
     "plugin:jest/recommended",
     "plugin:sonarjs/recommended"
@@ -28,15 +27,6 @@
     "no-var": 2,
     "linebreak-style": [2, "unix"],
     "semi": [1, "always"],
-    "flowtype/require-valid-file-annotation": [
-      0,
-      "always",
-      {
-        "annotationStyle": "line"
-      }
-    ],
-    "flowtype/generic-spacing": 0,
-    "flowtype/space-after-type-colon": 0,
     "sonarjs/cognitive-complexity": ["error", 30],
     "sonarjs/no-duplicate-string": ["error", 5]
   },

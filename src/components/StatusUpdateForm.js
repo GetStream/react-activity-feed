@@ -1,4 +1,3 @@
-// @flow
 /* eslint sonarjs/cognitive-complexity: 0 */
 import * as React from 'react';
 
@@ -37,58 +36,6 @@ import {
   dataTransferItemsHaveFiles,
   inputValueFromEvent,
 } from '../utils';
-import type {
-  Attachments,
-  BaseAppCtx,
-  BaseActivityResponse,
-  OgData,
-  CustomActivityArgData,
-  ImageUpload,
-  FileUpload,
-  FileLike,
-  Trigger,
-  ReactRefObjectOrFunction,
-} from '../types';
-import type { Streami18Ctx } from '../Context';
-
-import type { ActivityArgData } from 'getstream';
-
-type Props = {|
-  /** The feed group part of the feed that the activity should be posted to */
-  feedGroup: string,
-  /** The user_id part of the feed that the activity should be posted to  */
-  userId?: string,
-  /** The verb that should be used to post the activity */
-  activityVerb: string,
-  /** If you want to change something about the activity data that this form
-   * sends to stream you can do that with this function. This function gets the
-   * activity data that the form would send normally and should return the
-   * modified activity data that should be posted instead.
-   *
-   * For instance, this would add a target field to the activity:
-   *
-   * ```javascript
-   * &lt;StatusUpdateForm
-   *   modifyActivityData={(data) => ({...data, target: 'Group:1'})}
-   * />
-   * ```
-   * */
-  modifyActivityData: (activityData: {}) => ActivityArgData<{}, {}>,
-  /** Add extra footer item */
-  FooterItem?: React.Node,
-  /** A callback to run after the activity is posted successfully */
-  onSuccess?: (response: BaseActivityResponse) => mixed,
-  /** Override Post request */
-  doRequest?: (activityData: {}) => Promise<BaseActivityResponse>,
-  /** An extra trigger for ReactTextareaAutocomplete, this can be used to show
-   * a menu when typing @xxx or #xxx, in addition to the emoji menu when typing
-   * :xxx  */
-  trigger?: Trigger,
-  /** A ref that is bound to the textarea element */
-  innerRef?: ReactRefObjectOrFunction<HTMLTextAreaElement>,
-  /** The header to display */
-  Header: React.Node,
-|} & Streami18Ctx;
 
 /**
  * Component is described here.
@@ -96,11 +43,11 @@ type Props = {|
  * @example ./examples/StatusUpdateForm.md
  */
 
-class StatusUpdateForm extends React.Component<Props> {
+class StatusUpdateForm extends React.Component {
   static defaultProps = {
     feedGroup: 'user',
     activityVerb: 'post',
-    modifyActivityData: (d: {}) => d,
+    modifyActivityData: (d) => d,
   };
 
   render() {
@@ -118,27 +65,8 @@ class StatusUpdateForm extends React.Component<Props> {
   }
 }
 
-type OgState = {|
-  scrapingActive: boolean,
-  data?: ?OgData,
-  dismissed: boolean,
-|};
-
-type State = {|
-  text: string,
-  imageUploads: { [string]: ImageUpload },
-  imageOrder: Array<string>,
-  fileUploads: { [string]: FileUpload },
-  fileOrder: Array<string>,
-  ogUrlOrder: string[],
-  ogStateByUrl: { [string]: OgState },
-  ogActiveUrl: ?string,
-  submitting: boolean,
-|};
-
-type PropsInner = {| ...Props, ...BaseAppCtx |};
-class StatusUpdateFormInner extends React.Component<PropsInner, State> {
-  _handleOgDebounced: (string) => mixed;
+class StatusUpdateFormInner extends React.Component {
+  _handleOgDebounced;
 
   textInputRef = React.createRef();
 
@@ -187,7 +115,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
         const oldUrls = prevState.ogUrlOrder;
         newUrls = _difference(urls, oldUrls);
         removedUrls = _difference(oldUrls, urls);
-        const newState: $Shape<State> = {
+        const newState = {
           ogUrlOrder: urls,
         };
 
@@ -238,7 +166,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
               data: resp,
               dismissed: false,
             };
-            const newState: $Shape<State> = {
+            const newState = {
               ogStateByUrl: prevState.ogStateByUrl,
             };
             if (!prevState.ogActiveUrl) {
@@ -282,16 +210,14 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   _orderedImages = () =>
     this.state.imageOrder.map((id) => this.state.imageUploads[id]);
 
-  _uploadedImages = (): Array<ImageUpload> =>
-    this._orderedImages().filter((upload) => upload.url);
+  _uploadedImages = () => this._orderedImages().filter((upload) => upload.url);
 
   _orderedFiles = () =>
     this.state.fileOrder.map((id) => this.state.fileUploads[id]);
 
-  _uploadedFiles = (): Array<FileUpload> =>
-    this._orderedFiles().filter((upload) => upload.url);
+  _uploadedFiles = () => this._orderedFiles().filter((upload) => upload.url);
 
-  _orderedOgStates = (): OgState[] =>
+  _orderedOgStates = () =>
     this.state.ogUrlOrder
       .map((url) => this.state.ogStateByUrl[url])
       .filter(Boolean);
@@ -299,12 +225,12 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   _isOgScraping = () =>
     this._orderedOgStates().some((state) => state.scrapingActive);
 
-  _availableOg = (): OgData[] =>
+  _availableOg = () =>
     this._orderedOgStates()
       .map((state) => state.data)
       .filter(Boolean);
 
-  _activeOg = (): ?OgData => {
+  _activeOg = () => {
     const { ogActiveUrl } = this.state;
 
     if (ogActiveUrl) {
@@ -320,7 +246,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     !this.state.submitting;
 
   async addActivity() {
-    const activity: CustomActivityArgData = {
+    const activity = {
       actor: this.props.client.currentUser,
       verb: this.props.activityVerb,
       object: this._object(),
@@ -328,7 +254,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     const uploadedImages = this._uploadedImages();
     const uploadedFiles = this._uploadedFiles();
 
-    const attachments: Attachments = {
+    const attachments = {
       og: this._activeOg(),
     };
 
@@ -424,7 +350,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     textareaElement.selectionEnd = newCursorPosition;
   };
 
-  _uploadNewFiles = (files: $ReadOnlyArray<FileLike>) => {
+  _uploadNewFiles = (files) => {
     for (const file of files) {
       if (file.type.startsWith('image/')) {
         this._uploadNewImage(file);
@@ -463,7 +389,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     return this._uploadImage(id);
   };
 
-  _uploadNewFile = async (file: File) => {
+  _uploadNewFile = async (file) => {
     const id = generateRandomId();
 
     await this.setState((prevState) => {
@@ -481,7 +407,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     return this._uploadFile(id);
   };
 
-  _uploadImage = async (id: string) => {
+  _uploadImage = async (id) => {
     const img = this.state.imageUploads[id];
     if (!img) {
       return;
@@ -525,7 +451,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     });
   };
 
-  _uploadFile = async (id: string) => {
+  _uploadFile = async (id) => {
     const upload = this.state.fileUploads[id];
     if (!upload) {
       return;
@@ -567,7 +493,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     });
   };
 
-  _removeImage = (id: string) => {
+  _removeImage = (id) => {
     // TODO: cancel upload if still uploading
     this.setState((prevState) => {
       const img = prevState.imageUploads[id];
@@ -582,7 +508,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     });
   };
 
-  _removeFile = (id: string) => {
+  _removeFile = (id) => {
     // TODO: cancel upload if still uploading
     this.setState((prevState) => {
       const upload = prevState.fileUploads[id];
@@ -623,7 +549,6 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                     <div style={{ marginRight: '16px' }}>
                       <Avatar
                         image={
-                          // $FlowFixMe
                           userData.profileImage ||
                           'https://placehold.it/100x100'
                         }
@@ -688,7 +613,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                     <Card
                       {...activeOg}
                       nolink
-                      handleClose={(e: any) => {
+                      handleClose={(e) => {
                         e.preventDefault();
                         this._dismissOg(activeOg);
                       }}
@@ -698,7 +623,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                       {activeOg.videos ? (
                         <Video
                           og={activeOg}
-                          handleClose={(e: any) => {
+                          handleClose={(e) => {
                             e.preventDefault();
                             this._dismissOg(activeOg);
                           }}
@@ -707,7 +632,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                       {activeOg.audios ? (
                         <Audio
                           og={activeOg}
-                          handleClose={(e: any) => {
+                          handleClose={(e) => {
                             e.preventDefault();
                             this._dismissOg(activeOg);
                           }}

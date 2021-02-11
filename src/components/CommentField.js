@@ -1,45 +1,24 @@
-// @flow
-
 import React from 'react';
 import Avatar from './Avatar';
 import Button from './Button';
 import Textarea from './Textarea';
 import { inputValueFromEvent } from '../utils';
 
-import type {
-  AddReactionCallbackFunction,
-  BaseActivityResponse,
-  Trigger,
-} from '../types';
 import { withTranslationContext } from '../Context';
-import type { Streami18Ctx } from '../Context';
-export type Props = {|
-  activity: BaseActivityResponse,
-  onAddReaction: AddReactionCallbackFunction,
-  kind: string,
-  placeholder: string,
-  image?: string,
-  onSuccess?: () => mixed,
-  trigger?: Trigger,
-|} & Streami18Ctx;
-
-type State = {|
-  text: string,
-|};
 
 /**
  * Component is described here.
  *
  * @example ./examples/CommentField.md
  */
-class CommentField extends React.Component<Props, State> {
+class CommentField extends React.Component {
   textareaRef = React.createRef();
 
   state = {
     text: '',
   };
 
-  onSubmitForm = async (e: SyntheticEvent<HTMLFormElement>) => {
+  onSubmitForm = async (e) => {
     e.preventDefault();
     if (this.state.text !== '') {
       try {
@@ -56,7 +35,7 @@ class CommentField extends React.Component<Props, State> {
     }
   };
 
-  _onChange = (event: SyntheticEvent<HTMLTextAreaElement> | Event) => {
+  _onChange = (event) => {
     const text = inputValueFromEvent(event);
     if (text == null) {
       return;

@@ -1,28 +1,16 @@
-// @flow
 import React from 'react';
 import Avatar from './Avatar';
 import Flex from './Flex';
-import type { Comment } from '../types';
 
 import { humanizeTimestamp, textRenderer } from '../utils';
 import { withTranslationContext } from '../Context';
-import type { Streami18Ctx } from '../Context';
-
-export type Props = {|
-  comment: Comment,
-  onClickUser?: (?any) => mixed,
-  /** Handler for any routing you may do on clicks on Hashtags */
-  onClickHashtag?: (word: string) => mixed,
-  /** Handler for any routing you may do on clicks on Mentions */
-  onClickMention?: (word: string) => mixed,
-|} & Streami18Ctx;
 
 /**
  * Component is described here.
  *
  * @example ./examples/CommentItem.md
  */
-class CommentItem extends React.Component<Props> {
+class CommentItem extends React.Component {
   _user = () => {
     const { user } = this.props.comment;
     return user;

@@ -1,24 +1,14 @@
-// @flow
 import React from 'react';
 import { Picker } from 'emoji-mart';
-import type { Emoji } from '../types';
+
 import { withTranslationContext } from '../Context';
-import type { Streami18Ctx } from '../Context';
-
-type Props = {|
-  onSelect?: (emoji: Emoji) => mixed,
-|} & Streami18Ctx;
-
-type State = {|
-  open: boolean,
-|};
 
 /**
  * Component is described here.
  *
  * @example ./examples/EmojiPicker.md
  */
-class EmojiPicker extends React.Component<Props, State> {
+class EmojiPicker extends React.Component {
   emojiPicker = React.createRef();
   state = {
     open: false,
@@ -28,7 +18,7 @@ class EmojiPicker extends React.Component<Props, State> {
     document.removeEventListener('click', this.hideMenu);
   }
 
-  hideMenu = (e: MouseEvent) => {
+  hideMenu = (e) => {
     const { current } = this.emojiPicker;
     if (current && !current.contains(e.target)) {
       this.setState({ open: false }, () => {
@@ -37,7 +27,7 @@ class EmojiPicker extends React.Component<Props, State> {
     }
   };
 
-  showMenu = (e: SyntheticMouseEvent<HTMLElement>) => {
+  showMenu = (e) => {
     e.preventDefault();
 
     this.setState({ open: true }, () => {

@@ -1,21 +1,10 @@
-// @flow
 import * as React from 'react';
-
-export type Props = {|
-  children?: React.Node,
-  showNumber?: boolean,
-  hidden?: boolean,
-  feedGroup?: string,
-  userId?: string,
-  unseen: number,
-  onClick?: () => mixed,
-|};
 
 /**
  *
  * @example ./examples/IconBadge.md
  */
-export default class IconBadge extends React.Component<Props> {
+export default class IconBadge extends React.Component {
   render() {
     return (
       <div

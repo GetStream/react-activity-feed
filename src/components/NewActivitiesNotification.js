@@ -1,33 +1,13 @@
-// @flow
-
 import React from 'react';
 import Link from './Link';
 import { withTranslationContext } from '../Context';
-import type { Streami18Ctx } from '../Context';
-
-export type Props = Streami18Ctx & {|
-  adds: Array<{}>,
-  deletes: Array<{}>,
-  labelSingle?: string,
-  labelPlural?: string,
-  /** A function that returns either the string to display or null in case no
-   * notification should be displayed */
-  labelFunction?: ({
-    count: number,
-    deleteCount: number,
-    addCount: number,
-    labelPlural?: string,
-    labelSingle?: string,
-  }) => string | null,
-  onClick?: () => mixed,
-|};
 
 /**
  * Component is described here.
  *
  * @example ./examples/NewActivitiesNotification.md
  */
-class NewActivitiesNotification extends React.Component<Props> {
+class NewActivitiesNotification extends React.Component {
   static defaultProps = {
     adds: [],
     deletes: [],

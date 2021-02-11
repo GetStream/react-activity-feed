@@ -1,4 +1,3 @@
-// @flow
 import { textRenderer } from '../utils';
 import renderer from 'react-test-renderer';
 

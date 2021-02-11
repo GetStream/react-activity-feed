@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 
 import UserBar from './UserBar';
@@ -8,9 +6,6 @@ import Audio from './Audio';
 import Video from './Video';
 import { FileIcon } from 'react-file-utils';
 import Gallery from './Gallery';
-
-import type { ActivityData, Renderable } from '../types';
-import type { Streami18Ctx } from '../Context';
 
 import {
   smartRender,
@@ -21,27 +16,12 @@ import {
 } from '../utils';
 import { withTranslationContext } from '../Context';
 
-type Props = {
-  Header?: Renderable,
-  Content?: Renderable,
-  Footer?: Renderable,
-  HeaderRight?: Renderable,
-  onClickUser?: (?any) => mixed,
-  sub?: string,
-  icon?: string,
-  activity: ActivityData,
-  /** Handler for any routing you may do on clicks on Hashtags */
-  onClickHashtag?: (word: string) => mixed,
-  /** Handler for any routing you may do on clicks on Mentions */
-  onClickMention?: (word: string) => mixed,
-} & Streami18Ctx;
-
 /**
  * Component is described here.
  *
  * @example ./examples/Activity.md
  */
-class Activity extends React.Component<Props> {
+class Activity extends React.Component {
   _getOnClickUser() {
     return this.props.onClickUser ? this.onClickUser : undefined;
   }

@@ -1,22 +1,13 @@
-// @flow
 import * as React from 'react';
 import Lightbox from 'react-images';
-
-export type Props = {|
-  images: string[],
-|};
-export type State = {|
-  lightboxIsOpen: boolean,
-  currentImage: number,
-|};
 
 /**
  * Component is described here.
  *
  * @example ./examples/Gallery.md
  */
-export default class Gallery extends React.Component<Props, State> {
-  constructor(props: Props) {
+export default class Gallery extends React.Component {
+  constructor(props) {
     super(props);
     this.state = {
       lightboxIsOpen: false,
@@ -34,7 +25,7 @@ export default class Gallery extends React.Component<Props, State> {
       currentImage: this.state.currentImage + 1,
     });
   };
-  openLightbox = (image?: number) => {
+  openLightbox = (image) => {
     this.setState({
       lightboxIsOpen: true,
       currentImage: image,
@@ -48,7 +39,7 @@ export default class Gallery extends React.Component<Props, State> {
     });
   };
 
-  getImages = (images: any) =>
+  getImages = (images) =>
     images.map((item) => ({
       src: item,
     }));
