@@ -7,26 +7,16 @@
   "private": true,
   "dependencies": {
     "prop-types": "^15.7.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "^3.4.1",
-    "react-activity-feed": "link:.."
+    "react": "link:../node_modules/react",
+    "react-dom": "link:../node_modules/react-dom",
+    "react-activity-feed": "link:..",
+    "react-scripts": "^4.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  },
-  "devDependencies": {
-    "cross-env": "^7.0.2",
-    "eslint": "^7.4.0",
-    "eslint-plugin-babel": "^5.3.1",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jest": "^23.18.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-react": "^7.20.3"
   },
   "browserslist": [
     ">0.2%",
