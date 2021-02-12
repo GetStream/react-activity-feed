@@ -1,6 +1,4 @@
-/* global process */
-
-const stream = require('getstream');
+const { connect } = require('getstream');
 const faker = require('faker');
 
 const dotenv = require('dotenv');
@@ -26,7 +24,7 @@ async function main() {
     console.error('STREAM_SECRET should be set');
     return;
   }
-  const client = stream.connect(apiKey, apiSecret);
+  const client = connect(apiKey, apiSecret);
 
   const exampleUser = client.user(exampleUserId);
   const userFeed = client.feed('user', exampleUserId);
