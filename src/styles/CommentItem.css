@@ -23,13 +23,13 @@
   font-size: 14px;
 
   time {
-    color: color($fontColor tint(30%));
+    color: color-mod(var(fontColor) tint(30%));
   }
 
   p {
     margin-top: 0;
     margin-bottom: 0;
-    color: color($fontColor tint(30%));
+    color: color-mod(var(fontColor) tint(30%));
     font-weight: 600;
   }
 }

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import TimeHeader from './TimeHeader';
 import B2BActivity from './B2BActivity';
 
@@ -52,10 +52,10 @@ export default class B2BTimeline extends React.Component {
     const sorted = this.sortByYearMonth(activities);
     return Object.keys(sorted)
       .sort((a, b) => b - a)
-      .map(function(year) {
+      .map(function (year) {
         return Object.keys(sorted[year])
           .sort((a, b) => b - a)
-          .map(function(month, i) {
+          .map(function (month, i) {
             return (
               <React.Fragment key={`month-${month}-${i}`}>
                 <div className="raf-b2btimeline__time">

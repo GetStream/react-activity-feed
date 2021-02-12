@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 /**
  * Simple Flex wrapper for centering UI elements. To be expanded in the future.

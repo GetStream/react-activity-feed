@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { IconButton } from 'react-file-utils';
 
 /**
@@ -45,7 +45,7 @@ export default class Modal extends React.Component {
 
   handleKeyUp = (e) => {
     const keys = {
-      '27': () => {
+      27: () => {
         e.preventDefault();
         e.stopPropagation();
         this.props.onClose();

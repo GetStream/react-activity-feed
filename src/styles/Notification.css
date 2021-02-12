@@ -1,12 +1,12 @@
 .raf-notification {
   display: flex;
-  border-bottom: 1px solid color($black tint(93%));
+  border-bottom: 1px solid color-mod(var(black) tint(93%));
   padding: 18px;
-  background: color($black tint(97%));
+  background: color-mod(var(black) tint(97%));
   cursor: pointer;
 
   &:hover {
-    background: color($black tint(98%));
+    background: color-mod(var(black) tint(98%));
   }
 }
 
@@ -18,7 +18,7 @@
   font-size: 14px;
   margin-top: 0;
   margin-bottom: 0;
-  color: color($fontColor tint(10%));
+  color: color-mod(var(fontColor) tint(10%));
   font-weight: 350;
   line-height: 16px;
 }

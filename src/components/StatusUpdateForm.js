@@ -1,5 +1,4 @@
-/* eslint sonarjs/cognitive-complexity: 0 */
-import * as React from 'react';
+import React from 'react';
 
 import Panel from './Panel';
 import PanelHeading from './PanelHeader';

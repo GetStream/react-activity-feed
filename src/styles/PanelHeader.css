@@ -1,6 +1,6 @@
 .raf-panel-header {
   position: relative;
-  border-bottom: 2px solid color($black tint(95%));
+  border-bottom: 2px solid color-mod(var(black) tint(95%));
   padding: 15px 30px;
   display: flex;
   align-items: center;

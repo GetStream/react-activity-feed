@@ -48,17 +48,11 @@ export { default as SinglePost } from './components/SinglePost';
 export { default as StatusUpdateForm } from './components/StatusUpdateForm';
 export { default as Activity } from './components/Activity';
 export { default as Notification } from './components/Notification';
-export {
-  default as NotificationDropdown,
-} from './components/NotificationDropdown';
+export { default as NotificationDropdown } from './components/NotificationDropdown';
 
 // Feed sub components
-export {
-  default as NewActivitiesNotification,
-} from './components/NewActivitiesNotification';
-export {
-  default as InfiniteScrollPaginator,
-} from './components/InfiniteScrollPaginator';
+export { default as NewActivitiesNotification } from './components/NewActivitiesNotification';
+export { default as InfiniteScrollPaginator } from './components/InfiniteScrollPaginator';
 export { default as LoadMorePaginator } from './components/LoadMorePaginator';
 
 // Activity sub components

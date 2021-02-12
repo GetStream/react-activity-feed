@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Panel from './Panel';
 import PanelContent from './PanelContent';
 import Flex from './Flex';
@@ -15,8 +15,6 @@ import ThumbUp from '../assets/images/thumb.svg';
 import ThumbUpFilled from '../assets/images/thumb-filled.svg';
 import Comment from '../assets/images/comment.svg';
 import { withTranslationContext } from '../Context';
-
-/* eslint sonarjs/no-duplicate-string: 0 */
 
 /**
  * Component is described here.

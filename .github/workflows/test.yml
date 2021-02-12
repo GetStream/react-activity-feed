@@ -33,6 +33,6 @@ jobs:
       - name: Validate translation
         run: yarn validate-translations
 
-      - name: Docs
-        if: matrix.node == 14
-        run: yarn docs
+      # - name: Docs
+      #   if: matrix.node == 14
+      #   run: yarn docs

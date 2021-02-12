@@ -5,7 +5,7 @@
   overflow: hidden;
   position: relative;
   border: 1px solid color(#fafafa shade(20%));
-  box-shadow: 0 1px 3px 0 color($black a(10%));
+  box-shadow: 0 1px 3px 0 color-mod(var(black) a(10%));
 
   &--with-image {
     .raf-icon-button {

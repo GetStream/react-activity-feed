@@ -7,7 +7,7 @@ describe('utils -> textRenderer', () => {
   const textRendererWithCallbacks = (text) =>
     textRenderer(text, '', onMentionClick, (word) => word);
 
-  it('is renders @ without callback func correctly ', () => {
+  it('is renders @ without callback func correctly', () => {
     const tree = renderer
       .create(
         textRenderer(
@@ -20,7 +20,7 @@ describe('utils -> textRenderer', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it('is renders @ with callback func correctly ', () => {
+  it('is renders @ with callback func correctly', () => {
     const tree = renderer
       .create(
         textRendererWithCallbacks(

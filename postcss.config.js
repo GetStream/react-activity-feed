@@ -32,11 +32,13 @@ const variables = {
 };
 
 module.exports = {
-  plugins: {
-    'postcss-easy-import': {},
-    'postcss-cssnext': {},
-    'postcss-simple-vars': { variables },
-    'postcss-nested': {},
-    'postcss-color-function': {},
-  },
+  plugins: [
+    require('postcss-easy-import'),
+    require('postcss-cssnext'),
+    require('postcss-simple-vars')({ variables }),
+    require('postcss-nested'),
+    require('postcss-color-mod-function')({
+      importFrom: [{ customProperties: variables }],
+    }),
+  ],
 };

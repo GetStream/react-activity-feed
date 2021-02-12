@@ -1,13 +1,14 @@
-import babel from 'rollup-plugin-babel';
-import commonjs from 'rollup-plugin-commonjs';
+import babel from '@rollup/plugin-babel';
+import commonjs from '@rollup/plugin-commonjs';
 import external from 'rollup-plugin-peer-deps-external';
 import postcss from 'rollup-plugin-postcss';
-import json from 'rollup-plugin-json';
-import url from 'rollup-plugin-url';
+import json from '@rollup/plugin-json';
+import url from '@rollup/plugin-url';
 import copy from 'rollup-plugin-copy';
-import replace from 'rollup-plugin-replace';
-import resolve from 'rollup-plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
+import resolve from '@rollup/plugin-node-resolve';
 import globals from 'rollup-plugin-node-globals';
+import builtins from 'rollup-plugin-node-builtins';
 
 import pkg from './package.json';
 
@@ -110,7 +111,7 @@ const normalBundle = {
     }),
     external(),
     babel({
-      runtimeHelpers: true,
+      babelHelpers: 'runtime',
       exclude: 'node_modules/**',
     }),
     postcss({
@@ -135,7 +136,6 @@ const fullBrowserBundle = {
       sourcemap: true,
       name: 'window', // write all exported values to window
       extend: true, // extend window, not overwrite it
-      browser: true,
       globals: {
         react: 'React',
         'react-dom': 'ReactDOM',
@@ -148,7 +148,7 @@ const fullBrowserBundle = {
     }),
     external(),
     babel({
-      runtimeHelpers: true,
+      babelHelpers: 'runtime',
       exclude: 'node_modules/**',
     }),
     {
@@ -164,10 +164,8 @@ const fullBrowserBundle = {
       resolveId: (importee) => (importee.match(/.s?css$/) ? importee : null),
       load: (id) => (id.match(/.s?css$/) ? '' : null),
     },
-    resolve({
-      browser: true,
-      preferBuiltins: false,
-    }),
+    builtins(),
+    resolve({ browser: true }),
     commonjs(),
     url(),
     json(),

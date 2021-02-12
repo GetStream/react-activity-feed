@@ -1,10 +1,21 @@
 {
-  "plugins": ["babel", "markdown", "sonarjs"],
+  "root": true,
+  "plugins": [
+    "babel",
+    "sonarjs",
+    "markdown",
+    "prettier",
+    "react-hooks",
+    "jest-dom",
+    "jest"
+  ],
   "extends": [
     "eslint:recommended",
+    "plugin:prettier/recommended",
     "plugin:react/recommended",
+    "plugin:sonarjs/recommended",
     "plugin:jest/recommended",
-    "plugin:sonarjs/recommended"
+    "plugin:jest-dom/recommended"
   ],
   "rules": {
     "no-console": 0,
@@ -26,12 +37,13 @@
     "react/prop-types": 0,
     "no-var": 2,
     "linebreak-style": [2, "unix"],
-    "semi": [1, "always"],
-    "sonarjs/cognitive-complexity": ["error", 30],
-    "sonarjs/no-duplicate-string": ["error", 5]
+    "sonarjs/cognitive-complexity": ["error", 35],
+    "sonarjs/no-duplicate-string": ["error", 5],
+    "semi": [1, "always"]
   },
   "env": {
     "es6": true,
+    "node": true,
     "browser": true
   },
   "parser": "babel-eslint",

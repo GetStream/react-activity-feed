@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { humanizeTimestamp } from '../utils';
 import Avatar from './Avatar';
 

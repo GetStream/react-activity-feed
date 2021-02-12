@@ -19,7 +19,7 @@ const appId = '66001';
 const token =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYmF0bWFuIn0.8aYd7O_fx-1YMx28DXG1n274o4pa3SjHnRM8AIHLqkE';
 
-export default class App extends Component<{}> {
+export default class App extends Component {
   containerRef = React.createRef();
 
   render() {

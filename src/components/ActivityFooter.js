@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 // import ReactionIcon from './ReactionIcon';
 import LikeButton from './LikeButton';
 import RepostButton from './RepostButton';
