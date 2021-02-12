@@ -37,6 +37,8 @@
     "start": "mkdir -p dist && yarn build-translations && rollup -c -w",
     "docs": "styleguidist build",
     "docs-server": "styleguidist server",
+    "size": "size-limit",
+    "analyze": "size-limit --why",
     "prepare": "yarn run build",
     "preversion": "yarn install && git add yarn.lock && cd example && yarn install && git add yarn.lock",
     "version": "yarn docs && git add docs && git add example yarn.lock",
@@ -73,6 +75,7 @@
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/runtime-corejs2": "^7.2.0",
+    "@size-limit/preset-big-lib": "^4.9.2",
     "babel-eslint": "^8.2.5",
     "babel-loader": "^8.0.0-beta.4",
     "babel-plugin-add-module-exports": "^0.2.1",
@@ -119,6 +122,7 @@
     "rollup-plugin-postcss": "^1.6.2",
     "rollup-plugin-replace": "^2.1.0",
     "rollup-plugin-url": "^2.0.0",
+    "size-limit": "^4.9.2",
     "stylelint": "^8.1.1",
     "stylelint-config-standard": "^18.2.0",
     "sugarss": "^2.0.0",
@@ -148,5 +152,17 @@
     "twitter-text": "^3.0.0",
     "url-loader": "^1.1.2",
     "url-parse": "^1.4.7"
-  }
+  },
+  "size-limit": [
+    {
+      "path": "dist/index.es.js",
+      "limit": "320 KB",
+      "import": "{ createComponent }"
+    },
+    {
+      "path": "dist/index.css",
+      "limit": "10 KB",
+      "webpack": false
+    }
+  ]
 }
