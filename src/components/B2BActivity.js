@@ -16,8 +16,6 @@ import ThumbUpFilled from '../assets/images/thumb-filled.svg';
 import Comment from '../assets/images/comment.svg';
 import { withTranslationContext } from '../Context';
 
-/* eslint sonarjs/no-duplicate-string: 0 */
-
 /**
  * Component is described here.
  *

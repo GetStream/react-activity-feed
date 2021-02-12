@@ -1,4 +1,3 @@
-/* eslint sonarjs/no-identical-functions: 0 */
 import immutable from 'immutable';
 import URL from 'url-parse';
 
