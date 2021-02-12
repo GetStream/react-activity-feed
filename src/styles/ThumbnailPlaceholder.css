@@ -4,11 +4,11 @@
   justify-content: center;
   width: 100px;
   height: 100px;
-  border: 1px dashed color($black tint(75%));
+  border: 1px dashed color-mod(var(black) tint(75%));
   border-radius: $borderRadius;
   cursor: pointer;
 
   &:hover {
-    background: color($black tint(95%));
+    background: color-mod(var(black) tint(95%));
   }
 }

@@ -6,7 +6,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 9999;
-  background-color: color($black a(75%));
+  background-color: color-mod(var(black) a(75%));
   display: flex;
   align-items: center;
   justify-content: center;

@@ -26,7 +26,7 @@
 
   &__image-overlay {
     position: absolute;
-    background: color($black a(69%));
+    background: color-mod(var(black) a(69%));
     width: 100%;
     height: 100%;
     display: flex;

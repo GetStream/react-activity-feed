@@ -51,11 +51,11 @@
     background-color: $primary;
 
     &:disabled {
-      background-color: color($primary tint(35%));
+      background-color: color-mod(var(primary) tint(35%));
     }
 
     &:active {
-      box-shadow: 0 0 0 3px color($primary shade(10%));
+      box-shadow: 0 0 0 3px color-mod(var(primary) shade(10%));
     }
   }
 
@@ -63,23 +63,23 @@
     background-color: $info;
 
     &:disabled {
-      background-color: color($info tint(35%));
+      background-color: color-mod(var(info) tint(35%));
     }
 
     &:active {
-      box-shadow: 0 0 0 3px color($info shade(10%));
+      box-shadow: 0 0 0 3px color-mod(var(info) shade(10%));
     }
   }
 
   &--faded {
-    background-color: color($faded shade(30%));
+    background-color: color-mod(var(faded) shade(30%));
 
     &:disabled {
-      background-color: color(color($faded shade(30%)) tint(35%));
+      background-color: color(color-mod(var(faded) shade(30%)) tint(35%));
     }
 
     &:active {
-      box-shadow: 0 0 0 3px color(color($faded shade(30%)) shade(10%));
+      box-shadow: 0 0 0 3px color(color-mod(var(faded) shade(30%)) shade(10%));
     }
   }
 }

@@ -1,7 +1,7 @@
 .raf-panel {
   background: #fff;
   width: 100%;
-  box-shadow: 0 2px 5px 0 color($black a(15%));
+  box-shadow: 0 2px 5px 0 color-mod(var(black) a(15%));
   margin: 0 0 16px;
 
   &--rounded {
@@ -10,6 +10,6 @@
 
   &--square {
     border-radius: 0;
-    box-shadow: 0 2px 4px 0 color($black a(30%));
+    box-shadow: 0 2px 4px 0 color-mod(var(black) a(30%));
   }
 }

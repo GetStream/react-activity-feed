@@ -25,8 +25,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: color($info tint(97%));
-  box-shadow: 0 1px 2px color($black a(15%));
+  background: color-mod(var(info) tint(97%));
+  box-shadow: 0 1px 2px color-mod(var(black) a(15%));
   cursor: pointer;
   user-select: none;
   position: relative;
@@ -35,5 +35,5 @@
 }
 
 .raf-new-activities-notification:active {
-  box-shadow: 0 0 0 color($black a(15%));
+  box-shadow: 0 0 0 color-mod(var(black) a(15%));
 }
