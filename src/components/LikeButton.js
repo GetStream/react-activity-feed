@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import ReactionToggleIcon from './ReactionToggleIcon';
 
 import likebuttonActive from '../images/like-active@1x.png';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { Feed, FeedContext } from '../Context';
 import NewActivitiesNotification from './NewActivitiesNotification';

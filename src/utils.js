@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import URL from 'url-parse';
 import anchorme from 'anchorme';
 import _truncate from 'lodash/truncate';

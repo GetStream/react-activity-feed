@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import TimeHeader from './TimeHeader';
 import B2BActivity from './B2BActivity';
 

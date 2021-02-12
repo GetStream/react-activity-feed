@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { IconButton } from 'react-file-utils';
 import { sanitizeURL } from '../utils';
 

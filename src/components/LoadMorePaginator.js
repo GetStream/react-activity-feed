@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import LoadMoreButton from './LoadMoreButton';
 import { smartRender } from '../utils';
 
