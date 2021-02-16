@@ -8,7 +8,6 @@ import url from '@rollup/plugin-url';
 import copy from 'rollup-plugin-copy';
 import resolve from '@rollup/plugin-node-resolve';
 import globals from 'rollup-plugin-node-globals';
-import builtins from 'rollup-plugin-node-builtins';
 import typescript from '@rollup/plugin-typescript';
 
 import pkg from './package.json';
@@ -68,8 +67,8 @@ const normalBundle = {
     'url-parse',
   ],
   plugins: [
-    resolve({ preferBuiltins: true }),
-    commonjs({ include: /\/regenerator-runtime\// }),
+    resolve({ preferBuiltins: false, browser: true }),
+    commonjs({ include: /node_modules/ }),
     postcss({ modules: false, extract: true }),
     json(),
     url(),
@@ -96,8 +95,8 @@ const fullBrowserBundle = {
     },
   ],
   plugins: [
-    resolve({ preferBuiltins: true }),
-    commonjs({ include: /\/regenerator-runtime\// }),
+    resolve({ preferBuiltins: false, browser: true }),
+    commonjs({ include: /node_modules/ }),
     external(),
     typescript(),
     babel({ babelHelpers: 'runtime', exclude: 'node_modules/**' }),
@@ -113,13 +112,12 @@ const fullBrowserBundle = {
       resolveId: (importee) => (importee.match(/.s?css$/) ? importee : null),
       load: (id) => (id.match(/.s?css$/) ? '' : null),
     },
-    builtins(),
     url(),
     json(),
     globals({
       process: true,
-      buffer: true,
       global: false,
+      buffer: false,
       dirname: false,
       filename: false,
     }),

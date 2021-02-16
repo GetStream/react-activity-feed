@@ -113,7 +113,6 @@
     "react-test-renderer": "^17.0.1",
     "rollup": "^2.39.0",
     "rollup-plugin-copy": "^3.3.0",
-    "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.0",
