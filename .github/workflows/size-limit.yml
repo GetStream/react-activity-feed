@@ -1,8 +1,6 @@
 name: size
 on:
   pull_request:
-    branches:
-      - master
     paths-ignore:
       - '**.test.**'
       - '**.md'
