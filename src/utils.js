@@ -2,8 +2,8 @@ import React from 'react';
 import URL from 'url-parse';
 import anchorme from 'anchorme';
 import _truncate from 'lodash/truncate';
-import twitter from 'twitter-text';
-
+import extractMentions from 'twitter-text/dist/esm/extractMentions';
+import extractHashtags from 'twitter-text/dist/esm/extractHashtags';
 import Dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import minMax from 'dayjs/plugin/minMax';
@@ -206,7 +206,7 @@ export function sanitizeURL(url) {
 
 const renderWord = (word, key, parentClass, onClickMention, onClickHashtag) => {
   if (onClickMention && word.includes('@')) {
-    const mention = twitter.extractMentions(word);
+    const mention = extractMentions(word);
     if (!mention.length) return word;
 
     return (
@@ -224,7 +224,7 @@ const renderWord = (word, key, parentClass, onClickMention, onClickHashtag) => {
       </React.Fragment>
     );
   } else if (onClickHashtag && word.includes('#')) {
-    const hashtag = twitter.extractHashtags(word);
+    const hashtag = extractHashtags(word);
     if (!hashtag.length) return word;
 
     return (
