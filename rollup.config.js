@@ -1,3 +1,4 @@
+import process from 'process';
 import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import external from 'rollup-plugin-peer-deps-external';
@@ -5,22 +6,18 @@ import postcss from 'rollup-plugin-postcss';
 import json from '@rollup/plugin-json';
 import url from '@rollup/plugin-url';
 import copy from 'rollup-plugin-copy';
-import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
 import globals from 'rollup-plugin-node-globals';
-import builtins from 'rollup-plugin-node-builtins';
+import typescript from '@rollup/plugin-typescript';
 
 import pkg from './package.json';
 
-import process from 'process';
 process.env.NODE_ENV = 'production';
 
 const baseConfig = {
-  input: 'src/index.js',
+  input: 'src/index.tsx',
   cache: false,
-  watch: {
-    chokidar: false,
-  },
+  watch: { chokidar: false },
 };
 
 const ignoredBrowserModules = [
@@ -49,81 +46,36 @@ const normalBundle = {
     },
   ],
   external: [
-    'anchorme',
-    'i18next',
-    'dayjs',
-    'dayjs/locale/nl',
-    'dayjs/locale/it',
-    'dayjs/locale/ru',
-    'dayjs/locale/tr',
-    'dayjs/locale/fr',
-    'dayjs/locale/hi',
-    'dayjs/locale/es',
-    'dayjs/locale/en',
-    'dayjs',
-    'dayjs/plugin/calendar',
-    'dayjs/plugin/updateLocale',
-    'dayjs/plugin/localizedFormat',
-    'dayjs/plugin/localeData',
-    'dayjs/plugin/relativeTime',
-    'dayjs/plugin/minMax',
-    'dayjs/plugin/utc',
-    'getstream',
-    'react-images',
-    'react-file-utils',
-    'emoji-mart',
+    /@babel/,
+    '@fortawesome/fontawesome-svg-core',
+    '@fortawesome/free-regular-svg-icons',
+    '@fortawesome/react-fontawesome',
     '@webscopeio/react-textarea-autocomplete',
     '@webscopeio/react-textarea-autocomplete/style.css',
+    'anchorme',
+    /dayjs/,
+    'emoji-mart',
     'emoji-mart/css/emoji-mart.css',
-    'react-dropzone',
+    'getstream',
+    'i18next',
     'immutable',
-    'twitter-text',
-    'url-parse',
+    /lodash/,
+    'react-file-utils',
+    'react-images',
     'stream-analytics',
-    'prop-types',
-    'lodash/isPlainObject',
-    'lodash/uniq',
-    'lodash/difference',
-    'lodash/includes',
-    'lodash/debounce',
-    'lodash/isEqual',
-    'lodash/remove',
-    'lodash/truncate',
-    '@fortawesome/react-fontawesome',
-    '@fortawesome/free-regular-svg-icons',
-    '@babel/runtime/regenerator',
-    '@babel/runtime/helpers/asyncToGenerator',
-    '@babel/runtime/helpers/objectWithoutProperties',
-    '@babel/runtime/helpers/toConsumableArray',
-    '@babel/runtime/helpers/objectSpread',
-    '@babel/runtime/helpers/extends',
-    '@babel/runtime/helpers/defineProperty',
-    '@babel/runtime/helpers/assertThisInitialized',
-    '@babel/runtime/helpers/inherits',
-    '@babel/runtime/helpers/getPrototypeOf',
-    '@babel/runtime/helpers/possibleConstructorReturn',
-    '@babel/runtime/helpers/createClass',
-    '@babel/runtime/helpers/classCallCheck',
+    /twitter-text/,
+    'url-parse',
   ],
   plugins: [
-    replace({
-      'process.env.NODE_ENV': JSON.stringify('production'),
-    }),
-    external(),
-    babel({
-      babelHelpers: 'runtime',
-      exclude: 'node_modules/**',
-    }),
-    postcss({
-      modules: false,
-      extract: true,
-    }),
-    url(),
-    commonjs(),
+    resolve({ preferBuiltins: false, browser: true }),
+    commonjs({ include: /node_modules/ }),
+    postcss({ modules: false, extract: true }),
     json(),
-    copy({
-      targets: [{ src: 'src/i18n/*.json', dest: 'dist/i18n' }],
-    }),
+    url(),
+    typescript(),
+    external(),
+    babel({ babelHelpers: 'runtime', exclude: 'node_modules/**' }),
+    copy({ targets: [{ src: 'src/i18n/*.json', dest: 'dist/i18n' }] }),
   ],
 };
 
@@ -143,14 +95,11 @@ const fullBrowserBundle = {
     },
   ],
   plugins: [
-    replace({
-      'process.env.NODE_ENV': JSON.stringify('production'),
-    }),
+    resolve({ preferBuiltins: false, browser: true }),
+    commonjs({ include: /node_modules/ }),
     external(),
-    babel({
-      babelHelpers: 'runtime',
-      exclude: 'node_modules/**',
-    }),
+    typescript(),
+    babel({ babelHelpers: 'runtime', exclude: 'node_modules/**' }),
     {
       name: 'browser-remapper',
       resolveId: (importee) =>
@@ -158,21 +107,17 @@ const fullBrowserBundle = {
       load: (id) =>
         ignoredBrowserModules.includes(id) ? 'export default null;' : null,
     },
-
     {
       name: 'ignore-css-and-scss',
       resolveId: (importee) => (importee.match(/.s?css$/) ? importee : null),
       load: (id) => (id.match(/.s?css$/) ? '' : null),
     },
-    builtins(),
-    resolve({ browser: true }),
-    commonjs(),
     url(),
     json(),
     globals({
       process: true,
-      buffer: true,
       global: false,
+      buffer: false,
       dirname: false,
       filename: false,
     }),

@@ -1,23 +1,23 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 export default class InfiniteScroll extends Component {
-  static propTypes = {
-    children: PropTypes.node.isRequired,
-    element: PropTypes.node,
-    hasMore: PropTypes.bool,
-    initialLoad: PropTypes.bool,
-    isReverse: PropTypes.bool,
-    loader: PropTypes.node,
-    loadMore: PropTypes.func.isRequired,
-    getScrollParent: PropTypes.func,
-    pageStart: PropTypes.number,
-    ref: PropTypes.func,
-    threshold: PropTypes.number,
-    useCapture: PropTypes.bool,
-    useWindow: PropTypes.bool,
-  };
+  // static propTypes = {
+  //   children: PropTypes.node.isRequired,
+  //   element: PropTypes.node,
+  //   hasMore: PropTypes.bool,
+  //   initialLoad: PropTypes.bool,
+  //   isReverse: PropTypes.bool,
+  //   loader: PropTypes.node,
+  //   loadMore: PropTypes.func.isRequired,
+  //   getScrollParent: PropTypes.func,
+  //   pageStart: PropTypes.number,
+  //   ref: PropTypes.func,
+  //   threshold: PropTypes.number,
+  //   useCapture: PropTypes.bool,
+  //   useWindow: PropTypes.bool,
+  // };
 
   static defaultProps = {
     element: 'div',

@@ -3,7 +3,6 @@ import URL from 'url-parse';
 import anchorme from 'anchorme';
 import _truncate from 'lodash/truncate';
 import twitter from 'twitter-text';
-
 import Dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import minMax from 'dayjs/plugin/minMax';
