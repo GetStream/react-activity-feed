@@ -56,6 +56,47 @@
   },
   "overrides": [
     {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "parser": "@typescript-eslint/parser",
+      "plugins": [
+        "prettier",
+        "react-hooks",
+        "jest",
+        "jest-dom",
+        "sonarjs",
+        "@typescript-eslint",
+        "typescript-sort-keys"
+      ],
+      "extends": [
+        "eslint:recommended",
+        "plugin:prettier/recommended",
+        "plugin:react/recommended",
+        "plugin:sonarjs/recommended",
+        "prettier/@typescript-eslint",
+        "plugin:jest/recommended",
+        "plugin:jest-dom/recommended",
+        "plugin:@typescript-eslint/recommended"
+      ],
+      "rules": {
+        "lines-between-class-members": 0,
+        "@typescript-eslint/explicit-module-boundary-types": 0,
+        "@typescript-eslint/ban-ts-comment": 0,
+        "no-useless-constructor": 0,
+        "@typescript-eslint/triple-slash-reference": 0,
+        "typescript-sort-keys/interface": [
+          "error",
+          "asc",
+          { "caseSensitive": false, "natural": true, "requiredFirst": true }
+        ],
+        "typescript-sort-keys/string-enum": [
+          "error",
+          "asc",
+          { "caseSensitive": false, "natural": true }
+        ]
+      }
+    },
+
+    {
       "files": ["*.md"],
       "rules": {
         "react/jsx-no-undef": 0,
