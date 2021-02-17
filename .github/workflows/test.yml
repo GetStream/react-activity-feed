@@ -33,6 +33,14 @@ jobs:
       - name: Validate translation
         run: yarn validate-translations
 
+      - name: Cache .docz folder
+        uses: actions/cache@v2
+        with:
+          if: matrix.node == 14
+          path: ./.docz
+          key: docz-${{ runner.os }}-gatsby-v7-${{ github.run_id }}
+          restore-keys: docz-${{ runner.os }}-gatsby-v7-
+
       - name: Docs
         if: matrix.node == 14
         run: yarn docs-build
