@@ -15,7 +15,7 @@
     "rootDir": "src",
     "allowJs": true, // TODO: remove once SDK is fully in TS
     "noEmit": true,
-    "noEmitOnError": true,
+    "noEmitOnError": false,
     "target": "ES5",
     "importHelpers": true,
     "declaration": true,
