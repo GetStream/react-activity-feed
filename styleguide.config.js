@@ -1,3 +1,4 @@
+// TODO: delete this file once docz is up
 const path = require('path');
 const topLevelComponents = [
   'FlatFeed',
