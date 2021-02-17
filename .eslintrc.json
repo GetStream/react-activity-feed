@@ -3,7 +3,6 @@
   "plugins": [
     "babel",
     "sonarjs",
-    "markdown",
     "prettier",
     "react-hooks",
     "jest-dom",
@@ -14,6 +13,7 @@
     "plugin:prettier/recommended",
     "plugin:react/recommended",
     "plugin:sonarjs/recommended",
+    "plugin:mdx/recommended",
     "plugin:jest/recommended",
     "plugin:jest-dom/recommended"
   ],
@@ -95,9 +95,9 @@
         ]
       }
     },
-
     {
-      "files": ["*.md"],
+      "files": ["*.md", "*.mdx"],
+      "extends": ["plugin:mdx/overrides"],
       "rules": {
         "react/jsx-no-undef": 0,
         "react/react-in-jsx-scope": 0,
