@@ -1,6 +1,6 @@
 .raf-dropdown-panel {
   background-color: $white;
-  box-shadow: 0 2px 4px 0 color-mod(var(black) a(30%));
+  box-shadow: 0 2px 4px 0 change-color($black, $alpha: 0.3); // color-mod(var(black) a(30%));
   border-radius: $borderRadius;
   overflow: hidden;
 
@@ -41,7 +41,7 @@
 
 .raf-dropdown-panel__footer {
   background: $white;
-  box-shadow: 0 -1px 2px color-mod(var(black) a(10%));
+  box-shadow: 0 -1px 2px change-color($black, $alpha: 0.1); // color-mod(var(black) a(10%));
   border-radius: 0 0 $borderRadius $borderRadius;
   margin-top: 2px;
 }
