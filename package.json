@@ -25,6 +25,7 @@
     "validate-translations": "node scripts/validate-translations.js",
     "lint": "yarn run prettier && yarn run eslint && stylelint '**/*.{css,scss}'",
     "lint-fix": "yarn run prettier-fix && yarn run eslint --fix && stylelint --fix '**/*.{css,scss}'",
+    "stylelint": "stylelint '**/*.{css,scss}'",
     "build": "rollup -c",
     "start": "rollup -c -w",
     "docs": "docz dev",
@@ -39,15 +40,6 @@
   "husky": {
     "hooks": {
       "pre-commit": "yarn run lint"
-    }
-  },
-  "stylelint": {
-    "extends": "stylelint-config-standard",
-    "rules": {
-      "no-descending-specificity": null,
-      "no-duplicate-selectors": null,
-      "block-no-empty": null,
-      "declaration-block-no-duplicate-properties": null
     }
   },
   "peerDependencies": {
@@ -112,6 +104,7 @@
     "size-limit": "^4.9.2",
     "stylelint": "^13.10.0",
     "stylelint-config-standard": "^20.0.0",
+    "stylelint-scss": "^3.19.0",
     "ts-jest": "^26.5.1",
     "tslib": "^2.1.0",
     "typescript": "^4.1.5"
