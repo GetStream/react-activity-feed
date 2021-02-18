@@ -28,10 +28,9 @@ const styleBundle = (watch = false) => ({
       watch: 'src/styles',
       output: pkg.style,
       processor: (css) =>
-        postcss([autoprefixer])
-          .use(cssnano())
+        postcss([autoprefixer, cssnano])
           .process(css)
-          .then((result) => result.css),
+          .then(({ css: newCss }) => newCss),
     }),
   ],
 });
