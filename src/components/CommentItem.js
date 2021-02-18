@@ -32,7 +32,7 @@ class CommentItem extends React.Component {
     return (
       <div className="raf-comment-item">
         <Flex a="flex-start" style={{ padding: '8px 0' }}>
-          {comment.user.data.profileImage && (
+          {comment.user && comment.user.data.profileImage && (
             <Avatar
               onClick={this._getOnClickUser()}
               image={comment.user.data.profileImage}
@@ -53,7 +53,7 @@ class CommentItem extends React.Component {
                 onClick={this._getOnClickUser()}
                 className="raf-comment-item__author"
               >
-                {comment.user.data.name}
+                {comment.user && comment.user.data.name}
               </span>{' '}
               {textRenderer(
                 comment.data.text,
