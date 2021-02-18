@@ -1,5 +1,3 @@
-import './styles/index.scss';
-
 // Top level components
 export * from './Context';
 export { default as FlatFeed } from './components/FlatFeed';

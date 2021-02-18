@@ -9,6 +9,7 @@
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",
   "jsdelivr": "dist/browser.full-bundle.js",
+  "style": "dist/index.css",
   "files": [
     "src",
     "dist"
@@ -78,8 +79,8 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.3",
     "babel-plugin-i18next-extract": "^0.8.2",
-    "docz": "^2.3.1",
     "cssnano": "^4.1.10",
+    "docz": "^2.3.1",
     "eslint": "^7.20.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-config-react-app": "^6.0.0",
@@ -101,8 +102,6 @@
     "jest": "^26.6.3",
     "node-sass": "^5.0.0",
     "postcss": "^8.2.6",
-    "postcss-easy-import": "^3.0.0",
-    "postcss-scss": "^3.0.4",
     "prettier": "^2.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -111,7 +110,6 @@
     "rollup-plugin-copy": "^3.3.0",
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-postcss": "^4.0.0",
     "size-limit": "^4.9.2",
     "stylelint": "^13.10.0",
     "stylelint-config-standard": "^20.0.0",
@@ -134,6 +132,7 @@
     "lodash": "^4.17.20",
     "react-file-utils": "^0.4.0",
     "react-images": "^0.5.19",
+    "rollup-plugin-scss": "^2.6.1",
     "stream-analytics": "^3.4.2",
     "twitter-text": "^3.1.0",
     "url-parse": "^1.4.7"
