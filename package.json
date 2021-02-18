@@ -146,6 +146,11 @@
     "getstream",
     "getstream.io"
   ],
+  "browserslist": [
+    ">0.1%",
+    "not dead",
+    "not op_mini all"
+  ],
   "size-limit": [
     {
       "path": "dist/index.es.js",
