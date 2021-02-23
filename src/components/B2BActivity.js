@@ -2,7 +2,7 @@ import React from 'react';
 import Panel from './Panel';
 import PanelContent from './PanelContent';
 import Flex from './Flex';
-import DataLabel from './DataLabel';
+import { DataLabel } from './DataLabel';
 import Avatar from './Avatar';
 import Title from './Title';
 import ReactionToggleIcon from './ReactionToggleIcon';

@@ -43,7 +43,7 @@ export { default as CommentField } from './components/CommentField';
 
 // Generic components
 export { default as Button } from './components/Button';
-export { default as DataLabel } from './components/DataLabel';
+export * from './components/DataLabel';
 
 // StatusUpdateForm sub components
 export { default as Textarea } from './components/Textarea';
