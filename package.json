@@ -112,9 +112,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.12.13",
-    "@fortawesome/fontawesome-svg-core": "^1.2.34",
-    "@fortawesome/free-regular-svg-icons": "^5.15.2",
-    "@fortawesome/react-fontawesome": "^0.1.14",
     "@webscopeio/react-textarea-autocomplete": "^4.7.3",
     "anchorme": "^1.1.2",
     "dayjs": "^1.10.4",
