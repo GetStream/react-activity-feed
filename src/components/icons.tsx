@@ -1,4 +1,4 @@
-import React, { FC, SVGProps } from 'react';
+import React, { SVGProps } from 'react';
 
 type Icon = SVGProps<SVGSVGElement>;
 
@@ -7,10 +7,9 @@ export enum Color {
   Inactive = '#7a8287',
 }
 
-export const ThumbsUp: FC<Icon> = (props) => (
+export const ThumbsUpIcon = (props: Icon): JSX.Element => (
   <svg
     {...props}
-    //  class="svg-inline--fa fa-thumbs-up fa-w-16"
     className="raf-reaction-icon__image"
     data-icon="thumbs-up"
     role="img"
@@ -24,10 +23,9 @@ export const ThumbsUp: FC<Icon> = (props) => (
   </svg>
 );
 
-export const Repost: FC<Icon> = (props) => (
+export const RepostIcon = (props: Icon): JSX.Element => (
   <svg
     {...props}
-    //  class="svg-inline--fa fa-retweet fa-w-20"
     className="raf-reaction-icon__image"
     data-icon="retweet"
     role="img"
@@ -41,10 +39,9 @@ export const Repost: FC<Icon> = (props) => (
   </svg>
 );
 
-export const Comment: FC<Icon> = (props) => (
+export const CommentIcon = (props: Icon): JSX.Element => (
   <svg
     {...props}
-    //  class="svg-inline--fa fa-comment fa-w-16"
     className="raf-reaction-icon__image"
     data-icon="comment"
     role="img"
