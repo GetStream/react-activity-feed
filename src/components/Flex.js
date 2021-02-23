@@ -28,3 +28,6 @@ export default class Flex extends React.Component {
     );
   }
 }
+
+// TODO: remove the default export above and use name export
+export { Flex };
