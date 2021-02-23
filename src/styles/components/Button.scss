@@ -51,11 +51,12 @@
     background-color: $primary;
 
     &:disabled {
-      background-color: color-mod(var(primary) tint(35%));
+      // color-mod(var(primary) tint(35%));
+      background-color: tint($primary, 35%);
     }
 
     &:active {
-      box-shadow: 0 0 0 3px color-mod(var(primary) shade(10%));
+      box-shadow: 0 0 0 3px shade($primary, 10%); // color-mod(var(primary) shade(10%));
     }
   }
 
@@ -63,23 +64,26 @@
     background-color: $info;
 
     &:disabled {
-      background-color: color-mod(var(info) tint(35%));
+      // color-mod(var(info) tint(35%));
+      background-color: tint($info, 35%);
     }
 
     &:active {
-      box-shadow: 0 0 0 3px color-mod(var(info) shade(10%));
+      box-shadow: 0 0 0 3px shade($info, 10%); // color-mod(var(info) shade(10%));
     }
   }
 
   &--faded {
-    background-color: color-mod(var(faded) shade(30%));
+    // color-mod(var(faded) shade(30%));
+    background-color: shade($faded, 30%);
 
     &:disabled {
-      background-color: color(color-mod(var(faded) shade(30%)) tint(35%));
+      // color(color-mod(var(faded) shade(30%)) tint(35%));
+      background-color: tint(shade($faded, 30%), 35%);
     }
 
     &:active {
-      box-shadow: 0 0 0 3px color(color-mod(var(faded) shade(30%)) shade(10%));
+      box-shadow: 0 0 0 3px shade(shade($faded, 30%), 10%); // color(color-mod(var(faded) shade(30%)) shade(10%));
     }
   }
 }

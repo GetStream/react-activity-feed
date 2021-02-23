@@ -6,13 +6,13 @@
   cursor: pointer;
 
   svg {
-    fill: color-mod(var(black) tint(10%));
+    fill: tint($black, 10%); // color-mod(var(black) tint(10%));
     transition: fill 0.1s ease-in-out;
   }
 
   &:hover {
     svg {
-      fill: color-mod(var(primary));
+      fill: $primary; // color-mod(var(primary));
     }
   }
 }

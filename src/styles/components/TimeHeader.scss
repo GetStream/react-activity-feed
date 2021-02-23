@@ -5,7 +5,7 @@
 }
 
 .raf-time-header .raf-title {
-  color: color-mod(var(fontColor) tint(80%));
+  color: tint($fontColor, 80%); // color-mod(var(fontColor) tint(80%));
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 1.13px;
@@ -13,7 +13,8 @@
 
 .raf-time-header__line {
   height: 1px;
-  background: color-mod(var(fontColor) tint(80%));
+  // color-mod(var(fontColor) tint(80%));
+  background: tint($fontColor, 80%);
   flex: 1;
   margin-left: 10px;
 }

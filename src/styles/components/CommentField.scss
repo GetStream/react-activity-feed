@@ -15,7 +15,7 @@
       justify-content: flex-start;
 
       &:focus {
-        box-shadow: inset 0 0 0 3px color-mod(var(primary) shade(10%));
+        box-shadow: inset 0 0 0 3px shade($primary, 10%); // color-mod(var(primary) shade(10%));
       }
     }
   }
@@ -34,7 +34,7 @@
     position: relative;
 
     &::placeholder {
-      color: color-mod(var(fontColor) tint(50%));
+      color: tint($fontColor, 50%); // color-mod(var(fontColor) tint(50%));
     }
   }
 }

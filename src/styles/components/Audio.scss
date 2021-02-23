@@ -21,10 +21,12 @@
       position: absolute;
       top: 0;
       left: 0;
-      background: color-mod(var(black) a(40%));
+      // color-mod(var(black) a(40%));
+      background: change-color($black, $alpha: 0.4);
       z-index: $z2;
       font-size: 3em;
-      color: color-mod(var(white) a(69%));
+      // color-mod(var(white) a(69%));
+      color: change-color($white, $alpha: 0.69);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -67,14 +69,15 @@
       padding: 0;
       line-height: 1;
       font-size: 12px;
-      color: color-mod(var(fontColor) tint(40%));
+      color: tint($fontColor, 40%); // color-mod(var(fontColor) tint(40%));
     }
 
     &--progress {
       height: 6px;
       width: 100%;
       border-radius: 4px;
-      background: color-mod(var(black) a(10%));
+      // color-mod(var(black) a(10%));
+      background: change-color($black, $alpha: 0.1);
       padding: 1px;
       margin: 2px 0;
 

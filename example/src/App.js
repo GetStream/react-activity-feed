@@ -12,7 +12,7 @@ import {
   CommentItem,
   InfiniteScrollPaginator,
 } from 'react-activity-feed';
-import 'react-activity-feed/dist/index.es.css';
+import 'react-activity-feed/dist/index.css';
 
 const apiKey = 'sesb46h7zb6p';
 const appId = '66001';

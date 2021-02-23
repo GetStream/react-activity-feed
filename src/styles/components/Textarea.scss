@@ -4,7 +4,7 @@
 
   .raf-textarea__textarea {
     width: 100%;
-    color: color-mod(var(fontColor) tint(3%));
+    color: tint($fontColor, 3%); // color-mod(var(fontColor) tint(3%));
     font-size: 16px;
     line-height: 30px;
     font-weight: 500;
@@ -15,12 +15,12 @@
     resize: vertical;
 
     &:focus {
-      background: color-mod(var(black) tint(95%));
+      background: tint($black, 95%); // color-mod(var(black) tint(95%));
       outline: none;
     }
 
     &::placeholder {
-      color: color-mod(var(fontColor) tint(65%));
+      color: tint($fontColor, 65%); // color-mod(var(fontColor) tint(65%));
     }
   }
 }

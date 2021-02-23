@@ -2,17 +2,38 @@ import process from 'process';
 import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import external from 'rollup-plugin-peer-deps-external';
-import postcss from 'rollup-plugin-postcss';
 import json from '@rollup/plugin-json';
 import url from '@rollup/plugin-url';
 import copy from 'rollup-plugin-copy';
 import resolve from '@rollup/plugin-node-resolve';
 import globals from 'rollup-plugin-node-globals';
 import typescript from '@rollup/plugin-typescript';
+import scss from 'rollup-plugin-scss';
+import postcss from 'postcss';
+import autoprefixer from 'autoprefixer';
+import cssnano from 'cssnano';
 
 import pkg from './package.json';
 
 process.env.NODE_ENV = 'production';
+
+const styleBundle = (watch = false) => ({
+  input: 'src/styles/index.scss',
+  cache: false,
+  watch: watch ? { include: 'src/styles', chokidar: false } : {},
+  output: [{ file: pkg.style, format: 'es' }],
+  plugins: [
+    scss({
+      failOnError: true,
+      watch: 'src/styles',
+      output: pkg.style,
+      processor: (css) =>
+        postcss([autoprefixer, cssnano])
+          .process(css)
+          .then(({ css: newCss }) => newCss),
+    }),
+  ],
+});
 
 const baseConfig = {
   input: 'src/index.tsx',
@@ -69,7 +90,6 @@ const normalBundle = {
   plugins: [
     resolve({ preferBuiltins: false, browser: true }),
     commonjs({ include: /node_modules/ }),
-    postcss({ modules: false, extract: true }),
     json(),
     url(),
     typescript(),
@@ -107,11 +127,6 @@ const fullBrowserBundle = {
       load: (id) =>
         ignoredBrowserModules.includes(id) ? 'export default null;' : null,
     },
-    {
-      name: 'ignore-css-and-scss',
-      resolveId: (importee) => (importee.match(/.s?css$/) ? importee : null),
-      load: (id) => (id.match(/.s?css$/) ? '' : null),
-    },
     url(),
     json(),
     globals({
@@ -125,4 +140,6 @@ const fullBrowserBundle = {
 };
 
 export default () =>
-  process.env.ROLLUP_WATCH ? [normalBundle] : [normalBundle, fullBrowserBundle];
+  process.env.ROLLUP_WATCH
+    ? [styleBundle(true), normalBundle]
+    : [styleBundle(), normalBundle, fullBrowserBundle];

@@ -21,12 +21,12 @@
 
 .raf-user-bar__subtitle {
   font-size: 14px;
-  color: color-mod(var(fontColor) tint(30%));
+  color: tint($fontColor, 30%); // color-mod(var(fontColor) tint(30%));
 }
 
 .raf-user-bar__extra {
   font-size: 12px;
-  color: color-mod(var(black) a(60%));
+  color: change-color($black, $alpha: 0.6); // color-mod(var(black) a(60%));
 }
 
 .raf-user-bar .raf-avatar {
