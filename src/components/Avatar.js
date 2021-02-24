@@ -1,5 +1,5 @@
 import React from 'react';
-import placeholder from '../assets/images/placeholder.png';
+import { AvatarIcon } from './icons';
 
 /**
  *
@@ -8,17 +8,22 @@ import placeholder from '../assets/images/placeholder.png';
 export default class Avatar extends React.PureComponent {
   render() {
     const { size, image, alt, rounded, circle } = this.props;
+
+    const sharedProperties = {
+      style: size ? { width: `${size}px`, height: `${size}px` } : {},
+      className: `raf-avatar ${rounded ? 'raf-avatar--rounded' : ''} ${
+        circle ? 'raf-avatar--circle' : ''
+      }`,
+      onClick: this.props.onClick,
+    };
+
     return (
       <React.Fragment>
-        <img
-          style={size ? { width: `${size}px`, height: `${size}px` } : {}}
-          className={`raf-avatar ${rounded ? 'raf-avatar--rounded' : ''} ${
-            circle ? 'raf-avatar--circle' : ''
-          }`}
-          onClick={this.props.onClick}
-          src={image ? image : placeholder}
-          alt={alt || ''}
-        />
+        {!image ? (
+          <AvatarIcon {...sharedProperties} />
+        ) : (
+          <img {...sharedProperties} src={image} alt={alt ?? ''} />
+        )}
       </React.Fragment>
     );
   }

@@ -1,20 +1,20 @@
 import React, { SVGProps } from 'react';
 
-type Icon = SVGProps<SVGSVGElement>;
+type IconProps = SVGProps<SVGSVGElement>;
 
 export enum Color {
   Active = '#0ba8e0',
   Inactive = '#7a8287',
 }
 
-export const ThumbsUpIcon = (props: Icon): JSX.Element => (
+export const ThumbsUpIcon = (props: IconProps) => (
   <svg
-    {...props}
     className="raf-reaction-icon__image"
     data-icon="thumbs-up"
     role="img"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 512 512"
+    {...props}
   >
     <path
       fill="currentColor"
@@ -23,14 +23,14 @@ export const ThumbsUpIcon = (props: Icon): JSX.Element => (
   </svg>
 );
 
-export const RepostIcon = (props: Icon): JSX.Element => (
+export const RepostIcon = (props: IconProps) => (
   <svg
-    {...props}
     className="raf-reaction-icon__image"
     data-icon="retweet"
     role="img"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 640 512"
+    {...props}
   >
     <path
       fill="currentColor"
@@ -39,18 +39,41 @@ export const RepostIcon = (props: Icon): JSX.Element => (
   </svg>
 );
 
-export const CommentIcon = (props: Icon): JSX.Element => (
+export const CommentIcon = (props: IconProps) => (
   <svg
-    {...props}
     className="raf-reaction-icon__image"
     data-icon="comment"
     role="img"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 512 512"
+    {...props}
   >
     <path
       fill="currentColor"
       d="M256 32C114.6 32 0 125.1 0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3 0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4 0 256-93.1 256-208S397.4 32 256 32z"
     ></path>
+  </svg>
+);
+
+export const AvatarIcon = (props: IconProps) => (
+  <svg
+    enableBackground="new 312.809 0 401 401"
+    version="1.1"
+    viewBox="312.809 0 401 401"
+    xmlSpace="preserve"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <g transform="matrix(1.223 0 0 1.223 -467.5 -843.44)">
+      <rect x="601.45" y="653.07" width="401" height="401" fill="#E4E6E7" />
+      <path
+        d="m802.38 908.08c-84.515 0-153.52 48.185-157.38 108.62h314.79c-3.87-60.44-72.9-108.62-157.41-108.62z"
+        fill="#AEB4B7"
+      />
+      <path
+        d="m881.37 818.86c0 46.746-35.106 84.641-78.41 84.641s-78.41-37.895-78.41-84.641 35.106-84.641 78.41-84.641c43.31 0 78.41 37.9 78.41 84.64z"
+        fill="#AEB4B7"
+      />
+    </g>
   </svg>
 );
