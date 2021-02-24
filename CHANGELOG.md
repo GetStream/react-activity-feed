@@ -5,9 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 0.10.9 - 2021-02-18
 
-Nothing yet
+### Fix
+
+- `CommentItem` crash on undefined user #146
+
+## 0.10.8 - 2021-01-22
+
+- Close Faye connection on StreamApp unmount #135
+
+## 0.10.7 - 2021-01-15
+
+- `textRenderer` supports new line in input texts #133
+
+## 0.10.6 - 2020-12-15
+
+- Fix userId source in `addReaction` and `addChildReaction` #132
+
+## 0.10.5 - 2020-12-15
+
+- Add userId to `addReaction` and `addChildReaction` if its missing #131
+- Fix timestamps for comment and userbar #130
+
+## 0.10.4 - 2020-10-19
+
+- Updated Video component to correctly render youtube videos
+
+## 0.10.3 - 2020-10-13
+
+- Updated Video component to correctly render youtube videos
 
 ## 0.10.2 - 2020-04-10
 
