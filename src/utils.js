@@ -256,6 +256,7 @@ const renderWord = (word, key, parentClass, onClickMention, onClickHashtag) => {
         href={`${link[0].protocol}${link[0].encoded}`}
         className={`${parentClass}__link`}
         target="blank"
+        data-testid="renderWord-hyperlink"
         rel="noopener"
         key={key}
       >
