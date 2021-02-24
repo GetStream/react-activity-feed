@@ -1,11 +1,11 @@
-import { textRenderer } from '../utils';
 import renderer from 'react-test-renderer';
+import { textRenderer } from '../utils';
 
 describe('utils -> textRenderer', () => {
-  const onMentionClick = (word) => word;
+  const onClickCallback = (word: string) => word;
 
-  const textRendererWithCallbacks = (text) =>
-    textRenderer(text, '', onMentionClick, (word) => word);
+  const textRendererWithCallbacks = (text: string) =>
+    textRenderer(text, '', onClickCallback, onClickCallback);
 
   it('is renders @ without callback func correctly', () => {
     const tree = renderer
