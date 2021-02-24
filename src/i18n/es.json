@@ -26,6 +26,6 @@
   "{{ actorName }} liked your {{ activityVerb }}": "{{ actorName }} le gusta tu {{ activityVerb }}",
   "{{ actorName }} reposted your {{ activityVerb }}": "{{ actorName }} ha reposteado tu {{ activityVerb }}",
   "{{ countComments }} comments": "{{ countComments }} comentarios",
-  "{{ countLikes }} likes": "{{ countLikes }} me gustas",
+  "{{ countLikes }} likes": "{{ countLikes }} me gusta",
   "{{ countReposts }} reposts": "{{ countReposts }} reposteos"
 }
