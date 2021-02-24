@@ -30,7 +30,8 @@
   }
 }
 
-.raf-card__image img {
+.raf-card__image img,
+.raf-card__image svg {
   position: absolute;
   width: inherit;
   height: inherit;

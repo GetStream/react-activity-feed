@@ -3,8 +3,7 @@ import ReactionToggleIcon from './ReactionToggleIcon';
 
 import { StreamApp, withTranslationContext } from '../Context';
 
-import repostButtonActive from '../images/repost-active@1x.png';
-import repostButtonInactive from '../images/repost@1x.png';
+import { RepostIcon, Color } from './Icons';
 
 /**
  * A repost button ready to be embedded as Activity footer
@@ -47,8 +46,8 @@ class RepostButtonInner extends React.Component {
             { targetFeeds: [`${feedGroup}:${userId}`] },
           )
         }
-        activeIcon={repostButtonActive}
-        inactiveIcon={repostButtonInactive}
+        activeIcon={<RepostIcon style={{ color: Color.Active }} />}
+        inactiveIcon={<RepostIcon style={{ color: Color.Inactive }} />}
       />
     );
   }
