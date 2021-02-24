@@ -3,7 +3,6 @@ import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import external from 'rollup-plugin-peer-deps-external';
 import json from '@rollup/plugin-json';
-import url from '@rollup/plugin-url';
 import copy from 'rollup-plugin-copy';
 import resolve from '@rollup/plugin-node-resolve';
 import globals from 'rollup-plugin-node-globals';
@@ -91,7 +90,6 @@ const normalBundle = {
     resolve({ preferBuiltins: false, browser: true }),
     commonjs({ include: /node_modules/ }),
     json(),
-    url(),
     typescript(),
     external(),
     babel({ babelHelpers: 'runtime', exclude: 'node_modules/**' }),
@@ -127,7 +125,6 @@ const fullBrowserBundle = {
       load: (id) =>
         ignoredBrowserModules.includes(id) ? 'export default null;' : null,
     },
-    url(),
     json(),
     globals({
       process: true,
