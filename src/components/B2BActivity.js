@@ -11,10 +11,9 @@ import Link from './Link';
 
 import { smartRender } from '../utils';
 
-import ThumbUp from '../assets/images/thumb.svg';
-import ThumbUpFilled from '../assets/images/thumb-filled.svg';
-import Comment from '../assets/images/comment.svg';
 import { withTranslationContext } from '../Context';
+
+import { CommentIcon, ThumbsUpIcon, Color } from './Icons';
 
 /**
  * Component is described here.
@@ -136,14 +135,14 @@ class B2BActivity extends React.Component {
               own_reactions={activity.own_reactions}
               kind="like"
               onPress={() => this.props.onToggleReaction('like', activity, {})}
-              activeIcon={ThumbUpFilled}
-              inactiveIcon={ThumbUp}
+              activeIcon={<ThumbsUpIcon style={{ color: Color.Active }} />}
+              inactiveIcon={<ThumbsUpIcon style={{ color: Color.Inactive }} />}
             />
             <ReactionIcon
               counts={activity.reaction_counts}
               kind="comment"
               onPress={() => this.setState({ showComments: true })}
-              icon={Comment}
+              icon={<CommentIcon style={{ color: Color.Active }} />}
             />
           </Flex>
           {this.state.showComments && (

@@ -1,7 +1,8 @@
 import React from 'react';
-import placeholder from '../images/placeholder.png';
 import { IconButton } from 'react-file-utils';
 import { sanitizeURL } from '../utils';
+
+import { AvatarIcon } from './Icons';
 
 /**
  * Component is described here.
@@ -50,10 +51,14 @@ export default class Card extends React.Component {
         ) : null}
         {image !== undefined && (
           <div className="raf-card__image">
-            <img
-              src={image == null ? placeholder : image}
-              alt={alt || this.props.title || this.props.description || ''}
-            />
+            {image === null ? (
+              <AvatarIcon preserveAspectRatio="xMinYMin slice" />
+            ) : (
+              <img
+                src={image}
+                alt={alt || this.props.title || this.props.description || ''}
+              />
+            )}
           </div>
         )}
         <div className="raf-card__content">

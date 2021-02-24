@@ -69,8 +69,13 @@ class ReactionIcon extends React.Component {
     return (
       <div className="raf-reaction-icon" onClick={onPress}>
         {icon ? (
-          <img className="raf-reaction-icon__image" src={icon} alt="" />
+          React.isValidElement(icon) ? (
+            icon
+          ) : (
+            <img className="raf-reaction-icon__image" src={icon} alt="" />
+          )
         ) : null}
+
         {count != null ? (
           <p className="raf-reaction-icon__label">{label}</p>
         ) : null}

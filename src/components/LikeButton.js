@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactionToggleIcon from './ReactionToggleIcon';
 
-import likebuttonActive from '../images/like-active@1x.png';
-import likebuttonInactive from '../images/like@1x.png';
+import { ThumbsUpIcon, Color } from './Icons';
 
 /**
  * Like button ready to be embedded as Activity footer
@@ -46,8 +45,8 @@ export default class LikeButton extends React.Component {
         own_reactions={own_reactions}
         kind="like"
         onPress={this._onPress}
-        activeIcon={likebuttonActive}
-        inactiveIcon={likebuttonInactive}
+        activeIcon={<ThumbsUpIcon style={{ color: Color.Active }} />}
+        inactiveIcon={<ThumbsUpIcon style={{ color: Color.Inactive }} />}
         labelSingle="like"
         labelPlural="likes"
       />
