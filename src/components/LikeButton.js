@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactionToggleIcon from './ReactionToggleIcon';
 
-import { ThumbsUpIcon, Color } from './icons';
+import { ThumbsUpIcon, Color } from './Icons';
 
 /**
  * Like button ready to be embedded as Activity footer

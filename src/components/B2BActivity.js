@@ -13,7 +13,7 @@ import { smartRender } from '../utils';
 
 import { withTranslationContext } from '../Context';
 
-import { CommentIcon, ThumbsUpIcon, Color } from './icons';
+import { CommentIcon, ThumbsUpIcon, Color } from './Icons';
 
 /**
  * Component is described here.

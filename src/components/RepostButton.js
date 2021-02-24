@@ -3,7 +3,7 @@ import ReactionToggleIcon from './ReactionToggleIcon';
 
 import { StreamApp, withTranslationContext } from '../Context';
 
-import { RepostIcon, Color } from './icons';
+import { RepostIcon, Color } from './Icons';
 
 /**
  * A repost button ready to be embedded as Activity footer

@@ -2,7 +2,7 @@ import React from 'react';
 import { IconButton } from 'react-file-utils';
 import { sanitizeURL } from '../utils';
 
-import { AvatarIcon } from './icons';
+import { AvatarIcon } from './Icons';
 
 /**
  * Component is described here.

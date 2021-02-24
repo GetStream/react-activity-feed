@@ -1,5 +1,5 @@
 import React from 'react';
-import { AvatarIcon } from './icons';
+import { AvatarIcon } from './Icons';
 
 /**
  *
@@ -19,12 +19,15 @@ export default class Avatar extends React.PureComponent {
 
     return (
       <React.Fragment>
-        {!image ? (
-          <AvatarIcon {...sharedProperties} />
-        ) : (
+        {image ? (
           <img {...sharedProperties} src={image} alt={alt ?? ''} />
+        ) : (
+          <AvatarIcon {...sharedProperties} />
         )}
       </React.Fragment>
     );
   }
 }
+
+//TODO: remove the default export
+export { Avatar };
