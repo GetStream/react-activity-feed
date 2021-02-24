@@ -175,10 +175,12 @@ export type TDateTimeParser = (
   input?: string | number | Date,
 ) => string | number | Date | Dayjs.Dayjs;
 
+export type LanguageCallbackFn = (t: TFunction) => void;
+
 export class Streami18n {
   i18nInstance = i18n.createInstance();
   Dayjs = null;
-  setLanguageCallback: (t: TFunction) => void = () => {};
+  setLanguageCallback: LanguageCallbackFn = () => {}; // eslint-disable-line @typescript-eslint/no-empty-function
   initialized = false;
 
   t: TFunction = (key: string) => key;
@@ -474,7 +476,7 @@ export class Streami18n {
     }
   }
 
-  registerSetLanguageCallback(callback: (t: TFunction) => void) {
+  registerSetLanguageCallback(callback: LanguageCallbackFn) {
     this.setLanguageCallback = callback;
   }
 }
