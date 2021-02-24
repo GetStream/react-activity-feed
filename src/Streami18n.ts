@@ -178,7 +178,7 @@ export type TDateTimeParser = (
 export class Streami18n {
   i18nInstance = i18n.createInstance();
   Dayjs = null;
-  setLanguageCallback: (t: TFunction) => void = () => null;
+  setLanguageCallback: (t: TFunction) => void = () => {};
   initialized = false;
 
   t: TFunction = (key: string) => key;
