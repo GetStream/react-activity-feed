@@ -1,5 +1,5 @@
 import React from 'react';
-import TimeHeader from './TimeHeader';
+import { TimeHeader } from './TimeHeader';
 import B2BActivity from './B2BActivity';
 
 import { smartRender } from '../utils';
