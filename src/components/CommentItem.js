@@ -1,6 +1,6 @@
 import React from 'react';
 import Avatar from './Avatar';
-import Flex from './Flex';
+import { Flex } from './Flex';
 
 import { humanizeTimestamp, textRenderer } from '../utils';
 import { withTranslationContext } from '../Context';
