@@ -70,7 +70,7 @@ describe('utils -> textRenderer', () => {
         className="some-class__link"
         data-testid="renderWord-hyperlink"
         href="https://getstream.io/"
-        rel="noopener"
+        rel="nofollow noreferrer noopener"
         target="blank"
       >
         getstream.io/
@@ -86,7 +86,7 @@ describe('utils -> textRenderer', () => {
           className="undefined__link"
           data-testid="renderWord-hyperlink"
           href="http://t.co"
-          rel="noopener"
+          rel="nofollow noreferrer noopener"
           target="blank"
         >
           t.co
@@ -96,7 +96,7 @@ describe('utils -> textRenderer', () => {
           className="undefined__link"
           data-testid="renderWord-hyperlink"
           href="http://g.co"
-          rel="noopener"
+          rel="nofollow noreferrer noopener"
           target="blank"
         >
           g.co
@@ -126,6 +126,7 @@ describe('utils -> textRenderer', () => {
     { input: 'https://getstream.com/', output: 'https://getstream.com/' },
     { input: 'https://www.getstream.com', output: 'https://www.getstream.com' },
     { input: 'http://getstream.com', output: 'http://getstream.com' },
+    { input: 'https://www.goog?le.com', output: 'https://www.goog?le.com' },
     { input: 'amin@getstream.com', output: 'mailto:amin@getstream.com' },
     { input: 'amin@getstream.co.uk', output: 'mailto:amin@getstream.co.uk' },
     { input: 'amin.corvi@io.net', output: 'mailto:amin.corvi@io.net' },
@@ -151,10 +152,7 @@ describe('utils -> textRenderer', () => {
     'getstream.nonvalidtld',
     'www.goog?le.com',
     'www.goog?le.com?',
-    'https://www.goog?le.com',
     'amin@getstream.nonvalidtld',
-    'amin.@6@getstream.com',
-    'amin////s.@6@getstream.com',
   ].forEach((input) => {
     it(`invalid link is not rendered ${input}`, () => {
       const { queryByTestId } = render(textRenderer(input));

@@ -72,7 +72,7 @@ const normalBundle = {
     '@fortawesome/react-fontawesome',
     '@webscopeio/react-textarea-autocomplete',
     '@webscopeio/react-textarea-autocomplete/style.css',
-    'anchorme',
+    'linkifyjs',
     /dayjs/,
     'emoji-mart',
     'emoji-mart/css/emoji-mart.css',

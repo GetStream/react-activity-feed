@@ -26,7 +26,7 @@ import _uniq from 'lodash/uniq';
 import _debounce from 'lodash/debounce';
 import _difference from 'lodash/difference';
 import _includes from 'lodash/includes';
-import anchorme from 'anchorme';
+import { find as linkifyFind } from 'linkifyjs';
 
 import { StreamApp, withTranslationContext } from '../Context';
 import {
@@ -102,12 +102,8 @@ class StatusUpdateFormInner extends React.Component {
     let newUrls;
     let removedUrls;
 
-    const urlInfos = anchorme(text, {
-      list: true,
-      exclude: (info) =>
-        info.protocol !== 'https://' && info.protocol !== 'http://',
-    });
-    const urls = _uniq(urlInfos.map((info) => info.protocol + info.encoded));
+    const urlInfos = linkifyFind(text, 'url');
+    const urls = _uniq(urlInfos.map((info) => info.href));
 
     this.setState(
       (prevState) => {
