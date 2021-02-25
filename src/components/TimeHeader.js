@@ -1,5 +1,5 @@
 import React from 'react';
-import Title from './Title';
+import { Title } from './Title';
 
 /**
  * Renders a header with a line. Does not neccesarily need a time stamp.

@@ -19,7 +19,7 @@ import {
   LoadingIndicator,
 } from 'react-file-utils';
 import Button from './Button';
-import Title from './Title';
+import { Title } from './Title';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark } from '@fortawesome/free-regular-svg-icons';
 import _uniq from 'lodash/uniq';

@@ -4,7 +4,7 @@ import PanelContent from './PanelContent';
 import Flex from './Flex';
 import { DataLabel } from './DataLabel';
 import Avatar from './Avatar';
-import Title from './Title';
+import { Title } from './Title';
 import ReactionToggleIcon from './ReactionToggleIcon';
 import ReactionIcon from './ReactionIcon';
 import Link from './Link';
