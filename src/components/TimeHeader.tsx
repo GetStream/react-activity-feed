@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import Title from './Title';
+import { Title } from './Title';
 
 export type TimeHeaderProps = {
   children?: ReactNode;
