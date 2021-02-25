@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 
 import { Title } from './Title';
 
-describe('DataLabel', () => {
+describe('Title', () => {
   it('renders with default props', () => {
     const tree = renderer.create(<Title>title</Title>).toJSON();
     expect(tree).toMatchInlineSnapshot(`
