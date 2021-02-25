@@ -1,13 +1,13 @@
 import React, { CSSProperties, ReactNode } from 'react';
 
 export type FlexProps = {
-  a: CSSProperties['alignItems'];
   children: ReactNode;
-  d: CSSProperties['flexDirection'];
-  j: CSSProperties['justifyContent'];
-  js: CSSProperties['justifySelf'];
-  style: CSSProperties;
-  w: CSSProperties['flexWrap'];
+  a?: CSSProperties['alignItems'];
+  d?: CSSProperties['flexDirection'];
+  j?: CSSProperties['justifyContent'];
+  js?: CSSProperties['justifySelf'];
+  style?: CSSProperties;
+  w?: CSSProperties['flexWrap'];
 };
 
 export const Flex = ({
@@ -18,9 +18,9 @@ export const Flex = ({
   w = 'nowrap',
   style,
   children,
-}: Partial<FlexProps>) => (
+}: FlexProps) => (
   <div
-    className={`raf-flex`}
+    className="raf-flex"
     style={{
       justifyContent: j,
       alignItems: a,
