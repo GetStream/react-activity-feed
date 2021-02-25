@@ -1,11 +1,36 @@
 import React from 'react';
 import URL from 'url-parse';
 import _truncate from 'lodash/truncate';
-import twitter from 'twitter-text';
 import Dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import minMax from 'dayjs/plugin/minMax';
-import { find as linkifyFind } from 'linkifyjs';
+import * as linkify from 'linkifyjs';
+import linkifyMention from 'linkifyjs/plugins/mention';
+
+// 'linkifyjs/plugins/hashtag';
+function linkifyHashtag(linkify) {
+  const TT = linkify.scanner.TOKENS; // Text tokens
+  const MultiToken = linkify.parser.TOKENS.Base; // Base Multi token class
+  const S_START = linkify.parser.start;
+  function HASHTAG(value) {
+    this.v = value;
+  }
+  linkify.inherits(MultiToken, HASHTAG, { type: 'hashtag', isLink: true });
+  const S_HASH = S_START.jump(TT.POUND);
+  const S_HASHTAG = new linkify.parser.State(HASHTAG);
+
+  S_HASH.on(TT.DOMAIN, S_HASHTAG);
+  S_HASH.on(TT.UNDERSCORE, S_HASHTAG);
+  S_HASH.on(TT.TLD, S_HASHTAG);
+
+  // following lines are the diff from original implemention
+  // add support for _ in hashtags
+  S_HASH.on(TT.LOCALHOST, S_HASHTAG);
+  S_HASHTAG.on(TT.UNDERSCORE, S_HASH);
+}
+
+linkifyMention(linkify);
+linkifyHashtag(linkify);
 
 Dayjs.extend(utc);
 Dayjs.extend(minMax);
@@ -204,47 +229,44 @@ export function sanitizeURL(url) {
 }
 
 const renderWord = (word, key, parentClass, onClickMention, onClickHashtag) => {
-  if (onClickMention && word.includes('@')) {
-    const mention = twitter.extractMentions(word);
-    if (!mention.length) return word;
+  const [link] = linkify.find(word);
+  if (!link) return word;
 
+  const { type, value, href } = link;
+
+  if (onClickMention && type === 'mention') {
     return (
       <React.Fragment key={key}>
-        {!word.startsWith(`@${mention[0]}`) &&
-          word.slice(0, word.indexOf(mention[0]) - 1)}
+        {!word.startsWith(value) && word.slice(0, word.indexOf(value))}
         <a
-          onClick={() => onClickMention && onClickMention(mention[0])}
+          onClick={() => onClickMention && onClickMention(value.substring(1))}
           className={`${parentClass}__mention`}
         >
-          @{mention[0]}
+          {value}
         </a>
-        {!word.endsWith(mention[0]) &&
-          word.slice(word.indexOf(mention[0]) + mention[0].length)}
-      </React.Fragment>
-    );
-  } else if (onClickHashtag && word.includes('#')) {
-    const hashtag = twitter.extractHashtags(word);
-    if (!hashtag.length) return word;
-
-    return (
-      <React.Fragment key={key}>
-        {!word.startsWith(`#${hashtag[0]}`) &&
-          word.slice(0, word.indexOf(hashtag[0]) - 1)}
-        <a
-          onClick={() => onClickHashtag && onClickHashtag(hashtag[0])}
-          className={`${parentClass}__hashtag`}
-        >
-          #{hashtag[0]}
-        </a>
-        {!word.endsWith(hashtag[0]) &&
-          word.slice(word.indexOf(hashtag[0]) + hashtag[0].length)}
+        {!word.endsWith(value) &&
+          word.slice(word.indexOf(value) + value.length)}
       </React.Fragment>
     );
   }
 
-  const links = linkifyFind(word);
-  if (links.length === 1) {
-    const { type, href, value } = links[0];
+  if (onClickHashtag && type === 'hashtag') {
+    return (
+      <React.Fragment key={key}>
+        {!word.startsWith(value) && word.slice(0, word.indexOf(value))}
+        <a
+          onClick={() => onClickHashtag && onClickHashtag(value.substring(1))}
+          className={`${parentClass}__hashtag`}
+        >
+          {value}
+        </a>
+        {!word.endsWith(value) &&
+          word.slice(word.indexOf(value) + value.length)}
+      </React.Fragment>
+    );
+  }
+
+  if (type === 'email' || type === 'url') {
     return (
       <a
         href={encodeURI(href)}

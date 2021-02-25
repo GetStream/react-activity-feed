@@ -80,7 +80,6 @@ const normalBundle = {
     'react-file-utils',
     'react-images',
     'stream-analytics',
-    /twitter-text/,
     'url-parse',
   ],
   plugins: [

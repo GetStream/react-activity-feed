@@ -60,6 +60,14 @@ describe('utils -> textRenderer', () => {
     expect(tree).toMatchSnapshot();
   });
 
+  it('is renders # with underline in it', () => {
+    const tree = renderer
+      .create(textRendererWithCallbacks('#stream_nice'))
+      .toJSON();
+
+    expect(tree).toMatchSnapshot();
+  });
+
   it('is renders hyperlinks in correct format', () => {
     expect(
       renderer
@@ -150,8 +158,6 @@ describe('utils -> textRenderer', () => {
     'stream',
     'stream email',
     'getstream.nonvalidtld',
-    'www.goog?le.com',
-    'www.goog?le.com?',
     'amin@getstream.nonvalidtld',
   ].forEach((input) => {
     it(`invalid link is not rendered ${input}`, () => {
