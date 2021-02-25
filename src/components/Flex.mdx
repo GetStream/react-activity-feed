@@ -1,0 +1,36 @@
+---
+route: /components/flex
+menu: Composition Components
+---
+
+import { Playground, Props } from 'docz';
+import { DataLabel } from './DataLabel';
+import { Flex } from './Flex';
+
+# Flex
+
+## Properties
+
+<Props of={Flex} />
+
+## Basic usage
+
+<Playground>
+  <Flex>
+    <DataLabel label="status" data="Sent" />
+    <DataLabel label="opens" data={1} />
+  </Flex>
+</Playground>
+
+## With custom properties
+
+<Playground>
+  <Flex
+    a="center"
+    j="center"
+    style={{ backgroundColor: 'lightblue', borderRadius: 5 }}
+  >
+    <DataLabel label="status" data="Sent" />
+    <DataLabel label="opens" data={1} />
+  </Flex>
+</Playground>
