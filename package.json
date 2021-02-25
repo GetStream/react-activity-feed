@@ -147,7 +147,7 @@
   "size-limit": [
     {
       "path": "dist/index.es.js",
-      "limit": "320 KB",
+      "limit": "300 KB",
       "import": "{ createComponent }"
     },
     {
