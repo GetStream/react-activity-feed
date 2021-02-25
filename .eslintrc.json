@@ -72,7 +72,6 @@
         "plugin:prettier/recommended",
         "plugin:react/recommended",
         "plugin:sonarjs/recommended",
-        "prettier/@typescript-eslint",
         "plugin:jest/recommended",
         "plugin:jest-dom/recommended",
         "plugin:@typescript-eslint/recommended"
