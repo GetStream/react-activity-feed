@@ -23,7 +23,7 @@ export { default as Gallery } from './components/Gallery';
 export { default as Avatar } from './components/Avatar';
 export { default as AvatarGroup } from './components/AvatarGroup';
 export { default as Dropdown } from './components/Dropdown';
-export { default as Link } from './components/Link';
+export * from './components/Link';
 export { default as Video } from './components/Video';
 export { default as Audio } from './components/Audio';
 
