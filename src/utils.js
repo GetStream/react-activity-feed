@@ -1,11 +1,11 @@
 import React from 'react';
 import URL from 'url-parse';
-import anchorme from 'anchorme';
 import _truncate from 'lodash/truncate';
 import twitter from 'twitter-text';
 import Dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import minMax from 'dayjs/plugin/minMax';
+import { find as linkifyFind } from 'linkifyjs';
 
 Dayjs.extend(utc);
 Dayjs.extend(minMax);
@@ -241,25 +241,24 @@ const renderWord = (word, key, parentClass, onClickMention, onClickHashtag) => {
       </React.Fragment>
     );
   }
-  if (anchorme.validate.url(word) || anchorme.validate.email(word)) {
-    const link = anchorme(word, { list: true });
-    if (
-      link[0].protocol !== 'http://' &&
-      link[0].protocol !== 'https://' &&
-      link[0].protocol !== 'mailto:'
-    ) {
-      return word;
-    }
 
+  const links = linkifyFind(word);
+  if (links.length === 1) {
+    const { type, href, value } = links[0];
     return (
       <a
-        href={`${link[0].protocol}${link[0].encoded}`}
+        href={encodeURI(href)}
         className={`${parentClass}__link`}
         target="blank"
-        rel="noopener"
+        data-testid="renderWord-hyperlink"
+        rel="nofollow noreferrer noopener"
         key={key}
       >
-        {_truncate(link[0].encoded, { length: 33 })}
+        {type === 'email'
+          ? value
+          : _truncate(value.replace(/(http(s?):\/\/)?(www\.)?/, ''), {
+              length: 33,
+            })}
       </a>
     );
   }
