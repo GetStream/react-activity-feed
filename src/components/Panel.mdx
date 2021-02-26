@@ -1,0 +1,49 @@
+---
+route: /components/panel
+menu: Composition Components
+---
+
+import { Playground, Props } from 'docz';
+import { Panel, PanelContent, PanelFooter, PanelHeading } from './Panel';
+
+# Panel
+
+## Properties
+
+<Props of={Panel} />
+
+## Panel rounded (default)
+
+<Playground>
+  <Panel>
+    <PanelHeading>Header</PanelHeading>
+    <PanelContent>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
+      scelerisque tincidunt sapien, eget lacinia neque posuere ut. Sed tempus
+      felis felis, sed varius neque hendrerit rhoncus. Suspendisse vitae ex
+      vitae erat facilisis pretium eu vitae mauris. Suspendisse eu nibh lorem.
+      Praesent vulputate neque vel augue mattis condimentum. Quisque lobortis
+      lacinia eros, a consequat turpis vehicula sit amet. Ut vel fermentum
+      velit.
+    </PanelContent>
+    <PanelFooter>Footer</PanelFooter>
+  </Panel>
+</Playground>
+
+## Panel squared
+
+<Playground>
+  <Panel panelStyle="square">
+    <PanelHeading>Header</PanelHeading>
+    <PanelContent>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
+      scelerisque tincidunt sapien, eget lacinia neque posuere ut. Sed tempus
+      felis felis, sed varius neque hendrerit rhoncus. Suspendisse vitae ex
+      vitae erat facilisis pretium eu vitae mauris. Suspendisse eu nibh lorem.
+      Praesent vulputate neque vel augue mattis condimentum. Quisque lobortis
+      lacinia eros, a consequat turpis vehicula sit amet. Ut vel fermentum
+      velit.
+    </PanelContent>
+    <PanelFooter>Footer</PanelFooter>
+  </Panel>
+</Playground>
