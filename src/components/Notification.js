@@ -15,13 +15,10 @@ import { withTranslationContext } from '../Context';
  * @example ./examples/Notification.md
  */
 class Notification extends React.Component {
-  getUsers = (activities) =>
-    activities.map((item) => userOrDefault(item.actor));
+  getUsers = (activities) => activities.map((item) => userOrDefault(item.actor));
 
   _getOnClickUser(actor) {
-    return this.props.onClickUser
-      ? (e) => this.onClickUser(e, actor)
-      : undefined;
+    return this.props.onClickUser ? (e) => this.onClickUser(e, actor) : undefined;
   }
 
   onClickUser = (e, actor) => {
@@ -33,9 +30,7 @@ class Notification extends React.Component {
   };
 
   _getOnClickNotification() {
-    return this.props.onClickNotification
-      ? this.onClickNotification
-      : undefined;
+    return this.props.onClickNotification ? this.onClickNotification : undefined;
   }
 
   onClickNotification = (e) => {
@@ -77,13 +72,10 @@ class Notification extends React.Component {
           });
           break;
         case 'comment':
-          headerText = t(
-            '{{ actorName }} commented on your {{ activityVerb }}',
-            {
-              actorName: lastActor.data.name,
-              activityVerb: latestActivity.object.verb,
-            },
-          );
+          headerText = t('{{ actorName }} commented on your {{ activityVerb }}', {
+            actorName: lastActor.data.name,
+            activityVerb: latestActivity.object.verb,
+          });
           break;
         default:
           console.warn(
@@ -93,22 +85,16 @@ class Notification extends React.Component {
     } else if (activities.length > 1 && activities.length < 1 + 1 + 1) {
       switch (latestActivity.verb) {
         case 'like':
-          headerText = t(
-            '{{ actorName }} and 1 other liked your {{ activityVerb }}',
-            {
-              actorName: lastActor.data.name,
-              activityVerb: latestActivity.object.verb,
-            },
-          );
+          headerText = t('{{ actorName }} and 1 other liked your {{ activityVerb }}', {
+            actorName: lastActor.data.name,
+            activityVerb: latestActivity.object.verb,
+          });
           break;
         case 'repost':
-          headerText = t(
-            '{{ actorName }} and 1 other reposted your {{ activityVerb }}',
-            {
-              actorName: lastActor.data.name,
-              activityVerb: latestActivity.object.verb,
-            },
-          );
+          headerText = t('{{ actorName }} and 1 other reposted your {{ activityVerb }}', {
+            actorName: lastActor.data.name,
+            activityVerb: latestActivity.object.verb,
+          });
           break;
         case 'follow':
           headerText = t('{{ actorName }} and 1 other followed you', {
@@ -116,13 +102,10 @@ class Notification extends React.Component {
           });
           break;
         case 'comment':
-          headerText = t(
-            '{{ actorName }} and 1 other commented on your {{ activityVerb }}',
-            {
-              actorName: lastActor.data.name,
-              activityVerb: latestActivity.object.verb,
-            },
-          );
+          headerText = t('{{ actorName }} and 1 other commented on your {{ activityVerb }}', {
+            actorName: lastActor.data.name,
+            activityVerb: latestActivity.object.verb,
+          });
           break;
         default:
           console.warn(
@@ -132,37 +115,27 @@ class Notification extends React.Component {
     } else {
       switch (latestActivity.verb) {
         case 'like':
-          headerText = t(
-            '{{ actorName }} and {{ countOtherActors }} others liked your {{ activityVerb }}',
-            {
-              actorName: lastActor.data.name,
-              activityVerb: latestActivity.object.verb,
-            },
-          );
+          headerText = t('{{ actorName }} and {{ countOtherActors }} others liked your {{ activityVerb }}', {
+            actorName: lastActor.data.name,
+            activityVerb: latestActivity.object.verb,
+          });
           break;
         case 'repost':
-          headerText = t(
-            '{{ actorName }} and {{ countOtherActors }} others reposted your {{ activityVerb }}',
-            {
-              actorName: lastActor.data.name,
-              activityVerb: latestActivity.object.verb,
-            },
-          );
+          headerText = t('{{ actorName }} and {{ countOtherActors }} others reposted your {{ activityVerb }}', {
+            actorName: lastActor.data.name,
+            activityVerb: latestActivity.object.verb,
+          });
           break;
         case 'follow':
-          headerText = t(
-            '{{ actorName }} and {{ countOtherActors }} others followed you',
-            { actorName: lastActor.data.name },
-          );
+          headerText = t('{{ actorName }} and {{ countOtherActors }} others followed you', {
+            actorName: lastActor.data.name,
+          });
           break;
         case 'comment':
-          headerText = t(
-            '{{ actorName }} and {{ countOtherActors }} others commented on your {{ activityVerb }}',
-            {
-              actorName: lastActor.data.name,
-              activityVerb: latestActivity.object.verb,
-            },
-          );
+          headerText = t('{{ actorName }} and {{ countOtherActors }} others commented on your {{ activityVerb }}', {
+            actorName: lastActor.data.name,
+            activityVerb: latestActivity.object.verb,
+          });
           break;
         default:
           console.warn(
@@ -174,17 +147,9 @@ class Notification extends React.Component {
     return (
       <div
         onClick={this._getOnClickNotification()}
-        className={
-          'raf-notification' +
-          (activityGroup.is_read ? ' raf-notification--read' : '')
-        }
+        className={'raf-notification' + (activityGroup.is_read ? ' raf-notification--read' : '')}
       >
-        <Avatar
-          onClick={this._getOnClickUser(lastActor)}
-          image={lastActor.data.profileImage}
-          circle
-          size={30}
-        />
+        <Avatar onClick={this._getOnClickUser(lastActor)} image={lastActor.data.profileImage} circle size={30} />
         <div className="raf-notification__content">
           <div className="raf-notification__header">
             <strong>{headerText}</strong> {headerSubtext}
@@ -204,13 +169,9 @@ class Notification extends React.Component {
             )}
           </div>
           <div>
-            <small>
-              {humanizeTimestamp(latestActivity.time, tDateTimeParser)}
-            </small>
+            <small>{humanizeTimestamp(latestActivity.time, tDateTimeParser)}</small>
           </div>
-          {latestActivity.verb !== 'follow' ? (
-            <AttachedActivity activity={latestActivity.object} />
-          ) : null}
+          {latestActivity.verb !== 'follow' ? <AttachedActivity activity={latestActivity.object} /> : null}
         </div>
         <div className="raf-notification__extra">
           {activities.length > 1 && latestActivity.verb === 'follow' ? (

@@ -15,9 +15,7 @@ export default class AvatarGroup extends React.Component {
   };
 
   _getOnClickUser(user) {
-    return this.props.onClickUser
-      ? (e) => this.onClickUser(e, user)
-      : undefined;
+    return this.props.onClickUser ? (e) => this.onClickUser(e, user) : undefined;
   }
 
   onClickUser = (e, user) => {

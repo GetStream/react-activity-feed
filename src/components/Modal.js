@@ -61,10 +61,7 @@ export default class Modal extends React.Component {
   handleOutsideClick = (event) => {
     if (this.modalRef !== null || this.modalRef !== undefined) {
       const target = event.target;
-      if (
-        this.modalRef.current !== null &&
-        !this.modalRef.current.contains(target)
-      ) {
+      if (this.modalRef.current !== null && !this.modalRef.current.contains(target)) {
         event.stopPropagation();
         this.props.onClose();
 

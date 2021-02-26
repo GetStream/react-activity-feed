@@ -10,15 +10,7 @@ export type FlexProps = {
   w?: CSSProperties['flexWrap'];
 };
 
-export const Flex = ({
-  j,
-  a,
-  js,
-  d = 'row',
-  w = 'nowrap',
-  style,
-  children,
-}: FlexProps) => (
+export const Flex = ({ j, a, js, d = 'row', w = 'nowrap', style, children }: FlexProps) => (
   <div
     className="raf-flex"
     style={{

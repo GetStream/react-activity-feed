@@ -30,12 +30,7 @@ class B2BActivity extends React.Component {
   renderHeader = () => {
     const { activity, tDateTimeParser } = this.props;
     return (
-      <Flex
-        a="center"
-        w="wrap"
-        j="space-between"
-        style={{ padding: '8px 16px' }}
-      >
+      <Flex a="center" w="wrap" j="space-between" style={{ padding: '8px 16px' }}>
         <Flex style={{ width: '100%' }}>
           <p
             style={{
@@ -52,11 +47,7 @@ class B2BActivity extends React.Component {
         <Flex a="center" style={{ margin: 0 }}>
           {activity.object.type === 'tracked email' && (
             <Avatar
-              image={
-                activity.actor && activity.actor.profileImage
-                  ? activity.actor.profileImage
-                  : ''
-              }
+              image={activity.actor && activity.actor.profileImage ? activity.actor.profileImage : ''}
               rounded
               size={30}
             />
@@ -84,8 +75,7 @@ class B2BActivity extends React.Component {
 
           {activity.object.type === 'tracked email' && (
             <p style={{ fontSize: 12 }}>
-              You sent a tracked email to <strong>{activity.actor.name}</strong>{' '}
-              <em>({activity.actor.email})</em>
+              You sent a tracked email to <strong>{activity.actor.name}</strong> <em>({activity.actor.email})</em>
             </p>
           )}
         </Flex>
@@ -122,12 +112,7 @@ class B2BActivity extends React.Component {
     const { activity, t } = this.props;
     return (
       <React.Fragment>
-        <Flex
-          a="center"
-          j="space-between"
-          w="wrap"
-          style={{ padding: '0 16px 0px' }}
-        >
+        <Flex a="center" j="space-between" w="wrap" style={{ padding: '0 16px 0px' }}>
           <Flex a="center" style={{ flex: 1 }}>
             <ReactionToggleIcon
               counts={activity.reaction_counts}

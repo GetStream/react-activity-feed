@@ -40,16 +40,7 @@ const baseConfig = {
   watch: { chokidar: false },
 };
 
-const ignoredBrowserModules = [
-  'jsonwebtoken',
-  'http',
-  'https',
-  'zlib',
-  'crypto',
-  'domain',
-  'stream',
-  'sshpk',
-];
+const ignoredBrowserModules = ['jsonwebtoken', 'http', 'https', 'zlib', 'crypto', 'domain', 'stream', 'sshpk'];
 
 const normalBundle = {
   ...baseConfig,
@@ -116,10 +107,8 @@ const fullBrowserBundle = {
     babel({ babelHelpers: 'runtime', exclude: 'node_modules/**' }),
     {
       name: 'browser-remapper',
-      resolveId: (importee) =>
-        ignoredBrowserModules.includes(importee) ? importee : null,
-      load: (id) =>
-        ignoredBrowserModules.includes(id) ? 'export default null;' : null,
+      resolveId: (importee) => (ignoredBrowserModules.includes(importee) ? importee : null),
+      load: (id) => (ignoredBrowserModules.includes(id) ? 'export default null;' : null),
     },
     json(),
     globals({
@@ -133,6 +122,4 @@ const fullBrowserBundle = {
 };
 
 export default () =>
-  process.env.ROLLUP_WATCH
-    ? [styleBundle(true), normalBundle]
-    : [styleBundle(), normalBundle, fullBrowserBundle];
+  process.env.ROLLUP_WATCH ? [styleBundle(true), normalBundle] : [styleBundle(), normalBundle, fullBrowserBundle];

@@ -7,13 +7,7 @@ import Video from './Video';
 import { FileIcon } from 'react-file-utils';
 import Gallery from './Gallery';
 
-import {
-  smartRender,
-  sanitizeURL,
-  userOrDefault,
-  textRenderer,
-  humanizeTimestamp,
-} from '../utils';
+import { smartRender, sanitizeURL, userOrDefault, textRenderer, humanizeTimestamp } from '../utils';
 import { withTranslationContext } from '../Context';
 
 /**
@@ -37,9 +31,7 @@ class Activity extends React.Component {
           avatar={actor.data.profileImage}
           onClickUser={this._getOnClickUser()}
           subtitle={
-            this.props.HeaderRight != null
-              ? humanizeTimestamp(this.props.activity.time, tDateTimeParser)
-              : undefined
+            this.props.HeaderRight != null ? humanizeTimestamp(this.props.activity.time, tDateTimeParser) : undefined
           }
           timestamp={this.props.activity.time}
           icon={this.props.icon}
@@ -73,38 +65,27 @@ class Activity extends React.Component {
       <div className="raf-activity__content">
         {!!text && (
           <div style={{ padding: '8px 16px' }}>
-            <p>
-              {textRenderer(
-                text,
-                'raf-activity',
-                this.props.onClickMention,
-                this.props.onClickHashtag,
-              )}
-            </p>
+            <p>{textRenderer(text, 'raf-activity', this.props.onClickMention, this.props.onClickHashtag)}</p>
           </div>
         )}
 
-        {this.props.activity.verb === 'repost' &&
-          this.props.activity.object instanceof Object && (
-            <Card {...this.props.activity.object.data} />
-          )}
+        {this.props.activity.verb === 'repost' && this.props.activity.object instanceof Object && (
+          <Card {...this.props.activity.object.data} />
+        )}
 
-        {attachments &&
-          attachments.og &&
-          Object.keys(attachments.og).length > 0 && (
-            <div style={{ padding: '8px 16px' }}>
-              {attachments.og.videos ? (
-                <Video og={attachments.og} />
-              ) : attachments.og.audios ? (
-                <Audio og={attachments.og} />
-              ) : (
-                <Card {...attachments.og} />
-              )}
-            </div>
-          )}
+        {attachments && attachments.og && Object.keys(attachments.og).length > 0 && (
+          <div style={{ padding: '8px 16px' }}>
+            {attachments.og.videos ? (
+              <Video og={attachments.og} />
+            ) : attachments.og.audios ? (
+              <Audio og={attachments.og} />
+            ) : (
+              <Card {...attachments.og} />
+            )}
+          </div>
+        )}
 
-        {Boolean(this.props.activity.image) &&
-        this.props.activity.image !== undefined ? (
+        {Boolean(this.props.activity.image) && this.props.activity.image !== undefined ? (
           <div style={{ padding: '8px 0' }}>
             <Gallery
               images={[this.props.activity.image]}

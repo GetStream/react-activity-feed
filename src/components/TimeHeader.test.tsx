@@ -5,9 +5,7 @@ import { TimeHeader } from './TimeHeader';
 
 describe('TimeHeader', () => {
   it('renders with default props', () => {
-    const tree = renderer
-      .create(<TimeHeader>September 2021</TimeHeader>)
-      .toJSON();
+    const tree = renderer.create(<TimeHeader>September 2021</TimeHeader>).toJSON();
 
     expect(tree).toMatchInlineSnapshot(`
       <div

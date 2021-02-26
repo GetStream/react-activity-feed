@@ -38,19 +38,11 @@ class FeedInner extends React.Component {
   componentDidUpdate(prevProps) {
     const clientDifferent = this.props.client !== prevProps.client;
     const notifyDifferent = this.props.notify !== prevProps.notify;
-    const feedDifferent =
-      this.props.userId !== prevProps.userId ||
-      this.props.feedGroup !== prevProps.feedGroup;
+    const feedDifferent = this.props.userId !== prevProps.userId || this.props.feedGroup !== prevProps.feedGroup;
     const optionsDifferent = !_isEqual(this.props.options, prevProps.options);
-    const doFeedRequestDifferent =
-      this.props.doFeedRequest !== prevProps.doFeedRequest;
+    const doFeedRequestDifferent = this.props.doFeedRequest !== prevProps.doFeedRequest;
 
-    if (
-      clientDifferent ||
-      feedDifferent ||
-      optionsDifferent ||
-      doFeedRequestDifferent
-    ) {
+    if (clientDifferent || feedDifferent || optionsDifferent || doFeedRequestDifferent) {
       // TODO: Implement
     }
     if (clientDifferent || feedDifferent || notifyDifferent) {
@@ -98,10 +90,6 @@ class FeedInner extends React.Component {
   };
 
   render() {
-    return (
-      <FeedContext.Provider value={this.getCtx()}>
-        {this.props.children}
-      </FeedContext.Provider>
-    );
+    return <FeedContext.Provider value={this.getCtx()}>{this.props.children}</FeedContext.Provider>;
   }
 }

@@ -26,12 +26,7 @@ import _includes from 'lodash/includes';
 import { find as linkifyFind } from 'linkifyjs';
 
 import { StreamApp, withTranslationContext } from '../Context';
-import {
-  generateRandomId,
-  dataTransferItemsToFiles,
-  dataTransferItemsHaveFiles,
-  inputValueFromEvent,
-} from '../utils';
+import { generateRandomId, dataTransferItemsToFiles, dataTransferItemsHaveFiles, inputValueFromEvent } from '../utils';
 
 /**
  * Component is described here.
@@ -54,9 +49,7 @@ class StatusUpdateForm extends React.Component {
       Header: HeaderComponent,
     };
     return (
-      <StreamApp.Consumer>
-        {(appCtx) => <StatusUpdateFormInner {...forwardedProps} {...appCtx} />}
-      </StreamApp.Consumer>
+      <StreamApp.Consumer>{(appCtx) => <StatusUpdateFormInner {...forwardedProps} {...appCtx} />}</StreamApp.Consumer>
     );
   }
 }
@@ -199,23 +192,17 @@ class StatusUpdateFormInner extends React.Component {
     return this._text();
   };
 
-  _orderedImages = () =>
-    this.state.imageOrder.map((id) => this.state.imageUploads[id]);
+  _orderedImages = () => this.state.imageOrder.map((id) => this.state.imageUploads[id]);
 
   _uploadedImages = () => this._orderedImages().filter((upload) => upload.url);
 
-  _orderedFiles = () =>
-    this.state.fileOrder.map((id) => this.state.fileUploads[id]);
+  _orderedFiles = () => this.state.fileOrder.map((id) => this.state.fileUploads[id]);
 
   _uploadedFiles = () => this._orderedFiles().filter((upload) => upload.url);
 
-  _orderedOgStates = () =>
-    this.state.ogUrlOrder
-      .map((url) => this.state.ogStateByUrl[url])
-      .filter(Boolean);
+  _orderedOgStates = () => this.state.ogUrlOrder.map((url) => this.state.ogStateByUrl[url]).filter(Boolean);
 
-  _isOgScraping = () =>
-    this._orderedOgStates().some((state) => state.scrapingActive);
+  _isOgScraping = () => this._orderedOgStates().some((state) => state.scrapingActive);
 
   _availableOg = () =>
     this._orderedOgStates()
@@ -251,9 +238,7 @@ class StatusUpdateFormInner extends React.Component {
     };
 
     if (uploadedImages) {
-      attachments.images = uploadedImages
-        .map((image) => image.url)
-        .filter(Boolean);
+      attachments.images = uploadedImages.map((image) => image.url).filter(Boolean);
       activity.text = this._text();
     }
     if (uploadedFiles) {
@@ -274,9 +259,7 @@ class StatusUpdateFormInner extends React.Component {
     if (this.props.doRequest) {
       return await this.props.doRequest(modifiedActivity);
     } else {
-      return await this.props.client
-        .feed(this.props.feedGroup, this.props.userId)
-        .addActivity(modifiedActivity);
+      return await this.props.client.feed(this.props.feedGroup, this.props.userId).addActivity(modifiedActivity);
     }
   }
 
@@ -326,10 +309,7 @@ class StatusUpdateFormInner extends React.Component {
       const { selectionStart, selectionEnd } = textareaElement;
       newCursorPosition = selectionStart + insertedText.length;
       return {
-        text:
-          prevText.slice(0, selectionStart) +
-          insertedText +
-          prevText.slice(selectionEnd),
+        text: prevText.slice(0, selectionStart) + insertedText + prevText.slice(selectionEnd),
       };
     });
 
@@ -539,14 +519,7 @@ class StatusUpdateFormInner extends React.Component {
                 <React.Fragment>
                   {userData.profileImage && (
                     <div style={{ marginRight: '16px' }}>
-                      <Avatar
-                        image={
-                          userData.profileImage ||
-                          'https://placehold.it/100x100'
-                        }
-                        size={50}
-                        circle
-                      />
+                      <Avatar image={userData.profileImage || 'https://placehold.it/100x100'} size={50} circle />
                     </div>
                   )}
                 </React.Fragment>
@@ -568,10 +541,7 @@ class StatusUpdateFormInner extends React.Component {
                     // up the DataTransferItems after resolving of a promise.
                     let plainTextPromise;
                     for (const item of items) {
-                      if (
-                        item.kind === 'string' &&
-                        item.type === 'text/plain'
-                      ) {
+                      if (item.kind === 'string' && item.type === 'text/plain') {
                         plainTextPromise = new Promise((resolve) => {
                           item.getAsString((s) => {
                             resolve(s);
@@ -640,9 +610,7 @@ class StatusUpdateFormInner extends React.Component {
                     {availableOg.map(({ url, title }) => (
                       <li
                         className={`raf-status-update-form__url-list-item${
-                          url === this.state.ogActiveUrl
-                            ? ' raf-status-update-form__url-list-item--active'
-                            : ''
+                          url === this.state.ogActiveUrl ? ' raf-status-update-form__url-list-item--active' : ''
                         }`}
                         onClick={() =>
                           this.setState((prevState) => {
@@ -658,8 +626,7 @@ class StatusUpdateFormInner extends React.Component {
                         }
                         key={url}
                       >
-                        <FontAwesomeIcon icon={faBookmark} />{' '}
-                        {title !== undefined ? title : url}
+                        <FontAwesomeIcon icon={faBookmark} /> {title !== undefined ? title : url}
                       </li>
                     ))}
                   </ol>
@@ -667,9 +634,7 @@ class StatusUpdateFormInner extends React.Component {
               )}
               {this.state.imageOrder.length > 0 && (
                 <ImagePreviewer
-                  imageUploads={this.state.imageOrder.map(
-                    (id) => this.state.imageUploads[id],
-                  )}
+                  imageUploads={this.state.imageOrder.map((id) => this.state.imageUploads[id])}
                   handleRemove={this._removeImage}
                   handleRetry={this._uploadImage}
                   handleFiles={this._uploadNewFiles}
@@ -677,9 +642,7 @@ class StatusUpdateFormInner extends React.Component {
               )}
               {this.state.fileOrder.length > 0 && (
                 <FilePreviewer
-                  uploads={this.state.fileOrder.map(
-                    (id) => this.state.fileUploads[id],
-                  )}
+                  uploads={this.state.fileOrder.map((id) => this.state.fileUploads[id])}
                   handleRemove={this._removeFile}
                   handleRetry={this._uploadFile}
                   handleFiles={this._uploadNewFiles}
@@ -690,16 +653,10 @@ class StatusUpdateFormInner extends React.Component {
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <div style={{ flex: 1 }}>
                   <div style={{ marginRight: '32px', display: 'inline-block' }}>
-                    <ImageUploadButton
-                      handleFiles={this._uploadNewFiles}
-                      multiple
-                    />
+                    <ImageUploadButton handleFiles={this._uploadNewFiles} multiple />
                   </div>
                   <div style={{ marginRight: '32px', display: 'inline-block' }}>
-                    <FileUploadButton
-                      handleFiles={this._uploadNewFiles}
-                      multiple
-                    />
+                    <FileUploadButton handleFiles={this._uploadNewFiles} multiple />
                   </div>
                   <EmojiPicker onSelect={this._onSelectEmoji} />
                   {this.props.FooterItem}

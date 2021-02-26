@@ -20,30 +20,17 @@ class UserBar extends React.Component {
     return (
       <div className="raf-user-bar">
         {this.props.avatar ? (
-          <Avatar
-            onClick={this.props.onClickUser}
-            size={50}
-            circle
-            image={this.props.avatar}
-          />
+          <Avatar onClick={this.props.onClickUser} size={50} circle image={this.props.avatar} />
         ) : null}
         <div className="raf-user-bar__details">
-          <p
-            className="raf-user-bar__username"
-            onClick={this.props.onClickUser}
-          >
+          <p className="raf-user-bar__username" onClick={this.props.onClickUser}>
             {this.props.username}
           </p>
           {this.props.AfterUsername}
-          {this.props.icon !== undefined ? (
-            <img src={this.props.icon} alt="icon" />
-          ) : null}
+          {this.props.icon !== undefined ? <img src={this.props.icon} alt="icon" /> : null}
           {this.props.subtitle ? (
             <p className="raf-user-bar__subtitle">
-              <time
-                dateTime={this.props.timestamp}
-                title={this.props.timestamp}
-              >
+              <time dateTime={this.props.timestamp} title={this.props.timestamp}>
                 {this.props.subtitle}
               </time>
             </p>
@@ -52,10 +39,7 @@ class UserBar extends React.Component {
         <React.Fragment>
           {smartRender(this.props.Right, {}, () => (
             <p className="raf-user-bar__extra">
-              <time
-                dateTime={this.props.timestamp}
-                title={this.props.timestamp}
-              >
+              <time dateTime={this.props.timestamp} title={this.props.timestamp}>
                 {time}
               </time>
             </p>

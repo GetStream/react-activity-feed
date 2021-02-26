@@ -17,16 +17,9 @@ export default class CommentList extends React.PureComponent {
     reverseOrder: false,
   };
 
-  _Reaction = ({ reaction }) =>
-    smartRender(this.props.CommentItem, { comment: reaction });
+  _Reaction = ({ reaction }) => smartRender(this.props.CommentItem, { comment: reaction });
   render() {
-    const {
-      Paginator,
-      activityId,
-      activityPath,
-      oldestToNewest,
-      reverseOrder,
-    } = this.props;
+    const { Paginator, activityId, activityPath, oldestToNewest, reverseOrder } = this.props;
     return (
       <React.Fragment>
         <ReactionList

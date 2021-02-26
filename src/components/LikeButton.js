@@ -9,12 +9,7 @@ import { ThumbsUpIcon, Color } from './Icons';
  */
 export default class LikeButton extends React.Component {
   _onPress = () => {
-    const {
-      activity,
-      reaction,
-      onToggleReaction,
-      onToggleChildReaction,
-    } = this.props;
+    const { activity, reaction, onToggleReaction, onToggleChildReaction } = this.props;
 
     if (reaction && onToggleChildReaction) {
       return onToggleChildReaction('like', reaction, {}, {});

@@ -51,11 +51,7 @@ export default class Dropdown extends React.Component {
             viewBox="0 0 12 8"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <path
-              d="M1.41 0L6 4.77 10.59 0 12 1.469l-6 6.25-6-6.25z"
-              fill="#A0B2B8"
-              fillRule="evenodd"
-            />
+            <path d="M1.41 0L6 4.77 10.59 0 12 1.469l-6 6.25-6-6.25z" fill="#A0B2B8" fillRule="evenodd" />
           </svg>
         </IconButton>
 
