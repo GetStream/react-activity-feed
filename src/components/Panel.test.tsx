@@ -1,14 +1,14 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-import { Panel, PanelContent, PanelHeader, PanelFooter } from './Panel';
+import { Panel, PanelContent, PanelHeading, PanelFooter } from './Panel';
 
 describe('Panel', () => {
   it('renders with default props', () => {
     const tree = renderer
       .create(
         <Panel>
-          <PanelHeader>Header</PanelHeader>
+          <PanelHeading>Header</PanelHeading>
           <PanelContent>Content</PanelContent>
           <PanelFooter>Footer</PanelFooter>
         </Panel>,
@@ -41,7 +41,7 @@ describe('Panel', () => {
     const tree = renderer
       .create(
         <Panel panelStyle="square">
-          <PanelHeader>Header</PanelHeader>
+          <PanelHeading>Header</PanelHeading>
           <PanelContent>Content</PanelContent>
           <PanelFooter>Footer</PanelFooter>
         </Panel>,

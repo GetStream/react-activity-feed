@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Panel, PanelContent, PanelHeader, PanelFooter } from './Panel';
+import { Panel, PanelContent, PanelHeading, PanelFooter } from './Panel';
 import Textarea from './Textarea';
 import Avatar from './Avatar';
 import Card from './Card';
@@ -533,7 +533,7 @@ class StatusUpdateFormInner extends React.Component {
       <Panel>
         <form onSubmit={this.onSubmitForm}>
           <ImageDropzone handleFiles={this._uploadNewFiles}>
-            <PanelHeader>{this.props.Header}</PanelHeader>
+            <PanelHeading>{this.props.Header}</PanelHeading>
             <PanelContent>
               <div style={{ display: 'flex' }}>
                 <React.Fragment>
