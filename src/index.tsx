@@ -49,10 +49,7 @@ export * from './components/DataLabel';
 export { default as Textarea } from './components/Textarea';
 export { default as EmojiPicker } from './components/EmojiPicker';
 export * from './components/Title';
-export { default as Panel } from './components/Panel';
-export { default as PanelHeading } from './components/PanelHeader';
-export { default as PanelFooter } from './components/PanelFooter';
-export { default as PanelContent } from './components/PanelContent';
+export * from './components/Panel';
 
 export { Streami18n } from './Streami18n';
 export * from './i18n';

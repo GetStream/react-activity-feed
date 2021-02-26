@@ -1,9 +1,6 @@
 import React from 'react';
 
-import Panel from './Panel';
-import PanelHeading from './PanelHeader';
-import PanelFooter from './PanelFooter';
-import PanelContent from './PanelContent';
+import { Panel, PanelContent, PanelHeading, PanelFooter } from './Panel';
 import Textarea from './Textarea';
 import Avatar from './Avatar';
 import Card from './Card';
