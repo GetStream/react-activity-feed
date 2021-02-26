@@ -6,8 +6,7 @@ Array [
     className="__hashtag"
     onClick={[Function]}
   >
-    #
-    stream
+    #stream
   </a>,
   "'s",
   " ",
@@ -15,8 +14,7 @@ Array [
     className="__hashtag"
     onClick={[Function]}
   >
-    #
-    stream
+    #stream
   </a>,
   "!",
   " ",
@@ -24,8 +22,7 @@ Array [
     className="__hashtag"
     onClick={[Function]}
   >
-    #
-    stream
+    #stream
   </a>,
   "?",
   " ",
@@ -34,8 +31,7 @@ Array [
     className="__hashtag"
     onClick={[Function]}
   >
-    #
-    stream
+    #stream
   </a>,
   ")",
   " ",
@@ -44,8 +40,7 @@ Array [
     className="__hashtag"
     onClick={[Function]}
   >
-    #
-    stream
+    #stream
   </a>,
   "]",
   " ",
@@ -53,8 +48,7 @@ Array [
     className="__hashtag"
     onClick={[Function]}
   >
-    #
-    stream
+    #stream
   </a>,
   ";",
   " ",
@@ -62,8 +56,7 @@ Array [
     className="__hashtag"
     onClick={[Function]}
   >
-    #
-    stream
+    #stream
   </a>,
   ":",
   " ",
@@ -71,8 +64,7 @@ Array [
     className="__hashtag"
     onClick={[Function]}
   >
-    #
-    stream
+    #stream
   </a>,
   ",",
   " ",
@@ -80,18 +72,25 @@ Array [
     className="__hashtag"
     onClick={[Function]}
   >
-    #
-    stream
+    #stream
   </a>,
   " ",
   <a
     className="__hashtag"
     onClick={[Function]}
   >
-    #
-    stream_stream
+    #stream_stream
   </a>,
 ]
+`;
+
+exports[`utils -> textRenderer is renders # with underline in it 1`] = `
+<a
+  className="__hashtag"
+  onClick={[Function]}
+>
+  #stream_nice
+</a>
 `;
 
 exports[`utils -> textRenderer is renders # without callback func correctly 1`] = `
@@ -124,8 +123,7 @@ Array [
     className="__mention"
     onClick={[Function]}
   >
-    @
-    allison
+    @allison
   </a>,
   "'s",
   " ",
@@ -133,8 +131,7 @@ Array [
     className="__mention"
     onClick={[Function]}
   >
-    @
-    allison
+    @allison
   </a>,
   "!",
   " ",
@@ -142,8 +139,7 @@ Array [
     className="__mention"
     onClick={[Function]}
   >
-    @
-    allison
+    @allison
   </a>,
   "?",
   " ",
@@ -152,8 +148,7 @@ Array [
     className="__mention"
     onClick={[Function]}
   >
-    @
-    allison
+    @allison
   </a>,
   ")",
   " ",
@@ -162,8 +157,7 @@ Array [
     className="__mention"
     onClick={[Function]}
   >
-    @
-    allison
+    @allison
   </a>,
   "]",
   " ",
@@ -171,8 +165,7 @@ Array [
     className="__mention"
     onClick={[Function]}
   >
-    @
-    allison
+    @allison
   </a>,
   ";",
   " ",
@@ -180,8 +173,7 @@ Array [
     className="__mention"
     onClick={[Function]}
   >
-    @
-    allison
+    @allison
   </a>,
   ":",
   " ",
@@ -189,8 +181,7 @@ Array [
     className="__mention"
     onClick={[Function]}
   >
-    @
-    allison
+    @allison
   </a>,
   ",",
   " ",
@@ -198,16 +189,14 @@ Array [
     className="__mention"
     onClick={[Function]}
   >
-    @
-    allison
+    @allison
   </a>,
   " ",
   <a
     className="__mention"
     onClick={[Function]}
   >
-    @
-    allison_allison
+    @allison_allison
   </a>,
 ]
 `;

@@ -127,7 +127,6 @@
     "react-images": "^0.5.19",
     "rollup-plugin-scss": "^2.6.1",
     "stream-analytics": "^3.4.2",
-    "twitter-text": "^3.1.0",
     "url-parse": "^1.5.1"
   },
   "keywords": [
@@ -148,7 +147,7 @@
   "size-limit": [
     {
       "path": "dist/index.es.js",
-      "limit": "320 KB",
+      "limit": "300 KB",
       "import": "{ createComponent }"
     },
     {
