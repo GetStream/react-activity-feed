@@ -26,3 +26,6 @@ export default class FollowButton extends React.Component {
     );
   }
 }
+
+// temporary export
+export { FollowButton };
