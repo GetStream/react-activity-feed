@@ -76,12 +76,6 @@ export const smartRender = (ElementOrComponentOrLiteral, props, fallback) => {
   return <ComponentOrLiteral {...props} />;
 };
 
-export const getRetinaImage = (images) =>
-  images
-    .split('|')
-    .map((item, i) => `${item} ${i + 1}x`)
-    .join(', ');
-
 export function userOrDefault(user) {
   let actor;
   const notFound = {
@@ -96,10 +90,6 @@ export function userOrDefault(user) {
     actor = user;
   }
   return actor;
-}
-
-export function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 // https://stackoverflow.com/a/6860916/2570866
