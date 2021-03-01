@@ -14,7 +14,7 @@ import {
   frTranslations,
   hiTranslations,
   itTranslations,
-} from './i18n';
+} from './locales';
 
 const defaultNS = 'translation';
 const defaultLng = 'en';

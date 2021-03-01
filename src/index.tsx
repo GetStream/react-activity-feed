@@ -51,5 +51,5 @@ export { default as EmojiPicker } from './components/EmojiPicker';
 export * from './components/Title';
 export * from './components/Panel';
 
-export { Streami18n } from './Streami18n';
-export * from './i18n';
+export * from './i18n/locales';
+export * from './i18n/Streami18n';
