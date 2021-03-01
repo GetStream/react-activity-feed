@@ -32,3 +32,6 @@ export default class Button extends React.Component {
     );
   }
 }
+
+// temporary export
+export { Button };
