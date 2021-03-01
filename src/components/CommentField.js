@@ -1,6 +1,6 @@
 import React from 'react';
 import Avatar from './Avatar';
-import Button from './Button';
+import { Button } from './Button';
 import Textarea from './Textarea';
 import { inputValueFromEvent } from '../utils';
 

@@ -42,7 +42,7 @@ export { default as CommentItem } from './components/CommentItem';
 export { default as CommentField } from './components/CommentField';
 
 // Generic components
-export { default as Button } from './components/Button';
+export * from './components/Button';
 export * from './components/DataLabel';
 
 // StatusUpdateForm sub components
