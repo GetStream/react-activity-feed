@@ -21,13 +21,7 @@ describe('Button', () => {
 
   it('renders with custom props', () => {
     const tree = renderer.create(
-      <Button
-        type="submit"
-        buttonStyle="primary"
-        onClick={console.log}
-        onKeyPress={console.log}
-        loading
-      />,
+      <Button type="submit" buttonStyle="primary" onClick={console.log} onKeyPress={console.log} loading />,
     );
 
     expect(tree).toMatchInlineSnapshot(`
