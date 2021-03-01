@@ -7,9 +7,7 @@ import { FollowButton } from './FollowButton';
 
 describe('FollowButton', () => {
   it('renders with default props', () => {
-    const tree = renderer
-      .create(<FollowButton followed onClick={console.log} />)
-      .toJSON();
+    const tree = renderer.create(<FollowButton followed onClick={console.log} />).toJSON();
     expect(tree).toMatchInlineSnapshot(`
       <div
         className="raf-follow-button raf-follow-button--active"
