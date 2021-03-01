@@ -1,29 +1,21 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 
-/**
- * Component is described here.
- *
- * @example ./examples/FollowButton.md
- */
-export default class FollowButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { followed: this.props.followed || false };
-  }
+export type FollowButtonProps = {
+  followed?: boolean;
+  onClick?: (event: MouseEvent<HTMLDivElement>) => void;
+};
 
-  render() {
-    const { onClick, followed } = this.props;
-    return (
-      <div
-        className={`raf-follow-button ${followed ? 'raf-follow-button--active' : ''}`}
-        role="button"
-        onClick={onClick}
-      >
-        {followed ? 'Following' : 'Follow'}
-      </div>
-    );
-  }
-}
-
-// temporary export
-export { FollowButton };
+export const FollowButton = ({
+  followed = false,
+  onClick,
+}: FollowButtonProps) => (
+  <div
+    className={`raf-follow-button ${
+      followed ? 'raf-follow-button--active' : ''
+    }`}
+    role="button"
+    onClick={onClick}
+  >
+    {followed ? 'Following' : 'Follow'}
+  </div>
+);
