@@ -1,14 +1,11 @@
 import React from 'react';
+import Dayjs from 'dayjs';
+import StreamAnalytics from 'stream-analytics';
 import { connect } from 'getstream';
 
-import StreamAnalytics from 'stream-analytics';
-
 import { FeedManager } from './FeedManager';
-
 import { handleError } from '../utils/errors';
-import Dayjs from 'dayjs';
-
-import { Streami18n } from '../Streami18n';
+import { Streami18n } from '../i18n/Streami18n';
 
 export const StreamContext = React.createContext({
   changedUserData: () => {},

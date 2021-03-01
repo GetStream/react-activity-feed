@@ -12,7 +12,7 @@ fs.readdir(directoryPath, function (err, files) {
   }
 
   files.forEach(function (file) {
-    if (file === 'index.ts') return;
+    if (!file.endsWith('.json')) return;
     // Do whatever you want to do with the file
     const data = require(i18nDirectoryRelativePath + file);
     const keys = Object.keys(data);
