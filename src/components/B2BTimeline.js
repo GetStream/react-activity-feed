@@ -70,11 +70,7 @@ export default class B2BTimeline extends React.Component {
                       }}
                     />
                     <div className="raf-b2btimeline__post-content">
-                      {smartRender(
-                        Activity,
-                        post,
-                        <B2BActivity activity={post} />,
-                      )}
+                      {smartRender(Activity, post, <B2BActivity activity={post} />)}
                     </div>
                   </div>
                 ))}
@@ -92,11 +88,7 @@ export default class B2BTimeline extends React.Component {
             <div className="line" />
           </div>
 
-          {this.timeline(
-            this.props.activities,
-            this.props.icons,
-            this.props.Activity,
-          )}
+          {this.timeline(this.props.activities, this.props.icons, this.props.Activity)}
         </div>
       </div>
     );

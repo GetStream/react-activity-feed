@@ -10,17 +10,7 @@ import { withTranslationContext } from '../Context';
 
 class ReactionIcon extends React.Component {
   render() {
-    const {
-      counts,
-      kind,
-      height,
-      width,
-      labelSingle,
-      labelPlural,
-      onPress,
-      icon,
-      t,
-    } = this.props;
+    const { counts, kind, height, width, labelSingle, labelPlural, onPress, icon, t } = this.props;
     let count = null;
     if (counts && kind) {
       count = counts[kind] || 0;
@@ -44,22 +34,13 @@ class ReactionIcon extends React.Component {
     if (!labelSingle || !labelPlural) {
       switch (kind) {
         case 'like':
-          label =
-            count === 1
-              ? t('1 like')
-              : t('{{ countLikes }} likes', { countLikes: count });
+          label = count === 1 ? t('1 like') : t('{{ countLikes }} likes', { countLikes: count });
           break;
         case 'repost':
-          label =
-            count === 1
-              ? t('1 repost')
-              : t('{{ countReposts }} reposts', { countReposts: count });
+          label = count === 1 ? t('1 repost') : t('{{ countReposts }} reposts', { countReposts: count });
           break;
         case 'comment':
-          label =
-            count === 1
-              ? t('1 comment')
-              : t('{{ countComments }} comments', { countComments: count });
+          label = count === 1 ? t('1 comment') : t('{{ countComments }} comments', { countComments: count });
           break;
         default:
           break;
@@ -76,9 +57,7 @@ class ReactionIcon extends React.Component {
           )
         ) : null}
 
-        {count != null ? (
-          <p className="raf-reaction-icon__label">{label}</p>
-        ) : null}
+        {count != null ? <p className="raf-reaction-icon__label">{label}</p> : null}
       </div>
     );
   }

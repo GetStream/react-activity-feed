@@ -33,26 +33,16 @@ class CommentItem extends React.Component {
       <div className="raf-comment-item">
         <Flex a="flex-start" style={{ padding: '8px 0' }}>
           {comment.user && comment.user.data.profileImage && (
-            <Avatar
-              onClick={this._getOnClickUser()}
-              image={comment.user.data.profileImage}
-              circle
-              size={25}
-            />
+            <Avatar onClick={this._getOnClickUser()} image={comment.user.data.profileImage} circle size={25} />
           )}
         </Flex>
         <Flex d="column" style={{ flex: 1, margin: '0 8px' }}>
           <div className="raf-comment-item__content">
             <time dateTime={comment.created_at} title={comment.created_at}>
-              <small>
-                {humanizeTimestamp(comment.created_at, tDateTimeParser)}
-              </small>
+              <small>{humanizeTimestamp(comment.created_at, tDateTimeParser)}</small>
             </time>
             <p>
-              <span
-                onClick={this._getOnClickUser()}
-                className="raf-comment-item__author"
-              >
+              <span onClick={this._getOnClickUser()} className="raf-comment-item__author">
                 {comment.user && comment.user.data.name}
               </span>{' '}
               {textRenderer(

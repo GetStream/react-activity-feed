@@ -44,16 +44,10 @@ export function humanizeTimestamp(timestamp, tDateTimeParser) {
 
   // When timestamp doesn't have z at the end, we are supposed to take it as UTC time.
   // Ideally we need to adhere to RFC3339. Unfortunately this needs to be fixed on backend.
-  if (
-    typeof timestamp === 'string' &&
-    timestamp[timestamp.length - 1].toLowerCase() === 'z'
-  ) {
+  if (typeof timestamp === 'string' && timestamp[timestamp.length - 1].toLowerCase() === 'z') {
     time = tDateTimeParser(timestamp);
   } else {
-    time = tDateTimeParser(timestamp).add(
-      Dayjs(timestamp).utcOffset(),
-      'minute',
-    ); // parse time as UTC
+    time = tDateTimeParser(timestamp).add(Dayjs(timestamp).utcOffset(), 'minute'); // parse time as UTC
   }
 
   const now = tDateTimeParser();
@@ -178,9 +172,7 @@ export async function dataTransferItemsToFiles(items) {
                   } catch (e) {
                     return;
                   }
-                  const contentType =
-                    res.headers.get('Content-type') ||
-                    'application/octet-stream';
+                  const contentType = res.headers.get('Content-type') || 'application/octet-stream';
                   const buf = await res.arrayBuffer();
                   const blob = new Blob([buf], { type: contentType });
                   fileLikes.push(blob);
@@ -238,14 +230,10 @@ const renderWord = (word, key, parentClass, onClickMention, onClickHashtag) => {
     return (
       <React.Fragment key={key}>
         {!word.startsWith(value) && word.slice(0, word.indexOf(value))}
-        <a
-          onClick={() => onClickMention && onClickMention(value.substring(1))}
-          className={`${parentClass}__mention`}
-        >
+        <a onClick={() => onClickMention && onClickMention(value.substring(1))} className={`${parentClass}__mention`}>
           {value}
         </a>
-        {!word.endsWith(value) &&
-          word.slice(word.indexOf(value) + value.length)}
+        {!word.endsWith(value) && word.slice(word.indexOf(value) + value.length)}
       </React.Fragment>
     );
   }
@@ -254,14 +242,10 @@ const renderWord = (word, key, parentClass, onClickMention, onClickHashtag) => {
     return (
       <React.Fragment key={key}>
         {!word.startsWith(value) && word.slice(0, word.indexOf(value))}
-        <a
-          onClick={() => onClickHashtag && onClickHashtag(value.substring(1))}
-          className={`${parentClass}__hashtag`}
-        >
+        <a onClick={() => onClickHashtag && onClickHashtag(value.substring(1))} className={`${parentClass}__hashtag`}>
           {value}
         </a>
-        {!word.endsWith(value) &&
-          word.slice(word.indexOf(value) + value.length)}
+        {!word.endsWith(value) && word.slice(word.indexOf(value) + value.length)}
       </React.Fragment>
     );
   }
@@ -288,12 +272,7 @@ const renderWord = (word, key, parentClass, onClickMention, onClickHashtag) => {
   return word;
 };
 
-export const textRenderer = (
-  text,
-  parentClass,
-  onClickMention,
-  onClickHashtag,
-) => {
+export const textRenderer = (text, parentClass, onClickMention, onClickHashtag) => {
   if (!text) return;
 
   return text
@@ -301,15 +280,7 @@ export const textRenderer = (
     .map((line, i) =>
       line
         .split(' ') // break for each word
-        .map((word, j) =>
-          renderWord(
-            word,
-            `item-${i}-${j}`,
-            parentClass,
-            onClickMention,
-            onClickHashtag,
-          ),
-        )
+        .map((word, j) => renderWord(word, `item-${i}-${j}`, parentClass, onClickMention, onClickHashtag))
         .reduce((acc, elem) => (acc ? [acc, ' ', elem] : [elem])),
     )
     .reduce((acc, elem) => (acc ? [acc, '\n', elem] : [elem]));

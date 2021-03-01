@@ -106,12 +106,7 @@ class NotificationFeedInner extends React.Component {
       deletes: this.props.realtimeDeletes,
       onClick: this._refresh,
     };
-    const {
-      loadNextPage,
-      hasNextPage,
-      refreshing,
-      hasDoneRequest,
-    } = this.props;
+    const { loadNextPage, hasNextPage, refreshing, hasDoneRequest } = this.props;
 
     if (this.props.activities.size === 0 && hasDoneRequest) {
       return (

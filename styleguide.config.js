@@ -31,10 +31,7 @@ module.exports = {
   webpackConfig: require('./webpack.config.styleguidist.js'),
   serverPort: 6068,
   styleguideComponents: {
-    PathlineRenderer: path.join(
-      __dirname,
-      'src/styleguideComponents/PathlineRenderer.js',
-    ),
+    PathlineRenderer: path.join(__dirname, 'src/styleguideComponents/PathlineRenderer.js'),
   },
   sortProps: (props) => props,
   sections: [
@@ -47,9 +44,7 @@ module.exports = {
       // content: 'docs/top-level-components.md',
       components: [
         'src/Context/StreamApp.js',
-        ...topLevelComponents.map(
-          (component) => `src/components/${component}.js`,
-        ),
+        ...topLevelComponents.map((component) => `src/components/${component}.js`),
         // 'src/components/SinglePost.js',
       ],
       exampleMode: 'collapse',
@@ -69,11 +64,7 @@ module.exports = {
     {
       name: 'Layout Components',
       // content: 'docs/other-components.md',
-      components: [
-        ...compositionComponents.map(
-          (component) => `src/components/${component}.js`,
-        ),
-      ],
+      components: [...compositionComponents.map((component) => `src/components/${component}.js`)],
       exampleMode: 'collapse',
       usageMode: 'expand',
     },

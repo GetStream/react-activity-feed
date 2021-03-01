@@ -21,9 +21,7 @@ class RepostButton extends React.Component {
     }
     return (
       <StreamApp.Consumer>
-        {(appCtx) => (
-          <RepostButtonInner {...this.props} userId={appCtx.user.id} />
-        )}
+        {(appCtx) => <RepostButtonInner {...this.props} userId={appCtx.user.id} />}
       </StreamApp.Consumer>
     );
   }
@@ -38,14 +36,7 @@ class RepostButtonInner extends React.Component {
         counts={activity.reaction_counts}
         own_reactions={activity.own_reactions}
         kind="repost"
-        onPress={() =>
-          onToggleReaction(
-            'repost',
-            activity,
-            {},
-            { targetFeeds: [`${feedGroup}:${userId}`] },
-          )
-        }
+        onPress={() => onToggleReaction('repost', activity, {}, { targetFeeds: [`${feedGroup}:${userId}`] })}
         activeIcon={<RepostIcon style={{ color: Color.Active }} />}
         inactiveIcon={<RepostIcon style={{ color: Color.Inactive }} />}
       />

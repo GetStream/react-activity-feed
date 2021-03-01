@@ -20,13 +20,7 @@ class FlatFeed extends React.Component {
     feedGroup: 'timeline',
     notify: false,
     Activity,
-    Notifier: (props) => (
-      <NewActivitiesNotification
-        labelPlural="activities"
-        labelSingle="activity"
-        {...props}
-      />
-    ),
+    Notifier: (props) => <NewActivitiesNotification labelPlural="activities" labelSingle="activity" {...props} />,
     Placeholder: FeedPlaceholder,
     Paginator: LoadMorePaginator,
     LoadingIndicator,
@@ -47,9 +41,7 @@ class FlatFeed extends React.Component {
         doChildReactionDeleteRequest={this.props.doChildReactionDeleteRequest}
         doReactionsFilterRequest={this.props.doReactionsFilterRequest}
       >
-        <FeedContext.Consumer>
-          {(feedCtx) => <FlatFeedInner {...this.props} {...feedCtx} />}
-        </FeedContext.Consumer>
+        <FeedContext.Consumer>{(feedCtx) => <FlatFeedInner {...this.props} {...feedCtx} />}</FeedContext.Consumer>
       </Feed>
     );
   }
@@ -130,11 +122,7 @@ class FlatFeedInner extends React.Component {
     }
 
     if (refreshing && !hasDoneRequest) {
-      return (
-        <div className="raf-loading-indicator">
-          {smartRender(this.props.LoadingIndicator, {})}
-        </div>
-      );
+      return <div className="raf-loading-indicator">{smartRender(this.props.LoadingIndicator, {})}</div>;
     }
 
     return (

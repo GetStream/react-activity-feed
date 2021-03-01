@@ -25,20 +25,12 @@ export function withTranslationContext(OriginalComponent) {
   const ContextAwareComponent = function ContextComponent(props) {
     return (
       <TranslationContext.Consumer>
-        {(translationContext) =>
-          OriginalComponent && (
-            <OriginalComponent {...translationContext} {...props} />
-          )
-        }
+        {(translationContext) => OriginalComponent && <OriginalComponent {...translationContext} {...props} />}
       </TranslationContext.Consumer>
     );
   };
-  ContextAwareComponent.displayName =
-    OriginalComponent.displayName || OriginalComponent.name || 'Component';
-  ContextAwareComponent.displayName = ContextAwareComponent.displayName.replace(
-    'Base',
-    '',
-  );
+  ContextAwareComponent.displayName = OriginalComponent.displayName || OriginalComponent.name || 'Component';
+  ContextAwareComponent.displayName = ContextAwareComponent.displayName.replace('Base', '');
 
   return ContextAwareComponent;
 }
@@ -68,9 +60,7 @@ export class StreamApp extends React.Component {
             return null;
           }
           if (!appCtx.client || !appCtx.user) {
-            throw new Error(
-              'This component should be a child of a StreamApp component',
-            );
+            throw new Error('This component should be a child of a StreamApp component');
           }
           const Child = props.children;
           return Child(appCtx);
@@ -139,12 +129,7 @@ export class StreamApp extends React.Component {
   }
 
   static initClientState = function (props, state) {
-    const client = connect(
-      props.apiKey,
-      props.token,
-      props.appId,
-      props.options || {},
-    );
+    const client = connect(props.apiKey, props.token, props.appId, props.options || {});
 
     let analyticsClient;
     if (props.analyticsToken) {
@@ -222,11 +207,7 @@ export class StreamApp extends React.Component {
                   }}
                 >
                   <h3>You are connected to:</h3>
-                  <svg
-                    width="117"
-                    height="21"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
+                  <svg width="117" height="21" xmlns="http://www.w3.org/2000/svg">
                     <g fill="none" fillRule="evenodd">
                       <path
                         className="stream"

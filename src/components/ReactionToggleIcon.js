@@ -12,13 +12,7 @@ import ReactionIcon from './ReactionIcon';
  */
 export default class ReactionToggleIcon extends React.Component {
   render() {
-    const {
-      inactiveIcon,
-      activeIcon,
-      own_reactions,
-      kind,
-      ...restProps
-    } = this.props;
+    const { inactiveIcon, activeIcon, own_reactions, kind, ...restProps } = this.props;
     let icon = inactiveIcon;
     if (own_reactions && own_reactions[kind] && own_reactions[kind].length) {
       icon = activeIcon;

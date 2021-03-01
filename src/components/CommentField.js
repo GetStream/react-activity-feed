@@ -46,11 +46,7 @@ class CommentField extends React.Component {
   componentDidMount() {
     if (this.textareaRef.current) {
       this.textareaRef.current.addEventListener('keydown', (e) => {
-        if (
-          e.which === 13 &&
-          this.textareaRef.current &&
-          this.textareaRef.current.nextSibling === null
-        ) {
+        if (e.which === 13 && this.textareaRef.current && this.textareaRef.current.nextSibling === null) {
           this.onSubmitForm(e);
         }
       });
@@ -61,9 +57,7 @@ class CommentField extends React.Component {
     const { t, placeholder } = this.props;
     return (
       <form onSubmit={this.onSubmitForm} className="raf-comment-field">
-        {this.props.image ? (
-          <Avatar image={this.props.image} circle size={39} />
-        ) : null}
+        {this.props.image ? <Avatar image={this.props.image} circle size={39} /> : null}
         <div className="raf-comment-field__group">
           <Textarea
             rows={1}
@@ -75,11 +69,7 @@ class CommentField extends React.Component {
             maxLength={280}
             innerRef={this.textareaRef}
           />
-          <Button
-            buttonStyle="primary"
-            disabled={this.state.text === ''}
-            type="submit"
-          >
+          <Button buttonStyle="primary" disabled={this.state.text === ''} type="submit">
             {t('Post')}
           </Button>
         </div>

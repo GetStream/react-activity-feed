@@ -17,9 +17,7 @@ export default class Button extends React.Component {
     const { children, buttonStyle } = this.props;
     return (
       <button
-        className={`raf-button${
-          buttonStyle ? ' raf-button--' + buttonStyle : ''
-        }`}
+        className={`raf-button${buttonStyle ? ' raf-button--' + buttonStyle : ''}`}
         onClick={this.props.onClick}
         onKeyPress={this.props.onKeyPress}
         type={this.props.type}
@@ -28,10 +26,7 @@ export default class Button extends React.Component {
         {!this.props.loading ? (
           children
         ) : (
-          <LoadingIndicator
-            backgroundColor="rgba(255,255,255,0.1)"
-            color="rgba(255,255,255,0.4)"
-          />
+          <LoadingIndicator backgroundColor="rgba(255,255,255,0.1)" color="rgba(255,255,255,0.4)" />
         )}
       </button>
     );

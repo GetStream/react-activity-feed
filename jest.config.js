@@ -2,12 +2,7 @@ module.exports = {
   verbose: true,
   maxConcurrency: 15,
   transformIgnorePatterns: [],
-  testPathIgnorePatterns: [
-    '/node_modules/',
-    '/examples/',
-    '/example/',
-    '__snapshots__',
-  ],
+  testPathIgnorePatterns: ['/node_modules/', '/examples/', '/example/', '__snapshots__'],
   transform: {
     '.(js|jsx)$': 'babel-jest',
     '.(ts|tsx)$': 'ts-jest',

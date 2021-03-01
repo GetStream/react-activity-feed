@@ -14,14 +14,7 @@ class NewActivitiesNotification extends React.Component {
   };
 
   _labelFunction = () => {
-    const {
-      adds,
-      deletes,
-      labelSingle,
-      labelPlural,
-      labelFunction,
-      t,
-    } = this.props;
+    const { adds, deletes, labelSingle, labelPlural, labelFunction, t } = this.props;
     const addCount = (adds || []).length;
     const deleteCount = (deletes || []).length;
     const count = addCount + deleteCount;
@@ -49,12 +42,9 @@ class NewActivitiesNotification extends React.Component {
     if (labelPlural) {
       pluralNotificationText = `You have ${addCount} new ${labelPlural}`;
     } else {
-      pluralNotificationText = t(
-        'You have {{ notificationCount }} new notifications',
-        {
-          notificationCount: addCount,
-        },
-      );
+      pluralNotificationText = t('You have {{ notificationCount }} new notifications', {
+        notificationCount: addCount,
+      });
     }
 
     return addCount > 1 ? pluralNotificationText : singleNotificationText;
@@ -66,11 +56,7 @@ class NewActivitiesNotification extends React.Component {
     }
 
     return (
-      <button
-        className="raf-new-activities-notification"
-        type="button"
-        onClick={this.props.onClick}
-      >
+      <button className="raf-new-activities-notification" type="button" onClick={this.props.onClick}>
         <Link>{label}</Link>
       </button>
     );
