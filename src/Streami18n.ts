@@ -138,15 +138,7 @@ const en_locale = {
     'December',
   ],
   relativeTime: {},
-  weekdays: [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-  ],
+  weekdays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
 };
 
 type Options = {
@@ -171,9 +163,7 @@ const defaultStreami18nOptions = {
 // TODO: move to the unknown type to a more general type file
 export type UnknownType = Record<string, unknown>;
 
-export type TDateTimeParser = (
-  input?: string | number | Date,
-) => string | number | Date | Dayjs.Dayjs;
+export type TDateTimeParser = (input?: string | number | Date) => string | number | Date | Dayjs.Dayjs;
 
 export type LanguageCallbackFn = (t: TFunction) => void;
 
@@ -186,10 +176,7 @@ export class Streami18n {
   t: TFunction = (key: string) => key;
   tDateTimeParser: TDateTimeParser;
 
-  translations: Record<
-    string,
-    Record<string, typeof enTranslations | UnknownType>
-  > = {
+  translations: Record<string, Record<string, typeof enTranslations | UnknownType>> = {
     en: { [defaultNS]: enTranslations },
     nl: { [defaultNS]: nlTranslations },
     ru: { [defaultNS]: ruTranslations },
@@ -308,8 +295,7 @@ export class Streami18n {
 
     this.validateCurrentLanguage();
 
-    const dayjsLocaleConfigForLanguage =
-      finalOptions.dayjsLocaleConfigForLanguage;
+    const dayjsLocaleConfigForLanguage = finalOptions.dayjsLocaleConfigForLanguage;
 
     if (dayjsLocaleConfigForLanguage) {
       this.addOrUpdateLocale(this.currentLanguage, {
@@ -324,10 +310,7 @@ export class Streami18n {
     }
 
     this.tDateTimeParser = (timestamp) => {
-      if (
-        finalOptions.disableDateTimeTranslations ||
-        !this.localeExists(this.currentLanguage)
-      ) {
+      if (finalOptions.disableDateTimeTranslations || !this.localeExists(this.currentLanguage)) {
         return this.DateTimeParser(timestamp).locale(defaultLng);
       }
       return this.DateTimeParser(timestamp).locale(this.currentLanguage);
@@ -391,10 +374,7 @@ export class Streami18n {
   async getTranslators() {
     if (!this.initialized) {
       if (this.dayjsLocales[this.currentLanguage]) {
-        this.addOrUpdateLocale(
-          this.currentLanguage,
-          this.dayjsLocales[this.currentLanguage],
-        );
+        this.addOrUpdateLocale(this.currentLanguage, this.dayjsLocales[this.currentLanguage]);
       }
       return await this.init();
     } else {
@@ -408,11 +388,7 @@ export class Streami18n {
   /**
    * Register translation
    */
-  registerTranslation(
-    language: string,
-    translation: typeof enTranslations,
-    customDayjsLocale?: Partial<ILocale>,
-  ) {
+  registerTranslation(language: string, translation: typeof enTranslations, customDayjsLocale?: Partial<ILocale>) {
     if (!translation) {
       this.logger(
         `Streami18n: registerTranslation(language, translation, customDayjsLocale) called without translation`,
@@ -462,10 +438,7 @@ export class Streami18n {
     try {
       const t = await this.i18nInstance.changeLanguage(language);
       if (this.dayjsLocales[language]) {
-        this.addOrUpdateLocale(
-          this.currentLanguage,
-          this.dayjsLocales[this.currentLanguage],
-        );
+        this.addOrUpdateLocale(this.currentLanguage, this.dayjsLocales[this.currentLanguage]);
       }
 
       this.setLanguageCallback(t);

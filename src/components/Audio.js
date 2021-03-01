@@ -3,10 +3,7 @@ import { IconButton } from 'react-file-utils';
 import { sanitizeURL } from '../utils';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faPlayCircle,
-  faPauseCircle,
-} from '@fortawesome/free-regular-svg-icons';
+import { faPlayCircle, faPauseCircle } from '@fortawesome/free-regular-svg-icons';
 
 export default class Audio extends React.Component {
   audioRef;
@@ -82,17 +79,11 @@ export default class Audio extends React.Component {
           <div className="raf-audio__image">
             <div className="raf-audio__image--overlay">
               {!this.state.playing ? (
-                <div
-                  onClick={() => this.playAudio()}
-                  className="raf-audio__image--button"
-                >
+                <div onClick={() => this.playAudio()} className="raf-audio__image--button">
                   <FontAwesomeIcon icon={faPlayCircle} />
                 </div>
               ) : (
-                <div
-                  onClick={() => this.pauseAudio()}
-                  className="raf-audio__image--button"
-                >
+                <div onClick={() => this.pauseAudio()} className="raf-audio__image--button">
                   <FontAwesomeIcon icon={faPauseCircle} />
                 </div>
               )}
@@ -103,9 +94,7 @@ export default class Audio extends React.Component {
             <span className="raf-audio__content--title">
               <strong>{og.title}</strong>
             </span>
-            <span className="raf-audio__content--subtitle">
-              {og.description}
-            </span>
+            <span className="raf-audio__content--subtitle">{og.description}</span>
             <div className="raf-audio__content--progress">
               <div style={{ width: `${this.state.progress}%` }} />
             </div>

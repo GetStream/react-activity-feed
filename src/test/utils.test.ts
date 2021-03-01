@@ -7,8 +7,7 @@ import { textRenderer } from '../utils';
 describe('utils -> textRenderer', () => {
   const onClickCallback = (word: string) => word;
 
-  const textRendererWithCallbacks = (text: string) =>
-    textRenderer(text, '', onClickCallback, onClickCallback);
+  const textRendererWithCallbacks = (text: string) => textRenderer(text, '', onClickCallback, onClickCallback);
 
   it('is renders @ without callback func correctly', () => {
     const tree = renderer
@@ -61,19 +60,13 @@ describe('utils -> textRenderer', () => {
   });
 
   it('is renders # with underline in it', () => {
-    const tree = renderer
-      .create(textRendererWithCallbacks('#stream_nice'))
-      .toJSON();
+    const tree = renderer.create(textRendererWithCallbacks('#stream_nice')).toJSON();
 
     expect(tree).toMatchSnapshot();
   });
 
   it('is renders hyperlinks in correct format', () => {
-    expect(
-      renderer
-        .create(textRenderer('https://getstream.io/', 'some-class'))
-        .toJSON(),
-    ).toMatchInlineSnapshot(`
+    expect(renderer.create(textRenderer('https://getstream.io/', 'some-class')).toJSON()).toMatchInlineSnapshot(`
       <a
         className="some-class__link"
         data-testid="renderWord-hyperlink"
@@ -87,8 +80,7 @@ describe('utils -> textRenderer', () => {
   });
 
   it('is renders multiple hyperlinks correctly', () => {
-    expect(renderer.create(textRenderer('t.co g.co')).toJSON())
-      .toMatchInlineSnapshot(`
+    expect(renderer.create(textRenderer('t.co g.co')).toJSON()).toMatchInlineSnapshot(`
       Array [
         <a
           className="undefined__link"
@@ -147,19 +139,11 @@ describe('utils -> textRenderer', () => {
   ].forEach(({ input, output }) => {
     it(`renders the link correctly for ${input}`, () => {
       const { getByTestId } = render(textRenderer(input));
-      expect(getByTestId('renderWord-hyperlink')).toHaveAttribute(
-        'href',
-        output,
-      );
+      expect(getByTestId('renderWord-hyperlink')).toHaveAttribute('href', output);
     });
   });
 
-  [
-    'stream',
-    'stream email',
-    'getstream.nonvalidtld',
-    'amin@getstream.nonvalidtld',
-  ].forEach((input) => {
+  ['stream', 'stream email', 'getstream.nonvalidtld', 'amin@getstream.nonvalidtld'].forEach((input) => {
     it(`invalid link is not rendered ${input}`, () => {
       const { queryByTestId } = render(textRenderer(input));
       expect(queryByTestId('renderWord-hyperlink')).not.toBeInTheDocument();

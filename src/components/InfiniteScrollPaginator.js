@@ -21,11 +21,7 @@ export default class InfiniteScrollPaginator extends React.Component {
         threshold={this.props.threshold}
         getScrollParent={this.props.getScrollParent}
         useWindow={this.props.useWindow}
-        loader={
-          <React.Fragment key="loading-indicator">
-            {smartRender(this.props.Loader)}
-          </React.Fragment>
-        }
+        loader={<React.Fragment key="loading-indicator">{smartRender(this.props.Loader)}</React.Fragment>}
       >
         {this.props.children}
       </InfiniteScroll>

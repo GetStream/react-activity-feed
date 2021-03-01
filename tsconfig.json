@@ -1,12 +1,6 @@
 {
   "include": ["src", "types"],
-  "exclude": [
-    "**/*.spec.ts",
-    "**/*.test.ts",
-    "**/*.spec.tsx",
-    "**/*.test.tsx",
-    "node_modules"
-  ],
+  "exclude": ["**/*.spec.ts", "**/*.test.ts", "**/*.spec.tsx", "**/*.test.tsx", "node_modules"],
   "compilerOptions": {
     "lib": ["dom", "esnext"],
     "module": "esnext",

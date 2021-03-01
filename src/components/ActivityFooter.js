@@ -21,10 +21,7 @@ export default class ActivityFooter extends React.Component {
         <div className="raf-activity-footer__left" />
         <div className="raf-activity-footer__right">
           <Flex a="center">
-            <LikeButton
-              activity={activity}
-              onToggleReaction={onToggleReaction}
-            />
+            <LikeButton activity={activity} onToggleReaction={onToggleReaction} />
             <RepostButton {...this.props} />
           </Flex>
         </div>

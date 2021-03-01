@@ -54,10 +54,7 @@ export class FeedManager {
     this.subscribe();
   }
   unregister(callback) {
-    this.registeredCallbacks.splice(
-      this.registeredCallbacks.indexOf(callback),
-      1,
-    );
+    this.registeredCallbacks.splice(this.registeredCallbacks.indexOf(callback), 1);
     this.unsubscribe();
   }
 
@@ -89,10 +86,7 @@ export class FeedManager {
       return;
     }
 
-    const feed = this.props.client.feed(
-      this.props.feedGroup,
-      this.props.userId,
-    );
+    const feed = this.props.client.feed(this.props.feedGroup, this.props.userId);
 
     analyticsClient.trackEngagement({
       label,
@@ -149,19 +143,9 @@ export class FeedManager {
     let reaction;
     try {
       if (this.props.doReactionAddRequest) {
-        reaction = await this.props.doReactionAddRequest(
-          kind,
-          activity,
-          data,
-          options,
-        );
+        reaction = await this.props.doReactionAddRequest(kind, activity, data, options);
       } else {
-        reaction = await this.props.client.reactions.add(
-          kind,
-          activity,
-          data,
-          options,
-        );
+        reaction = await this.props.client.reactions.add(kind, activity, data, options);
       }
     } catch (e) {
       this.props.errorHandler(e, 'add-reaction', {
@@ -182,27 +166,14 @@ export class FeedManager {
       let { activities } = prevState;
       const { reactionIdToPaths } = prevState;
       for (const path of this.getActivityPaths(activity)) {
-        this.removeFoundReactionIdPaths(
-          activities.getIn(path).toJS(),
-          reactionIdToPaths,
-          path,
-        );
+        this.removeFoundReactionIdPaths(activities.getIn(path).toJS(), reactionIdToPaths, path);
 
         activities = activities
           .updateIn([...path, 'reaction_counts', kind], (v = 0) => v + 1)
-          .updateIn([...path, 'own_reactions', kind], (v = immutable.List()) =>
-            v.unshift(enrichedReaction),
-          )
-          .updateIn(
-            [...path, 'latest_reactions', kind],
-            (v = immutable.List()) => v.unshift(enrichedReaction),
-          );
+          .updateIn([...path, 'own_reactions', kind], (v = immutable.List()) => v.unshift(enrichedReaction))
+          .updateIn([...path, 'latest_reactions', kind], (v = immutable.List()) => v.unshift(enrichedReaction));
 
-        this.addFoundReactionIdPaths(
-          activities.getIn(path).toJS(),
-          reactionIdToPaths,
-          path,
-        );
+        this.addFoundReactionIdPaths(activities.getIn(path).toJS(), reactionIdToPaths, path);
       }
 
       return { activities, reactionIdToPaths };
@@ -231,28 +202,18 @@ export class FeedManager {
       let { activities } = prevState;
       const { reactionIdToPaths } = prevState;
       for (const path of this.getActivityPaths(activity)) {
-        this.removeFoundReactionIdPaths(
-          activities.getIn(path).toJS(),
-          reactionIdToPaths,
-          path,
-        );
+        this.removeFoundReactionIdPaths(activities.getIn(path).toJS(), reactionIdToPaths, path);
 
         activities = activities
           .updateIn([...path, 'reaction_counts', kind], (v = 0) => v - 1)
           .updateIn([...path, 'own_reactions', kind], (v = immutable.List()) =>
             v.remove(v.findIndex((r) => r.get('id') === id)),
           )
-          .updateIn(
-            [...path, 'latest_reactions', kind],
-            (v = immutable.List()) =>
-              v.remove(v.findIndex((r) => r.get('id') === id)),
+          .updateIn([...path, 'latest_reactions', kind], (v = immutable.List()) =>
+            v.remove(v.findIndex((r) => r.get('id') === id)),
           );
 
-        this.addFoundReactionIdPaths(
-          activities.getIn(path).toJS(),
-          reactionIdToPaths,
-          path,
-        );
+        this.addFoundReactionIdPaths(activities.getIn(path).toJS(), reactionIdToPaths, path);
       }
 
       return { activities, reactionIdToPaths };
@@ -293,19 +254,9 @@ export class FeedManager {
     let childReaction;
     try {
       if (this.props.doChildReactionAddRequest) {
-        childReaction = await this.props.doChildReactionAddRequest(
-          kind,
-          reaction,
-          data,
-          options,
-        );
+        childReaction = await this.props.doChildReactionAddRequest(kind, reaction, data, options);
       } else {
-        childReaction = await this.props.client.reactions.addChild(
-          kind,
-          reaction,
-          data,
-          options,
-        );
+        childReaction = await this.props.client.reactions.addChild(kind, reaction, data, options);
       }
     } catch (e) {
       this.props.errorHandler(e, 'add-child-reaction', {
@@ -328,13 +279,8 @@ export class FeedManager {
       for (const path of this.getReactionPaths(reaction)) {
         activities = activities
           .updateIn([...path, 'children_counts', kind], (v = 0) => v + 1)
-          .updateIn([...path, 'own_children', kind], (v = immutable.List()) =>
-            v.unshift(enrichedReaction),
-          )
-          .updateIn(
-            [...path, 'latest_children', kind],
-            (v = immutable.List()) => v.unshift(enrichedReaction),
-          );
+          .updateIn([...path, 'own_children', kind], (v = immutable.List()) => v.unshift(enrichedReaction))
+          .updateIn([...path, 'latest_children', kind], (v = immutable.List()) => v.unshift(enrichedReaction));
       }
 
       return { activities };
@@ -408,86 +354,74 @@ export class FeedManager {
   };
 
   _removeActivityFromState = (activityId) =>
-    this.setState(
-      ({
+    this.setState(({ activities, activityOrder, activityIdToPath, activityIdToPaths, reactionIdToPaths }) => {
+      const path = this.getActivityPath(activityId);
+      let outerId = activityId;
+      if (path.length > 1) {
+        // It's an aggregated group we should update the paths of everything in
+        // the list
+        const groupArrayPath = path.slice(0, -1);
+        activityIdToPath = this.removeFoundActivityIdPath(
+          activities.getIn(groupArrayPath).toJS(),
+          activityIdToPath,
+          groupArrayPath,
+        );
+        activityIdToPaths = this.removeFoundActivityIdPaths(
+          activities.getIn(groupArrayPath).toJS(),
+          activityIdToPaths,
+          groupArrayPath,
+        );
+        reactionIdToPaths = this.removeFoundReactionIdPaths(
+          activities.getIn(groupArrayPath).toJS(),
+          reactionIdToPaths,
+          groupArrayPath,
+        );
+      } else {
+        // Otherwise remove all things inside this activity from the path
+        // objects
+        activityIdToPaths = this.removeFoundActivityIdPaths(activities.get(activityId).toJS(), activityIdToPaths, [
+          activityId,
+        ]);
+        reactionIdToPaths = this.removeFoundReactionIdPaths(activities.get(activityId).toJS(), reactionIdToPaths, [
+          activityId,
+        ]);
+      }
+
+      activities = activities.removeIn(path);
+      if (path.length > 1) {
+        const groupArrayPath = path.slice(0, -1);
+        if (activities.getIn(groupArrayPath).size === 0) {
+          outerId = path[0];
+        } else {
+          outerId = null;
+        }
+        activityIdToPath = this.addFoundActivityIdPath(
+          activities.getIn(groupArrayPath).toJS(),
+          activityIdToPath,
+          groupArrayPath,
+        );
+        activityIdToPaths = this.addFoundActivityIdPaths(
+          activities.getIn(groupArrayPath).toJS(),
+          activityIdToPaths,
+          groupArrayPath,
+        );
+        reactionIdToPaths = this.addFoundReactionIdPaths(
+          activities.getIn(groupArrayPath).toJS(),
+          reactionIdToPaths,
+          groupArrayPath,
+        );
+      }
+      if (outerId != null) {
+        activityOrder = activityOrder.filter((id) => id !== outerId);
+      }
+      return {
         activities,
         activityOrder,
-        activityIdToPath,
         activityIdToPaths,
         reactionIdToPaths,
-      }) => {
-        const path = this.getActivityPath(activityId);
-        let outerId = activityId;
-        if (path.length > 1) {
-          // It's an aggregated group we should update the paths of everything in
-          // the list
-          const groupArrayPath = path.slice(0, -1);
-          activityIdToPath = this.removeFoundActivityIdPath(
-            activities.getIn(groupArrayPath).toJS(),
-            activityIdToPath,
-            groupArrayPath,
-          );
-          activityIdToPaths = this.removeFoundActivityIdPaths(
-            activities.getIn(groupArrayPath).toJS(),
-            activityIdToPaths,
-            groupArrayPath,
-          );
-          reactionIdToPaths = this.removeFoundReactionIdPaths(
-            activities.getIn(groupArrayPath).toJS(),
-            reactionIdToPaths,
-            groupArrayPath,
-          );
-        } else {
-          // Otherwise remove all things inside this activity from the path
-          // objects
-          activityIdToPaths = this.removeFoundActivityIdPaths(
-            activities.get(activityId).toJS(),
-            activityIdToPaths,
-            [activityId],
-          );
-          reactionIdToPaths = this.removeFoundReactionIdPaths(
-            activities.get(activityId).toJS(),
-            reactionIdToPaths,
-            [activityId],
-          );
-        }
-
-        activities = activities.removeIn(path);
-        if (path.length > 1) {
-          const groupArrayPath = path.slice(0, -1);
-          if (activities.getIn(groupArrayPath).size === 0) {
-            outerId = path[0];
-          } else {
-            outerId = null;
-          }
-          activityIdToPath = this.addFoundActivityIdPath(
-            activities.getIn(groupArrayPath).toJS(),
-            activityIdToPath,
-            groupArrayPath,
-          );
-          activityIdToPaths = this.addFoundActivityIdPaths(
-            activities.getIn(groupArrayPath).toJS(),
-            activityIdToPaths,
-            groupArrayPath,
-          );
-          reactionIdToPaths = this.addFoundReactionIdPaths(
-            activities.getIn(groupArrayPath).toJS(),
-            reactionIdToPaths,
-            groupArrayPath,
-          );
-        }
-        if (outerId != null) {
-          activityOrder = activityOrder.filter((id) => id !== outerId);
-        }
-        return {
-          activities,
-          activityOrder,
-          activityIdToPaths,
-          reactionIdToPaths,
-          activityIdToPath,
-        };
-      },
-    );
+        activityIdToPath,
+      };
+    });
 
   onRemoveActivity = async (activityId) => {
     try {
@@ -574,12 +508,7 @@ export class FeedManager {
 
   doFeedRequest = async (options) => {
     if (this.props.doFeedRequest) {
-      return await this.props.doFeedRequest(
-        this.props.client,
-        this.props.feedGroup,
-        this.props.userId,
-        options,
-      );
+      return await this.props.doFeedRequest(this.props.client, this.props.feedGroup, this.props.userId, options);
     }
     return await this.feed().get(options);
   };
@@ -595,10 +524,7 @@ export class FeedManager {
     );
 
   responseToActivityIdToPath = (response) => {
-    if (
-      response.results.length === 0 ||
-      response.results[0].activities === undefined
-    ) {
+    if (response.results.length === 0 || response.results[0].activities === undefined) {
       return {};
     }
     const aggregatedResponse = response;
@@ -678,12 +604,7 @@ export class FeedManager {
     return map;
   };
 
-  reactionResponseToReactionIdToPaths = (
-    response,
-    previous,
-    basePath,
-    oldLength,
-  ) => {
+  reactionResponseToReactionIdToPaths = (response, previous, basePath, oldLength) => {
     const map = previous;
     const currentPath = [...basePath];
     function addFoundReactions(obj) {
@@ -951,9 +872,7 @@ export class FeedManager {
 
         subscription.then(
           () => {
-            console.log(
-              `now listening to changes in realtime for ${this.feed().id}`,
-            );
+            console.log(`now listening to changes in realtime for ${this.feed().id}`);
           },
           (err) => {
             console.error(err);
@@ -973,9 +892,7 @@ export class FeedManager {
     if (this.registeredCallbacks.length === 0) {
       try {
         await subscription.cancel();
-        console.log(
-          `stopped listening to changes in realtime for ${this.feed().id}`,
-        );
+        console.log(`stopped listening to changes in realtime for ${this.feed().id}`);
       } catch (err) {
         console.error(err);
       }
@@ -1025,27 +942,17 @@ export class FeedManager {
       return;
     }
     return this.setState((prevState) => {
-      const activities = prevState.activities.merge(
-        this.responseToActivityMap(response),
-      );
+      const activities = prevState.activities.merge(this.responseToActivityMap(response));
       const activityIdToPath = {
         ...prevState.activityIdToPath,
         ...this.responseToActivityIdToPath(response),
       };
       return {
-        activityOrder: prevState.activityOrder.concat(
-          response.results.map((a) => a.id),
-        ),
+        activityOrder: prevState.activityOrder.concat(response.results.map((a) => a.id)),
         activities,
         activityIdToPath,
-        activityIdToPaths: this.responseToActivityIdToPaths(
-          response,
-          prevState.activityIdToPaths,
-        ),
-        reactionIdToPaths: this.feedResponseToReactionIdToPaths(
-          response,
-          prevState.reactionIdToPaths,
-        ),
+        activityIdToPaths: this.responseToActivityIdToPaths(response, prevState.activityIdToPaths),
+        reactionIdToPaths: this.feedResponseToReactionIdToPaths(response, prevState.reactionIdToPaths),
         reactionActivities: {
           ...prevState.reactionActivities,
           ...this.responseToReactionActivities(response),
@@ -1089,27 +996,17 @@ export class FeedManager {
       return;
     }
     return this.setState((prevState) => {
-      const activities = prevState.activities.merge(
-        this.responseToActivityMap(response),
-      );
+      const activities = prevState.activities.merge(this.responseToActivityMap(response));
       const activityIdToPath = {
         ...prevState.activityIdToPath,
         ...this.responseToActivityIdToPath(response),
       };
       return {
-        activityOrder: response.results
-          .map((a) => a.id)
-          .concat(prevState.activityOrder),
+        activityOrder: response.results.map((a) => a.id).concat(prevState.activityOrder),
         activities,
         activityIdToPath,
-        activityIdToPaths: this.responseToActivityIdToPaths(
-          response,
-          prevState.activityIdToPaths,
-        ),
-        reactionIdToPaths: this.feedResponseToReactionIdToPaths(
-          response,
-          prevState.reactionIdToPaths,
-        ),
+        activityIdToPaths: this.responseToActivityIdToPaths(response, prevState.activityIdToPaths),
+        reactionIdToPaths: this.feedResponseToReactionIdToPaths(response, prevState.reactionIdToPaths),
         reactionActivities: {
           ...prevState.reactionActivities,
           ...this.responseToReactionActivities(response),
@@ -1120,12 +1017,7 @@ export class FeedManager {
     });
   };
 
-  loadNextReactions = async (
-    activityId,
-    kind,
-    activityPath,
-    oldestToNewest,
-  ) => {
+  loadNextReactions = async (activityId, kind, activityPath, oldestToNewest) => {
     let options = {
       activity_id: activityId,
       kind,
@@ -1139,28 +1031,11 @@ export class FeedManager {
     if (!activityPath) {
       activityPath = this.getActivityPath(activityId);
     }
-    const latestReactionsPath = [
-      ...activityPath,
-      orderPrefix + '_reactions',
-      kind,
-    ];
-    const nextUrlPath = [
-      ...activityPath,
-      orderPrefix + '_reactions_extra',
-      kind,
-      'next',
-    ];
-    const refreshingPath = [
-      ...activityPath,
-      orderPrefix + '_reactions_extra',
-      kind,
-      'refreshing',
-    ];
+    const latestReactionsPath = [...activityPath, orderPrefix + '_reactions', kind];
+    const nextUrlPath = [...activityPath, orderPrefix + '_reactions_extra', kind, 'next'];
+    const refreshingPath = [...activityPath, orderPrefix + '_reactions_extra', kind, 'refreshing'];
 
-    const reactions_extra = this.state.activities.getIn([
-      ...activityPath,
-      orderPrefix + '_reactions_extra',
-    ]);
+    const reactions_extra = this.state.activities.getIn([...activityPath, orderPrefix + '_reactions_extra']);
     let nextUrl = 'https://api.stream-io-api.com/';
     if (reactions_extra) {
       nextUrl = reactions_extra.getIn([kind, 'next'], '');
@@ -1203,15 +1078,12 @@ export class FeedManager {
       activities: prevState.activities
         .setIn(refreshingPath, false)
         .setIn(nextUrlPath, response.next)
-        .updateIn(latestReactionsPath, (v = immutable.List()) =>
-          v.concat(immutable.fromJS(response.results)),
-        ),
+        .updateIn(latestReactionsPath, (v = immutable.List()) => v.concat(immutable.fromJS(response.results))),
       reactionIdToPaths: this.reactionResponseToReactionIdToPaths(
         response,
         prevState.reactionIdToPaths,
         latestReactionsPath,
-        prevState.activities.getIn(latestReactionsPath, immutable.List()).toJS()
-          .length,
+        prevState.activities.getIn(latestReactionsPath, immutable.List()).toJS().length,
       ),
     }));
   };

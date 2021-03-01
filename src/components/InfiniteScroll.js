@@ -63,11 +63,7 @@ export default class InfiniteScroll extends Component {
       scrollEl = this.scrollComponent.parentNode;
     }
 
-    scrollEl.removeEventListener(
-      'mousewheel',
-      this.mousewheelListener,
-      this.props.useCapture,
-    );
+    scrollEl.removeEventListener('mousewheel', this.mousewheelListener, this.props.useCapture);
   }
 
   detachScrollListener() {
@@ -78,16 +74,8 @@ export default class InfiniteScroll extends Component {
       scrollEl = this.getParentElement(this.scrollComponent);
     }
 
-    scrollEl.removeEventListener(
-      'scroll',
-      this.scrollListener,
-      this.props.useCapture,
-    );
-    scrollEl.removeEventListener(
-      'resize',
-      this.scrollListener,
-      this.props.useCapture,
-    );
+    scrollEl.removeEventListener('scroll', this.scrollListener, this.props.useCapture);
+    scrollEl.removeEventListener('resize', this.scrollListener, this.props.useCapture);
   }
 
   getParentElement(el) {
@@ -99,11 +87,7 @@ export default class InfiniteScroll extends Component {
   }
 
   attachScrollListener() {
-    if (
-      !this.props.hasMore ||
-      this.props.isLoading ||
-      !this.getParentElement(this.scrollComponent)
-    ) {
+    if (!this.props.hasMore || this.props.isLoading || !this.getParentElement(this.scrollComponent)) {
       return;
     }
 
@@ -114,21 +98,9 @@ export default class InfiniteScroll extends Component {
       scrollEl = this.getParentElement(this.scrollComponent);
     }
 
-    scrollEl.addEventListener(
-      'mousewheel',
-      this.mousewheelListener,
-      this.props.useCapture,
-    );
-    scrollEl.addEventListener(
-      'scroll',
-      this.scrollListener,
-      this.props.useCapture,
-    );
-    scrollEl.addEventListener(
-      'resize',
-      this.scrollListener,
-      this.props.useCapture,
-    );
+    scrollEl.addEventListener('mousewheel', this.mousewheelListener, this.props.useCapture);
+    scrollEl.addEventListener('scroll', this.scrollListener, this.props.useCapture);
+    scrollEl.addEventListener('resize', this.scrollListener, this.props.useCapture);
 
     if (this.props.initialLoad) {
       this.scrollListener();
@@ -150,12 +122,8 @@ export default class InfiniteScroll extends Component {
 
     let offset;
     if (this.props.useWindow) {
-      const doc =
-        document.documentElement || document.body.parentNode || document.body;
-      const scrollTop =
-        scrollEl.pageYOffset !== undefined
-          ? scrollEl.pageYOffset
-          : doc.scrollTop;
+      const doc = document.documentElement || document.body.parentNode || document.body;
+      const scrollTop = scrollEl.pageYOffset !== undefined ? scrollEl.pageYOffset : doc.scrollTop;
       if (this.props.isReverse) {
         offset = scrollTop;
       } else {
@@ -168,11 +136,7 @@ export default class InfiniteScroll extends Component {
     }
 
     // Here we make sure the element is visible as well as checking the offset
-    if (
-      offset < Number(this.props.threshold) &&
-      el &&
-      el.offsetParent !== null
-    ) {
+    if (offset < Number(this.props.threshold) && el && el.offsetParent !== null) {
       this.detachScrollListener();
       // Call loadMore after detachScrollListener to allow for non-async loadMore functions
       if (typeof this.props.loadMore === 'function') {
@@ -186,10 +150,7 @@ export default class InfiniteScroll extends Component {
       return 0;
     }
 
-    return (
-      this.calculateTopPosition(el) +
-      (el.offsetHeight - scrollTop - window.innerHeight)
-    );
+    return this.calculateTopPosition(el) + (el.offsetHeight - scrollTop - window.innerHeight);
   }
 
   calculateTopPosition(el) {
@@ -231,9 +192,7 @@ export default class InfiniteScroll extends Component {
       if (loader) {
         isReverse ? childrenArray.unshift(loader) : childrenArray.push(loader);
       } else if (this.defaultLoader) {
-        isReverse
-          ? childrenArray.unshift(this.defaultLoader)
-          : childrenArray.push(this.defaultLoader);
+        isReverse ? childrenArray.unshift(this.defaultLoader) : childrenArray.push(this.defaultLoader);
       }
     }
     return React.createElement(element, props, childrenArray);

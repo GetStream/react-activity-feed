@@ -77,19 +77,13 @@ export default class App extends Component {
                 {...activityProps}
                 Footer={() => (
                   <React.Fragment>
-                    <CommentField
-                      activity={activityProps.activity}
-                      onAddReaction={activityProps.onAddReaction}
-                    />
+                    <CommentField activity={activityProps.activity} onAddReaction={activityProps.onAddReaction} />
                     <CommentList
                       activityId={activityProps.activity.id}
                       CommentItem={(props) => (
                         <React.Fragment>
                           <CommentItem {...props} />
-                          <LikeButton
-                            reaction={props.comment}
-                            {...activityProps}
-                          />
+                          <LikeButton reaction={props.comment} {...activityProps} />
                         </React.Fragment>
                       )}
                     />
