@@ -1,5 +1,0 @@
-ActivityContent
-
-```js
-<ActivityContent />
-```
