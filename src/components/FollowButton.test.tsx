@@ -31,13 +31,14 @@ describe('FollowButton', () => {
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
-  it('renders same after "followed" prop change', () => {
+  it('renders with different text after "followed" prop change', () => {
     const { rerender } = render(<FollowButton followed={false} />);
 
-    expect(screen.getByRole('button')).toHaveTextContent('Follow');
+    // eslint-disable-next-line jest-dom/prefer-to-have-text-content
+    expect(screen.getByRole('button').textContent).toEqual('Follow');
 
     rerender(<FollowButton followed />);
 
-    expect(screen.getByRole('button')).toHaveTextContent('Follow');
+    expect(screen.getByRole('button')).toHaveTextContent('Following');
   });
 });
