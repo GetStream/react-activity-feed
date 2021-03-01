@@ -33,7 +33,7 @@ export { default as RepostButton } from './components/RepostButton';
 export { default as ReactionIcon } from './components/ReactionIcon';
 export { default as ReactionToggleIcon } from './components/ReactionToggleIcon';
 export { default as IconBadge } from './components/IconBadge';
-export { default as FollowButton } from './components/FollowButton';
+export * from './components/FollowButton';
 
 // Comment related
 export { default as CommentList } from './components/CommentList';
