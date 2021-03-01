@@ -5,7 +5,7 @@ import StreamAnalytics from 'stream-analytics';
 
 import { FeedManager } from './FeedManager';
 
-import { handleError } from '../errors';
+import { handleError } from '../utils/errors';
 import Dayjs from 'dayjs';
 
 import { Streami18n } from '../Streami18n';
