@@ -12,17 +12,12 @@ export default class AttachedActivity extends React.Component {
   render() {
     const { activity } = this.props;
     const images =
-      activity.attachments !== undefined &&
-      activity.attachments.images !== undefined
+      activity.attachments !== undefined && activity.attachments.images !== undefined
         ? activity.attachments.images
         : [];
     const actor = userOrDefault(activity.actor);
 
-    if (
-      activity.verb === 'repost' ||
-      activity.verb === 'post' ||
-      activity.verb === 'comment'
-    ) {
+    if (activity.verb === 'repost' || activity.verb === 'post' || activity.verb === 'comment') {
       return (
         <div className="raf-attached-activity">
           {images.length === 0 && (
@@ -30,9 +25,7 @@ export default class AttachedActivity extends React.Component {
               <p className="raf-attached-activity__author">
                 <strong>{actor.data.name}</strong>
               </p>
-              <p className="raf-attached-activity__content">
-                {activity.object}
-              </p>
+              <p className="raf-attached-activity__content">{activity.object}</p>
             </React.Fragment>
           )}
           {images.length > 0 && (

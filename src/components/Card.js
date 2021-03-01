@@ -13,9 +13,7 @@ export default class Card extends React.Component {
   trimUrl = (url) => {
     let trimmedUrl;
     if (url !== undefined || url !== null) {
-      trimmedUrl = url
-        .replace(/^(?:https?:\/\/)?(?:www\.)?/i, '')
-        .split('/')[0];
+      trimmedUrl = url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '').split('/')[0];
     }
     return trimmedUrl;
   };
@@ -40,9 +38,7 @@ export default class Card extends React.Component {
         href={!nolink ? url : null}
         target="blank"
         rel="noopener"
-        className={`raf-card ${
-          image !== undefined ? 'raf-card--with-image' : ''
-        }`}
+        className={`raf-card ${image !== undefined ? 'raf-card--with-image' : ''}`}
       >
         {handleClose && image ? (
           <IconButton onClick={(e) => this._handleClose(e)}>
@@ -54,10 +50,7 @@ export default class Card extends React.Component {
             {image === null ? (
               <AvatarIcon preserveAspectRatio="xMinYMin slice" />
             ) : (
-              <img
-                src={image}
-                alt={alt || this.props.title || this.props.description || ''}
-              />
+              <img src={image} alt={alt || this.props.title || this.props.description || ''} />
             )}
           </div>
         )}

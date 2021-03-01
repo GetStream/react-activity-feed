@@ -40,17 +40,6 @@ const baseConfig = {
   watch: { chokidar: false },
 };
 
-const ignoredBrowserModules = [
-  'jsonwebtoken',
-  'http',
-  'https',
-  'zlib',
-  'crypto',
-  'domain',
-  'stream',
-  'sshpk',
-];
-
 const normalBundle = {
   ...baseConfig,
   output: [
@@ -83,7 +72,7 @@ const normalBundle = {
     'url-parse',
   ],
   plugins: [
-    resolve({ preferBuiltins: false, browser: true }),
+    resolve({ browser: true }),
     commonjs({ include: /node_modules/ }),
     json(),
     typescript(),
@@ -109,30 +98,15 @@ const fullBrowserBundle = {
     },
   ],
   plugins: [
-    resolve({ preferBuiltins: false, browser: true }),
+    resolve({ browser: true }),
     commonjs({ include: /node_modules/ }),
     external(),
     typescript(),
     babel({ babelHelpers: 'runtime', exclude: 'node_modules/**' }),
-    {
-      name: 'browser-remapper',
-      resolveId: (importee) =>
-        ignoredBrowserModules.includes(importee) ? importee : null,
-      load: (id) =>
-        ignoredBrowserModules.includes(id) ? 'export default null;' : null,
-    },
     json(),
-    globals({
-      process: true,
-      global: false,
-      buffer: false,
-      dirname: false,
-      filename: false,
-    }),
+    globals({ process: true }),
   ],
 };
 
 export default () =>
-  process.env.ROLLUP_WATCH
-    ? [styleBundle(true), normalBundle]
-    : [styleBundle(), normalBundle, fullBrowserBundle];
+  process.env.ROLLUP_WATCH ? [styleBundle(true), normalBundle] : [styleBundle(), normalBundle, fullBrowserBundle];

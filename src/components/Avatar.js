@@ -11,19 +11,13 @@ export default class Avatar extends React.PureComponent {
 
     const sharedProperties = {
       style: size ? { width: `${size}px`, height: `${size}px` } : {},
-      className: `raf-avatar ${rounded ? 'raf-avatar--rounded' : ''} ${
-        circle ? 'raf-avatar--circle' : ''
-      }`,
+      className: `raf-avatar ${rounded ? 'raf-avatar--rounded' : ''} ${circle ? 'raf-avatar--circle' : ''}`,
       onClick: this.props.onClick,
     };
 
     return (
       <React.Fragment>
-        {image ? (
-          <img {...sharedProperties} src={image} alt={alt ?? ''} />
-        ) : (
-          <AvatarIcon {...sharedProperties} />
-        )}
+        {image ? <img {...sharedProperties} src={image} alt={alt ?? ''} /> : <AvatarIcon {...sharedProperties} />}
       </React.Fragment>
     );
   }

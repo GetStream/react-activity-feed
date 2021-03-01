@@ -36,9 +36,7 @@ export default class NotificationDropdown extends React.Component {
         doFeedRequest={this.props.doFeedRequest}
       >
         <FeedContext.Consumer>
-          {(feedCtx) => (
-            <NotificationDropdownInner {...this.props} {...feedCtx} />
-          )}
+          {(feedCtx) => <NotificationDropdownInner {...this.props} {...feedCtx} />}
         </FeedContext.Consumer>
       </Feed>
     );
@@ -72,10 +70,7 @@ class NotificationDropdownInner extends React.Component {
   };
 
   closeDropdown = (e) => {
-    if (
-      this.dropdownRef.current !== null &&
-      !this.dropdownRef.current.contains(e.target)
-    ) {
+    if (this.dropdownRef.current !== null && !this.dropdownRef.current.contains(e.target)) {
       this.setState(
         {
           open: false,
@@ -98,12 +93,7 @@ class NotificationDropdownInner extends React.Component {
   render() {
     return (
       <div style={{ position: 'relative', display: 'inline-block' }}>
-        <IconBadge
-          unseen={this.props.unseen}
-          onClick={this.openDropdown}
-          showNumber={true}
-          hidden={!this.props.notify}
-        >
+        <IconBadge unseen={this.props.unseen} onClick={this.openDropdown} showNumber={true} hidden={!this.props.notify}>
           {this.props.Icon && smartRender(this.props.Icon, {}, null)}
         </IconBadge>
 
@@ -124,12 +114,7 @@ class NotificationDropdownInner extends React.Component {
           }}
         >
           {this.state.open && (
-            <DropdownPanel
-              arrow
-              right={this.props.right}
-              Header={this.props.Header}
-              Footer={this.props.Footer}
-            >
+            <DropdownPanel arrow right={this.props.right} Header={this.props.Header} Footer={this.props.Footer}>
               <NotificationFeed
                 feedGroup={this.props.feedGroup}
                 userId={this.props.userId}
@@ -144,9 +129,7 @@ class NotificationDropdownInner extends React.Component {
                 doReactionAddRequest={this.props.doReactionAddRequest}
                 doReactionDeleteRequest={this.props.doReactionDeleteRequest}
                 doChildReactionAddRequest={this.props.doChildReactionAddRequest}
-                doChildReactionDeleteRequest={
-                  this.props.doChildReactionDeleteRequest
-                }
+                doChildReactionDeleteRequest={this.props.doChildReactionDeleteRequest}
                 analyticsLocation={this.props.analyticsLocation}
               />
             </DropdownPanel>

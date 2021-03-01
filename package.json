@@ -20,8 +20,8 @@
   "scripts": {
     "test": "jest",
     "eslint": "eslint '**/*.{js,jsx,ts,tsx,md,mdx}' --max-warnings 0",
-    "prettier": "prettier --list-different '**/*.{js,ts,md,json}' .eslintrc.json .prettierrc .babelrc",
-    "prettier-fix": "prettier --write '**/*.{js,ts,md,json}' .eslintrc.json .prettierrc .babelrc",
+    "prettier": "prettier --list-different '**/*.{js,ts,tsx,md,mdx,json}' .eslintrc.json .prettierrc .babelrc",
+    "prettier-fix": "prettier --write '**/*.{js,ts,tsx,md,mdx,json}' .eslintrc.json .prettierrc .babelrc",
     "validate-translations": "node scripts/validate-translations.js",
     "lint": "yarn run prettier && yarn run eslint && stylelint '**/*.{css,scss}'",
     "lint-fix": "yarn run prettier-fix && yarn run eslint --fix && stylelint --fix '**/*.{css,scss}'",

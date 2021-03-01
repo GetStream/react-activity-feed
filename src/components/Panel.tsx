@@ -15,14 +15,8 @@ export type PanelContentProps = ChildPanelProps;
 export type PanelFooterProps = ChildPanelProps;
 export type PanelHeadingProps = ChildPanelProps;
 
-export const PanelContent = ({ children }: PanelContentProps) => (
-  <div className="raf-panel-content">{children}</div>
-);
+export const PanelContent = ({ children }: PanelContentProps) => <div className="raf-panel-content">{children}</div>;
 
-export const PanelFooter = ({ children }: PanelFooterProps) => (
-  <div className="raf-panel-footer">{children}</div>
-);
+export const PanelFooter = ({ children }: PanelFooterProps) => <div className="raf-panel-footer">{children}</div>;
 
-export const PanelHeading = ({ children }: PanelHeadingProps) => (
-  <div className="raf-panel-header">{children}</div>
-);
+export const PanelHeading = ({ children }: PanelHeadingProps) => <div className="raf-panel-header">{children}</div>;

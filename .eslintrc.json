@@ -1,13 +1,6 @@
 {
   "root": true,
-  "plugins": [
-    "babel",
-    "sonarjs",
-    "prettier",
-    "react-hooks",
-    "jest-dom",
-    "jest"
-  ],
+  "plugins": ["babel", "sonarjs", "prettier", "react-hooks", "jest-dom", "jest"],
   "extends": [
     "eslint:recommended",
     "plugin:prettier/recommended",
@@ -87,11 +80,7 @@
           "asc",
           { "caseSensitive": false, "natural": true, "requiredFirst": true }
         ],
-        "typescript-sort-keys/string-enum": [
-          "error",
-          "asc",
-          { "caseSensitive": false, "natural": true }
-        ]
+        "typescript-sort-keys/string-enum": ["error", "asc", { "caseSensitive": false, "natural": true }]
       }
     },
     {

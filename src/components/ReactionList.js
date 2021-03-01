@@ -13,53 +13,28 @@ export default class ReactionList extends React.PureComponent {
   };
 
   render() {
-    return (
-      <FeedContext.Consumer>
-        {(appCtx) => <ReactionListInner {...this.props} {...appCtx} />}
-      </FeedContext.Consumer>
-    );
+    return <FeedContext.Consumer>{(appCtx) => <ReactionListInner {...this.props} {...appCtx} />}</FeedContext.Consumer>;
   }
 }
 
 class ReactionListInner extends React.Component {
   componentDidMount() {
-    const {
-      activityId,
-      activities,
-      reactionKind,
-      getActivityPath,
-      oldestToNewest,
-    } = this.props;
+    const { activityId, activities, reactionKind, getActivityPath, oldestToNewest } = this.props;
     if (!oldestToNewest) {
       return;
     }
 
     const activityPath = this.props.activityPath || getActivityPath(activityId);
     const orderPrefix = 'oldest';
-    const reactions_extra = activities.getIn([
-      ...activityPath,
-      orderPrefix + '_reactions_extra',
-    ]);
+    const reactions_extra = activities.getIn([...activityPath, orderPrefix + '_reactions_extra']);
     if (reactions_extra) {
       return;
     }
-    return this.props.loadNextReactions(
-      activityId,
-      reactionKind,
-      activityPath,
-      oldestToNewest,
-    );
+    return this.props.loadNextReactions(activityId, reactionKind, activityPath, oldestToNewest);
   }
 
   render() {
-    const {
-      activityId,
-      activities,
-      reactionKind,
-      getActivityPath,
-      oldestToNewest,
-      reverseOrder,
-    } = this.props;
+    const { activityId, activities, reactionKind, getActivityPath, oldestToNewest, reverseOrder } = this.props;
     const activityPath = this.props.activityPath || getActivityPath(activityId);
     let orderPrefix = 'latest';
     if (oldestToNewest) {
@@ -74,44 +49,26 @@ class ReactionListInner extends React.Component {
       reactionsOfKind = reactionsOfKind.reverse();
     }
 
-    const reactions_extra = activities.getIn([
-      ...activityPath,
-      orderPrefix + '_reactions_extra',
-    ]);
+    const reactions_extra = activities.getIn([...activityPath, orderPrefix + '_reactions_extra']);
     let nextUrl = 'https://api.stream-io-api.com/';
     if (reactions_extra) {
       nextUrl = reactions_extra.getIn([reactionKind, 'next'], '');
     }
 
     const refreshing = activities.getIn(
-      [
-        ...activityPath,
-        orderPrefix + '_reactions_extra',
-        reactionKind,
-        'refreshing',
-      ],
+      [...activityPath, orderPrefix + '_reactions_extra', reactionKind, 'refreshing'],
       false,
     );
 
     return smartRender(this.props.Paginator, {
-      loadNextPage: () =>
-        this.props.loadNextReactions(
-          activityId,
-          reactionKind,
-          activityPath,
-          oldestToNewest,
-        ),
+      loadNextPage: () => this.props.loadNextReactions(activityId, reactionKind, activityPath, oldestToNewest),
       hasNextPage: Boolean(nextUrl),
       refreshing,
       reverse: reverseOrder,
       children: (
         <React.Fragment>
           {reactionsOfKind.map((reaction) => (
-            <ImmutableItemWrapper
-              key={reaction.get('id')}
-              item={reaction}
-              renderItem={this.renderReaction}
-            />
+            <ImmutableItemWrapper key={reaction.get('id')} item={reaction} renderItem={this.renderReaction} />
           ))}
         </React.Fragment>
       ),

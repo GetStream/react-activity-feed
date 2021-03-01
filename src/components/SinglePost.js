@@ -20,9 +20,7 @@ export default class SinglePost extends React.Component {
           analyticsLocation={this.props.analyticsLocation}
           Activity={this.props.Activity}
           doFeedRequest={(client, feedGroup, userId, options) =>
-            client
-              .feed(feedGroup, userId)
-              .getActivityDetail(this.props.activityId, options)
+            client.feed(feedGroup, userId).getActivityDetail(this.props.activityId, options)
           }
           doActivityDeleteRequest={this.props.doActivityDeleteRequest}
           doReactionAddRequest={this.props.doReactionAddRequest}
