@@ -1,10 +1,12 @@
 import { StreamApiError } from 'getstream';
 
-export const handleError = (error: Error, type: string, detail: { kind?: string }) => {
+type ErrorDetail = { kind?: string };
+
+export const handleError = (error: Error, type: string, detail: ErrorDetail) => {
   console.warn(error, type, detail);
 };
 
-export const getErrorMessage = (error: Error | StreamApiError, type: string, detail: { kind?: string }) => {
+export const getErrorMessage = (error: Error | StreamApiError, type: string, detail: ErrorDetail) => {
   console.warn(error);
 
   if (!(error instanceof StreamApiError)) {
@@ -26,7 +28,7 @@ export const getErrorMessage = (error: Error | StreamApiError, type: string, det
   return fallbackErrorMessage(error, type, detail);
 };
 
-export const fallbackErrorMessage = (_error: Error | StreamApiError, type: string, detail: { kind?: string }) => {
+export const fallbackErrorMessage = (_error: Error | StreamApiError, type: string, detail: ErrorDetail) => {
   let text = 'Something went wrong';
   let suffix = '';
   switch (type) {
@@ -60,5 +62,5 @@ export const fallbackErrorMessage = (_error: Error | StreamApiError, type: strin
     default:
   }
 
-  return text + '. Is your internet working?' + suffix;
+  return `${text}. Is your internet working?${suffix}`;
 };
