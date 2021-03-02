@@ -15,7 +15,7 @@ import {
   ImageDropzone,
   LoadingIndicator,
 } from 'react-file-utils';
-import Button from './Button';
+import { Button } from './Button';
 import { Title } from './Title';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark } from '@fortawesome/free-regular-svg-icons';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Button from './Button';
+import { Button } from './Button';
 
 import { withTranslationContext } from '../Context';
 
@@ -22,4 +22,8 @@ class LoadMoreButton extends React.Component {
   }
 }
 
-export default withTranslationContext(LoadMoreButton);
+const C = withTranslationContext(LoadMoreButton);
+
+export default C;
+
+export { C as LoadMoreButton };
