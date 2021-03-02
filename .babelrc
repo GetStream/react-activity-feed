@@ -14,13 +14,10 @@
         "keyAsDefaultValue": ["en"],
         "keyAsDefaultValueForDerivedKeys": false,
         "outputPath": "src/i18n/{{locale}}.json",
-        "discardOldKeys": true
+        "discardOldKeys": false
       }
     ],
     "@babel/plugin-proposal-class-properties",
     "@babel/plugin-transform-runtime"
-  ],
-  "env": {
-    "test": { "plugins": [] }
-  }
+  ]
 }
