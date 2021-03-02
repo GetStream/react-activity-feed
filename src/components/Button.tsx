@@ -2,13 +2,13 @@ import React, { ButtonHTMLAttributes, MouseEvent, KeyboardEvent, ReactNode } fro
 import { LoadingIndicator } from 'react-file-utils';
 
 export type ButtonProps = {
-  buttonStyle: 'info' | 'primary' | 'faded';
-  children: ReactNode;
-  disabled: boolean;
-  loading: boolean;
-  onClick: (event: MouseEvent<HTMLButtonElement>) => void;
-  onKeyPress: (event: KeyboardEvent<HTMLButtonElement>) => void;
-  type: ButtonHTMLAttributes<HTMLButtonElement>['type'];
+  buttonStyle?: 'info' | 'primary' | 'faded';
+  children?: ReactNode;
+  disabled?: boolean;
+  loading?: boolean;
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+  onKeyPress?: (event: KeyboardEvent<HTMLButtonElement>) => void;
+  type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
 };
 
 export const Button = ({
@@ -19,7 +19,7 @@ export const Button = ({
   onClick,
   onKeyPress,
   children,
-}: Partial<ButtonProps>) => (
+}: ButtonProps) => (
   <button
     className={`raf-button${buttonStyle ? ' raf-button--' + buttonStyle : ''}`}
     onClick={onClick}
