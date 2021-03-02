@@ -1,29 +1,22 @@
-import React from 'react';
+import React, { useContext, ReactNode, MouseEvent } from 'react';
 
 import { Button } from './Button';
 
-import { withTranslationContext } from '../Context';
+import { TranslationContext } from '../Context';
 
-class LoadMoreButton extends React.Component {
-  render() {
-    const { t } = this.props;
-    return (
-      <div className="raf-load-more-button">
-        <Button
-          onClick={this.props.onClick}
-          buttonStyle="info"
-          disabled={this.props.refreshing}
-          loading={this.props.refreshing}
-        >
-          {this.props.children ? this.props.children : t('Load more')}
-        </Button>
-      </div>
-    );
-  }
-}
+export type LoadMoreButtonProps = {
+  children?: ReactNode;
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+  refreshing?: boolean;
+};
 
-const C = withTranslationContext(LoadMoreButton);
-
-export default C;
-
-export { C as LoadMoreButton };
+export const LoadMoreButton = ({ onClick, refreshing = false, children }: LoadMoreButtonProps) => {
+  const { t } = useContext(TranslationContext);
+  return (
+    <div className="raf-load-more-button">
+      <Button onClick={onClick} buttonStyle="info" disabled={refreshing} loading={refreshing}>
+        {children ? children : t('Load more')}
+      </Button>
+    </div>
+  );
+};
