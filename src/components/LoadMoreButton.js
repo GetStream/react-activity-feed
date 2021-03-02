@@ -22,4 +22,8 @@ class LoadMoreButton extends React.Component {
   }
 }
 
-export default withTranslationContext(LoadMoreButton);
+const C = withTranslationContext(LoadMoreButton);
+
+export default C;
+
+export { C as LoadMoreButton };
