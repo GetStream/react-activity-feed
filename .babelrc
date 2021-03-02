@@ -21,8 +21,6 @@
     "@babel/plugin-transform-runtime"
   ],
   "env": {
-    "production": {
-      "presets": [["@babel/env", { "modules": false }]]
-    }
+    "test": { "plugins": [] }
   }
 }
