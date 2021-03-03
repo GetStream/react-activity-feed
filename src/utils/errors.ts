@@ -1,32 +1,34 @@
 import { StreamApiError } from 'getstream';
 
-export const handleError = (error, type, detail) => {
+type ErrorDetail = { kind?: string };
+
+export const handleError = (error: Error, type: string, detail: ErrorDetail) => {
   console.warn(error, type, detail);
 };
 
-export const getErrorMessage = (error, type, detail) => {
+export const getErrorMessage = (error: Error | StreamApiError, type: string, detail: ErrorDetail) => {
   console.warn(error);
+
   if (!(error instanceof StreamApiError)) {
     return fallbackErrorMessage(error, type, detail);
   }
+
   const response = error.response;
 
-  if (!response.status || !response.body || !response.body.detail) {
+  if (!response.status || !response.data || !response.data.detail) {
     return fallbackErrorMessage(error, type, detail);
   }
   const status = response.status;
-  const text = response.body.detail;
+  const text = response.data.detail;
 
-  /* eslint-disable no-magic-numbers */
   if (status >= 400 && status < 600) {
     return text;
   }
-  /* eslint-enable no-magic-numbers */
 
   return fallbackErrorMessage(error, type, detail);
 };
 
-export const fallbackErrorMessage = (error, type, detail) => {
+export const fallbackErrorMessage = (_error: Error | StreamApiError, type: string, detail: ErrorDetail) => {
   let text = 'Something went wrong';
   let suffix = '';
   switch (type) {
@@ -49,15 +51,16 @@ export const fallbackErrorMessage = (error, type, detail) => {
     case 'add-activity':
       text += ' when submitting your post';
       break;
-    case ('add-reaction', 'add-child-reaction'):
+    case 'add-reaction':
+    case 'add-child-reaction':
       text += ' when submitting your ' + detail.kind;
       break;
-    case ('delete-reaction', 'delete-child-reaction'):
+    case 'delete-reaction':
+    case 'delete-child-reaction':
       text += ' when removing your ' + detail.kind;
       break;
     default:
   }
 
-  text += '. Is your internet working?' + suffix;
-  return text;
+  return `${text}. Is your internet working?${suffix}`;
 };
