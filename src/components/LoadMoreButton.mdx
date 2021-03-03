@@ -1,0 +1,31 @@
+---
+route: /components/load-more-button
+menu: UI Components
+---
+
+import { Playground, Props } from 'docz';
+import { LoadMoreButton } from './LoadMoreButton';
+
+# LoadMoreButton
+
+## Properties
+
+<Props of={LoadMoreButton} />
+
+## Basic usage
+
+<Playground>
+  <LoadMoreButton onClick={console.log} />
+</Playground>
+
+## With custom text
+
+<Playground>
+  <LoadMoreButton>Click to load more</LoadMoreButton>
+</Playground>
+
+## Refreshing state
+
+<Playground>
+  <LoadMoreButton refreshing />
+</Playground>

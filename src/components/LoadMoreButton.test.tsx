@@ -22,17 +22,36 @@ describe('LoadMoreButton', () => {
   });
 
   it('renders with custom props', () => {
-    const tree = renderer.create(<LoadMoreButton loading disabled />).toJSON();
+    const tree = renderer
+      .create(
+        <LoadMoreButton refreshing onClick={console.log}>
+          Load more
+        </LoadMoreButton>,
+      )
+      .toJSON();
     expect(tree).toMatchInlineSnapshot(`
       <div
         className="raf-load-more-button"
       >
         <button
           className="raf-button raf-button--info"
-          disabled={false}
+          disabled={true}
+          onClick={[Function]}
           type="button"
         >
-          Load more
+          <div
+            className="rfu-loading-indicator__spinner"
+            style={
+              Object {
+                "borderColor": "rgba(255,255,255,0.1)",
+                "borderTopColor": "rgba(255,255,255,0.4)",
+                "borderWidth": 2,
+                "height": 20,
+                "margin": "0 auto",
+                "width": 20,
+              }
+            }
+          />
         </button>
       </div>
     `);
