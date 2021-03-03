@@ -1,5 +1,5 @@
 import React from 'react';
-import LoadMoreButton from './LoadMoreButton';
+import { LoadMoreButton } from './LoadMoreButton';
 import { smartRender } from '../utils';
 
 export default class LoadMorePaginator extends React.Component {
