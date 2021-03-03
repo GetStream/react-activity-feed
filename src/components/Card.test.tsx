@@ -104,6 +104,38 @@ describe('Card', () => {
     `);
   });
 
+  it('does not render URL when nolink property is set to true', () => {
+    const tree = renderer.create(<Card nolink url="https://getstream.io" />).toJSON();
+    expect(tree).toMatchInlineSnapshot(`
+      <a
+        className="raf-card "
+        href={null}
+        rel="noopener"
+        target="blank"
+      >
+        <div
+          className="raf-card__content"
+        >
+          <div
+            className="raf-card__content-left"
+          >
+            <p
+              className="raf-card__title"
+            />
+            <p
+              className="raf-card__url"
+            >
+              getstream.io
+            </p>
+            <p
+              className="raf-card__description"
+            />
+          </div>
+        </div>
+      </a>
+    `);
+  });
+
   it('checks if handleClose callback has been called', () => {
     const onClose = jest.fn();
     render(<Card handleClose={onClose} />);
