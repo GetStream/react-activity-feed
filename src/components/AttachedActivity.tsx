@@ -1,47 +1,62 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { userOrDefault } from '../utils';
+
+import { EnrichedActivity, OGAPIResponse } from 'getstream';
 
 import { Thumbnail } from 'react-file-utils';
 
-/**
- * Component is described here.
- *
- * @example ./examples/AttachedActivity.md
- */
-export default class AttachedActivity extends React.Component {
-  render() {
-    const { activity } = this.props;
-    const images =
-      activity.attachments !== undefined && activity.attachments.images !== undefined
-        ? activity.attachments.images
-        : [];
-    const actor = userOrDefault(activity.actor);
+export type FileData = {
+  mimeType: string;
+  name: string;
+  url: string;
+};
 
-    if (activity.verb === 'repost' || activity.verb === 'post' || activity.verb === 'comment') {
-      return (
-        <div className="raf-attached-activity">
-          {images.length === 0 && (
-            <React.Fragment>
-              <p className="raf-attached-activity__author">
-                <strong>{actor.data.name}</strong>
-              </p>
-              <p className="raf-attached-activity__content">{activity.object}</p>
-            </React.Fragment>
-          )}
-          {images.length > 0 && (
-            <div className="raf-attached-activity__images">
-              {images.slice(0, 5).map((image, i) => (
-                <Thumbnail image={image} size={50} key={`image-${i}`} />
-              ))}
-            </div>
-          )}
-        </div>
-      );
-    }
+export type Attachments = {
+  files?: FileData[];
+  images?: string[];
+  og?: OGAPIResponse;
+};
 
-    return null;
+export type CustomActivityData = {
+  attachments?: Attachments;
+  image?: string;
+  link?: boolean;
+  text?: string;
+};
+
+export type UserData = {
+  name?: string;
+  profileImage?: string;
+};
+
+export type AttachedActivityProps = {
+  activity: EnrichedActivity<UserData, CustomActivityData>;
+};
+
+export const AttachedActivity = ({ activity: { object, verb, attachments, actor } }: AttachedActivityProps) => {
+  const images = attachments?.images ?? [];
+  const user = useMemo(() => userOrDefault(actor), [actor]);
+
+  if (verb === 'repost' || verb === 'post' || verb === 'comment') {
+    return (
+      <div className="raf-attached-activity">
+        {images.length ? (
+          <div className="raf-attached-activity__images">
+            {images.slice(0, 5).map((image, i) => (
+              <Thumbnail image={image} size={50} key={`image-${i}`} />
+            ))}
+          </div>
+        ) : (
+          <React.Fragment>
+            <p className="raf-attached-activity__author">
+              <strong>{user.data.name}</strong>
+            </p>
+            <p className="raf-attached-activity__content">{object as string}</p>
+          </React.Fragment>
+        )}
+      </div>
+    );
   }
-}
 
-// temporary export
-export { AttachedActivity };
+  return null;
+};
