@@ -42,3 +42,6 @@ export default class AttachedActivity extends React.Component {
     return null;
   }
 }
+
+// temporary export
+export { AttachedActivity };
