@@ -1,19 +1,8 @@
 import React, { SyntheticEvent, useMemo } from 'react';
 import { IconButton } from 'react-file-utils';
-import { sanitizeURL } from '../utils';
+import { sanitizeURL, trimURL } from '../utils';
 
 import { AvatarIcon, CloseIcon } from './Icons';
-
-// export type Props = {|
-// 	image?: ?string,
-// 	images?: Array<{ image: string }>,
-// 	alt?: ?string,
-// 	title?: ?string,
-// 	url?: string,
-// 	nolink?: boolean,
-// 	description?: ?string,
-// 	handleClose?: (e: SyntheticEvent<>) => mixed,
-//  |};
 
 type CardProps = {
   alt?: string;
@@ -26,16 +15,10 @@ type CardProps = {
   url?: string;
 };
 
-const trimUrl = (url?: string) =>
-  url
-    ?.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '')
-    .split('/')
-    .shift();
-
 export const Card = ({
   alt,
   images = [],
-  image: imageURL, // = images.length ? images[0].image : undefined,
+  image: imageURL,
   handleClose,
   description,
   nolink,
@@ -43,7 +26,7 @@ export const Card = ({
   title,
 }: CardProps) => {
   const sanitizedURL = useMemo(() => sanitizeURL(url), [url]) as string | undefined;
-  const trimmedURL = useMemo(() => trimUrl(sanitizedURL), [sanitizedURL]);
+  const trimmedURL = useMemo(() => trimURL(sanitizedURL), [sanitizedURL]);
 
   const [{ image }] = !imageURL && images.length ? images : [{ image: imageURL }];
 
@@ -51,7 +34,7 @@ export const Card = ({
     <a
       href={nolink ? undefined : sanitizedURL}
       target="blank"
-      rel="noopener"
+      rel="nofollow noreferrer noopener"
       className={`raf-card ${image !== undefined ? 'raf-card--with-image' : ''}`}
     >
       {handleClose && image ? (
@@ -74,13 +57,13 @@ export const Card = ({
           <p className="raf-card__url">{trimmedURL}</p>
           <p className="raf-card__description">{description}</p>
         </div>
-        {handleClose && image === undefined ? (
+        {handleClose && image === undefined && (
           <div className="raf-card__content-right">
             <IconButton onClick={handleClose}>
               <CloseIcon />
             </IconButton>
           </div>
-        ) : null}
+        )}
       </div>
     </a>
   );
