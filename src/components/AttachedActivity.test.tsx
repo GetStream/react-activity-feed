@@ -7,19 +7,20 @@ const attachments = {
   images: ['https://getstream.imgix.net/images/random_svg/A.png'],
 };
 
-const activity = {
-  verb: 'post',
-  object: 'Random string',
-  actor: {
-    data: {
-      name: 'Random user',
-    },
+const actor = {
+  data: {
+    name: 'Random user',
   },
 };
 
+const activity = {
+  verb: 'post',
+  object: 'Random string',
+};
+
 describe('AttachedActivity', () => {
-  it('renders without attachments', () => {
-    const tree = renderer.create(<AttachedActivity activity={activity} />);
+  it('renders without attachments and with actor', () => {
+    const tree = renderer.create(<AttachedActivity activity={{ ...activity, actor }} />);
 
     expect(tree).toMatchInlineSnapshot(`
       <div
@@ -41,7 +42,7 @@ describe('AttachedActivity', () => {
     `);
   });
 
-  it('renders with attachments (images)', () => {
+  it('renders with attachments and without actor', () => {
     const tree = renderer.create(<AttachedActivity activity={{ ...activity, attachments }} />);
 
     expect(tree).toMatchInlineSnapshot(`
@@ -70,6 +71,29 @@ describe('AttachedActivity', () => {
             />
           </div>
         </div>
+      </div>
+    `);
+  });
+
+  it('renders without attachments and without actor', () => {
+    const tree = renderer.create(<AttachedActivity activity={activity} />);
+
+    expect(tree).toMatchInlineSnapshot(`
+      <div
+        className="raf-attached-activity"
+      >
+        <p
+          className="raf-attached-activity__author"
+        >
+          <strong>
+            Unknown
+          </strong>
+        </p>
+        <p
+          className="raf-attached-activity__content"
+        >
+          Random string
+        </p>
       </div>
     `);
   });
