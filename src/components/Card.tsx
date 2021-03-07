@@ -25,6 +25,7 @@ export const Card = ({
   url,
   title,
 }: CardProps) => {
+  // TODO: remove casting when sanitizeURL is properly typed
   const sanitizedURL = useMemo(() => sanitizeURL(url), [url]) as string | undefined;
   const trimmedURL = useMemo(() => trimURL(sanitizedURL), [sanitizedURL]);
 
