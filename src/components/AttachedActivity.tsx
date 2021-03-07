@@ -24,8 +24,11 @@ type CustomActivityData = {
 };
 
 type UserData = {
-  name?: string;
-  profileImage?: string;
+  data: {
+    name?: string;
+    profileImage?: string;
+  };
+  id: string;
 };
 
 export type AttachedActivityProps = {

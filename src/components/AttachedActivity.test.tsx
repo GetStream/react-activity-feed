@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ComponentProps } from 'react';
 import renderer from 'react-test-renderer';
 
 import { AttachedActivity } from './AttachedActivity';
@@ -18,9 +18,11 @@ const activity = {
   object: 'Random string',
 };
 
+type Activity = ComponentProps<typeof AttachedActivity>['activity'];
+
 describe('AttachedActivity', () => {
   it('renders without attachments and with actor', () => {
-    const tree = renderer.create(<AttachedActivity activity={{ ...activity, actor }} />);
+    const tree = renderer.create(<AttachedActivity activity={{ ...activity, actor } as Activity} />);
 
     expect(tree).toMatchInlineSnapshot(`
       <div
@@ -43,7 +45,7 @@ describe('AttachedActivity', () => {
   });
 
   it('renders with attachments and without actor', () => {
-    const tree = renderer.create(<AttachedActivity activity={{ ...activity, attachments }} />);
+    const tree = renderer.create(<AttachedActivity activity={{ ...activity, attachments } as Activity} />);
 
     expect(tree).toMatchInlineSnapshot(`
       <div
@@ -76,7 +78,7 @@ describe('AttachedActivity', () => {
   });
 
   it('renders without attachments and without actor', () => {
-    const tree = renderer.create(<AttachedActivity activity={activity} />);
+    const tree = renderer.create(<AttachedActivity activity={activity as Activity} />);
 
     expect(tree).toMatchInlineSnapshot(`
       <div
