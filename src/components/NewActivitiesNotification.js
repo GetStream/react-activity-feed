@@ -63,7 +63,4 @@ class NewActivitiesNotification extends React.Component {
   }
 }
 
-const C = withTranslationContext(NewActivitiesNotification);
-
-export default C;
-export { C as NewActivitiesNotification };
+export default withTranslationContext(NewActivitiesNotification);
