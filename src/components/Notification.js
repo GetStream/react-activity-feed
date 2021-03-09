@@ -1,7 +1,7 @@
 import React from 'react';
 import Avatar from './Avatar';
 import AvatarGroup from './AvatarGroup';
-import AttachedActivity from './AttachedActivity';
+import { AttachedActivity } from './AttachedActivity';
 import Dropdown from './Dropdown';
 import { Link } from './Link';
 
