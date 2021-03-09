@@ -1,11 +1,9 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { NewActivitiesNotification } from './NewActivitiesNotification';
+import { NewActivitiesNotification, LabelFunction } from './NewActivitiesNotification';
 
-// TODO: add LabelFunction type and remove directive
-// @ts-expect-error
-const customLabelFunction = ({ count, labelSingle, labelPlural }) =>
+const customLabelFunction: LabelFunction = ({ count, labelSingle, labelPlural }) =>
   `You have ${count} unread ${count > 1 ? labelPlural : labelSingle}.`;
 
 describe('NewActivitiesNotification', () => {
