@@ -1,7 +1,7 @@
-import React, { ComponentProps } from 'react';
+import React from 'react';
 import renderer from 'react-test-renderer';
 
-import { AttachedActivity } from './AttachedActivity';
+import { AttachedActivity, AttachedActivityProps } from './AttachedActivity';
 
 const attachments = {
   images: ['https://getstream.imgix.net/images/random_svg/A.png'],
@@ -18,7 +18,7 @@ const activity = {
   object: 'Random string',
 };
 
-type Activity = ComponentProps<typeof AttachedActivity>['activity'];
+type Activity = AttachedActivityProps['activity'];
 
 describe('AttachedActivity', () => {
   it('renders without attachments and with actor', () => {
