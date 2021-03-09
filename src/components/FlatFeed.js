@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Activity from './Activity';
-import NewActivitiesNotification from './NewActivitiesNotification';
+import { NewActivitiesNotification } from './NewActivitiesNotification';
 
 import LoadMorePaginator from './LoadMorePaginator';
 import FeedPlaceholder from './FeedPlaceholder';
