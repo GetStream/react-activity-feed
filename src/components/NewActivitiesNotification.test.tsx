@@ -1,7 +1,9 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { NewActivitiesNotification } from './NewActivitiesNotification';
 
+// TODO: add LabelFunction type and remove directive
 // @ts-expect-error
 const customLabelFunction = ({ count, labelSingle, labelPlural }) =>
   `You have ${count} unread ${count > 1 ? labelPlural : labelSingle}.`;
@@ -77,5 +79,23 @@ describe('NewActivitiesNotification', () => {
         </a>
       </button>
     `);
+  });
+
+  it('checks if onClick has been called', () => {
+    const onClick = jest.fn();
+
+    render(
+      <NewActivitiesNotification
+        adds={['1', '2']}
+        deletes={['1', '2']}
+        labelSingle="notification"
+        labelPlural="notifications"
+        onClick={onClick}
+      />,
+    );
+
+    fireEvent.click(screen.getByText('You have 2 new notifications'));
+
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 });
