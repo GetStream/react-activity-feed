@@ -1,36 +1,7 @@
-import React from 'react';
 import URL from 'url-parse';
-import _truncate from 'lodash/truncate';
 import Dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import minMax from 'dayjs/plugin/minMax';
-import * as linkify from 'linkifyjs';
-import linkifyMention from 'linkifyjs/plugins/mention';
-
-// 'linkifyjs/plugins/hashtag';
-function linkifyHashtag(linkify) {
-  const TT = linkify.scanner.TOKENS; // Text tokens
-  const MultiToken = linkify.parser.TOKENS.Base; // Base Multi token class
-  const S_START = linkify.parser.start;
-  function HASHTAG(value) {
-    this.v = value;
-  }
-  linkify.inherits(MultiToken, HASHTAG, { type: 'hashtag', isLink: true });
-  const S_HASH = S_START.jump(TT.POUND);
-  const S_HASHTAG = new linkify.parser.State(HASHTAG);
-
-  S_HASH.on(TT.DOMAIN, S_HASHTAG);
-  S_HASH.on(TT.UNDERSCORE, S_HASHTAG);
-  S_HASH.on(TT.TLD, S_HASHTAG);
-
-  // following lines are the diff from original implemention
-  // add support for _ in hashtags
-  S_HASH.on(TT.LOCALHOST, S_HASHTAG);
-  S_HASHTAG.on(TT.UNDERSCORE, S_HASH);
-}
-
-linkifyMention(linkify);
-linkifyHashtag(linkify);
 
 Dayjs.extend(utc);
 Dayjs.extend(minMax);
@@ -210,68 +181,4 @@ export function sanitizeURL(url) {
   return undefined;
 }
 
-const renderWord = (word, key, parentClass, onClickMention, onClickHashtag) => {
-  const [link] = linkify.find(word);
-  if (!link) return word;
-
-  const { type, value, href } = link;
-
-  if (onClickMention && type === 'mention') {
-    return (
-      <React.Fragment key={key}>
-        {!word.startsWith(value) && word.slice(0, word.indexOf(value))}
-        <a onClick={() => onClickMention && onClickMention(value.substring(1))} className={`${parentClass}__mention`}>
-          {value}
-        </a>
-        {!word.endsWith(value) && word.slice(word.indexOf(value) + value.length)}
-      </React.Fragment>
-    );
-  }
-
-  if (onClickHashtag && type === 'hashtag') {
-    return (
-      <React.Fragment key={key}>
-        {!word.startsWith(value) && word.slice(0, word.indexOf(value))}
-        <a onClick={() => onClickHashtag && onClickHashtag(value.substring(1))} className={`${parentClass}__hashtag`}>
-          {value}
-        </a>
-        {!word.endsWith(value) && word.slice(word.indexOf(value) + value.length)}
-      </React.Fragment>
-    );
-  }
-
-  if (type === 'email' || type === 'url') {
-    return (
-      <a
-        href={encodeURI(href)}
-        className={`${parentClass}__link`}
-        target="blank"
-        data-testid="renderWord-hyperlink"
-        rel="nofollow noreferrer noopener"
-        key={key}
-      >
-        {type === 'email'
-          ? value
-          : _truncate(value.replace(/(http(s?):\/\/)?(www\.)?/, ''), {
-              length: 33,
-            })}
-      </a>
-    );
-  }
-
-  return word;
-};
-
-export const textRenderer = (text, parentClass, onClickMention, onClickHashtag) => {
-  if (!text) return;
-
-  return text
-    .split(/\r\n|\r|\n/) // first break on line
-    .map((line, i) =>
-      line
-        .split(' ') // break for each word
-        .map((word, j) => renderWord(word, `item-${i}-${j}`, parentClass, onClickMention, onClickHashtag))
-        .reduce((acc, elem) => (acc ? [acc, ' ', elem] : [elem])),
-    )
-    .reduce((acc, elem) => (acc ? [acc, '\n', elem] : [elem]));
-};
+export * from './textRenderer';

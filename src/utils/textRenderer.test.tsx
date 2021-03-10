@@ -1,13 +1,14 @@
+import React from 'react';
 import renderer from 'react-test-renderer';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import { textRenderer } from '../utils';
+import { textRenderer } from './textRenderer';
 
 describe('utils -> textRenderer', () => {
   const onClickCallback = (word: string) => word;
 
-  const textRendererWithCallbacks = (text: string) => textRenderer(text, '', onClickCallback, onClickCallback);
+  const textRendererWithCallbacks = (text: string) => <>{textRenderer(text, '', onClickCallback, onClickCallback)}</>;
 
   it('is renders @ without callback func correctly', () => {
     const tree = renderer
