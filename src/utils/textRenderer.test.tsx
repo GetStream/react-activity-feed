@@ -5,7 +5,7 @@ import '@testing-library/jest-dom';
 
 import { textRenderer } from './textRenderer';
 
-describe('utils -> textRenderer', () => {
+describe('textRenderer', () => {
   const onClickCallback = (word: string) => word;
 
   const textRendererWithCallbacks = (text: string) => <>{textRenderer(text, '', onClickCallback, onClickCallback)}</>;
