@@ -25,28 +25,6 @@ export function humanizeTimestamp(timestamp, tDateTimeParser) {
   return time.from(now);
 }
 
-export const smartRender = (ElementOrComponentOrLiteral, props, fallback) => {
-  if (ElementOrComponentOrLiteral === undefined) {
-    ElementOrComponentOrLiteral = fallback;
-  }
-  if (React.isValidElement(ElementOrComponentOrLiteral)) {
-    // Flow cast through any, to make flow believe it's a React.Element
-    return ElementOrComponentOrLiteral;
-  }
-
-  // Flow cast through any to remove React.Element after previous check
-  const ComponentOrLiteral = ElementOrComponentOrLiteral;
-  if (
-    typeof ComponentOrLiteral === 'string' ||
-    typeof ComponentOrLiteral === 'number' ||
-    typeof ComponentOrLiteral === 'boolean' ||
-    ComponentOrLiteral == null
-  ) {
-    return ComponentOrLiteral;
-  }
-  return <ComponentOrLiteral {...props} />;
-};
-
 export function userOrDefault(user) {
   let actor;
   const notFound = {
@@ -182,3 +160,4 @@ export function sanitizeURL(url) {
 }
 
 export * from './textRenderer';
+export * from './smartRender';
