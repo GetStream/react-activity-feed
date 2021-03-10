@@ -36,10 +36,10 @@ describe('smartRender', () => {
   });
 
   it('is renders React elements', () => {
-    expect(renderer.create(<>{smartRender(<Component />)}</>).toJSON()).toMatchInlineSnapshot(`<div />`);
-    expect(renderer.create(<>{smartRender(Component)}</>).toJSON()).toMatchInlineSnapshot(`<div />`);
-    expect(renderer.create(<>{smartRender(<ClassComponent />)}</>).toJSON()).toMatchInlineSnapshot(`<div />`);
-    expect(renderer.create(<>{smartRender(ClassComponent)}</>).toJSON()).toMatchInlineSnapshot(`<div />`);
+    expect(renderer.create(<>{smartRender<PropType>(<Component />)}</>).toJSON()).toMatchInlineSnapshot(`<div />`);
+    expect(renderer.create(<>{smartRender<PropType>(Component)}</>).toJSON()).toMatchInlineSnapshot(`<div />`);
+    expect(renderer.create(<>{smartRender<PropType>(<ClassComponent />)}</>).toJSON()).toMatchInlineSnapshot(`<div />`);
+    expect(renderer.create(<>{smartRender<PropType>(ClassComponent)}</>).toJSON()).toMatchInlineSnapshot(`<div />`);
   });
 
   it('is renders React elements with props', () => {
