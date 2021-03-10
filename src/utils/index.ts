@@ -1,14 +1,16 @@
+import React from 'react';
 import URL from 'url-parse';
 import Dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import minMax from 'dayjs/plugin/minMax';
+import { TDateTimeParser } from '../i18n/Streami18n';
 
 Dayjs.extend(utc);
 Dayjs.extend(minMax);
 
 // import type { UserResponse } from 'getstream';
 
-export function humanizeTimestamp(timestamp, tDateTimeParser) {
+export function humanizeTimestamp(timestamp: string | Dayjs.Dayjs, tDateTimeParser: TDateTimeParser) {
   let time;
   // Following calculation is based on assumption that tDateTimeParser()
   // either returns momentjs or dayjs object.
@@ -25,20 +27,21 @@ export function humanizeTimestamp(timestamp, tDateTimeParser) {
   return time.from(now);
 }
 
-export function userOrDefault(user) {
-  let actor;
-  const notFound = {
-    id: '!not-found',
-    created_at: '',
-    updated_at: '',
-    data: { name: 'Unknown', profileImage: '' },
-  };
-  if (!user || typeof user === 'string' || typeof user.error === 'string') {
-    actor = notFound;
-  } else {
-    actor = user;
-  }
-  return actor;
+type ErrorUser = { error: string };
+function isErrorUser(user: unknown | ErrorUser): user is ErrorUser {
+  return !!user && typeof (user as ErrorUser).error === 'string';
+}
+
+export function userOrDefault<T>(user?: T | string | { error: string } | null) {
+  if (!user || typeof user === 'string' || isErrorUser(user))
+    return {
+      id: '!not-found',
+      created_at: '',
+      updated_at: '',
+      data: { name: 'Unknown', profileImage: '' },
+    };
+
+  return user;
 }
 
 // https://stackoverflow.com/a/6860916/2570866
@@ -51,46 +54,41 @@ function S4() {
   return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
 }
 
-export function dataTransferItemsHaveFiles(items) {
-  if (!items || !items.length) {
-    return false;
+export function dataTransferItemsHaveFiles(items?: DataTransferItemList) {
+  if (!items || !items.length) return false;
+
+  for (let i = 0; i < items.length; i += 1) {
+    const item = items.item(i);
+    if (item.kind === 'file' || item.type === 'text/html') return true;
   }
-  for (const item of items) {
-    if (item.kind === 'file' || item.type === 'text/html') {
-      return true;
-    }
-  }
+
   return false;
 }
 
-function getFileLikes(items) {
-  const fileLikes = [];
-  for (const item of items) {
+function getFileLikes(items: DataTransferItemList) {
+  const fileLikes: Array<Blob | File> = [];
+  for (let i = 0; i < items.length; i += 1) {
+    const item = items.item(i);
     if (item.kind === 'file') {
       const file = item.getAsFile();
-      if (file) {
-        fileLikes.push(file);
-      }
+      if (file) fileLikes.push(file);
     }
   }
   return fileLikes;
 }
 
-export async function dataTransferItemsToFiles(items) {
-  if (!items || !items.length) {
-    return [];
-  }
+export async function dataTransferItemsToFiles(items?: DataTransferItemList) {
+  if (!items || !items.length) return [];
 
   const fileLikes = getFileLikes(items);
   // If there are files inside the DataTransferItem prefer those
-  if (fileLikes.length) {
-    return fileLikes;
-  }
+  if (fileLikes.length) return fileLikes;
 
   // Otherwise extract images from html
   const blobPromises = [];
   const parser = new DOMParser();
-  for (const item of items) {
+  for (let i = 0; i < items.length; i += 1) {
+    const item = items.item(i);
     if (item.type === 'text/html') {
       blobPromises.push(
         new Promise((accept) => {
@@ -99,7 +97,8 @@ export async function dataTransferItemsToFiles(items) {
             const imageTags = doc.getElementsByTagName('img');
 
             const imagePromises = [];
-            for (const tag of imageTags) {
+            for (let j = 0; j < imageTags.length; j++) {
+              const tag = imageTags[j];
               if (!tag.src) {
                 continue;
               }
@@ -119,7 +118,7 @@ export async function dataTransferItemsToFiles(items) {
               );
             }
             await Promise.all(imagePromises);
-            accept();
+            accept(true);
           });
         }),
       );
@@ -129,25 +128,13 @@ export async function dataTransferItemsToFiles(items) {
   return fileLikes;
 }
 
-export function inputValueFromEvent(event) {
-  if (!event) {
-    return;
-  }
-  let target;
-  if (event.currentTarget) {
-    target = event.currentTarget;
-  } else {
-    target = event.target;
-  }
-  // Trick flow into believing the target maybe has a value field
-  const inputTarget = target;
-  return inputTarget.value;
+export function inputValueFromEvent(event?: React.SyntheticEvent<HTMLInputElement>) {
+  const target = (event?.currentTarget || event?.target) as HTMLInputElement;
+  return target?.value;
 }
 
-export function sanitizeURL(url) {
-  if (url == null) {
-    return url;
-  }
+export function sanitizeURL(url?: string) {
+  if (!url) return url;
 
   const proto = URL(url).protocol;
   // allow http, https, ftp

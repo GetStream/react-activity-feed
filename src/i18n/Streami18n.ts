@@ -161,7 +161,7 @@ const defaultStreami18nOptions = {
   DateTimeParser: Dayjs,
 };
 
-export type TDateTimeParser = (input?: string | number | Date | Dayjs.Dayjs) => string | number | Date | Dayjs.Dayjs;
+export type TDateTimeParser = (input?: string | Date | Dayjs.Dayjs) => Dayjs.Dayjs;
 
 export type LanguageCallbackFn = (t: TFunction) => void;
 
