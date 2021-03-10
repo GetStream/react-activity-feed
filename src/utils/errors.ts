@@ -1,12 +1,28 @@
 import { StreamApiError } from 'getstream';
 
-type ErrorDetail = { kind?: string };
+export type NetworkRequestTypes =
+  | 'get-user-info'
+  | 'get-feed'
+  | 'get-feed-next-page'
+  | 'get-reactions-next-page'
+  | 'get-notification-counts'
+  | 'upload-image'
+  | 'add-activity'
+  | 'delete-activity'
+  | 'add-reaction'
+  | 'delete-reaction'
+  | 'add-child-reaction'
+  | 'delete-child-reaction';
 
-export const handleError = (error: Error, type: string, detail: ErrorDetail) => {
+export type ErrorDetail = { kind?: string };
+
+export type ErrorHandler = (error: Error, type: NetworkRequestTypes, details: ErrorDetail) => void;
+
+export const handleError = (error: Error, type: NetworkRequestTypes, detail: ErrorDetail) => {
   console.warn(error, type, detail);
 };
 
-export const getErrorMessage = (error: Error | StreamApiError, type: string, detail: ErrorDetail) => {
+export const getErrorMessage = (error: Error | StreamApiError, type: NetworkRequestTypes, detail: ErrorDetail) => {
   console.warn(error);
 
   if (!(error instanceof StreamApiError)) {
@@ -28,7 +44,11 @@ export const getErrorMessage = (error: Error | StreamApiError, type: string, det
   return fallbackErrorMessage(error, type, detail);
 };
 
-export const fallbackErrorMessage = (_error: Error | StreamApiError, type: string, detail: ErrorDetail) => {
+export const fallbackErrorMessage = (
+  _error: Error | StreamApiError,
+  type: NetworkRequestTypes,
+  detail: ErrorDetail,
+) => {
   let text = 'Something went wrong';
   let suffix = '';
   switch (type) {
