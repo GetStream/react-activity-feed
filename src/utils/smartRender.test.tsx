@@ -2,9 +2,10 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import { smartRender } from './';
 
-const Component = (props) => <div {...props}></div>;
+type PropType = { title?: string };
+const Component = (props: PropType = {}) => <div {...props}></div>;
 
-class ClassComponent extends React.Component {
+class ClassComponent extends React.Component<PropType> {
   render() {
     return <div {...this.props}></div>;
   }
@@ -42,47 +43,89 @@ describe('smartRender', () => {
   });
 
   it('is renders React elements with props', () => {
-    expect(renderer.create(<>{smartRender(<Component />, { h: 'h' })}</>).toJSON()).toMatchInlineSnapshot(`<div />`);
-    expect(renderer.create(<>{smartRender(<ClassComponent />, { h: 'h' })}</>).toJSON()).toMatchInlineSnapshot(
-      `<div />`,
-    );
+    expect(
+      renderer
+        .create(
+          <>
+            {smartRender<PropType>(<Component />, { title: 'h' })}
+          </>,
+        )
+        .toJSON(),
+    ).toMatchInlineSnapshot(`<div />`);
 
-    expect(renderer.create(<>{smartRender(<Component h="h" />)}</>).toJSON()).toMatchInlineSnapshot(`
+    expect(
+      renderer
+        .create(
+          <>
+            {smartRender<PropType>(<ClassComponent />, { title: 'h' })}
+          </>,
+        )
+        .toJSON(),
+    ).toMatchInlineSnapshot(`<div />`);
+
+    expect(renderer.create(<>{smartRender<PropType>(<Component title="h" />)}</>).toJSON()).toMatchInlineSnapshot(`
       <div
-        h="h"
+        title="h"
       />
     `);
-    expect(renderer.create(<>{smartRender(Component, { h: 'h' })}</>).toJSON()).toMatchInlineSnapshot(`
+
+    expect(
+      renderer
+        .create(
+          <>
+            {smartRender<PropType>(Component, { title: 'h' })}
+          </>,
+        )
+        .toJSON(),
+    ).toMatchInlineSnapshot(`
       <div
-        h="h"
+        title="h"
       />
     `);
-    expect(renderer.create(<>{smartRender(<ClassComponent h="h" />)}</>).toJSON()).toMatchInlineSnapshot(`
+
+    expect(renderer.create(<>{smartRender<PropType>(<ClassComponent title="h" />)}</>).toJSON()).toMatchInlineSnapshot(`
       <div
-        h="h"
+        title="h"
       />
     `);
-    expect(renderer.create(<>{smartRender(ClassComponent, { h: 'h' })}</>).toJSON()).toMatchInlineSnapshot(`
+
+    expect(
+      renderer
+        .create(
+          <>
+            {smartRender<PropType>(ClassComponent, { title: 'h' })}
+          </>,
+        )
+        .toJSON(),
+    ).toMatchInlineSnapshot(`
       <div
-        h="h"
+        title="h"
       />
     `);
   });
 
   it('is renders fallback elements', () => {
-    expect(renderer.create(<>{smartRender(undefined, {}, <Component />)}</>).toJSON()).toMatchInlineSnapshot(`<div />`);
-    expect(renderer.create(<>{smartRender(undefined, {}, Component)}</>).toJSON()).toMatchInlineSnapshot(`<div />`);
+    expect(renderer.create(<>{smartRender<PropType>(undefined, {}, <Component />)}</>).toJSON()).toMatchInlineSnapshot(
+      `<div />`,
+    );
+
+    expect(renderer.create(<>{smartRender<PropType>(undefined, {}, Component)}</>).toJSON()).toMatchInlineSnapshot(
+      `<div />`,
+    );
   });
 
   it('is renders fallback elements with props', () => {
-    expect(renderer.create(<>{smartRender(undefined, {}, <Component h="h" />)}</>).toJSON()).toMatchInlineSnapshot(`
+    expect(renderer.create(<>{smartRender<PropType>(undefined, {}, <Component title="h" />)}</>).toJSON())
+      .toMatchInlineSnapshot(`
       <div
-        h="h"
+        title="h"
       />
     `);
-    expect(renderer.create(<>{smartRender(undefined, { h: 'h' }, Component)}</>).toJSON()).toMatchInlineSnapshot(`
+
+    expect(renderer.create(<>{smartRender<PropType>(undefined, { title: 'h' }, Component)}</>).toJSON())
+      .toMatchInlineSnapshot(`
       <div
-        h="h"
+        title="h"
       />
     `);
   });
