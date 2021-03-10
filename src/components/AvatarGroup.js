@@ -44,3 +44,6 @@ export default class AvatarGroup extends React.Component {
     );
   }
 }
+
+// temporary export
+export { AvatarGroup };
