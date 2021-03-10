@@ -1,36 +1,17 @@
 import React from 'react';
-import Dayjs from 'dayjs';
 import StreamAnalytics from 'stream-analytics';
 import { connect } from 'getstream';
 
 import { FeedManager } from './FeedManager';
 import { handleError } from '../utils/errors';
 import { Streami18n } from '../i18n/Streami18n';
+import { TranslationProvider } from './TranslationContext';
 
 export const StreamContext = React.createContext({
   changedUserData: () => {},
   sharedFeedManagers: {},
   client: null,
 });
-
-export const TranslationContext = React.createContext({
-  t: (msg) => msg,
-  tDateTimeParser: (input) => Dayjs(input),
-});
-
-export function withTranslationContext(OriginalComponent) {
-  const ContextAwareComponent = function ContextComponent(props) {
-    return (
-      <TranslationContext.Consumer>
-        {(translationContext) => OriginalComponent && <OriginalComponent {...translationContext} {...props} />}
-      </TranslationContext.Consumer>
-    );
-  };
-  ContextAwareComponent.displayName = OriginalComponent.displayName || OriginalComponent.name || 'Component';
-  ContextAwareComponent.displayName = ContextAwareComponent.displayName.replace('Base', '');
-
-  return ContextAwareComponent;
-}
 
 const ConnectedUI = () => (
   <div
@@ -188,9 +169,9 @@ export class StreamApp extends React.Component {
 
     return (
       <StreamContext.Provider value={streamContextValue}>
-        <TranslationContext.Provider value={{ t, tDateTimeParser }}>
-          <React.Fragment>{this.props.children || <ConnectedUI />}</React.Fragment>
-        </TranslationContext.Provider>
+        <TranslationProvider value={{ t, tDateTimeParser }}>
+          <>{this.props.children || <ConnectedUI />}</>
+        </TranslationProvider>
       </StreamContext.Provider>
     );
   }
