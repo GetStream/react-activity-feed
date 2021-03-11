@@ -73,7 +73,7 @@ describe('Avatar', () => {
     const handleClick = jest.fn();
 
     const { getByAltText } = render(
-      <Avatar image="https://randomuser.me/api/portraits/men/1.jpg" onClick={handleClick} />,
+      <Avatar alt="avatar" image="https://randomuser.me/api/portraits/men/1.jpg" onClick={handleClick} />,
     );
 
     fireEvent.click(getByAltText('avatar'));
