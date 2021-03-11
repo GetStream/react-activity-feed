@@ -1,0 +1,29 @@
+---
+route: /components/card
+menu: Composition Components
+---
+
+import { Playground, Props } from 'docz';
+import { Card } from './Card';
+
+# Card
+
+## Properties
+
+<Props of={Card} />
+
+## Basic usage
+
+<Playground>
+  <Card
+    handleClose={(e) => {
+      e.preventDefault();
+      console.log('closing');
+    }}
+    image="https://getstream.imgix.net/images/random_svg/B.png"
+    alt="image-preview"
+    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris scelerisque tincidunt sapien, eget lacinia neque posuere ut."
+    title="An interesting title"
+    url="https://getstream.io"
+  />
+</Playground>

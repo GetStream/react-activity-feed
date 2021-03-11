@@ -275,3 +275,13 @@ export const textRenderer = (text, parentClass, onClickMention, onClickHashtag) 
     )
     .reduce((acc, elem) => (acc ? [acc, '\n', elem] : [elem]));
 };
+
+/**
+ *
+ * @param {string | undefined} url
+ */
+export const trimURL = (url) =>
+  url
+    ?.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '')
+    .split('/')
+    .shift();
