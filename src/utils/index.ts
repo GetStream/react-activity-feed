@@ -146,5 +146,15 @@ export function sanitizeURL(url?: string) {
   return undefined;
 }
 
+/**
+ *
+ * @param {string | undefined} url
+ */
+export const trimURL = (url?: string) =>
+  url
+    ?.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '')
+    .split('/')
+    .shift();
+
 export * from './textRenderer';
 export * from './smartRender';
