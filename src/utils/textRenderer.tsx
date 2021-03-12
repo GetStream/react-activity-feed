@@ -36,6 +36,25 @@ type Word = string | JSX.Element;
 type WordArray = Array<Word | Word[] | WordArray>;
 type WordArrayArray = Array<WordArray | Word | WordArrayArray>;
 
+type CustomAnchorProps = {
+  key: string;
+  type: 'mention' | 'hashtag';
+  value: string;
+  word: string;
+  clickCallback?: ClickCallback;
+  parentClass?: string;
+};
+
+const CustomAnchor = ({ key, type, word, parentClass, value, clickCallback = () => {} }: CustomAnchorProps) => (
+  <React.Fragment key={key}>
+    {!word.startsWith(value) && word.slice(0, word.indexOf(value))}
+    <a onClick={() => clickCallback(value.substring(1))} className={`${parentClass}__${type}`}>
+      {value}
+    </a>
+    {!word.endsWith(value) && word.slice(word.indexOf(value) + value.length)}
+  </React.Fragment>
+);
+
 const renderWord = (
   word: string,
   key: string,
@@ -50,25 +69,27 @@ const renderWord = (
 
   if (onClickMention && type === 'mention') {
     return (
-      <React.Fragment key={key}>
-        {!word.startsWith(value) && word.slice(0, word.indexOf(value))}
-        <a onClick={() => onClickMention && onClickMention(value.substring(1))} className={`${parentClass}__mention`}>
-          {value}
-        </a>
-        {!word.endsWith(value) && word.slice(word.indexOf(value) + value.length)}
-      </React.Fragment>
+      <CustomAnchor
+        key={key}
+        type="mention"
+        value={value}
+        word={word}
+        clickCallback={onClickMention}
+        parentClass={parentClass}
+      />
     );
   }
 
   if (onClickHashtag && type === 'hashtag') {
     return (
-      <React.Fragment key={key}>
-        {!word.startsWith(value) && word.slice(0, word.indexOf(value))}
-        <a onClick={() => onClickHashtag && onClickHashtag(value.substring(1))} className={`${parentClass}__hashtag`}>
-          {value}
-        </a>
-        {!word.endsWith(value) && word.slice(word.indexOf(value) + value.length)}
-      </React.Fragment>
+      <CustomAnchor
+        key={key}
+        type="hashtag"
+        value={value}
+        word={word}
+        clickCallback={onClickHashtag}
+        parentClass={parentClass}
+      />
     );
   }
 
