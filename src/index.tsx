@@ -20,7 +20,7 @@ export * from './components/AttachedActivity';
 export { default as UserBar } from './components/UserBar';
 export * from './components/Card';
 export { default as Gallery } from './components/Gallery';
-export { default as Avatar } from './components/Avatar';
+export * from './components/Avatar';
 export { default as AvatarGroup } from './components/AvatarGroup';
 export { default as Dropdown } from './components/Dropdown';
 export * from './components/Link';

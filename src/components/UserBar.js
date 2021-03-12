@@ -1,6 +1,6 @@
 import React from 'react';
 import { humanizeTimestamp } from '../utils';
-import Avatar from './Avatar';
+import { Avatar } from './Avatar';
 
 import { smartRender } from '../utils';
 import { withTranslationContext } from '../Context';
