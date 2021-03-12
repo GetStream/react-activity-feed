@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`utils -> textRenderer is renders # with callback func correctly 1`] = `
+exports[`textRenderer is renders # with callback func correctly 1`] = `
 Array [
   <a
     className="__hashtag"
@@ -84,7 +84,7 @@ Array [
 ]
 `;
 
-exports[`utils -> textRenderer is renders # with underline in it 1`] = `
+exports[`textRenderer is renders # with underline in it 1`] = `
 <a
   className="__hashtag"
   onClick={[Function]}
@@ -93,7 +93,7 @@ exports[`utils -> textRenderer is renders # with underline in it 1`] = `
 </a>
 `;
 
-exports[`utils -> textRenderer is renders # without callback func correctly 1`] = `
+exports[`textRenderer is renders # without callback func correctly 1`] = `
 Array [
   "#stream's",
   " ",
@@ -117,7 +117,7 @@ Array [
 ]
 `;
 
-exports[`utils -> textRenderer is renders @ with callback func correctly 1`] = `
+exports[`textRenderer is renders @ with callback func correctly 1`] = `
 Array [
   <a
     className="__mention"
@@ -201,7 +201,7 @@ Array [
 ]
 `;
 
-exports[`utils -> textRenderer is renders @ without callback func correctly 1`] = `
+exports[`textRenderer is renders @ without callback func correctly 1`] = `
 Array [
   "@allison's",
   " ",

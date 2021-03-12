@@ -18,7 +18,7 @@ export { default as LoadMorePaginator } from './components/LoadMorePaginator';
 export { default as ActivityFooter } from './components/ActivityFooter';
 export * from './components/AttachedActivity';
 export { default as UserBar } from './components/UserBar';
-export { default as Card } from './components/Card';
+export * from './components/Card';
 export { default as Gallery } from './components/Gallery';
 export { default as Avatar } from './components/Avatar';
 export { default as AvatarGroup } from './components/AvatarGroup';
