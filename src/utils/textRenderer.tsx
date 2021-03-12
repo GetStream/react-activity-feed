@@ -71,7 +71,7 @@ const renderWord = (
     return (
       <CustomAnchor
         key={key}
-        type="mention"
+        type={type}
         value={value}
         word={word}
         clickCallback={onClickMention}
@@ -84,7 +84,7 @@ const renderWord = (
     return (
       <CustomAnchor
         key={key}
-        type="hashtag"
+        type={type}
         value={value}
         word={word}
         clickCallback={onClickHashtag}
