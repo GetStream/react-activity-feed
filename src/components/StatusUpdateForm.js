@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Panel, PanelContent, PanelHeading, PanelFooter } from './Panel';
 import Textarea from './Textarea';
-import Avatar from './Avatar';
+import { Avatar } from './Avatar';
 import { Card } from './Card';
 import Video from './Video';
 import Audio from './Audio';
