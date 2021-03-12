@@ -1,13 +1,14 @@
+import React from 'react';
 import renderer from 'react-test-renderer';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import { textRenderer } from '../utils';
 
-describe('utils -> textRenderer', () => {
+describe('textRenderer', () => {
   const onClickCallback = (word: string) => word;
 
-  const textRendererWithCallbacks = (text: string) => textRenderer(text, '', onClickCallback, onClickCallback);
+  const textRendererWithCallbacks = (text: string) => <>{textRenderer(text, '', onClickCallback, onClickCallback)}</>;
 
   it('is renders @ without callback func correctly', () => {
     const tree = renderer
@@ -116,6 +117,7 @@ describe('utils -> textRenderer', () => {
   });
 
   [
+    // eslint-disable-next-line sonarjs/no-duplicate-string
     { input: 'getstream.com', output: 'http://getstream.com' },
     { input: 'www.getstream.com', output: 'http://www.getstream.com' },
     { input: 'getstream.io/?nice=y', output: 'http://getstream.io/?nice=y' },
