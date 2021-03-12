@@ -175,6 +175,7 @@ export function StreamApp<
 
     getUserInfo(client.currentUser as StreamUser<UserType>).then();
 
+    //@ts-expect-error
     return () => client?.fayeClient?.disconnect();
   }, [apiKey, token, appId, analyticsClient]);
 
