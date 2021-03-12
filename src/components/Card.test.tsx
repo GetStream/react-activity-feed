@@ -10,7 +10,7 @@ describe('Card', () => {
     expect(tree).toMatchInlineSnapshot(`
       <a
         className="raf-card "
-        rel="noopener"
+        rel="nofollow noreferrer noopener"
         target="blank"
       >
         <div
@@ -24,9 +24,7 @@ describe('Card', () => {
             />
             <p
               className="raf-card__url"
-            >
-              
-            </p>
+            />
             <p
               className="raf-card__description"
             />
@@ -53,7 +51,7 @@ describe('Card', () => {
       <a
         className="raf-card raf-card--with-image"
         href="https://getstream.io"
-        rel="noopener"
+        rel="nofollow noreferrer noopener"
         target="blank"
       >
         <div
@@ -61,13 +59,58 @@ describe('Card', () => {
           onClick={[Function]}
           role="button"
         >
-          <div
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "<svg width=\\"28\\" height=\\"28\\" viewBox=\\"0 0 28 28\\" xmlns=\\"http://www.w3.org/2000/svg\\" xmlns:xlink=\\"http://www.w3.org/1999/xlink\\"><defs><path d=\\"M465 5c5.53 0 10 4.47 10 10s-4.47 10-10 10-10-4.47-10-10 4.47-10 10-10zm3.59 5L465 13.59 461.41 10 460 11.41l3.59 3.59-3.59 3.59 1.41 1.41 3.59-3.59 3.59 3.59 1.41-1.41-3.59-3.59 3.59-3.59-1.41-1.41z\\" id=\\"b\\"/><filter x=\\"-30%\\" y=\\"-30%\\" width=\\"160%\\" height=\\"160%\\" filterUnits=\\"objectBoundingBox\\" id=\\"a\\"><feOffset in=\\"SourceAlpha\\" result=\\"shadowOffsetOuter1\\"/><feGaussianBlur stdDeviation=\\"2\\" in=\\"shadowOffsetOuter1\\" result=\\"shadowBlurOuter1\\"/><feColorMatrix values=\\"0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0\\" in=\\"shadowBlurOuter1\\"/></filter></defs><g transform=\\"translate(-451 -1)\\" fill-rule=\\"nonzero\\" fill=\\"none\\"><use fill=\\"#000\\" filter=\\"url(#a)\\" xlink:href=\\"#b\\"/><use fill=\\"#FFF\\" fill-rule=\\"evenodd\\" xlink:href=\\"#b\\"/></g></svg>",
-              }
-            }
-          />
+          <svg
+            height="28"
+            viewBox="0 0 28 28"
+            width="28"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+          >
+            <defs>
+              <path
+                d="M465 5c5.53 0 10 4.47 10 10s-4.47 10-10 10-10-4.47-10-10 4.47-10 10-10zm3.59 5L465 13.59 461.41 10 460 11.41l3.59 3.59-3.59 3.59 1.41 1.41 3.59-3.59 3.59 3.59 1.41-1.41-3.59-3.59 3.59-3.59-1.41-1.41z"
+                id="b"
+              />
+              <filter
+                filterUnits="objectBoundingBox"
+                height="160%"
+                id="a"
+                width="160%"
+                x="-30%"
+                y="-30%"
+              >
+                <feOffset
+                  in="SourceAlpha"
+                  result="shadowOffsetOuter1"
+                />
+                <feGaussianBlur
+                  in="shadowOffsetOuter1"
+                  result="shadowBlurOuter1"
+                  stdDeviation="2"
+                />
+                <feColorMatrix
+                  in="shadowBlurOuter1"
+                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"
+                />
+              </filter>
+            </defs>
+            <g
+              fill="none"
+              fillRule="nonzero"
+              transform="translate(-451 -1)"
+            >
+              <use
+                fill="#000"
+                filter="url(#a)"
+                xlinkHref="#b"
+              />
+              <use
+                fill="#FFF"
+                fillRule="evenodd"
+                xlinkHref="#b"
+              />
+            </g>
+          </svg>
         </div>
         <div
           className="raf-card__image"
@@ -109,8 +152,7 @@ describe('Card', () => {
     expect(tree).toMatchInlineSnapshot(`
       <a
         className="raf-card "
-        href={null}
-        rel="noopener"
+        rel="nofollow noreferrer noopener"
         target="blank"
       >
         <div

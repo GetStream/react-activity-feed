@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import { textRenderer } from './textRenderer';
+import { textRenderer, trimURL } from '../utils';
 
 describe('textRenderer', () => {
   const onClickCallback = (word: string) => word;
@@ -117,6 +117,7 @@ describe('textRenderer', () => {
   });
 
   [
+    // eslint-disable-next-line sonarjs/no-duplicate-string
     { input: 'getstream.com', output: 'http://getstream.com' },
     { input: 'www.getstream.com', output: 'http://www.getstream.com' },
     { input: 'getstream.io/?nice=y', output: 'http://getstream.io/?nice=y' },
@@ -148,6 +149,31 @@ describe('textRenderer', () => {
     it(`invalid link is not rendered ${input}`, () => {
       const { queryByTestId } = render(textRenderer(input));
       expect(queryByTestId('renderWord-hyperlink')).not.toBeInTheDocument();
+    });
+  });
+});
+
+describe('utils -> trimURL', () => {
+  [
+    { input: 'getstream.com', output: 'getstream.com' },
+    { input: 'www.getstream.com', output: 'getstream.com' },
+    { input: 'getstream.io/?nice=y', output: 'getstream.io' },
+    { input: 'www.getstream.co.uk', output: 'getstream.co.uk' },
+    { input: 'www.getstream.io/ro/', output: 'getstream.io' },
+    { input: 'www.getstream.io:45/r', output: 'getstream.io:45' },
+    { input: 'https://getstream.com', output: 'getstream.com' },
+    { input: 'https://getstream.com/', output: 'getstream.com' },
+    { input: 'https://www.getstream.com', output: 'getstream.com' },
+    { input: 'http://getstream.com', output: 'getstream.com' },
+    { input: 'https://www.goog?le.com', output: 'goog?le.com' },
+    {
+      input: 'https://www.google.ca/maps/@43.472082,-80.5426668,18z?hl=en',
+      output: 'google.ca',
+    },
+    { input: undefined, output: undefined },
+  ].forEach(({ input, output }) => {
+    it(`matches the predefined output for ${input}`, () => {
+      expect(trimURL(input)).toEqual(output);
     });
   });
 });
