@@ -14,15 +14,15 @@ export type NetworkRequestTypes =
   | 'add-child-reaction'
   | 'delete-child-reaction';
 
-export type ErrorDetail = { kind?: string };
+type ErrorDetail = { kind?: string };
 
-export type ErrorHandler = (error: Error, type: NetworkRequestTypes, details: ErrorDetail) => void;
+export type ErrorHandler = (error: Error | StreamApiError, type: NetworkRequestTypes, details: ErrorDetail) => void;
 
-export const handleError = (error: Error, type: NetworkRequestTypes, detail: ErrorDetail) => {
+export const handleError: ErrorHandler = (error, type, detail) => {
   console.warn(error, type, detail);
 };
 
-export const getErrorMessage = (error: Error | StreamApiError, type: NetworkRequestTypes, detail: ErrorDetail) => {
+export const getErrorMessage: ErrorHandler = (error, type, detail) => {
   console.warn(error);
 
   if (!(error instanceof StreamApiError)) {
@@ -44,11 +44,7 @@ export const getErrorMessage = (error: Error | StreamApiError, type: NetworkRequ
   return fallbackErrorMessage(error, type, detail);
 };
 
-export const fallbackErrorMessage = (
-  _error: Error | StreamApiError,
-  type: NetworkRequestTypes,
-  detail: ErrorDetail,
-) => {
+export const fallbackErrorMessage: ErrorHandler = (_error, type, detail) => {
   let text = 'Something went wrong';
   let suffix = '';
   switch (type) {
