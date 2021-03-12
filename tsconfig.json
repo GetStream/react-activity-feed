@@ -1,19 +1,27 @@
 {
-  "include": ["src", "types"],
-  "exclude": ["**/*.spec.ts", "**/*.test.ts", "**/*.spec.tsx", "**/*.test.tsx", "node_modules"],
+  "include": ["./src"],
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/*.spec.tsx",
+    "**/*.test.tsx",
+    "./src/gatsby-theme-docz",
+    "node_modules"
+  ],
   "compilerOptions": {
     "lib": ["dom", "esnext"],
     "module": "esnext",
-    "declarationDir": "dist/types",
-    "outDir": "dist/lib",
-    "rootDir": "src",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": "./src",
     "allowJs": true, // TODO: remove once SDK is fully in TS
-    "noEmit": true,
+    "noEmit": false,
     "noEmitOnError": false,
     "target": "ES5",
     "importHelpers": true,
     "declaration": true,
     "declarationMap": true,
+    "declarationDir": "./dist",
     "sourceMap": true,
     "strict": true,
     "strictNullChecks": true,
