@@ -14,7 +14,7 @@ export type NetworkRequestTypes =
   | 'add-child-reaction'
   | 'delete-child-reaction';
 
-type ErrorDetail = { kind?: string };
+type ErrorDetail = { kind?: string; userId?: string };
 
 export type ErrorHandler = (error: Error | StreamApiError, type: NetworkRequestTypes, details: ErrorDetail) => void;
 

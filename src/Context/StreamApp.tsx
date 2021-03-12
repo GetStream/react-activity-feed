@@ -1,17 +1,59 @@
-import React from 'react';
+import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import StreamAnalytics from 'stream-analytics';
-import { connect } from 'getstream';
+import { connect, UnknownRecord, StreamClient, StreamUser, ClientOptions } from 'getstream';
 
 import { FeedManager } from './FeedManager';
-import { handleError } from '../utils/errors';
+import { ErrorHandler, handleError } from '../utils/errors';
 import { Streami18n } from '../i18n/Streami18n';
-import { TranslationProvider } from './TranslationContext';
+import { TranslationContextValue, TranslationProvider } from './TranslationContext';
 
-export const StreamContext = React.createContext({
-  changedUserData: () => {},
-  sharedFeedManagers: {},
+export type SharedFeedManagers = Record<string, FeedManager>;
+export type DefaultUserDataType = UnknownRecord & { name: string };
+
+export type StreamAppProps<UserType extends DefaultUserDataType = DefaultUserDataType> = {
+  apiKey: string;
+  appId: string;
+  token: string;
+  analyticsToken?: string;
+  children?: ReactNode;
+  defaultUserData?: UserType;
+  errorHandler?: ErrorHandler;
+  i18nInstance?: Streami18n;
+  options?: ClientOptions;
+  sharedFeeds?: Array<{ feedGroup: string; notify: boolean; options: { mark_seen: boolean } }>; //TODO: options type
+};
+
+export type StreamContextValue<
+  UserType extends DefaultUserDataType = DefaultUserDataType,
+  ActivityType extends UnknownRecord = UnknownRecord,
+  CollectionType extends UnknownRecord = UnknownRecord,
+  ReactionType extends UnknownRecord = UnknownRecord,
+  ChildReactionType extends UnknownRecord = UnknownRecord,
+  PersonalizationType extends UnknownRecord = UnknownRecord
+> = {
+  analyticsClient: null | StreamAnalytics<UserType>;
+  client: null | StreamClient<
+    UserType,
+    ActivityType,
+    CollectionType,
+    ReactionType,
+    ChildReactionType,
+    PersonalizationType
+  >;
+  errorHandler: ErrorHandler;
+  sharedFeedManagers: SharedFeedManagers;
+  user?: StreamUser<UserType>;
+  userData?: UserType;
+};
+
+export const StreamContext = React.createContext<StreamContextValue>({
+  analyticsClient: null,
   client: null,
+  errorHandler: handleError,
+  sharedFeedManagers: {},
 });
+
+export const useStreamContext = () => useContext(StreamContext);
 
 const ConnectedUI = () => (
   <div
@@ -51,128 +93,116 @@ const ConnectedUI = () => (
  * Manages the connection with Stream. Any components that should talk to
  * Stream should be a child of this component.
  */
-export class StreamApp extends React.Component {
-  static defaultProps = {
-    sharedFeeds: [{ feedGroup: 'notification', notify: true, options: { mark_seen: true } }],
-    defaultUserData: { name: 'Unknown' },
-    errorHandler: handleError,
-  };
+export function StreamApp<
+  UserType extends DefaultUserDataType = DefaultUserDataType,
+  ActivityType extends UnknownRecord = UnknownRecord,
+  CollectionType extends UnknownRecord = UnknownRecord,
+  ReactionType extends UnknownRecord = UnknownRecord,
+  ChildReactionType extends UnknownRecord = UnknownRecord,
+  PersonalizationType extends UnknownRecord = UnknownRecord
+>({
+  apiKey,
+  appId,
+  errorHandler = handleError,
+  i18nInstance,
+  token,
+  analyticsToken,
+  children,
+  defaultUserData,
+  options,
+  sharedFeeds = [{ feedGroup: 'notification', notify: true, options: { mark_seen: true } }],
+}: StreamAppProps<UserType>) {
+  const [client, setClient] = useState<StreamClient<
+    UserType,
+    ActivityType,
+    CollectionType,
+    ReactionType,
+    ChildReactionType,
+    PersonalizationType
+  > | null>(null);
+  const [analyticsClient, setAnalyticsClient] = useState<StreamAnalytics<UserType> | null>(null);
+  const [user, setUser] = useState<StreamUser<UserType>>();
+  const [userData, setUserDate] = useState<UserType>();
+  const [translator, setTranslator] = useState<TranslationContextValue>();
+  const [sharedFeedManagers, setSharedFeedManagers] = useState<SharedFeedManagers>({});
 
-  static Consumer = function StreamAppConsumer(props) {
-    return (
-      <StreamContext.Consumer>
-        {(appCtx) => {
-          if (!props.children || !props.children.length) return null;
-          if (!appCtx.client || !appCtx.user)
-            throw new Error('This component should be a child of a StreamApp component');
+  useEffect(() => {
+    const streami18n =
+      i18nInstance && i18nInstance instanceof Streami18n ? i18nInstance : new Streami18n({ language: 'en' });
 
-          const Child = props.children;
-          return Child(appCtx);
-        }}
-      </StreamContext.Consumer>
+    streami18n.getTranslators().then(setTranslator);
+    streami18n.registerSetLanguageCallback((t) =>
+      setTranslator((prevState) => ({ ...(prevState as TranslationContextValue), t })),
     );
-  };
+  }, [i18nInstance]);
 
-  constructor(props) {
-    super(props);
-
-    this.state = StreamApp.initClientState(props, {
-      changedUserData: () => this.setState({ userData: this.state.user.data }),
-      t: null,
-      tDateTimeParser: null,
-    });
-  }
-
-  componentDidUpdate(prevProps) {
-    if (
-      this.props.apiKey !== prevProps.apiKey ||
-      this.props.token !== prevProps.token ||
-      this.props.appId !== prevProps.appId
-    ) {
-      this.getUserInfo();
-    }
-  }
-
-  async componentDidMount() {
-    this.getUserInfo();
-    const { i18nInstance } = this.props;
-
-    let streami18n;
-    if (i18nInstance && i18nInstance instanceof Streami18n) streami18n = i18nInstance;
-    else streami18n = new Streami18n({ language: 'en' });
-
-    streami18n.registerSetLanguageCallback((t) => this.setState({ t }));
-    const translators = await streami18n.getTranslators();
-    this.setState(translators);
-  }
-
-  componentWillUnmount() {
-    const { client } = this.state;
-    if (client && client.fayeClient) client.fayeClient.disconnect();
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    if (
-      state.client.apiKey !== props.apiKey ||
-      state.client.userToken !== props.token ||
-      state.client.appId !== props.appId
-    ) {
-      return StreamApp.initClientState(props, state);
-    }
-    return null;
-  }
-
-  static initClientState = function (props, state) {
-    const client = connect(props.apiKey, props.token, props.appId, props.options || {});
-
-    let analyticsClient;
-    if (props.analyticsToken) {
-      analyticsClient = new StreamAnalytics({ apiKey: props.apiKey, token: props.analyticsToken });
-      analyticsClient.setUser(client.userId);
-    }
-
-    const newState = {
-      ...state,
-      client,
-      user: client.currentUser,
-      userData: client.currentUser.data,
-      analyticsClient,
-      sharedFeedManagers: {},
-      errorHandler: props.errorHandler,
-      apiKey: props.apiKey,
-      token: props.token,
-      appId: props.appId,
-    };
-
-    for (const feedProps of props.sharedFeeds) {
-      const manager = new FeedManager({ ...feedProps, ...newState });
-      newState.sharedFeedManagers[manager.feed().id] = manager;
-    }
-
-    return newState;
-  };
-
-  getUserInfo = async () => {
+  const getUserInfo = async (user: StreamUser<UserType>) => {
     try {
-      await this.state.user.getOrCreate(this.props.defaultUserData);
+      const { data } = await user.getOrCreate((defaultUserData || { name: 'Unknown' }) as UserType);
+      setUserDate(data);
     } catch (e) {
-      this.props.errorHandler(e, 'get-user-info', { userId: this.state.user.id });
-      return;
+      errorHandler(e, 'get-user-info', { userId: user.id });
     }
-    this.state.changedUserData();
   };
 
-  render() {
-    const { t, tDateTimeParser, ...streamContextValue } = this.state;
+  useEffect(() => {
+    const client = connect<
+      UserType,
+      ActivityType,
+      CollectionType,
+      ReactionType,
+      ChildReactionType,
+      PersonalizationType
+    >(apiKey, token, appId, options || {});
 
-    if (!t) return null;
+    let analyticsClient: StreamAnalytics<UserType> | null = null;
+    if (analyticsToken) {
+      analyticsClient = new StreamAnalytics<UserType>({ apiKey, token: analyticsToken });
+      analyticsClient.setUser(client.userId as string);
+    }
 
-    return (
-      <StreamContext.Provider value={streamContextValue}>
-        <TranslationProvider value={{ t, tDateTimeParser }}>
-          <>{this.props.children || <ConnectedUI />}</>
-        </TranslationProvider>
-      </StreamContext.Provider>
-    );
-  }
+    const feeds = {};
+    for (const feedProps of sharedFeeds) {
+      const manager = new FeedManager({ ...feedProps, client, analyticsClient, errorHandler, user }); // TODO: add req context props
+      // @ts-expect-error
+      feeds[manager.feed().id] = manager;
+    }
+
+    setClient(client);
+    setUser(client.currentUser as StreamUser<UserType>);
+    setAnalyticsClient(analyticsClient);
+    setSharedFeedManagers(feeds);
+
+    getUserInfo(client.currentUser as StreamUser<UserType>).then();
+
+    return () => client?.fayeClient?.disconnect();
+  }, [apiKey, token, appId, analyticsClient]);
+
+  if (!translator?.t) return null;
+
+  return (
+    <StreamContext.Provider value={{ client, analyticsClient, errorHandler, userData, user, sharedFeedManagers }}>
+      <TranslationProvider value={translator}>
+        <>{children || <ConnectedUI />}</>
+      </TranslationProvider>
+    </StreamContext.Provider>
+  );
 }
+
+// TODO: remove this once its not used anywhere else
+StreamApp.Consumer = function StreamAppConsumer(props: unknown) {
+  return (
+    <StreamContext.Consumer>
+      {(appCtx) => {
+        // @ts-expect-error
+        if (!props.children || !props.children.length) return null;
+        if (!appCtx.client || !appCtx.user)
+          throw new Error('This component should be a child of a StreamApp component');
+
+        // @ts-expect-error
+        const Child = props.children;
+        return Child(appCtx);
+      }}
+    </StreamContext.Consumer>
+  );
+};
