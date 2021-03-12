@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { EnrichedActivity, OGAPIResponse } from 'getstream';
+import { EnrichedActivity, OGAPIResponse, UserAPIResponse } from 'getstream';
 import { Thumbnail } from 'react-file-utils';
 
 import { userOrDefault } from '../utils';
@@ -23,13 +23,10 @@ type CustomActivityData = {
   text?: string;
 };
 
-type UserData = {
-  data: {
-    name?: string;
-    profileImage?: string;
-  };
-  id: string;
-};
+type UserData = UserAPIResponse<{
+  name?: string;
+  profileImage?: string;
+}>;
 
 export type AttachedActivityProps = {
   activity: EnrichedActivity<UserData, CustomActivityData>;
