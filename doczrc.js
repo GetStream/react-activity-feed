@@ -5,6 +5,7 @@ export default {
   base: '/react-activity-feed',
   title: 'React Activity Feed',
   repository: 'https://github.com/GetStream/react-activity-feed/',
+  editBranch: 'main',
   ignore: ['PULL_REQUEST_TEMPLATE.md', 'CHANGELOG.md', 'README.md'],
   menu: [
     { name: 'Introduction' },
