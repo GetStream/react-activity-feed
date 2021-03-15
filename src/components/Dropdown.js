@@ -64,3 +64,6 @@ export default class Dropdown extends React.Component {
     );
   }
 }
+
+// temporary export
+export { Dropdown };
