@@ -22,7 +22,7 @@ export * from './components/Card';
 export { default as Gallery } from './components/Gallery';
 export * from './components/Avatar';
 export { default as AvatarGroup } from './components/AvatarGroup';
-export { default as Dropdown } from './components/Dropdown';
+export * from './components/Dropdown';
 export * from './components/Link';
 export { default as Video } from './components/Video';
 export { default as Audio } from './components/Audio';
