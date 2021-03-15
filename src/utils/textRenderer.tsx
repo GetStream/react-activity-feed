@@ -37,7 +37,6 @@ type WordArray = Array<Word | Word[] | WordArray>;
 type WordArrayArray = Array<WordArray | Word | WordArrayArray>;
 
 type CustomAnchorProps = {
-  key: string;
   type: 'mention' | 'hashtag';
   value: string;
   word: string;
@@ -45,8 +44,8 @@ type CustomAnchorProps = {
   parentClass?: string;
 };
 
-const CustomAnchor = ({ key, type, word, parentClass, value, clickCallback = () => {} }: CustomAnchorProps) => (
-  <React.Fragment key={key}>
+const CustomAnchor = ({ type, word, parentClass, value, clickCallback = () => {} }: CustomAnchorProps) => (
+  <React.Fragment>
     {!word.startsWith(value) && word.slice(0, word.indexOf(value))}
     <a onClick={() => clickCallback(value.substring(1))} className={`${parentClass}__${type}`}>
       {value}
