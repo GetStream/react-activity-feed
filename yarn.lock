@@ -8169,7 +8169,7 @@ gatsby-plugin-root-import@^2.0.5:
   resolved "https://registry.yarnpkg.com/gatsby-plugin-root-import/-/gatsby-plugin-root-import-2.0.6.tgz#72f812ce7a16d67773651c7db1d42f68970ae73c"
   integrity sha512-eG0D+cVL5djVI5nxuQoZE4wBBL6rUq/KBPqPv+69vYolTXzlyj0+vIkqr2Y/xWt8hTK9BB8IOMltGxUmXIenig==
 
-gatsby-plugin-sass@^3.3.0:
+gatsby-plugin-sass@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-sass/-/gatsby-plugin-sass-3.2.0.tgz#1fe8f6c28fef964994681a509833eb731f1bf763"
   integrity sha512-YlQX1Kn1wGcKCgyS8OfD0/W16XIRKvE/5wg6HRnUhJV03MNTB/41eRDsgGe0zLb3jb/aw1bH7leWcBVy0RoClA==
