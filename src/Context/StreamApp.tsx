@@ -127,10 +127,9 @@ export function StreamApp<
       analyticsClient.setUser(client.userId as string);
     }
 
-    const feeds = {};
+    const feeds: Record<string, FeedManager> = {};
     for (const feedProps of sharedFeeds) {
       const manager = new FeedManager({ ...feedProps, client, analyticsClient, errorHandler, user }); // TODO: add req context props
-      // @ts-expect-error
       feeds[manager.feed().id] = manager;
     }
 
@@ -141,8 +140,7 @@ export function StreamApp<
 
     getUserInfo(client.currentUser as StreamUser<UserType>).then();
 
-    //@ts-expect-error
-    return () => client?.fayeClient?.disconnect();
+    return () => client.fayeClient?.disconnect();
   }, [apiKey, token, appId, analyticsClient]);
 
   if (!translator?.t) return null;
