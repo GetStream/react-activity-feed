@@ -138,7 +138,7 @@ export function StreamApp<
     setAnalyticsClient(analyticsClient);
     setSharedFeedManagers(feeds);
 
-    getUserInfo(client.currentUser as StreamUser<UserType>).then();
+    getUserInfo(client.currentUser as StreamUser<UserType>);
 
     return () => client.fayeClient?.disconnect();
   }, [apiKey, token, appId, analyticsClient]);
