@@ -8610,10 +8610,10 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
-getstream@^7.2.2:
-  version "7.2.2"
-  resolved "https://registry.yarnpkg.com/getstream/-/getstream-7.2.2.tgz#d7e88b4ae267efd70bdf27714629ee4152051b8d"
-  integrity sha512-r8LIQdHLjxUvEO+wKAmNSbSPRXljfMNCCY1BJltGVFfhNma7RiyMvbId0DlXPq29A7uVsVD+CyylCWM6xJfcDw==
+getstream@^7.2.3:
+  version "7.2.3"
+  resolved "https://registry.yarnpkg.com/getstream/-/getstream-7.2.3.tgz#d1bd85110d442743546af064257980e5e0d551c5"
+  integrity sha512-s1QMk7afRyjrDHWaIt20P1YfsZpiSlpxaZSWcjBYsLa+7rcopQJyR3OXfB8jfLzXN7iqSU7dwMvIkrcdQSK9pQ==
   dependencies:
     "@babel/runtime" "^7.13.10"
     "@types/jsonwebtoken" "^8.5.0"
