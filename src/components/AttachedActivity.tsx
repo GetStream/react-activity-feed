@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { EnrichedActivity, EnrichedUser } from 'getstream';
+import { EnrichedActivity } from 'getstream';
 import { Thumbnail } from 'react-file-utils';
 
 import { userOrDefault } from '../utils';
@@ -13,7 +13,7 @@ export function AttachedActivity<UT extends DefaultUT = DefaultUT, AT extends De
   activity: { object, verb, attachments, actor },
 }: AttachedActivityProps<UT, AT>) {
   const images = attachments?.images ?? [];
-  const user = useMemo(() => userOrDefault<EnrichedUser<UT>>(actor), [actor]);
+  const user = useMemo(() => userOrDefault<UT>(actor), [actor]);
 
   if (verb !== 'repost' && verb !== 'post' && verb !== 'comment') return null;
 

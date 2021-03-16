@@ -3,6 +3,7 @@ import URL from 'url-parse';
 import Dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import minMax from 'dayjs/plugin/minMax';
+import { EnrichedUser, UR } from 'getstream';
 import { TDateTimeParser } from '../i18n/Streami18n';
 
 Dayjs.extend(utc);
@@ -32,7 +33,7 @@ function isErrorUser(user: unknown | ErrorUser): user is ErrorUser {
   return !!user && typeof (user as ErrorUser).error === 'string';
 }
 
-export function userOrDefault<T>(user?: T | string | { error: string } | null) {
+export function userOrDefault<T extends UR = UR>(user?: EnrichedUser<T> | string | { error: string } | null) {
   if (!user || typeof user === 'string' || isErrorUser(user))
     return {
       id: '!not-found',
