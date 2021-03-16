@@ -30,10 +30,7 @@
 
         render() {
           return (
-            <div
-              ref={this.containerRef}
-              style={{ maxWidth: '600px', margin: '0 auto' }}
-            >
+            <div ref={this.containerRef} style={{ maxWidth: '600px', margin: '0 auto' }}>
               <StreamApp apiKey={apiKey} appId={appId} token={token}>
                 <div
                   style={{
@@ -58,31 +55,20 @@
                   notify
                   options={{ limit: 6 }}
                   Paginator={(props) => (
-                    <InfiniteScrollPaginator
-                      useWindow={false}
-                      threshold={10}
-                      {...props}
-                      getScrollParent={() => this.containerRef}
-                    />
+                    <InfiniteScrollPaginator threshold={10} {...props} getScrollParent={() => this.containerRef} />
                   )}
                   Activity={(activityProps) => (
                     <Activity
                       {...activityProps}
                       Footer={() => (
                         <React.Fragment>
-                          <CommentField
-                            activity={activityProps.activity}
-                            onAddReaction={activityProps.onAddReaction}
-                          />
+                          <CommentField activity={activityProps.activity} onAddReaction={activityProps.onAddReaction} />
                           <CommentList
                             activityId={activityProps.activity.id}
                             CommentItem={(props) => (
                               <React.Fragment>
                                 <CommentItem {...props} />
-                                <LikeButton
-                                  reaction={props.comment}
-                                  {...activityProps}
-                                />
+                                <LikeButton reaction={props.comment} {...activityProps} />
                               </React.Fragment>
                             )}
                           />
