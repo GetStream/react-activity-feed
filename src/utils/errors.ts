@@ -1,4 +1,4 @@
-import { StreamApiError, UnknownRecord } from 'getstream';
+import { StreamApiError, UR } from 'getstream';
 
 export type NetworkRequestTypes =
   | 'get-user-info'
@@ -14,13 +14,13 @@ export type NetworkRequestTypes =
   | 'add-child-reaction'
   | 'delete-child-reaction';
 
-type ErrorDetail = UnknownRecord & {
-  activity?: UnknownRecord;
+type ErrorDetail = UR & {
+  activity?: UR;
   activity_id?: string;
   activityId?: string;
   feedGroup?: string;
   kind?: string;
-  reaction?: UnknownRecord;
+  reaction?: UR;
   userId?: string;
 };
 

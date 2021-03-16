@@ -1,7 +1,7 @@
 import React, { createContext, useContext, ComponentType, FC, ReactNode } from 'react';
 import Dayjs from 'dayjs';
 import { TFunction } from 'i18next';
-import { UnknownRecord } from 'getstream';
+import { UR } from 'getstream';
 
 import { TDateTimeParser } from '../i18n/Streami18n';
 
@@ -21,7 +21,7 @@ export const TranslationProvider = ({ children, value }: { value: TranslationCon
 
 export const useTranslationContext = () => useContext(TranslationContext);
 
-export const withTranslationContext = <P extends UnknownRecord>(
+export const withTranslationContext = <P extends UR>(
   Component: ComponentType<P>,
 ): FC<Omit<P, keyof TranslationContextValue>> => {
   const WithTranslationContextComponent = (props: Omit<P, keyof TranslationContextValue>) => {
