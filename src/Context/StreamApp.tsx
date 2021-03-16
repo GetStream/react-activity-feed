@@ -1,6 +1,6 @@
-import React, { ReactNode, useContext, useEffect, useState } from 'react';
+import React, { ReactNode, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import StreamAnalytics from 'stream-analytics';
-import { connect, UnknownRecord, StreamClient, StreamUser, ClientOptions } from 'getstream';
+import { connect, UR, StreamClient, StreamUser, ClientOptions, OGAPIResponse } from 'getstream';
 
 import { FeedManager } from './FeedManager';
 import { ErrorHandler, handleError } from '../utils/errors';
@@ -8,15 +8,24 @@ import { Streami18n } from '../i18n/Streami18n';
 import { TranslationContextValue, TranslationProvider } from './TranslationContext';
 
 export type SharedFeedManagers = Record<string, FeedManager>;
-export type DefaultUserDataType = UnknownRecord & { name: string };
 
-export type StreamAppProps<UserType extends DefaultUserDataType = DefaultUserDataType> = {
+type Attachments = {
+  files?: Array<{ mimeType: string; name: string; url: string }>;
+  images?: string[];
+  og?: OGAPIResponse;
+};
+
+export type DefaultUT = UR & { name: string; id?: string; profileImage?: string };
+
+export type DefaultAT = UR & { attachments?: Attachments; text?: string };
+
+export type StreamAppProps<UT extends DefaultUT = DefaultUT> = {
   apiKey: string;
   appId: string;
   token: string;
   analyticsToken?: string;
   children?: ReactNode;
-  defaultUserData?: UserType;
+  defaultUserData?: UT;
   errorHandler?: ErrorHandler;
   i18nInstance?: Streami18n;
   options?: ClientOptions;
@@ -24,26 +33,19 @@ export type StreamAppProps<UserType extends DefaultUserDataType = DefaultUserDat
 };
 
 export type StreamContextValue<
-  UserType extends DefaultUserDataType = DefaultUserDataType,
-  ActivityType extends UnknownRecord = UnknownRecord,
-  CollectionType extends UnknownRecord = UnknownRecord,
-  ReactionType extends UnknownRecord = UnknownRecord,
-  ChildReactionType extends UnknownRecord = UnknownRecord,
-  PersonalizationType extends UnknownRecord = UnknownRecord
+  UT extends DefaultUT = DefaultUT,
+  AT extends DefaultAT = DefaultAT,
+  CT extends UR = UR,
+  RT extends UR = UR,
+  CRT extends UR = UR,
+  PT extends UR = UR
 > = {
-  analyticsClient: null | StreamAnalytics<UserType>;
-  client: null | StreamClient<
-    UserType,
-    ActivityType,
-    CollectionType,
-    ReactionType,
-    ChildReactionType,
-    PersonalizationType
-  >;
+  analyticsClient: null | StreamAnalytics<UT>;
+  client: null | StreamClient<UT, AT, CT, RT, CRT, PT>;
   errorHandler: ErrorHandler;
   sharedFeedManagers: SharedFeedManagers;
-  user?: StreamUser<UserType>;
-  userData?: UserType;
+  user?: StreamUser<UT>;
+  userData?: UT;
 };
 
 export const StreamContext = React.createContext<StreamContextValue>({
@@ -53,19 +55,40 @@ export const StreamContext = React.createContext<StreamContextValue>({
   sharedFeedManagers: {},
 });
 
-export const useStreamContext = () => useContext(StreamContext);
+export const StreamAppProvider = <
+  UT extends DefaultUT = DefaultUT,
+  AT extends DefaultAT = DefaultAT,
+  CT extends UR = UR,
+  RT extends UR = UR,
+  CRT extends UR = UR,
+  PT extends UR = UR
+>({
+  children,
+  value,
+}: PropsWithChildren<{
+  value: StreamContextValue<UT, AT, CT, RT, CRT, PT>;
+}>) => <StreamContext.Provider value={value as StreamContextValue}>{children}</StreamContext.Provider>;
+
+export const useStreamContext = <
+  UT extends DefaultUT = DefaultUT,
+  AT extends DefaultAT = DefaultAT,
+  CT extends UR = UR,
+  RT extends UR = UR,
+  CRT extends UR = UR,
+  PT extends UR = UR
+>() => useContext(StreamContext) as StreamContextValue<UT, AT, CT, RT, CRT, PT>;
 
 /**
  * Manages the connection with Stream. Any components that should talk to
  * Stream should be a child of this component.
  */
 export function StreamApp<
-  UserType extends DefaultUserDataType = DefaultUserDataType,
-  ActivityType extends UnknownRecord = UnknownRecord,
-  CollectionType extends UnknownRecord = UnknownRecord,
-  ReactionType extends UnknownRecord = UnknownRecord,
-  ChildReactionType extends UnknownRecord = UnknownRecord,
-  PersonalizationType extends UnknownRecord = UnknownRecord
+  UT extends DefaultUT = DefaultUT,
+  AT extends DefaultAT = DefaultAT,
+  CT extends UR = UR,
+  RT extends UR = UR,
+  CRT extends UR = UR,
+  PT extends UR = UR
 >({
   apiKey,
   appId,
@@ -77,18 +100,11 @@ export function StreamApp<
   defaultUserData,
   options,
   sharedFeeds = [{ feedGroup: 'notification', notify: true, options: { mark_seen: true } }],
-}: StreamAppProps<UserType>) {
-  const [client, setClient] = useState<StreamClient<
-    UserType,
-    ActivityType,
-    CollectionType,
-    ReactionType,
-    ChildReactionType,
-    PersonalizationType
-  > | null>(null);
-  const [analyticsClient, setAnalyticsClient] = useState<StreamAnalytics<UserType> | null>(null);
-  const [user, setUser] = useState<StreamUser<UserType>>();
-  const [userData, setUserDate] = useState<UserType>();
+}: StreamAppProps<UT>) {
+  const [client, setClient] = useState<StreamClient<UT, AT, CT, RT, CRT, PT> | null>(null);
+  const [user, setUser] = useState<StreamUser<UT, AT, CT, RT, CRT, PT>>();
+  const [analyticsClient, setAnalyticsClient] = useState<StreamAnalytics<UT> | null>(null);
+  const [userData, setUserDate] = useState<UT>();
   const [translator, setTranslator] = useState<TranslationContextValue>();
   const [sharedFeedManagers, setSharedFeedManagers] = useState<SharedFeedManagers>({});
 
@@ -102,9 +118,9 @@ export function StreamApp<
     );
   }, [i18nInstance]);
 
-  const getUserInfo = async (user: StreamUser<UserType>) => {
+  const getUserInfo = async (user: StreamUser<UT>) => {
     try {
-      const { data } = await user.getOrCreate((defaultUserData || { name: 'Unknown' }) as UserType);
+      const { data } = await user.getOrCreate((defaultUserData || { name: 'Unknown' }) as UT);
       setUserDate(data);
     } catch (e) {
       errorHandler(e, 'get-user-info', { userId: user.id });
@@ -112,18 +128,11 @@ export function StreamApp<
   };
 
   useEffect(() => {
-    const client = connect<
-      UserType,
-      ActivityType,
-      CollectionType,
-      ReactionType,
-      ChildReactionType,
-      PersonalizationType
-    >(apiKey, token, appId, options || {});
+    const client = connect<UT, AT, CT, RT, CRT, PT>(apiKey, token, appId, options || {});
 
-    let analyticsClient: StreamAnalytics<UserType> | null = null;
+    let analyticsClient: StreamAnalytics<UT> | null = null;
     if (analyticsToken) {
-      analyticsClient = new StreamAnalytics<UserType>({ apiKey, token: analyticsToken });
+      analyticsClient = new StreamAnalytics<UT>({ apiKey, token: analyticsToken });
       analyticsClient.setUser(client.userId as string);
     }
 
@@ -134,11 +143,11 @@ export function StreamApp<
     }
 
     setClient(client);
-    setUser(client.currentUser as StreamUser<UserType>);
+    setUser(client.currentUser as StreamUser<UT, AT, CT, RT, CRT, PT>);
     setAnalyticsClient(analyticsClient);
     setSharedFeedManagers(feeds);
 
-    getUserInfo(client.currentUser as StreamUser<UserType>);
+    getUserInfo(client.currentUser as StreamUser<UT>);
 
     return () => client.fayeClient?.disconnect();
   }, [apiKey, token, appId, analyticsClient]);
@@ -146,11 +155,11 @@ export function StreamApp<
   if (!translator?.t) return null;
 
   return (
-    <StreamContext.Provider value={{ client, analyticsClient, errorHandler, userData, user, sharedFeedManagers }}>
+    <StreamAppProvider value={{ client, analyticsClient, errorHandler, userData, user, sharedFeedManagers }}>
       <TranslationProvider value={translator}>
         <>{children || 'You are connected to Stream, Throw some components in here!'}</>
       </TranslationProvider>
-    </StreamContext.Provider>
+    </StreamAppProvider>
   );
 }
 
