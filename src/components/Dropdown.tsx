@@ -1,17 +1,14 @@
-import React, { useRef, useState, useCallback, useEffect } from 'react';
+import React, { useRef, useState, useEffect, SyntheticEvent } from 'react';
 import { IconButton } from 'react-file-utils';
 
 export const Dropdown = ({ children }: { children?: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownBoxReference = useRef<HTMLDivElement | null>(null);
 
-  const changeMenuVisibility = useCallback(
-    ({ target }) => {
-      if (dropdownBoxReference.current?.contains(target)) return;
-      setIsOpen((pv) => !pv);
-    },
-    [setIsOpen],
-  );
+  const changeMenuVisibility = ({ target }: Event | SyntheticEvent) => {
+    if (dropdownBoxReference.current?.contains(target as Element)) return;
+    setIsOpen((pv) => !pv);
+  };
 
   useEffect(() => {
     if (!isOpen) return;
