@@ -1,4 +1,4 @@
-import { StreamApiError } from 'getstream';
+import { StreamApiError, UR } from 'getstream';
 
 export type NetworkRequestTypes =
   | 'get-user-info'
@@ -14,7 +14,15 @@ export type NetworkRequestTypes =
   | 'add-child-reaction'
   | 'delete-child-reaction';
 
-type ErrorDetail = { kind?: string };
+type ErrorDetail = UR & {
+  activity?: UR;
+  activity_id?: string;
+  activityId?: string;
+  feedGroup?: string;
+  kind?: string;
+  reaction?: UR;
+  userId?: string;
+};
 
 export type ErrorHandler = (error: Error | StreamApiError, type: NetworkRequestTypes, details: ErrorDetail) => void;
 

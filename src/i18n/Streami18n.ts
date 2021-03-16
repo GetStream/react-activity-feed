@@ -29,7 +29,7 @@ import 'dayjs/locale/it';
 // So As a last step I am going to import english locale
 // to make sure I don't mess up language at other places in app.
 import 'dayjs/locale/en';
-import { UnknownRecord } from 'getstream';
+import { UR } from 'getstream';
 
 Dayjs.extend(updateLocale);
 
@@ -174,7 +174,7 @@ export class Streami18n {
   t: TFunction = (key: string) => key;
   tDateTimeParser: TDateTimeParser;
 
-  translations: Record<string, Record<string, typeof enTranslations | UnknownRecord>> = {
+  translations: Record<string, Record<string, typeof enTranslations | UR>> = {
     en: { [defaultNS]: enTranslations },
     nl: { [defaultNS]: nlTranslations },
     ru: { [defaultNS]: ruTranslations },
