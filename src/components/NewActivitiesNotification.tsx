@@ -54,8 +54,7 @@ export const NewActivitiesNotification = ({
           if (addCount > 1)
             return labelPlural
               ? generateText(addCount, labelPlural)
-              : //@ts-expect-error
-                t(generateText('{{ notificationCount }}', 'notifications'), {
+              : t(generateText('{{ notificationCount }}', 'notifications'), {
                   notificationCount: addCount,
                 });
 
@@ -66,9 +65,11 @@ export const NewActivitiesNotification = ({
 
   const label = useMemo(() => defaultLabelFunction(attributes), [defaultLabelFunction, attributes]);
 
-  return label ? (
+  if (!label) return null;
+
+  return (
     <button className="raf-new-activities-notification" type="button" onClick={onClick}>
       <Link>{label}</Link>
     </button>
-  ) : null;
+  );
 };
