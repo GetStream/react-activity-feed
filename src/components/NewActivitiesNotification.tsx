@@ -1,7 +1,7 @@
-import React, { useContext, useCallback, useMemo, MouseEvent } from 'react';
+import React, { MouseEvent } from 'react';
 import { RealTimeMessage } from 'getstream';
 import { Link } from './Link';
-import { TranslationContext } from '../Context';
+import { useTranslationContext } from '../Context';
 
 type Attributes = {
   addCount: number;
@@ -32,38 +32,32 @@ export const NewActivitiesNotification = ({
   onClick,
   labelFunction,
 }: NewActivitiesNotificationProps) => {
-  const { t } = useContext(TranslationContext);
+  const { t } = useTranslationContext();
 
-  const attributes: Attributes = useMemo(
-    () => ({
-      addCount: adds.length,
-      deleteCount: deletes.length,
-      count: adds.length + deletes.length,
-      labelPlural,
-      labelSingle,
-    }),
-    [adds.length, deletes.length, labelPlural, labelSingle],
-  );
+  const attributes: Attributes = {
+    addCount: adds.length,
+    deleteCount: deletes.length,
+    count: adds.length + deletes.length,
+    labelPlural,
+    labelSingle,
+  };
 
-  const defaultLabelFunction: LabelFunction = useCallback(
-    labelFunction
-      ? labelFunction
-      : ({ addCount, labelPlural, labelSingle }) => {
-          if (!addCount) return null;
+  const defaultLabelFunction: LabelFunction =
+    labelFunction ??
+    (({ addCount, labelPlural, labelSingle }) => {
+      if (!addCount) return null;
 
-          if (addCount > 1)
-            return labelPlural
-              ? generateText(addCount, labelPlural)
-              : t(generateText('{{ notificationCount }}', 'notifications'), {
-                  notificationCount: addCount,
-                });
+      if (addCount > 1)
+        return labelPlural
+          ? generateText(addCount, labelPlural)
+          : t(generateText('{{ notificationCount }}', 'notifications'), {
+              notificationCount: addCount,
+            });
 
-          return labelSingle ? generateText(1, labelSingle) : t(generateText(1, 'notification'));
-        },
-    [t, labelFunction],
-  );
+      return labelSingle ? generateText(1, labelSingle) : t(generateText(1, 'notification'));
+    });
 
-  const label = useMemo(() => defaultLabelFunction(attributes), [defaultLabelFunction, attributes]);
+  const label = defaultLabelFunction(attributes);
 
   if (!label) return null;
 
