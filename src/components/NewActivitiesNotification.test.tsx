@@ -1,7 +1,12 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { NewActivitiesNotification, LabelFunction } from './NewActivitiesNotification';
+import { NewActivitiesNotification, NewActivitiesNotificationProps, LabelFunction } from './NewActivitiesNotification';
+
+const testData: Pick<NewActivitiesNotificationProps, 'adds' | 'deletes'> = {
+  adds: [{ actor: '' }, { actor: '' }],
+  deletes: ['', ''],
+};
 
 const customLabelFunction: LabelFunction = ({ count, labelSingle, labelPlural }) =>
   `You have ${count} unread ${count > 1 ? labelPlural : labelSingle}.`;
@@ -13,7 +18,7 @@ describe('NewActivitiesNotification', () => {
   });
 
   it('renders with only adds and deletes specified', () => {
-    const tree = renderer.create(<NewActivitiesNotification adds={['1', '2']} deletes={['1', '2']} />).toJSON();
+    const tree = renderer.create(<NewActivitiesNotification {...testData} />).toJSON();
     expect(tree).toMatchInlineSnapshot(`
       <button
         className="raf-new-activities-notification"
@@ -30,14 +35,7 @@ describe('NewActivitiesNotification', () => {
 
   it('renders with adds, deletes and labels (plural/singular) specified', () => {
     const tree = renderer
-      .create(
-        <NewActivitiesNotification
-          adds={['1', '2']}
-          deletes={['1', '2']}
-          labelSingle="notification"
-          labelPlural="notifications"
-        />,
-      )
+      .create(<NewActivitiesNotification {...testData} labelSingle="notification" labelPlural="notifications" />)
       .toJSON();
     expect(tree).toMatchInlineSnapshot(`
       <button
@@ -57,8 +55,7 @@ describe('NewActivitiesNotification', () => {
     const tree = renderer
       .create(
         <NewActivitiesNotification
-          adds={['1', '2']}
-          deletes={['1', '2']}
+          {...testData}
           labelSingle="message"
           labelPlural="messages"
           labelFunction={customLabelFunction}
@@ -84,8 +81,7 @@ describe('NewActivitiesNotification', () => {
 
     render(
       <NewActivitiesNotification
-        adds={['1', '2']}
-        deletes={['1', '2']}
+        {...testData}
         labelSingle="notification"
         labelPlural="notifications"
         onClick={onClick}
