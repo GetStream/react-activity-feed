@@ -1,5 +1,5 @@
 import React, { createElement, ReactElement, ElementType, ComponentType } from 'react';
-import { UnknownRecord } from 'getstream';
+import { UR } from 'getstream';
 
 type ElementOrComponentOrLiteralType<T> =
   | string
@@ -10,7 +10,7 @@ type ElementOrComponentOrLiteralType<T> =
   | ElementType<T>
   | ComponentType<T>;
 
-export function smartRender<T extends UnknownRecord = UnknownRecord>(
+export function smartRender<T extends UR = UR>(
   ElementOrComponentOrLiteral?: ElementOrComponentOrLiteralType<T>,
   props?: T,
   fallback?: ElementOrComponentOrLiteralType<T>,

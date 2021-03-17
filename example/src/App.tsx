@@ -1,5 +1,5 @@
 import React from 'react';
-import { UnknownRecord } from 'getstream';
+import { UR } from 'getstream';
 
 import {
   StreamApp,
@@ -54,8 +54,8 @@ function App() {
             // withOwnChildren: true,
             // withRecentReactions: true
           }}
-          Paginator={(props: UnknownRecord) => <InfiniteScrollPaginator threshold={10} {...props} />}
-          Activity={(activityProps: UnknownRecord) => (
+          Paginator={(props: UR) => <InfiniteScrollPaginator threshold={10} {...props} />}
+          Activity={(activityProps: UR) => (
             <Activity
               {...activityProps}
               Footer={() => (
@@ -64,7 +64,7 @@ function App() {
                   <CommentList
                     // @ts-expect-error
                     activityId={activityProps.activity.id}
-                    CommentItem={(props: UnknownRecord) => (
+                    CommentItem={(props: UR) => (
                       <React.Fragment>
                         <CommentItem {...props} />
                         <LikeButton reaction={props.comment} {...activityProps} />

@@ -1,40 +1,19 @@
 import React, { useMemo } from 'react';
-import { EnrichedActivity, OGAPIResponse, UserAPIResponse } from 'getstream';
+import { EnrichedActivity } from 'getstream';
 import { Thumbnail } from 'react-file-utils';
 
 import { userOrDefault } from '../utils';
+import { DefaultUT, DefaultAT } from '../Context/StreamApp';
 
-type FileData = {
-  mimeType: string;
-  name: string;
-  url: string;
+export type AttachedActivityProps<UT extends DefaultUT = DefaultUT, AT extends DefaultAT = DefaultAT> = {
+  activity: EnrichedActivity<UT, AT>;
 };
 
-type Attachments = {
-  files?: FileData[];
-  images?: string[];
-  og?: OGAPIResponse;
-};
-
-type CustomActivityData = {
-  attachments?: Attachments;
-  image?: string;
-  link?: boolean;
-  text?: string;
-};
-
-type UserData = UserAPIResponse<{
-  name?: string;
-  profileImage?: string;
-}>;
-
-export type AttachedActivityProps = {
-  activity: EnrichedActivity<UserData, CustomActivityData>;
-};
-
-export const AttachedActivity = ({ activity: { object, verb, attachments, actor } }: AttachedActivityProps) => {
+export function AttachedActivity<UT extends DefaultUT = DefaultUT, AT extends DefaultAT = DefaultAT>({
+  activity: { object, verb, attachments, actor },
+}: AttachedActivityProps<UT, AT>) {
   const images = attachments?.images ?? [];
-  const user = useMemo(() => userOrDefault(actor), [actor]);
+  const user = useMemo(() => userOrDefault<UT>(actor), [actor]);
 
   if (verb !== 'repost' && verb !== 'post' && verb !== 'comment') return null;
 
@@ -56,4 +35,4 @@ export const AttachedActivity = ({ activity: { object, verb, attachments, actor 
       )}
     </div>
   );
-};
+}

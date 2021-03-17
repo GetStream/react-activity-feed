@@ -1,2 +1,4 @@
 export * from './StreamApp';
-export { Feed, FeedContext } from './Feed';
+export * from './Feed';
+export * from './FeedManager';
+export * from './TranslationContext';
