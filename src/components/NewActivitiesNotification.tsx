@@ -1,4 +1,5 @@
 import React, { useContext, useCallback, useMemo, MouseEvent } from 'react';
+import { RealTimeMessage } from 'getstream';
 import { Link } from './Link';
 import { TranslationContext } from '../Context';
 
@@ -12,10 +13,9 @@ type Attributes = {
 
 export type LabelFunction = (attributes: Attributes) => string | null;
 
-// TODO: fix adds/deletes array types (unsure what they're supposed to look like)
 export type NewActivitiesNotificationProps = {
-  adds?: Array<unknown>;
-  deletes?: Array<unknown>;
+  adds?: Array<RealTimeMessage>;
+  deletes?: Array<RealTimeMessage>;
   labelFunction?: LabelFunction;
   labelPlural?: string;
   labelSingle?: string;
