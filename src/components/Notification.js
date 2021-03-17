@@ -2,7 +2,7 @@ import React from 'react';
 import { Avatar } from './Avatar';
 import AvatarGroup from './AvatarGroup';
 import { AttachedActivity } from './AttachedActivity';
-import Dropdown from './Dropdown';
+import { Dropdown } from './Dropdown';
 import { Link } from './Link';
 
 import { humanizeTimestamp, userOrDefault } from '../utils';
