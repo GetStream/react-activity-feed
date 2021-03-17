@@ -14,8 +14,8 @@ type Attributes = {
 export type LabelFunction = (attributes: Attributes) => string | null;
 
 export type NewActivitiesNotificationProps = {
-  adds?: Array<RealTimeMessage>;
-  deletes?: Array<RealTimeMessage>;
+  adds?: Array<RealTimeMessage['new']>;
+  deletes?: Array<RealTimeMessage['deleted']>;
   labelFunction?: LabelFunction;
   labelPlural?: string;
   labelSingle?: string;
