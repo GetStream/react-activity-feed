@@ -2719,6 +2719,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-images@^0.5.3":
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/@types/react-images/-/react-images-0.5.3.tgz#328d34bb05936f855ad636c97a49abd6aae3f991"
+  integrity sha512-sVXMlktxgleh8xrZJc+abvH62ggzYVByoM0056OHPDZzLPqAYX7v7Ph3kgE7EAV/qM/POylCIqgjkqriybMBZw==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-test-renderer@>=16.9.0", "@types/react-test-renderer@^17.0.1":
   version "17.0.1"
   resolved "https://registry.yarnpkg.com/@types/react-test-renderer/-/react-test-renderer-17.0.1.tgz#3120f7d1c157fba9df0118dae20cb0297ee0e06b"
