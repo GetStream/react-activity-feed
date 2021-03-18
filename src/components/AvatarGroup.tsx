@@ -1,14 +1,14 @@
 import React, { useMemo, MouseEvent } from 'react';
 import { EnrichedUser } from 'getstream';
 
-import { userOrDefault } from '../utils';
+import { userOrDefault, UserOrDefaultReturnType } from '../utils';
 import { DefaultUT } from '../Context/StreamApp';
 import { Avatar } from './Avatar';
 
 export type AvatarGroupProps<UT extends DefaultUT = DefaultUT> = {
   avatarSize?: number;
   limit?: number;
-  onClickUser?: (user: ReturnType<typeof userOrDefault>) => void;
+  onClickUser?: (user: UserOrDefaultReturnType<UT>) => void;
   users?: Array<EnrichedUser<UT>>;
 };
 

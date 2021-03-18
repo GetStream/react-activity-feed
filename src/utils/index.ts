@@ -33,7 +33,13 @@ function isErrorUser(user: unknown | ErrorUser): user is ErrorUser {
   return !!user && typeof (user as ErrorUser).error === 'string';
 }
 
-export function userOrDefault<T extends UR = UR>(user?: EnrichedUser<T> | string | { error: string } | null) {
+export type UserOrDefaultReturnType<T extends UR = UR> =
+  | EnrichedUser<T>
+  | (EnrichedUser<{ name: 'Unknown'; profileImage: '' }> & { id: '!not-found' });
+
+export function userOrDefault<T extends UR = UR>(
+  user?: EnrichedUser<T> | string | { error: string } | null,
+): UserOrDefaultReturnType<T> {
   if (!user || typeof user === 'string' || isErrorUser(user))
     return {
       id: '!not-found',
