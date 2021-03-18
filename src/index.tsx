@@ -19,7 +19,7 @@ export { default as ActivityFooter } from './components/ActivityFooter';
 export * from './components/AttachedActivity';
 export { default as UserBar } from './components/UserBar';
 export * from './components/Card';
-export { default as Gallery } from './components/Gallery';
+export * from './components/Gallery';
 export * from './components/Avatar';
 export { default as AvatarGroup } from './components/AvatarGroup';
 export * from './components/Dropdown';
