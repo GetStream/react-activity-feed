@@ -5,7 +5,7 @@ import { Card } from './Card';
 import Audio from './Audio';
 import Video from './Video';
 import { FileIcon } from 'react-file-utils';
-import Gallery from './Gallery';
+import { Gallery } from './Gallery';
 
 import { smartRender, sanitizeURL, userOrDefault, textRenderer, humanizeTimestamp } from '../utils';
 import { withTranslationContext } from '../Context';
