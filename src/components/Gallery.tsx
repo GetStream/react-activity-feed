@@ -21,8 +21,8 @@ export const Gallery = ({ images = [] }: GalleryProps) => {
           onClick={() => setCurrentImage(i)}
           key={`image-${i}`}
         >
-          <img src={image} className={`raf-gallery__image `} alt="" />
-          <React.Fragment>{i === 4 && images.length > 5 ? <p>{images.length - 4} more</p> : null}</React.Fragment>
+          <img src={image} className="raf-gallery__image" alt="" />
+          {i === 4 && images.length > 5 && <p>{images.length - 4} more</p>}
         </div>
       ))}
 
