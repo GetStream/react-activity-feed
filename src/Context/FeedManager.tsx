@@ -1,17 +1,111 @@
 /* eslint-disable sonarjs/no-identical-functions */
 import immutable from 'immutable';
 import URL from 'url-parse';
-
-import { generateRandomId } from '../utils';
+import StreamAnalytics from 'stream-analytics';
 import _isPlainObject from 'lodash/isPlainObject';
 import _isEqual from 'lodash/isEqual';
 import _remove from 'lodash/remove';
+import {
+  UR,
+  StreamClient,
+  StreamUser,
+  FeedAPIResponse,
+  RealTimeMessage,
+  GetFeedOptions,
+  Activity,
+  EnrichedActivity,
+  FlatActivityEnriched,
+  AggregatedActivityEnriched,
+  NotificationActivityEnriched,
+  Reaction,
+  ReactionAddOptions,
+  ReactionAPIResponse,
+  ReactionAddChildOptions,
+  ReactionFilterAPIResponse,
+} from 'getstream';
 
-// type FR = FeedResponse<Object, Object>;
+import { generateRandomId } from '../utils';
+import { ErrorHandler } from '../utils/errors';
+import { DefaultUT, DefaultAT } from './StreamApp';
+import { FeedProps } from './Feed';
+import { Subscription } from 'faye';
 
-export class FeedManager {
-  props;
-  state = {
+type CU = immutable.Collection<unknown, unknown>;
+
+type MarkAsGroup = boolean | { id: string } | Array<{ id: string }>;
+
+type TrackAnalytics = { trackAnalytics?: boolean };
+
+type ResponseResult<
+  UT extends DefaultUT = DefaultUT,
+  AT extends DefaultAT = DefaultAT,
+  CT extends UR = UR,
+  RT extends UR = UR,
+  CRT extends UR = UR
+> =
+  | FlatActivityEnriched<UT, AT, CT, RT, CRT>
+  | AggregatedActivityEnriched<UT, AT, CT, RT, CRT>
+  | NotificationActivityEnriched<UT, AT, CT, RT, CRT>;
+
+export type UpdateTriggeredCallback = () => void;
+
+export type FeedManagerProps<
+  UT extends DefaultUT = DefaultUT,
+  AT extends DefaultAT = DefaultAT,
+  CT extends UR = UR,
+  RT extends UR = UR,
+  CRT extends UR = UR,
+  PT extends UR = UR
+> = FeedProps<UT, AT, CT, RT, CRT, PT> & {
+  analyticsClient: StreamAnalytics<UT> | null;
+  client: StreamClient<UT, AT, CT, RT, CRT, PT>;
+  errorHandler: ErrorHandler;
+  user?: StreamUser<UT>;
+};
+
+export type FeedManagerState<
+  UT extends DefaultUT = DefaultUT,
+  AT extends DefaultAT = DefaultAT,
+  CT extends UR = UR,
+  RT extends UR = UR,
+  CRT extends UR = UR
+> = {
+  activities: immutable.Map<string, ResponseResult<UT, AT, CT, RT, CRT>>;
+  activityIdToPath: Record<string, string[]>;
+  // Used for finding reposted activities
+  activityIdToPaths: Record<string, string[][]>;
+  activityOrder: string[];
+  childReactionsBeingToggled: Record<string, Record<string, boolean>>;
+  numSubscribers: number;
+  // activities created by creating a reaction with targetFeeds. It's a mapping
+  // of a reaction id to an activity id.
+  reactionActivities: Record<string, string>;
+  // Used for finding reposted activities
+  reactionIdToPaths: Record<string, string[][]>;
+  reactionsBeingToggled: Record<string, Record<string, boolean>>;
+  realtimeAdds: RealTimeMessage<UT, AT>['new'];
+  realtimeDeletes: string[];
+  refreshing: boolean;
+  subscription: Promise<Subscription> | null;
+  unread: number;
+  unseen: number;
+  lastResponse?: FeedAPIResponse<UT, AT, CT, RT, CRT> | null;
+  lastReverseResponse?: { next: string } | null;
+};
+
+export class FeedManager<
+  UT extends DefaultUT = DefaultUT,
+  AT extends DefaultAT = DefaultAT,
+  CT extends UR = UR,
+  RT extends UR = UR,
+  CRT extends UR = UR,
+  PT extends UR = UR
+> {
+  registeredCallbacks: Array<UpdateTriggeredCallback>;
+
+  props: FeedManagerProps<UT, AT, CT, RT, CRT, PT>;
+
+  state: FeedManagerState<UT, AT, CT, RT, CRT> = {
     activityOrder: [],
     activities: immutable.Map(),
     activityIdToPath: {},
@@ -30,12 +124,12 @@ export class FeedManager {
     reactionsBeingToggled: {},
     childReactionsBeingToggled: {},
   };
-  registeredCallbacks;
 
-  constructor(props) {
+  constructor(props: FeedManagerProps<UT, AT, CT, RT, CRT, PT>) {
     this.props = props;
     const initialOptions = this.getOptions();
     this.registeredCallbacks = [];
+
     let previousUrl = '';
     if (initialOptions.id_gte) {
       previousUrl = `?id_lt=${initialOptions.id_gte}`;
@@ -46,14 +140,16 @@ export class FeedManager {
     } else if (initialOptions.id_lt) {
       previousUrl = `?id_gte=${initialOptions.id_lt}`;
     }
+
     this.state.lastReverseResponse = { next: previousUrl };
   }
 
-  register(callback) {
+  register(callback: UpdateTriggeredCallback) {
     this.registeredCallbacks.push(callback);
     this.subscribe();
   }
-  unregister(callback) {
+
+  unregister(callback: UpdateTriggeredCallback) {
     this.registeredCallbacks.splice(this.registeredCallbacks.indexOf(callback), 1);
     this.unsubscribe();
   }
@@ -64,7 +160,11 @@ export class FeedManager {
     }
   }
 
-  setState = (changed) => {
+  setState = (
+    changed:
+      | Partial<FeedManagerState<UT, AT, CT, RT, CRT>>
+      | ((oldState: FeedManagerState<UT, AT, CT, RT, CRT>) => Partial<FeedManagerState<UT, AT, CT, RT, CRT>>),
+  ) => {
     if (typeof changed === 'function') {
       changed = changed(this.state);
     }
@@ -72,39 +172,28 @@ export class FeedManager {
     this.triggerUpdate();
   };
 
-  trackAnalytics = (label, activity, track) => {
-    const analyticsClient = this.props.analyticsClient;
+  trackAnalytics = (label: string, activity: { foreign_id: string }, track?: boolean) => {
+    if (!track) return;
 
-    if (!track) {
-      return;
-    }
+    const { client, analyticsClient, analyticsLocation, feedGroup, userId } = this.props;
+
     if (!analyticsClient) {
       console.warn(
-        'trackAnalytics was enabled, but analytics client was not initialized. ' +
-          'Please set the analyticsToken prop on StreamApp',
+        'trackAnalytics was enabled, but analytics client was not initialized. Please set the analyticsToken prop on StreamApp',
       );
       return;
     }
 
-    const feed = this.props.client.feed(this.props.feedGroup, this.props.userId);
-
     analyticsClient.trackEngagement({
       label,
-      feed_id: feed.id,
-      content: {
-        foreign_id: activity.foreign_id,
-      },
-      location: this.props.analyticsLocation,
+      feed_id: client.feed(feedGroup, userId).id,
+      content: { foreign_id: activity.foreign_id },
+      location: analyticsLocation,
     });
   };
 
-  getActivityPath = (activity, ...rest) => {
-    let activityId;
-    if (typeof activity === 'string') {
-      activityId = activity;
-    } else {
-      activityId = activity.id;
-    }
+  getActivityPath = (activity: Activity | string, ...rest: string[]) => {
+    const activityId = typeof activity === 'string' ? activity : activity.id;
 
     const activityPath = this.state.activityIdToPath[activityId];
     if (activityPath === undefined) {
@@ -113,38 +202,32 @@ export class FeedManager {
     return [...activityPath, ...rest];
   };
 
-  getActivityPaths = (activity) => {
-    let activityId;
-    if (typeof activity === 'string') {
-      activityId = activity;
-    } else {
-      activityId = activity.id;
-    }
-
+  getActivityPaths = (activity: Activity | string) => {
+    const activityId = typeof activity === 'string' ? activity : activity.id;
     return this.state.activityIdToPaths[activityId];
   };
 
-  getReactionPaths = (reaction) => {
-    let reactionId;
-    if (typeof reaction === 'string') {
-      reactionId = reaction;
-    } else {
-      reactionId = reaction.id;
-    }
-
+  getReactionPaths = (reaction: Reaction | string) => {
+    const reactionId = typeof reaction === 'string' ? reaction : reaction.id;
     return this.state.reactionIdToPaths[reactionId];
   };
 
-  onAddReaction = async (kind, activity, data, options = {}) => {
-    if (!options.userId && this.props.client && this.props.client.userId) {
+  onAddReaction = async (
+    kind: string,
+    activity: Activity<AT>,
+    data?: RT,
+    options: ReactionAddOptions & TrackAnalytics = {},
+  ) => {
+    if (!options.userId && this.props?.client.userId) {
       options.userId = this.props.client.userId;
     }
 
-    let reaction;
+    let reaction: ReactionAPIResponse<RT>;
     try {
       if (this.props.doReactionAddRequest) {
         reaction = await this.props.doReactionAddRequest(kind, activity, data, options);
       } else {
+        // @ts-expect-error
         reaction = await this.props.client.reactions.add(kind, activity, data, options);
       }
     } catch (e) {
@@ -156,11 +239,9 @@ export class FeedManager {
       });
       return;
     }
+
     this.trackAnalytics(kind, activity, options.trackAnalytics);
-    const enrichedReaction = immutable.fromJS({
-      ...reaction,
-      user: this.props.user.full,
-    });
+    const enrichedReaction = immutable.fromJS({ ...reaction, user: this.props.user?.full });
 
     this.setState((prevState) => {
       let { activities } = prevState;
@@ -180,7 +261,7 @@ export class FeedManager {
     });
   };
 
-  onRemoveReaction = async (kind, activity, id, options = {}) => {
+  onRemoveReaction = async (kind: string, activity: Activity<AT>, id: string, options: TrackAnalytics = {}) => {
     try {
       if (this.props.doReactionDeleteRequest) {
         await this.props.doReactionDeleteRequest(id);
@@ -196,6 +277,7 @@ export class FeedManager {
       });
       return;
     }
+
     this.trackAnalytics('un' + kind, activity, options.trackAnalytics);
 
     this.setState((prevState) => {
@@ -207,10 +289,10 @@ export class FeedManager {
         activities = activities
           .updateIn([...path, 'reaction_counts', kind], (v = 0) => v - 1)
           .updateIn([...path, 'own_reactions', kind], (v = immutable.List()) =>
-            v.remove(v.findIndex((r) => r.get('id') === id)),
+            v.remove(v.findIndex((r: CU) => r.get('id') === id)),
           )
           .updateIn([...path, 'latest_reactions', kind], (v = immutable.List()) =>
-            v.remove(v.findIndex((r) => r.get('id') === id)),
+            v.remove(v.findIndex((r: CU) => r.get('id') === id)),
           );
 
         this.addFoundReactionIdPaths(activities.getIn(path).toJS(), reactionIdToPaths, path);
@@ -224,7 +306,12 @@ export class FeedManager {
     }
   };
 
-  onToggleReaction = async (kind, activity, data, options = {}) => {
+  onToggleReaction = async (
+    kind: string,
+    activity: Activity<AT>,
+    data?: RT,
+    options: ReactionAddOptions & TrackAnalytics = {},
+  ) => {
     const togglingReactions = this.state.reactionsBeingToggled[kind] || {};
     if (togglingReactions[activity.id]) {
       return;
@@ -246,7 +333,12 @@ export class FeedManager {
     delete togglingReactions[activity.id];
   };
 
-  onAddChildReaction = async (kind, reaction, data, options = {}) => {
+  onAddChildReaction = async (
+    kind: string,
+    reaction: Reaction<RT>,
+    data?: CRT,
+    options: ReactionAddChildOptions = {},
+  ) => {
     if (!options.userId && this.props.client && this.props.client.userId) {
       options.userId = this.props.client.userId;
     }
@@ -256,6 +348,7 @@ export class FeedManager {
       if (this.props.doChildReactionAddRequest) {
         childReaction = await this.props.doChildReactionAddRequest(kind, reaction, data, options);
       } else {
+        // @ts-expect-error
         childReaction = await this.props.client.reactions.addChild(kind, reaction, data, options);
       }
     } catch (e) {
@@ -269,10 +362,7 @@ export class FeedManager {
     }
 
     // this.trackAnalytics(kind, reaction, options.trackAnalytics);
-    const enrichedReaction = immutable.fromJS({
-      ...childReaction,
-      user: this.props.user.full,
-    });
+    const enrichedReaction = immutable.fromJS({ ...childReaction, user: this.props.user?.full });
 
     this.setState((prevState) => {
       let { activities } = prevState;
@@ -287,13 +377,7 @@ export class FeedManager {
     });
   };
 
-  onRemoveChildReaction = async (
-    kind,
-    reaction,
-    id,
-    /* eslint-disable-next-line no-unused-vars */
-    options = {},
-  ) => {
+  onRemoveChildReaction = async (kind: string, reaction: Reaction<RT>, id: string) => {
     try {
       if (this.props.doChildReactionDeleteRequest) {
         await this.props.doChildReactionDeleteRequest(id);
@@ -320,10 +404,10 @@ export class FeedManager {
         activities = activities
           .updateIn([...path, 'children_counts', kind], (v = 0) => v - 1)
           .updateIn([...path, 'own_children', kind], (v = immutable.List()) =>
-            v.remove(v.findIndex((r) => r.get('id') === id)),
+            v.remove(v.findIndex((r: CU) => r.get('id') === id)),
           )
           .updateIn([...path, 'children', kind], (v = immutable.List()) =>
-            v.remove(v.findIndex((r) => r.get('id') === id)),
+            v.remove(v.findIndex((r: CU) => r.get('id') === id)),
           );
       }
 
@@ -331,7 +415,12 @@ export class FeedManager {
     });
   };
 
-  onToggleChildReaction = async (kind, reaction, data, options = {}) => {
+  onToggleChildReaction = async (
+    kind: string,
+    reaction: Reaction<RT>,
+    data?: CRT,
+    options: ReactionAddChildOptions = {},
+  ) => {
     const togglingReactions = this.state.childReactionsBeingToggled[kind] || {};
     if (togglingReactions[reaction.id]) {
       return;
@@ -346,17 +435,17 @@ export class FeedManager {
 
     const last = currentReactions.last();
     if (last) {
-      await this.onRemoveChildReaction(kind, reaction, last.get('id'), options);
+      await this.onRemoveChildReaction(kind, reaction, last.get('id'));
     } else {
       await this.onAddChildReaction(kind, reaction, data, options);
     }
     delete togglingReactions[reaction.id];
   };
 
-  _removeActivityFromState = (activityId) =>
+  _removeActivityFromState = (activityId: string) =>
     this.setState(({ activities, activityOrder, activityIdToPath, activityIdToPaths, reactionIdToPaths }) => {
       const path = this.getActivityPath(activityId);
-      let outerId = activityId;
+      let outerId: string | null = activityId;
       if (path.length > 1) {
         // It's an aggregated group we should update the paths of everything in
         // the list
@@ -423,7 +512,7 @@ export class FeedManager {
       };
     });
 
-  onRemoveActivity = async (activityId) => {
+  onRemoveActivity = async (activityId: string) => {
     try {
       if (this.props.doActivityDeleteRequest) {
         await this.props.doActivityDeleteRequest(activityId);
@@ -441,22 +530,23 @@ export class FeedManager {
     return this._removeActivityFromState(activityId);
   };
 
-  onMarkAsRead = (group) => this._onMarkAs('read', group);
+  onMarkAsRead = (group: MarkAsGroup) => this._onMarkAs('read', group);
 
-  onMarkAsSeen = (group) => this._onMarkAs('seen', group);
+  onMarkAsSeen = (group: MarkAsGroup) => this._onMarkAs('seen', group);
 
-  _onMarkAs = async (type, group) => {
-    let groupArray;
-    let markArg = group;
+  _onMarkAs = async (type: 'seen' | 'read', group: MarkAsGroup) => {
+    let groupArray: string[];
+    let markArg: string | string[] | MarkAsGroup = group;
     if (group === true) {
       groupArray = this.state.activityOrder;
     } else if (Array.isArray(group)) {
       groupArray = group.map((g) => g.id);
       markArg = groupArray;
     } else {
-      markArg = group.id;
-      groupArray = [group.id];
+      markArg = (group as { id: string }).id;
+      groupArray = [(group as { id: string }).id];
     }
+
     try {
       await this.doFeedRequest({
         limit: 1,
@@ -470,7 +560,7 @@ export class FeedManager {
       });
     }
     this.setState((prevState) => {
-      const counterKey = 'un' + type;
+      const counterKey = `un${type}` as 'unread' | 'unseen';
       let activities = prevState.activities;
       let counter = prevState[counterKey];
       for (const groupId of groupArray) {
@@ -485,7 +575,7 @@ export class FeedManager {
     });
   };
 
-  getOptions = (extraOptions = {}) => {
+  getOptions = (extraOptions: GetFeedOptions = {}) => {
     const propOpts = { ...this.props.options };
     const { id_gt, id_gte, id_lt, id_lte, offset } = extraOptions;
     if (id_gt || id_gte || id_lt || id_lte || offset != null) {
@@ -494,6 +584,7 @@ export class FeedManager {
       delete propOpts.id_lt;
       delete propOpts.id_lte;
       delete propOpts.offset;
+      // @ts-expect-error
       delete propOpts.refresh;
     }
 
@@ -506,7 +597,7 @@ export class FeedManager {
     };
   };
 
-  doFeedRequest = async (options) => {
+  doFeedRequest = async (options?: GetFeedOptions) => {
     if (this.props.doFeedRequest) {
       return await this.props.doFeedRequest(this.props.client, this.props.feedGroup, this.props.userId, options);
     }
@@ -515,7 +606,9 @@ export class FeedManager {
 
   feed = () => this.props.client.feed(this.props.feedGroup, this.props.userId);
 
-  responseToActivityMap = (response) =>
+  responseToActivityMap = (
+    response: FeedAPIResponse<UT, AT, CT, RT, CRT>,
+  ): Record<string, ResponseResult<UT, AT, CT, RT, CRT>> =>
     immutable.fromJS(
       response.results.reduce((map, a) => {
         map[a.id] = a;
@@ -523,14 +616,14 @@ export class FeedManager {
       }, {}),
     );
 
-  responseToActivityIdToPath = (response) => {
+  responseToActivityIdToPath = (response: FeedAPIResponse<UT, AT, CT, RT, CRT>) => {
     if (response.results.length === 0 || response.results[0].activities === undefined) {
       return {};
     }
-    const aggregatedResponse = response;
+    const results = response.results as AggregatedActivityEnriched<UT, AT, CT, RT, CRT>[];
 
-    const map = {};
-    for (const group of aggregatedResponse.results) {
+    const map: Record<string, [string, string, number]> = {};
+    for (const group of results) {
       group.activities.forEach((act, i) => {
         map[act.id] = [group.id, 'activities', i];
       });
@@ -538,7 +631,10 @@ export class FeedManager {
     return map;
   };
 
-  responseToActivityIdToPaths = (response, previous = {}) => {
+  responseToActivityIdToPaths = (
+    response: FeedAPIResponse<UT, AT, CT, RT, CRT>,
+    previous: FeedManagerState['activityIdToPaths'] = {},
+  ) => {
     const map = previous;
     const currentPath = [];
     function addFoundActivities(obj) {
@@ -571,7 +667,10 @@ export class FeedManager {
     return map;
   };
 
-  feedResponseToReactionIdToPaths = (response, previous = {}) => {
+  feedResponseToReactionIdToPaths = (
+    response: FeedAPIResponse<UT, AT, CT, RT, CRT>,
+    previous: FeedManagerState['reactionIdToPaths'] = {},
+  ) => {
     const map = previous;
     const currentPath = [];
     function addFoundReactions(obj) {
@@ -604,7 +703,12 @@ export class FeedManager {
     return map;
   };
 
-  reactionResponseToReactionIdToPaths = (response, previous, basePath, oldLength) => {
+  reactionResponseToReactionIdToPaths = (
+    response: ReactionFilterAPIResponse<RT, CRT, AT, UT>,
+    previous: FeedManagerState['reactionIdToPaths'],
+    basePath: string[],
+    oldLength: number,
+  ) => {
     const map = previous;
     const currentPath = [...basePath];
     function addFoundReactions(obj) {
@@ -774,12 +878,13 @@ export class FeedManager {
     return map;
   };
 
-  responseToReactionActivities = (response) => {
+  responseToReactionActivities = (response: FeedAPIResponse<UT, AT, CT, RT, CRT>) => {
     if (response.results.length === 0) {
       return {};
     }
-    const map = {};
-    function setReactionActivities(activities) {
+
+    const map: Record<string, string> = {};
+    function setReactionActivities(activities: EnrichedActivity<UT, AT, CT, RT, CRT>[]) {
       for (const a of activities) {
         if (a.reaction && a.reaction.id) {
           map[a.reaction.id] = a.id;
@@ -788,18 +893,18 @@ export class FeedManager {
     }
 
     if (response.results[0].activities === undefined) {
-      setReactionActivities(response.results);
+      setReactionActivities(response.results as EnrichedActivity<UT, AT, CT, RT, CRT>[]);
     } else {
-      const aggregatedResponse = response;
+      const aggregatedResults = response.results as AggregatedActivityEnriched<UT, AT, CT, RT, CRT>[];
 
-      for (const group of aggregatedResponse.results) {
+      for (const group of aggregatedResults) {
         setReactionActivities(group.activities);
       }
     }
     return map;
   };
 
-  unseenUnreadFromResponse(response) {
+  unseenUnreadFromResponse(response: FeedAPIResponse<UT, AT, CT, RT, CRT>) {
     let unseen = 0;
     let unread = 0;
     if (typeof response.unseen === 'number') {
@@ -811,11 +916,11 @@ export class FeedManager {
     return { unseen, unread };
   }
 
-  refresh = async (extraOptions) => {
+  refresh = async (extraOptions?: GetFeedOptions) => {
     const options = this.getOptions(extraOptions);
 
     await this.setState({ refreshing: true });
-    let response;
+    let response: FeedAPIResponse<UT, AT, CT, RT, CRT>;
     try {
       response = await this.doFeedRequest(options);
     } catch (e) {
@@ -828,7 +933,7 @@ export class FeedManager {
     }
 
     const newState = {
-      activityOrder: response.results.map((a) => a.id),
+      activityOrder: response.results.map((a: ResponseResult) => a.id),
       activities: this.responseToActivityMap(response),
       activityIdToPath: this.responseToActivityIdToPath(response),
       activityIdToPaths: this.responseToActivityIdToPaths(response),
@@ -858,11 +963,16 @@ export class FeedManager {
         if (prevState.subscription) {
           return {};
         }
+
         const subscription = feed.subscribe((data) => {
           this.setState((prevState) => {
+            // @ts-expect-error
             const numActivityDiff = data.new.length - data.deleted.length;
+
             return {
+              // @ts-expect-error
               realtimeAdds: prevState.realtimeAdds.concat(data.new),
+              // @ts-expect-error
               realtimeDeletes: prevState.realtimeDeletes.concat(data.deleted),
               unread: prevState.unread + numActivityDiff,
               unseen: prevState.unseen + numActivityDiff,
@@ -871,13 +981,10 @@ export class FeedManager {
         });
 
         subscription.then(
-          () => {
-            console.log(`now listening to changes in realtime for ${this.feed().id}`);
-          },
-          (err) => {
-            console.error(err);
-          },
+          () => console.log(`now listening to changes in realtime for ${this.feed().id}`),
+          (err) => console.error(err),
         );
+
         return { subscription };
       });
     }
@@ -885,17 +992,15 @@ export class FeedManager {
 
   unsubscribe = async () => {
     const { subscription } = this.state;
-    if (!subscription) {
+    if (!subscription || this.registeredCallbacks.length) {
       return;
     }
-    await subscription;
-    if (this.registeredCallbacks.length === 0) {
-      try {
-        await subscription.cancel();
-        console.log(`stopped listening to changes in realtime for ${this.feed().id}`);
-      } catch (err) {
-        console.error(err);
-      }
+
+    try {
+      (await subscription).cancel();
+      console.log(`stopped listening to changes in realtime for ${this.feed().id}`);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -930,7 +1035,7 @@ export class FeedManager {
     const nextURL = new URL(lastResponse.next, true);
     const options = this.getOptions(nextURL.query);
 
-    let response;
+    let response: FeedAPIResponse<UT, AT, CT, RT, CRT>;
     try {
       response = await this.doFeedRequest(options);
     } catch (e) {
@@ -941,14 +1046,16 @@ export class FeedManager {
       });
       return;
     }
+
     return this.setState((prevState) => {
       const activities = prevState.activities.merge(this.responseToActivityMap(response));
       const activityIdToPath = {
         ...prevState.activityIdToPath,
         ...this.responseToActivityIdToPath(response),
       };
+
       return {
-        activityOrder: prevState.activityOrder.concat(response.results.map((a) => a.id)),
+        activityOrder: prevState.activityOrder.concat(response.results.map((a: ResponseResult) => a.id)),
         activities,
         activityIdToPath,
         activityIdToPaths: this.responseToActivityIdToPaths(response, prevState.activityIdToPaths),
@@ -984,7 +1091,7 @@ export class FeedManager {
     const nextURL = new URL(lastReverseResponse.next, true);
     const options = this.getOptions(nextURL.query);
 
-    let response;
+    let response: FeedAPIResponse<UT, AT, CT, RT, CRT>;
     try {
       response = await this.doFeedRequest(options);
     } catch (e) {
@@ -995,14 +1102,16 @@ export class FeedManager {
       });
       return;
     }
+
     return this.setState((prevState) => {
       const activities = prevState.activities.merge(this.responseToActivityMap(response));
       const activityIdToPath = {
         ...prevState.activityIdToPath,
         ...this.responseToActivityIdToPath(response),
       };
+
       return {
-        activityOrder: response.results.map((a) => a.id).concat(prevState.activityOrder),
+        activityOrder: response.results.map((a: ResponseResult) => a.id).concat(prevState.activityOrder),
         activities,
         activityIdToPath,
         activityIdToPaths: this.responseToActivityIdToPaths(response, prevState.activityIdToPaths),
@@ -1017,11 +1126,8 @@ export class FeedManager {
     });
   };
 
-  loadNextReactions = async (activityId, kind, activityPath, oldestToNewest) => {
-    let options = {
-      activity_id: activityId,
-      kind,
-    };
+  loadNextReactions = async (activityId: string, kind: string, activityPath?: string[], oldestToNewest?: boolean) => {
+    let options: { activity_id: string; kind: string; id_gt?: string } = { activity_id: activityId, kind };
 
     let orderPrefix = 'latest';
     if (oldestToNewest) {
@@ -1051,16 +1157,11 @@ export class FeedManager {
       return;
     }
 
-    this.setState((prevState) => ({
-      activities: prevState.activities.setIn(refreshingPath, true),
-    }));
+    this.setState((prevState) => ({ activities: prevState.activities.setIn(refreshingPath, true) }));
 
-    options = {
-      ...URL(nextUrl, true).query,
-      ...options,
-    };
+    options = { ...URL(nextUrl, true).query, ...options };
 
-    let response;
+    let response: ReactionFilterAPIResponse<RT, CRT, AT, UT>;
     try {
       if (this.props.doReactionsFilterRequest) {
         response = await this.props.doReactionsFilterRequest(options);
@@ -1069,9 +1170,7 @@ export class FeedManager {
       }
     } catch (e) {
       this.setState({ refreshing: false });
-      this.props.errorHandler(e, 'get-reactions-next-page', {
-        options,
-      });
+      this.props.errorHandler(e, 'get-reactions-next-page', { options });
       return;
     }
     this.setState((prevState) => ({
@@ -1089,7 +1188,7 @@ export class FeedManager {
   };
 
   refreshUnreadUnseen = async () => {
-    let response;
+    let response: FeedAPIResponse<UT, AT, CT, RT, CRT>;
     try {
       response = await this.doFeedRequest({ limit: 0 });
     } catch (e) {

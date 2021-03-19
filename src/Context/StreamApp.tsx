@@ -1,13 +1,20 @@
 import React, { ReactNode, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import StreamAnalytics from 'stream-analytics';
-import { connect, UR, StreamClient, StreamUser, ClientOptions, OGAPIResponse } from 'getstream';
+import { connect, UR, StreamClient, StreamUser, ClientOptions, OGAPIResponse, GetFeedOptions } from 'getstream';
 
 import { FeedManager } from './FeedManager';
 import { ErrorHandler, handleError } from '../utils/errors';
 import { Streami18n } from '../i18n/Streami18n';
 import { TranslationContextValue, TranslationProvider } from './TranslationContext';
 
-export type SharedFeedManagers = Record<string, FeedManager>;
+export type SharedFeedManagers<
+  UT extends DefaultUT = DefaultUT,
+  AT extends DefaultAT = DefaultAT,
+  CT extends UR = UR,
+  RT extends UR = UR,
+  CRT extends UR = UR,
+  PT extends UR = UR
+> = Record<string, FeedManager<UT, AT, CT, RT, CRT, PT>>;
 
 type Attachments = {
   files?: Array<{ mimeType: string; name: string; url: string }>;
@@ -19,6 +26,8 @@ export type DefaultUT = UR & { name: string; id?: string; profileImage?: string 
 
 export type DefaultAT = UR & { attachments?: Attachments; text?: string };
 
+export type SharedFeed = { feedGroup: string; notify: boolean; options: GetFeedOptions };
+
 export type StreamAppProps<UT extends DefaultUT = DefaultUT> = {
   apiKey: string;
   appId: string;
@@ -29,7 +38,7 @@ export type StreamAppProps<UT extends DefaultUT = DefaultUT> = {
   errorHandler?: ErrorHandler;
   i18nInstance?: Streami18n;
   options?: ClientOptions;
-  sharedFeeds?: Array<{ feedGroup: string; notify: boolean; options: { mark_seen: boolean } }>; //TODO: options type
+  sharedFeeds?: Array<SharedFeed>;
 };
 
 export type StreamContextValue<
@@ -43,7 +52,7 @@ export type StreamContextValue<
   analyticsClient: null | StreamAnalytics<UT>;
   client: null | StreamClient<UT, AT, CT, RT, CRT, PT>;
   errorHandler: ErrorHandler;
-  sharedFeedManagers: SharedFeedManagers;
+  sharedFeedManagers: SharedFeedManagers<UT, AT, CT, RT, CRT, PT>;
   user?: StreamUser<UT>;
   userData?: UT;
 };
@@ -106,7 +115,7 @@ export function StreamApp<
   const [analyticsClient, setAnalyticsClient] = useState<StreamAnalytics<UT> | null>(null);
   const [userData, setUserDate] = useState<UT>();
   const [translator, setTranslator] = useState<TranslationContextValue>();
-  const [sharedFeedManagers, setSharedFeedManagers] = useState<SharedFeedManagers>({});
+  const [sharedFeedManagers, setSharedFeedManagers] = useState<SharedFeedManagers<UT, AT, CT, RT, CRT, PT>>({});
 
   useEffect(() => {
     const streami18n =
@@ -136,9 +145,16 @@ export function StreamApp<
       analyticsClient.setUser(client.userId as string);
     }
 
-    const feeds: Record<string, FeedManager> = {};
+    const feeds: Record<string, FeedManager<UT, AT, CT, RT, CRT, PT>> = {};
     for (const feedProps of sharedFeeds) {
-      const manager = new FeedManager({ ...feedProps, client, analyticsClient, errorHandler, user }); // TODO: add req context props
+      const manager = new FeedManager<UT, AT, CT, RT, CRT, PT>({
+        ...feedProps,
+        client,
+        analyticsClient,
+        errorHandler,
+        user,
+      });
+
       feeds[manager.feed().id] = manager;
     }
 
