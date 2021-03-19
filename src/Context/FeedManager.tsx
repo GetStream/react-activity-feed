@@ -227,7 +227,6 @@ export class FeedManager<
       if (this.props.doReactionAddRequest) {
         reaction = await this.props.doReactionAddRequest(kind, activity, data, options);
       } else {
-        // @ts-expect-error
         reaction = await this.props.client.reactions.add(kind, activity, data, options);
       }
     } catch (e) {
@@ -348,7 +347,6 @@ export class FeedManager<
       if (this.props.doChildReactionAddRequest) {
         childReaction = await this.props.doChildReactionAddRequest(kind, reaction, data, options);
       } else {
-        // @ts-expect-error
         childReaction = await this.props.client.reactions.addChild(kind, reaction, data, options);
       }
     } catch (e) {
@@ -966,13 +964,10 @@ export class FeedManager<
 
         const subscription = feed.subscribe((data) => {
           this.setState((prevState) => {
-            // @ts-expect-error
             const numActivityDiff = data.new.length - data.deleted.length;
 
             return {
-              // @ts-expect-error
               realtimeAdds: prevState.realtimeAdds.concat(data.new),
-              // @ts-expect-error
               realtimeDeletes: prevState.realtimeDeletes.concat(data.deleted),
               unread: prevState.unread + numActivityDiff,
               unseen: prevState.unseen + numActivityDiff,
