@@ -14,7 +14,7 @@ type AudioProps = {
 
 export const Audio = ({ og: { audios = [], images = [], description, title }, handleClose }: AudioProps) => {
   const audioReference = useRef<HTMLAudioElement | null>(null);
-  const intervalReference = useRef<NodeJS.Timeout>();
+  const intervalReference = useRef<number>();
 
   const [progress, setProgress] = useState<number>(0);
   const [playing, setPlaying] = useState<boolean>(false);
@@ -34,7 +34,7 @@ export const Audio = ({ og: { audios = [], images = [], description, title }, ha
   useEffect(() => {
     if (!audioReference.current || !playing) return;
 
-    intervalReference.current = setInterval(() => {
+    intervalReference.current = window.setInterval(() => {
       if (!audioReference.current) return;
 
       const { currentTime, duration } = audioReference.current;
