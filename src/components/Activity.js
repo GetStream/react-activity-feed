@@ -2,7 +2,7 @@ import React from 'react';
 
 import UserBar from './UserBar';
 import { Card } from './Card';
-import Audio from './Audio';
+import { Audio } from './Audio';
 import { Video } from './Video';
 import { FileIcon } from 'react-file-utils';
 import { Gallery } from './Gallery';
