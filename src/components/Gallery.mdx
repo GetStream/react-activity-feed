@@ -1,0 +1,42 @@
+---
+route: /components/gallery
+menu: UI Components
+---
+
+import { Playground, Props } from 'docz';
+import { Gallery } from './Gallery';
+
+# Gallery
+
+## Properties
+
+<Props of={Gallery} />
+
+## Basic usage
+
+<Playground>
+  <Gallery
+    images={[
+      'https://source.unsplash.com/random/800x600',
+      'https://source.unsplash.com/random/800x601',
+      'https://source.unsplash.com/random/800x603',
+      'https://source.unsplash.com/random/840x600',
+      'https://source.unsplash.com/random/820x600',
+      'https://source.unsplash.com/random/500x500',
+      'https://source.unsplash.com/random/300x300',
+      'https://source.unsplash.com/random/420x420',
+    ]}
+  />
+</Playground>
+
+## With single image
+
+<Playground>
+  <Gallery images={['https://source.unsplash.com/random/800x600']} />
+</Playground>
+
+## With two images
+
+<Playground>
+  <Gallery images={['https://source.unsplash.com/random/800x600', 'https://source.unsplash.com/random/800x601']} />
+</Playground>
