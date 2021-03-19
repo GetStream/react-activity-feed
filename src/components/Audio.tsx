@@ -51,7 +51,7 @@ export const Audio = ({ og: { audios = [], images = [], description, title }, ha
 
       if (!intervalReference.current) return;
 
-      clearInterval(intervalReference.current);
+      window.clearInterval(intervalReference.current);
 
       intervalReference.current = undefined;
     };
