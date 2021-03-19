@@ -21,8 +21,7 @@ yarn add react-activity-feed
 
 To find out how to use this library please look at:
 
-1. [The example
-   project](https://github.com/GetStream/react-activity-feed/tree/master/example)
+1. [The example project](https://github.com/GetStream/react-activity-feed/tree/master/example)
 2. The [component reference docs](https://getstream.github.io/react-activity-feed/)
 3. This basic example if you just want to see some code:
 
