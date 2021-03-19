@@ -16,8 +16,8 @@ export const Audio = ({ og: { audios = [], images = [], description, title }, ha
   const audioReference = useRef<HTMLAudioElement | null>(null);
   const intervalReference = useRef<number>();
 
-  const [progress, setProgress] = useState<number>(0);
-  const [playing, setPlaying] = useState<boolean>(false);
+  const [progress, setProgress] = useState(0);
+  const [playing, setPlaying] = useState(false);
 
   const handleProgressBarClick: MouseEventHandler<HTMLDivElement> = ({ currentTarget: target, clientX }) => {
     if (!audioReference.current) return;
