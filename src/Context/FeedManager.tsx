@@ -22,6 +22,8 @@ import {
   ReactionAPIResponse,
   ReactionAddChildOptions,
   ReactionFilterAPIResponse,
+  EnrichedReaction,
+  EnrichedReactionAPIResponse,
 } from 'getstream';
 
 import { generateRandomId } from '../utils';
@@ -71,9 +73,9 @@ export type FeedManagerState<
   CRT extends UR = UR
 > = {
   activities: immutable.Map<string, ResponseResult<UT, AT, CT, RT, CRT>>;
-  activityIdToPath: Record<string, string[]>;
+  activityIdToPath: Record<string, Array<string | number>>;
   // Used for finding reposted activities
-  activityIdToPaths: Record<string, string[][]>;
+  activityIdToPaths: Record<string, Array<Array<string | number>>>;
   activityOrder: string[];
   childReactionsBeingToggled: Record<string, Record<string, boolean>>;
   numSubscribers: number;
@@ -81,7 +83,7 @@ export type FeedManagerState<
   // of a reaction id to an activity id.
   reactionActivities: Record<string, string>;
   // Used for finding reposted activities
-  reactionIdToPaths: Record<string, string[][]>;
+  reactionIdToPaths: Record<string, Array<Array<string | number>>>;
   reactionsBeingToggled: Record<string, Record<string, boolean>>;
   realtimeAdds: RealTimeMessage<UT, AT>['new'];
   realtimeDeletes: string[];
@@ -443,7 +445,7 @@ export class FeedManager<
   _removeActivityFromState = (activityId: string) =>
     this.setState(({ activities, activityOrder, activityIdToPath, activityIdToPaths, reactionIdToPaths }) => {
       const path = this.getActivityPath(activityId);
-      let outerId: string | null = activityId;
+      let outerId: string | number | null = activityId;
       if (path.length > 1) {
         // It's an aggregated group we should update the paths of everything in
         // the list
@@ -466,9 +468,11 @@ export class FeedManager<
       } else {
         // Otherwise remove all things inside this activity from the path
         // objects
+        // @ts-expect-error
         activityIdToPaths = this.removeFoundActivityIdPaths(activities.get(activityId).toJS(), activityIdToPaths, [
           activityId,
         ]);
+        // @ts-expect-error
         reactionIdToPaths = this.removeFoundReactionIdPaths(activities.get(activityId).toJS(), reactionIdToPaths, [
           activityId,
         ]);
@@ -606,9 +610,10 @@ export class FeedManager<
 
   responseToActivityMap = (
     response: FeedAPIResponse<UT, AT, CT, RT, CRT>,
-  ): Record<string, ResponseResult<UT, AT, CT, RT, CRT>> =>
+  ): immutable.Map<string, ResponseResult<UT, AT, CT, RT, CRT>> =>
     immutable.fromJS(
-      response.results.reduce((map, a) => {
+      // @ts-expect-error
+      response.results.reduce((map: Record<string, ResponseResult>, a: ResponseResult) => {
         map[a.id] = a;
         return map;
       }, {}),
@@ -620,7 +625,7 @@ export class FeedManager<
     }
     const results = response.results as AggregatedActivityEnriched<UT, AT, CT, RT, CRT>[];
 
-    const map: Record<string, [string, string, number]> = {};
+    const map: Record<string, Array<string | number>> = {};
     for (const group of results) {
       group.activities.forEach((act, i) => {
         map[act.id] = [group.id, 'activities', i];
@@ -634,8 +639,8 @@ export class FeedManager<
     previous: FeedManagerState['activityIdToPaths'] = {},
   ) => {
     const map = previous;
-    const currentPath = [];
-    function addFoundActivities(obj) {
+    const currentPath: Array<string | number> = [];
+    function addFoundActivities(obj: ResponseResult | ResponseResult[]) {
       if (Array.isArray(obj)) {
         obj.forEach((v, i) => {
           currentPath.push(i);
@@ -643,6 +648,7 @@ export class FeedManager<
           currentPath.pop();
         });
       } else if (_isPlainObject(obj)) {
+        // @ts-expect-error
         if (obj.id && obj.actor && obj.verb && obj.object) {
           if (!map[obj.id]) {
             map[obj.id] = [];
@@ -651,6 +657,7 @@ export class FeedManager<
         }
         for (const k in obj) {
           currentPath.push(k);
+          // @ts-expect-error
           addFoundActivities(obj[k]);
           currentPath.pop();
         }
@@ -670,8 +677,8 @@ export class FeedManager<
     previous: FeedManagerState['reactionIdToPaths'] = {},
   ) => {
     const map = previous;
-    const currentPath = [];
-    function addFoundReactions(obj) {
+    const currentPath: Array<string | number> = [];
+    function addFoundReactions(obj: ResponseResult | ResponseResult[]) {
       if (Array.isArray(obj)) {
         obj.forEach((v, i) => {
           currentPath.push(i);
@@ -679,6 +686,7 @@ export class FeedManager<
           currentPath.pop();
         });
       } else if (_isPlainObject(obj)) {
+        // @ts-expect-error
         if (obj.id && obj.kind && obj.data) {
           if (!map[obj.id]) {
             map[obj.id] = [];
@@ -687,6 +695,7 @@ export class FeedManager<
         }
         for (const k in obj) {
           currentPath.push(k);
+          // @ts-expect-error
           addFoundReactions(obj[k]);
           currentPath.pop();
         }
@@ -704,12 +713,12 @@ export class FeedManager<
   reactionResponseToReactionIdToPaths = (
     response: ReactionFilterAPIResponse<RT, CRT, AT, UT>,
     previous: FeedManagerState['reactionIdToPaths'],
-    basePath: string[],
+    basePath: Array<string | number>,
     oldLength: number,
   ) => {
     const map = previous;
     const currentPath = [...basePath];
-    function addFoundReactions(obj) {
+    function addFoundReactions(obj: EnrichedReaction | EnrichedReaction[]) {
       if (Array.isArray(obj)) {
         obj.forEach((v, i) => {
           currentPath.push(i);
@@ -725,6 +734,7 @@ export class FeedManager<
         }
         for (const k in obj) {
           currentPath.push(k);
+          // @ts-expect-error
           addFoundReactions(obj[k]);
           currentPath.pop();
         }
@@ -733,17 +743,21 @@ export class FeedManager<
 
     for (const a of response.results) {
       currentPath.push(oldLength);
-      addFoundReactions(a);
+      addFoundReactions(a as EnrichedReactionAPIResponse);
       currentPath.pop();
       oldLength++;
     }
     return map;
   };
 
-  removeFoundReactionIdPaths = (data, previous, basePath) => {
+  removeFoundReactionIdPaths = (
+    data: EnrichedReaction | EnrichedReaction[],
+    previous: FeedManagerState['reactionIdToPaths'],
+    basePath: Array<string | number>,
+  ) => {
     const map = previous;
     const currentPath = [...basePath];
-    function removeFoundReactions(obj) {
+    function removeFoundReactions(obj: EnrichedReaction | EnrichedReaction[]) {
       if (Array.isArray(obj)) {
         obj.forEach((v, i) => {
           currentPath.push(i);
@@ -759,6 +773,7 @@ export class FeedManager<
         }
         for (const k in obj) {
           currentPath.push(k);
+          // @ts-expect-error
           removeFoundReactions(obj[k]);
           currentPath.pop();
         }
@@ -769,10 +784,14 @@ export class FeedManager<
     return map;
   };
 
-  removeFoundActivityIdPaths = (data, previous, basePath) => {
+  removeFoundActivityIdPaths = (
+    data: ResponseResult | ResponseResult[],
+    previous: FeedManagerState['activityIdToPaths'],
+    basePath: Array<string | number>,
+  ) => {
     const map = previous;
     const currentPath = [...basePath];
-    function addFoundActivities(obj) {
+    function addFoundActivities(obj: ResponseResult | ResponseResult[]) {
       if (Array.isArray(obj)) {
         obj.forEach((v, i) => {
           currentPath.push(i);
@@ -780,7 +799,7 @@ export class FeedManager<
           currentPath.pop();
         });
       } else if (_isPlainObject(obj)) {
-        if (obj.id && obj.actor && obj.verb && obj.object) {
+        if (obj.id && (obj as Activity).actor && obj.verb && (obj as Activity).object) {
           if (!map[obj.id]) {
             map[obj.id] = [];
           }
@@ -788,6 +807,7 @@ export class FeedManager<
         }
         for (const k in obj) {
           currentPath.push(k);
+          // @ts-expect-error
           addFoundActivities(obj[k]);
           currentPath.pop();
         }
@@ -798,7 +818,11 @@ export class FeedManager<
     return map;
   };
 
-  removeFoundActivityIdPath = (data, previous, basePath) => {
+  removeFoundActivityIdPath = (
+    data: ResponseResult[],
+    previous: FeedManagerState['activityIdToPath'],
+    basePath: Array<string | number>,
+  ) => {
     const map = previous;
     const currentPath = [...basePath];
     data.forEach((obj, i) => {
@@ -811,10 +835,14 @@ export class FeedManager<
     return map;
   };
 
-  addFoundReactionIdPaths = (data, previous, basePath) => {
+  addFoundReactionIdPaths = (
+    data: EnrichedReaction | EnrichedReaction[],
+    previous: FeedManagerState['reactionIdToPaths'],
+    basePath: Array<string | number>,
+  ) => {
     const map = previous;
     const currentPath = [...basePath];
-    function addFoundReactions(obj) {
+    function addFoundReactions(obj: EnrichedReaction | EnrichedReaction[]) {
       if (Array.isArray(obj)) {
         obj.forEach((v, i) => {
           currentPath.push(i);
@@ -830,6 +858,7 @@ export class FeedManager<
         }
         for (const k in obj) {
           currentPath.push(k);
+          // @ts-expect-error
           addFoundReactions(obj[k]);
           currentPath.pop();
         }
@@ -840,10 +869,14 @@ export class FeedManager<
     return map;
   };
 
-  addFoundActivityIdPaths = (data, previous, basePath) => {
+  addFoundActivityIdPaths = (
+    data: ResponseResult | ResponseResult[],
+    previous: FeedManagerState['activityIdToPaths'],
+    basePath: Array<string | number>,
+  ) => {
     const map = previous;
     const currentPath = [...basePath];
-    function addFoundActivities(obj) {
+    function addFoundActivities(obj: ResponseResult | ResponseResult[]) {
       if (Array.isArray(obj)) {
         obj.forEach((v, i) => {
           currentPath.push(i);
@@ -851,7 +884,7 @@ export class FeedManager<
           currentPath.pop();
         });
       } else if (_isPlainObject(obj)) {
-        if (obj.id && obj.actor && obj.verb && obj.object) {
+        if (obj.id && (obj as Activity).actor && obj.verb && (obj as Activity).object) {
           if (!map[obj.id]) {
             map[obj.id] = [];
           }
@@ -859,6 +892,7 @@ export class FeedManager<
         }
         for (const k in obj) {
           currentPath.push(k);
+          // @ts-expect-error
           addFoundActivities(obj[k]);
           currentPath.pop();
         }
@@ -868,7 +902,11 @@ export class FeedManager<
     return map;
   };
 
-  addFoundActivityIdPath = (data, previous, basePath) => {
+  addFoundActivityIdPath = (
+    data: ResponseResult[],
+    previous: FeedManagerState['activityIdToPath'],
+    basePath: Array<string | number>,
+  ) => {
     const map = previous;
     data.forEach((obj, i) => {
       map[obj.id] = [...basePath, i];
@@ -1121,7 +1159,12 @@ export class FeedManager<
     });
   };
 
-  loadNextReactions = async (activityId: string, kind: string, activityPath?: string[], oldestToNewest?: boolean) => {
+  loadNextReactions = async (
+    activityId: string,
+    kind: string,
+    activityPath?: Array<string | number>,
+    oldestToNewest?: boolean,
+  ) => {
     let options: { activity_id: string; kind: string; id_gt?: string } = { activity_id: activityId, kind };
 
     let orderPrefix = 'latest';
