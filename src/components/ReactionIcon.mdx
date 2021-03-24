@@ -1,0 +1,40 @@
+---
+route: /components/reaction-icon
+menu: UI Components
+---
+
+import { Playground, Props } from 'docz';
+import { ReactionIcon } from './ReactionIcon';
+import { ThumbsUpIcon } from './Icons';
+
+# ReactionIcon
+
+## Properties
+
+<Props of={ReactionIcon} />
+
+## Basic usage
+
+<Playground>
+  <ReactionIcon
+    icon={<ThumbsUpIcon />}
+    counts={{
+      like: 12,
+    }}
+    kind="like"
+    labelPlural="thumbs"
+    labelSingle="thumb"
+  />
+</Playground>
+
+## URL icon
+
+<Playground>
+  <ReactionIcon
+    icon="https://pics.freeicons.io/uploads/icons/png/4781616661579237635-24.png"
+    counts={{
+      repost: 5,
+    }}
+    kind="repost"
+  />
+</Playground>
