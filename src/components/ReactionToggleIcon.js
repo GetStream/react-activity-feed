@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactionIcon from './ReactionIcon';
+import { ReactionIcon } from './ReactionIcon';
 
 /**
  * A generic component that can be used to toggle a reaction and display it's

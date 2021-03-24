@@ -5,7 +5,7 @@ import { DataLabel } from './DataLabel';
 import { Avatar } from './Avatar';
 import { Title } from './Title';
 import ReactionToggleIcon from './ReactionToggleIcon';
-import ReactionIcon from './ReactionIcon';
+import { ReactionIcon } from './ReactionIcon';
 import { Link } from './Link';
 
 import { smartRender } from '../utils';
