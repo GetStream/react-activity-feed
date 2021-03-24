@@ -21,7 +21,7 @@ export { default as UserBar } from './components/UserBar';
 export * from './components/Card';
 export * from './components/Gallery';
 export * from './components/Avatar';
-export { default as AvatarGroup } from './components/AvatarGroup';
+export * from './components/AvatarGroup';
 export * from './components/Dropdown';
 export * from './components/Link';
 export { default as Video } from './components/Video';

@@ -1,24 +1,34 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import { render, fireEvent } from '@testing-library/react';
-// import { UserAPIResponse } from 'getstream';
+import { EnrichedUser } from 'getstream';
 
+import { DefaultUT } from '../Context/StreamApp';
 import { AvatarGroup } from './AvatarGroup';
 
-const users = [
+const users: Array<EnrichedUser<DefaultUT>> = [
   {
+    id: '1',
+    created_at: '',
+    updated_at: '',
     data: {
       name: 'Jaap Bakker',
       profileImage: 'https://randomuser.me/api/portraits/men/1.jpg',
     },
   },
   {
+    id: '2',
+    created_at: '',
+    updated_at: '',
     data: {
       name: 'Sloan Humfrey',
       profileImage: 'https://randomuser.me/api/portraits/women/1.jpg',
     },
   },
   {
+    id: '3',
+    created_at: '',
+    updated_at: '',
     data: {
       name: 'James Dean',
       profileImage: 'https://randomuser.me/api/portraits/men/3.jpg',
