@@ -24,7 +24,7 @@ export * from './components/Avatar';
 export * from './components/AvatarGroup';
 export * from './components/Dropdown';
 export * from './components/Link';
-export { default as Video } from './components/Video';
+export * from './components/Video';
 export { default as Audio } from './components/Audio';
 
 // Icons

@@ -1,0 +1,70 @@
+---
+route: /components/video
+menu: UI Components
+---
+
+import { Playground, Props } from 'docz';
+import { Video } from './Video';
+
+# Video
+
+## Properties
+
+<Props of={Video} />
+
+## Basic usage
+
+<Playground>
+  <Video
+    og={{
+      site_name: 'YouTube',
+      videos: [
+        {
+          type: 'text/html',
+          video: 'https://www.youtube.com/watch?v=IVkOFxrKRjA',
+          width: 596,
+          height: 335,
+        },
+      ],
+    }}
+  />
+</Playground>
+
+## MP4 video
+
+<Playground>
+  <Video
+    og={{
+      site_name: 'gfycat',
+      title: 'Video title',
+      description: 'Video description',
+      url: 'https://gfycat.com/impeccableclearcutduck-aurelia-kaeslin-horserescue-sanctuary',
+      videos: [
+        {
+          type: 'video/mp4',
+          video: 'https://giant.gfycat.com/ImpeccableClearcutDuck.mp4',
+        },
+      ],
+      images: [{ image: 'https://thumbs.gfycat.com/ImpeccableClearcutDuck-mobile.jpg' }],
+    }}
+  />
+</Playground>
+
+## MP4 video as GIF
+
+<Playground>
+  <Video
+    og={{
+      site_name: 'imgur',
+      title: 'Video title',
+      description: 'Video description',
+      url: 'https://imgur.com/gallery/hkj7IZQ',
+      videos: [
+        {
+          type: 'video/mp4',
+          video: 'https://i.imgur.com/pi2FUNN.mp4',
+        },
+      ],
+    }}
+  />
+</Playground>
