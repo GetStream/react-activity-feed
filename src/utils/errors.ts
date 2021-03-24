@@ -20,6 +20,7 @@ type ErrorDetail = UR & {
   activityId?: string;
   feedGroup?: string;
   kind?: string;
+  options?: UR;
   reaction?: UR;
   userId?: string;
 };
