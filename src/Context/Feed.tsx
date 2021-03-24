@@ -24,35 +24,36 @@ export type FeedContextValue<
   CRT extends UR = UR,
   PT extends UR = UR
 > = {
-  activities: FeedManager<UT, AT, CT, RT, CRT, PT>['state']['activities'];
-  activityOrder: FeedManager<UT, AT, CT, RT, CRT, PT>['state']['activityOrder'];
   feedGroup: string;
   feedManager: FeedManager<UT, AT, CT, RT, CRT, PT>;
-  getActivityPath: FeedManager<UT, AT, CT, RT, CRT, PT>['getActivityPath'];
   hasDoneRequest: boolean;
   hasNextPage: boolean;
   hasReverseNextPage: boolean;
-  loadNextPage: FeedManager<UT, AT, CT, RT, CRT, PT>['loadNextPage'];
-  loadNextReactions: FeedManager<UT, AT, CT, RT, CRT, PT>['loadNextReactions'];
-  loadReverseNextPage: FeedManager<UT, AT, CT, RT, CRT, PT>['loadReverseNextPage'];
-  onAddChildReaction: FeedManager<UT, AT, CT, RT, CRT, PT>['onAddChildReaction'];
-  onAddReaction: FeedManager<UT, AT, CT, RT, CRT, PT>['onAddReaction'];
-  onMarkAsRead: FeedManager<UT, AT, CT, RT, CRT, PT>['onMarkAsRead'];
-  onMarkAsSeen: FeedManager<UT, AT, CT, RT, CRT, PT>['onMarkAsSeen'];
-  onRemoveActivity: FeedManager<UT, AT, CT, RT, CRT, PT>['onRemoveActivity'];
-  onRemoveChildReaction: FeedManager<UT, AT, CT, RT, CRT, PT>['onRemoveChildReaction'];
-  onRemoveReaction: FeedManager<UT, AT, CT, RT, CRT, PT>['onRemoveReaction'];
-  onToggleChildReaction: FeedManager<UT, AT, CT, RT, CRT, PT>['onToggleChildReaction'];
-  onToggleReaction: FeedManager<UT, AT, CT, RT, CRT, PT>['onToggleReaction'];
-  realtimeAdds: FeedManager<UT, AT, CT, RT, CRT, PT>['state']['realtimeAdds'];
-  realtimeDeletes: FeedManager<UT, AT, CT, RT, CRT, PT>['state']['realtimeDeletes'];
-  refresh: FeedManager<UT, AT, CT, RT, CRT, PT>['refresh'];
-  refreshing: boolean;
-  refreshUnreadUnseen: FeedManager<UT, AT, CT, RT, CRT, PT>['refreshUnreadUnseen'];
-  unread: number;
-  unseen: number;
   userId?: string;
-};
+} & Pick<
+  FeedManager<UT, AT, CT, RT, CRT, PT>,
+  | 'loadNextPage'
+  | 'loadNextReactions'
+  | 'loadReverseNextPage'
+  | 'onAddChildReaction'
+  | 'onAddReaction'
+  | 'onMarkAsRead'
+  | 'onMarkAsSeen'
+  | 'onRemoveActivity'
+  | 'onRemoveChildReaction'
+  | 'onRemoveReaction'
+  | 'onToggleChildReaction'
+  | 'onToggleReaction'
+  | 'getActivityPath'
+  | 'refresh'
+  | 'refreshUnreadUnseen'
+> &
+  Pick<
+    FeedManager<UT, AT, CT, RT, CRT, PT>['state'],
+    'activities' | 'activityOrder' | 'realtimeAdds' | 'realtimeDeletes' | 'refreshing' | 'unread' | 'unseen'
+  >;
+
+type DeleteRequestFn = (id: string) => Promise<void | unknown>;
 
 export type FeedProps<
   UT extends DefaultUT = DefaultUT,
@@ -70,7 +71,7 @@ export type FeedProps<
   /** Override activity delete request */
   /* Components to display in the feed */
   children?: React.ReactNode;
-  doActivityDeleteRequest?: (id: string) => Promise<void | unknown>;
+  doActivityDeleteRequest?: DeleteRequestFn;
   /** Override child reaction add request */
   doChildReactionAddRequest?: (
     kind: string,
@@ -79,7 +80,7 @@ export type FeedProps<
     options?: ReactionAddChildOptions,
   ) => Promise<ReactionAPIResponse<CRT>>;
   /** Override child reaction delete request */
-  doChildReactionDeleteRequest?: (id: string) => Promise<void | unknown>;
+  doChildReactionDeleteRequest?: DeleteRequestFn;
   /** The feed read handler (change only for advanced/complex use-cases) */
   doFeedRequest?: (
     client: StreamClient<UT, AT, CT, RT, CRT, PT>,
@@ -95,7 +96,7 @@ export type FeedProps<
     options?: ReactionAddOptions,
   ) => ReactionAPIResponse<RT>;
   /** Override reaction delete request */
-  doReactionDeleteRequest?: (id: string) => Promise<void | unknown>;
+  doReactionDeleteRequest?: DeleteRequestFn;
   /** Override reactions filter request */
   doReactionsFilterRequest?: (options: ReactionFilterConditions) => Promise<ReactionFilterAPIResponse<RT, CRT, AT, UT>>;
   /** If true, feed shows the Notifier component when new activities are added */
@@ -121,7 +122,7 @@ export const FeedProvider = <
   value,
 }: PropsWithChildren<{
   value: FeedContextValue<UT, AT, CT, RT, CRT, PT>;
-}>) => <FeedContext.Provider value={value as FeedContextValue}>{children}</FeedContext.Provider>;
+}>) => <FeedContext.Provider value={value}>{children}</FeedContext.Provider>;
 
 export const useFeedContext = <
   UT extends DefaultUT = DefaultUT,
@@ -149,7 +150,7 @@ export function Feed<
     PT
   >();
   const { feedGroup, userId, children } = props;
-  const [_, setForceUpdateState] = useState(0); // eslint-disable-line @typescript-eslint/no-unused-vars
+  const [, setForceUpdateState] = useState(0);
 
   const manager = useMemo(() => {
     if (!client) return null;
