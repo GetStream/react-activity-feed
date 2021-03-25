@@ -69,7 +69,7 @@ export const Audio = ({ og: { audios = [], images = [], description, title }, ha
         </audio>
         <div className="raf-audio__image">
           <div className="raf-audio__image--overlay">
-            <div onClick={() => setPlaying((pv) => !pv)} className="raf-audio__image--button">
+            <div role="button" onClick={() => setPlaying((pv) => !pv)} className="raf-audio__image--button">
               <FontAwesomeIcon icon={playing ? faPauseCircle : faPlayCircle} />
             </div>
           </div>
