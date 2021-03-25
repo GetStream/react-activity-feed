@@ -1,6 +1,6 @@
 import React from 'react';
 // import ReactionIcon from './ReactionIcon';
-import LikeButton from './LikeButton';
+import { LikeButton } from './LikeButton';
 import RepostButton from './RepostButton';
 import { Flex } from './Flex';
 
