@@ -87,6 +87,13 @@ describe('Audio', () => {
             </span>
             <div
               className="raf-audio__content--progress"
+              onClick={[Function]}
+              role="progressbar"
+              style={
+                Object {
+                  "cursor": "pointer",
+                }
+              }
             >
               <div
                 style={
