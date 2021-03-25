@@ -25,7 +25,7 @@ export * from './components/AvatarGroup';
 export * from './components/Dropdown';
 export * from './components/Link';
 export * from './components/Video';
-export { default as Audio } from './components/Audio';
+export * from './components/Audio';
 
 // Icons
 export { default as LikeButton } from './components/LikeButton';

@@ -11,12 +11,12 @@
 
   &__image {
     height: 80px;
-    width: 80px;
+    min-width: 80px;
     position: relative;
     z-index: $z2;
 
     &--overlay {
-      width: inherit;
+      width: 100%;
       height: inherit;
       position: absolute;
       top: 0;
@@ -55,7 +55,7 @@
     flex-direction: column;
     justify-content: space-around;
     padding: 8px 16px;
-    width: 100%;
+    width: calc(100% - 80px);
 
     &--title {
       color: $fontColor;
@@ -86,7 +86,7 @@
         border-radius: 4px;
         width: 0%;
         background: $primary;
-        transition: width 0.5s linear;
+        transition: width 0.1s linear;
       }
     }
   }

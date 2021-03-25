@@ -118,7 +118,6 @@
   "dependencies": {
     "@babel/runtime": "^7.13.10",
     "@types/linkifyjs": "^2.1.3",
-    "@types/react-file-utils": "^0.3.0",
     "@types/react-images": "^0.5.3",
     "@types/url-parse": "^1.4.3",
     "@webscopeio/react-textarea-autocomplete": "^4.7.3",
@@ -129,7 +128,7 @@
     "immutable": "^4.0.0-rc.12",
     "linkifyjs": "^2.1.9",
     "lodash": "^4.17.21",
-    "react-file-utils": "^0.4.0",
+    "react-file-utils": "^1.0.1",
     "react-images": "^0.5.19",
     "stream-analytics": "^3.4.2",
     "url-parse": "^1.5.1"
