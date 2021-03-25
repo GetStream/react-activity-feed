@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { EnrichedActivity, EnrichedReaction, UR, Activity } from 'getstream';
+import { EnrichedActivity, EnrichedReaction, UR, Activity, Reaction } from 'getstream';
 
 import { FeedManager } from '../Context/FeedManager';
 import { DefaultAT, DefaultUT } from '../Context/StreamApp';
@@ -12,9 +12,18 @@ export type LikeButtonProps<
   RT extends UR = UR,
   CRT extends UR = UR
 > = {
+  /** The activity received from stream that should be liked when pressing the
+   * LikeButton. */
   activity: EnrichedActivity<AT, UT>;
-  reaction: EnrichedReaction<RT, CRT, UT>;
-} & Partial<Pick<FeedManager<UT, AT>, 'onToggleChildReaction' | 'onToggleReaction'>>;
+  /** The function that toggles reactions on activities. */
+  onToggleReaction: FeedManager<UT, AT, UR, RT, CRT>['onToggleReaction'];
+  /** The function that toggles reactions on reactions. */
+  onToggleChildReaction?: FeedManager<UT, AT, UR, RT, CRT>['onToggleChildReaction'];
+  /** The reaction received from stream that should be liked when pressing the
+   * LikeButton. Liking a reaction requires to pass both this field and
+   * the `onToggleChildReaction` as well. */
+  reaction?: EnrichedReaction<RT, CRT, UT>;
+};
 
 export const LikeButton = <
   UT extends DefaultUT = DefaultUT,
@@ -45,9 +54,10 @@ export const LikeButton = <
       own_reactions={ownReactions}
       kind="like"
       onPress={() => {
-        if (reaction && onToggleChildReaction) return onToggleChildReaction('like', reaction, {});
+        if (reaction && onToggleChildReaction)
+          return onToggleChildReaction('like', reaction as Reaction<RT>, {} as CRT);
 
-        return onToggleReaction?.('like', activity as Activity<AT>, {});
+        return onToggleReaction('like', activity as Activity<AT>, {} as RT);
       }}
       activeIcon={<ThumbsUpIcon style={{ color: Color.Active }} />}
       inactiveIcon={<ThumbsUpIcon style={{ color: Color.Inactive }} />}
