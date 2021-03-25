@@ -44,10 +44,11 @@ describe('Gallery', () => {
         <div
           className="img "
           onClick={[Function]}
+          role="button"
         >
           <img
             alt=""
-            className="raf-gallery__image "
+            className="raf-gallery__image"
             src="https://source.unsplash.com/random/800x600"
           />
         </div>
@@ -64,30 +65,33 @@ describe('Gallery', () => {
         <div
           className="img "
           onClick={[Function]}
+          role="button"
         >
           <img
             alt=""
-            className="raf-gallery__image "
+            className="raf-gallery__image"
             src="https://source.unsplash.com/random/800x600"
           />
         </div>
         <div
           className="img "
           onClick={[Function]}
+          role="button"
         >
           <img
             alt=""
-            className="raf-gallery__image "
+            className="raf-gallery__image"
             src="https://source.unsplash.com/random/800x601"
           />
         </div>
         <div
           className="img "
           onClick={[Function]}
+          role="button"
         >
           <img
             alt=""
-            className="raf-gallery__image "
+            className="raf-gallery__image"
             src="https://source.unsplash.com/random/800x603"
           />
         </div>
@@ -106,10 +110,11 @@ describe('Gallery', () => {
       >
         <div
           class="img "
+          role="button"
         >
           <img
             alt=""
-            class="raf-gallery__image "
+            class="raf-gallery__image"
             src="https://source.unsplash.com/random/800x600"
           />
         </div>
@@ -130,10 +135,11 @@ describe('Gallery', () => {
       >
         <div
           class="img "
+          role="button"
         >
           <img
             alt=""
-            class="raf-gallery__image "
+            class="raf-gallery__image"
             src="https://source.unsplash.com/random/800x600"
           />
         </div>
