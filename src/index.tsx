@@ -28,7 +28,7 @@ export * from './components/Video';
 export * from './components/Audio';
 
 // Icons
-export { default as LikeButton } from './components/LikeButton';
+export * from './components/LikeButton';
 export { default as RepostButton } from './components/RepostButton';
 export * from './components/ReactionIcon';
 export { default as ReactionToggleIcon } from './components/ReactionToggleIcon';

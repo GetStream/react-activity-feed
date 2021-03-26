@@ -1,0 +1,34 @@
+---
+route: /components/like-button
+menu: UI Components
+---
+
+import { Playground, Props } from 'docz';
+import { LikeButton } from './LikeButton';
+
+# LikeButton
+
+## Properties
+
+<Props of={LikeButton} />
+
+## Basic usage
+
+<Playground>
+  <LikeButton
+    activity={{
+      own_reactions: {
+        like: [{}],
+      },
+      name: '',
+      actor: '',
+      foreign_id: '',
+      id: '',
+      object: {},
+      verb: '',
+      time: '',
+      reaction_counts: { like: 7 },
+    }}
+    onToggleReaction={async (...properties) => await console.log(properties)}
+  />
+</Playground>
