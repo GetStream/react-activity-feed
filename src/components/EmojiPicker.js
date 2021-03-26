@@ -8,7 +8,7 @@ import { withTranslationContext } from '../Context';
  *
  * @example ./examples/EmojiPicker.md
  */
-class EmojiPicker extends React.Component {
+class EmojiPickerInner extends React.Component {
   emojiPicker = React.createRef();
   state = {
     open: false,
@@ -41,7 +41,7 @@ class EmojiPicker extends React.Component {
       <div className="raf-emoji-picker">
         {' '}
         {this.state.open && (
-          <div className="raf-emoji-picker__container" ref={this.emojiPicker}>
+          <div data-testid="picker-wrapper" className="raf-emoji-picker__container" ref={this.emojiPicker}>
             <Picker emoji="point_up" title={t('Pick your emoji')} onSelect={this.props.onSelect} />
           </div>
         )}
@@ -59,4 +59,8 @@ class EmojiPicker extends React.Component {
   }
 }
 
-export default withTranslationContext(EmojiPicker);
+const EmojiPicker = withTranslationContext(EmojiPickerInner);
+
+export default EmojiPicker;
+
+export { EmojiPicker };
