@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
 import Dayjs from 'dayjs';
+import moment from 'moment';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 Dayjs.extend(relativeTime);
@@ -97,6 +98,10 @@ describe('utils', () => {
 
     it('with dayjs time', () => {
       expect(humanizeTimestamp(Dayjs().utc(), Dayjs)).toEqual('a few seconds ago');
+    });
+
+    it('with moment time', () => {
+      expect(humanizeTimestamp<moment.Moment>(moment().utc(), moment)).toEqual('a few seconds ago');
     });
   });
 });
