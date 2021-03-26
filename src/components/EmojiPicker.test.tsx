@@ -1,22 +1,17 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { cleanup, fireEvent, render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import { EmojiPicker } from './EmojiPicker';
 
 describe('EmojiPicker', () => {
-  afterEach(() => {
-    cleanup();
-  });
-
   it('renders correctly with default props', () => {
     const tree = renderer.create(<EmojiPicker />).toJSON();
     expect(tree).toMatchInlineSnapshot(`
       <div
         className="raf-emoji-picker"
       >
-         
         <div
           className="raf-emoji-picker__button"
           onClick={[Function]}
@@ -47,7 +42,7 @@ describe('EmojiPicker', () => {
     fireEvent.click(getByRole('button'));
     expect(queryByTestId('picker-wrapper')).toBeInTheDocument();
 
-    fireEvent.click(container);
+    fireEvent.mouseDown(container);
     expect(queryByTestId('picker-wrapper')).not.toBeInTheDocument();
   });
 });
