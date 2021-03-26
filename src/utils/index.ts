@@ -1,6 +1,7 @@
 import React from 'react';
 import URL from 'url-parse';
 import Dayjs from 'dayjs';
+import moment from 'moment';
 import utc from 'dayjs/plugin/utc';
 import minMax from 'dayjs/plugin/minMax';
 import { EnrichedUser, UR } from 'getstream';
@@ -11,21 +12,22 @@ Dayjs.extend(minMax);
 
 // import type { UserResponse } from 'getstream';
 
-export function humanizeTimestamp(timestamp: string | Dayjs.Dayjs, tDateTimeParser: TDateTimeParser) {
-  let time;
+export function humanizeTimestamp<T extends Dayjs.Dayjs | moment.Moment = Dayjs.Dayjs>(
+  timestamp: string | (T extends Dayjs.Dayjs ? Dayjs.Dayjs : moment.Moment),
+  tDateTimeParser: TDateTimeParser<T>,
+) {
+  const timestampInstance = tDateTimeParser(timestamp);
   // Following calculation is based on assumption that tDateTimeParser()
   // either returns momentjs or dayjs object.
 
   // When timestamp doesn't have z at the end, we are supposed to take it as UTC time.
   // Ideally we need to adhere to RFC3339. Unfortunately this needs to be fixed on backend.
-  if (typeof timestamp === 'string' && timestamp[timestamp.length - 1].toLowerCase() === 'z') {
-    time = tDateTimeParser(timestamp);
-  } else {
-    time = tDateTimeParser(timestamp).add(Dayjs(timestamp).utcOffset(), 'minute'); // parse time as UTC
-  }
+  const time =
+    typeof timestamp === 'string' && timestamp[timestamp.length - 1].toLowerCase() === 'z'
+      ? timestampInstance
+      : timestampInstance.add(timestampInstance.utcOffset(), 'minute'); // parse time as UTC
 
-  const now = tDateTimeParser();
-  return time.from(now);
+  return time.fromNow();
 }
 
 type ErrorUser = { error: string };

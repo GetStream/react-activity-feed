@@ -1,5 +1,6 @@
 import i18n, { TFunction } from 'i18next';
 import Dayjs from 'dayjs';
+import moment from 'moment';
 import calendar from 'dayjs/plugin/calendar';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
@@ -161,7 +162,9 @@ const defaultStreami18nOptions = {
   DateTimeParser: Dayjs,
 };
 
-export type TDateTimeParser = (input?: string | Date | Dayjs.Dayjs) => Dayjs.Dayjs;
+export type TDateTimeParser<T extends Dayjs.Dayjs | moment.Moment = Dayjs.Dayjs> = (
+  input?: string | Date | (T extends Dayjs.Dayjs ? Dayjs.Dayjs : moment.Moment),
+) => T extends Dayjs.Dayjs ? Dayjs.Dayjs : moment.Moment;
 
 export type LanguageCallbackFn = (t: TFunction) => void;
 
