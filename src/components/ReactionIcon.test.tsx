@@ -130,7 +130,7 @@ describe('ReactionIcon', () => {
         <p
           className="raf-reaction-icon__label"
         >
-          {{ count }} likes
+          {{ countLikes }} likes
         </p>
       </div>
     `);
