@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { EmojiData, Picker } from 'emoji-mart';
 
 import { useTranslationContext } from '../Context';
@@ -12,10 +12,9 @@ export type EmojiPickerType = {
 export const EmojiPicker = ({ onSelect }: EmojiPickerType) => {
   const { t } = useTranslationContext();
   const [open, setOpen] = useState(false);
-  const emojiPicker = useRef<HTMLDivElement | null>(null);
+  const emojiPicker = useRef<HTMLDivElement>(null);
 
-  const closeMenu = useCallback(() => setOpen(false), []);
-  useOnClickOutside(emojiPicker, closeMenu);
+  useOnClickOutside(emojiPicker, () => setOpen(false), open);
 
   return (
     <div className="raf-emoji-picker">
