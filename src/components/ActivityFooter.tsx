@@ -1,29 +1,43 @@
 import React from 'react';
-import { EnrichedActivity, UR } from 'getstream';
+import { EnrichedActivity } from 'getstream';
 
-import LikeButton from './LikeButton';
+import { LikeButton } from './LikeButton';
 import RepostButton from './RepostButton';
 import { Flex } from './Flex';
-import { DefaultAT } from '../Context/StreamApp';
+import { DefaultAT, DefaultUT } from '../Context/StreamApp';
+import { FeedManager } from '../Context/FeedManager';
 
-type ActivityFooterProps<AT extends DefaultAT = DefaultAT> = {
-  activity: EnrichedActivity<UR, AT>;
-  feedGroup?: string;
-  onToggleReaction?: () => void;
+export type ActivityFooterProps<UT extends DefaultUT = DefaultUT, AT extends DefaultAT = DefaultAT> = {
+  /** The activity received for stream for which to show the like buton. This is
+   * used to initalize the toggle state and the counter. */
+  activity: EnrichedActivity<UT, AT>;
+  /** The feed group part of the feed that the activity should be reposted to
+   * when pressing the RepostButton, e.g. `user` when posting to your own
+   * profile */
+  feedGroup: string;
+  /** The function that toggles  reaction. */
+  onToggleReaction: FeedManager<UT, AT>['onToggleReaction'];
+  /** The user_id part of the feed that the activity should be reposted to when
+   * pressing the RepostButton */
+  userId?: string;
 };
 
-export function ActivityFooter<AT extends DefaultAT = DefaultAT>(props: ActivityFooterProps<AT>) {
-  const { activity, onToggleReaction } = props;
-
+export const ActivityFooter = <UT extends DefaultUT = DefaultUT, AT extends DefaultAT = DefaultAT>(
+  props: ActivityFooterProps<UT, AT>,
+) => {
   return (
     <div className="raf-activity-footer">
       <div className="raf-activity-footer__left" />
       <div className="raf-activity-footer__right">
         <Flex a="center">
-          <LikeButton activity={activity} onToggleReaction={onToggleReaction} />
+          <LikeButton activity={props.activity} onToggleReaction={props.onToggleReaction} />
           <RepostButton {...props} />
         </Flex>
       </div>
     </div>
   );
-}
+};
+
+ActivityFooter.defaultProps = {
+  feedGroup: 'user',
+};

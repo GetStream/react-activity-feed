@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { EnrichedActivity, EnrichedReaction, UR, Activity, Reaction } from 'getstream';
+import { EnrichedActivity, EnrichedReaction, UR, Reaction } from 'getstream';
 
 import { FeedManager } from '../Context/FeedManager';
 import { DefaultAT, DefaultUT } from '../Context/StreamApp';
@@ -57,7 +57,7 @@ export const LikeButton = <
         if (reaction && onToggleChildReaction)
           return onToggleChildReaction('like', reaction as Reaction<RT>, {} as CRT);
 
-        return onToggleReaction('like', activity as Activity<AT>, {} as RT);
+        return onToggleReaction('like', activity, {} as RT);
       }}
       activeIcon={<ThumbsUpIcon style={{ color: Color.Active }} />}
       inactiveIcon={<ThumbsUpIcon style={{ color: Color.Inactive }} />}
