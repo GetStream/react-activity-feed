@@ -47,7 +47,7 @@ export * from './components/DataLabel';
 
 // StatusUpdateForm sub components
 export { default as Textarea } from './components/Textarea';
-export { default as EmojiPicker } from './components/EmojiPicker';
+export * from './components/EmojiPicker';
 export * from './components/Title';
 export * from './components/Panel';
 

@@ -6,7 +6,7 @@ import { Avatar } from './Avatar';
 import { Card } from './Card';
 import { Audio } from './Audio';
 import { Video } from './Video';
-import EmojiPicker from './EmojiPicker';
+import { EmojiPicker } from './EmojiPicker';
 import {
   ImageUploadButton,
   FileUploadButton,
