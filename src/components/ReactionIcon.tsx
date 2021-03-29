@@ -23,7 +23,7 @@ export const ReactionIcon = ({ counts, kind, icon, labelPlural, labelSingle, onP
 
     if (kind !== 'comment' && kind !== 'repost' && kind !== 'like') return;
 
-    // for future maintainers: this atrosity right here is intentional
+    // for future maintainers: this atrocity right here is intentional
     // and it is writen this way to allow i18next-extract evaluate keys
     // for extraction, there's no other reason
     switch (kind) {
