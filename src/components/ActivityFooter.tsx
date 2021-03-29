@@ -12,8 +12,8 @@ export type ActivityFooterProps<UT extends DefaultUT = DefaultUT, AT extends Def
    * used to initalize the toggle state and the counter. */
   activity: EnrichedActivity<UT, AT>;
   /** The feed group part of the feed that the activity should be reposted to
-   * when pressing the RepostButton, e.g. `user` when posting to your own
-   * profile */
+   * when pressing the RepostButton, e.g. `user` when posting to your own profile
+   * defaults to 'user' feed */
   feedGroup: string;
   /** The function that toggles  reaction. */
   onToggleReaction: FeedManager<UT, AT>['onToggleReaction'];
