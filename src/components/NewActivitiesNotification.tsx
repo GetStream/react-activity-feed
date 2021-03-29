@@ -50,11 +50,11 @@ export const NewActivitiesNotification = ({
       if (addCount > 1)
         return labelPlural
           ? generateText(addCount, labelPlural)
-          : t(generateText('{{ notificationCount }}', 'notifications'), {
+          : t('You have {{ notificationCount }} new notifications', {
               notificationCount: addCount,
             });
 
-      return labelSingle ? generateText(1, labelSingle) : t(generateText(1, 'notification'));
+      return labelSingle ? generateText(1, labelSingle) : t('You have 1 new notification');
     });
 
   const label = defaultLabelFunction(attributes);
