@@ -6,7 +6,6 @@ import json from '@rollup/plugin-json';
 import copy from 'rollup-plugin-copy';
 import resolve from '@rollup/plugin-node-resolve';
 import globals from 'rollup-plugin-node-globals';
-import typescript from '@rollup/plugin-typescript';
 import scss from 'rollup-plugin-scss';
 import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
@@ -33,6 +32,8 @@ const styleBundle = (watch = false) => ({
     }),
   ],
 });
+
+const extensions = ['.js', '.jsx', '.ts', '.tsx'];
 
 const baseConfig = {
   input: 'src/index.tsx',
@@ -72,12 +73,11 @@ const normalBundle = {
     'url-parse',
   ],
   plugins: [
-    resolve({ browser: true }),
+    resolve({ browser: true, extensions }),
     commonjs({ include: /node_modules/ }),
     json(),
-    typescript(),
     external(),
-    babel({ babelHelpers: 'runtime', exclude: 'node_modules/**' }),
+    babel({ babelHelpers: 'runtime', exclude: 'node_modules/**', extensions }),
     copy({ targets: [{ src: 'src/i18n/*.json', dest: 'dist/i18n' }] }),
   ],
 };
@@ -98,11 +98,10 @@ const fullBrowserBundle = {
     },
   ],
   plugins: [
-    resolve({ browser: true }),
+    resolve({ browser: true, extensions }),
     commonjs({ include: /node_modules/ }),
     external(),
-    typescript(),
-    babel({ babelHelpers: 'runtime', exclude: 'node_modules/**' }),
+    babel({ babelHelpers: 'runtime', exclude: 'node_modules/**', extensions }),
     json(),
     globals({ process: true }),
   ],
