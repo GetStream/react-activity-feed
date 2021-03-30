@@ -14,7 +14,7 @@ export type LikeButtonProps<
 > = {
   /** The activity received from stream that should be liked when pressing the
    * LikeButton. */
-  activity: EnrichedActivity<AT, UT>;
+  activity: EnrichedActivity<UT, AT>;
   /** The function that toggles reactions on activities. */
   onToggleReaction: FeedManager<UT, AT, UR, RT, CRT>['onToggleReaction'];
   /** The function that toggles reactions on reactions. */
