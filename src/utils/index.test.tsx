@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 import Dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import moment from 'moment';
 
 Dayjs.extend(relativeTime);
 
@@ -88,15 +89,13 @@ describe('utils', () => {
     it('correct toISOString timestamp', () => {
       const now = new Date().toISOString();
       expect(humanizeTimestamp(now, Dayjs)).toEqual('a few seconds ago');
+      expect(humanizeTimestamp(now, moment)).toEqual('a few seconds ago');
     });
 
     it('toISOString timestamp with Z', () => {
       const now = new Date().toISOString();
       expect(humanizeTimestamp(now.substring(0, now.length - 2), Dayjs)).toEqual('a few seconds ago');
-    });
-
-    it('with dayjs time', () => {
-      expect(humanizeTimestamp(Dayjs().utc(), Dayjs)).toEqual('a few seconds ago');
+      expect(humanizeTimestamp(now.substring(0, now.length - 2), moment)).toEqual('a few seconds ago');
     });
   });
 });

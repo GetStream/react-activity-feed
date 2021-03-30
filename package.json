@@ -130,6 +130,7 @@
     "immutable": "^4.0.0-rc.12",
     "linkifyjs": "^2.1.9",
     "lodash": "^4.17.21",
+    "moment": "^2.29.1",
     "react-file-utils": "^1.0.2",
     "react-images": "^0.5.19",
     "stream-analytics": "^3.4.2",
