@@ -1,4 +1,5 @@
 import i18n, { TFunction } from 'i18next';
+import moment from 'moment';
 import Dayjs from 'dayjs';
 import calendar from 'dayjs/plugin/calendar';
 import updateLocale from 'dayjs/plugin/updateLocale';
@@ -161,7 +162,11 @@ const defaultStreami18nOptions = {
   DateTimeParser: Dayjs,
 };
 
-export type TDateTimeParser = (input?: string | Date | Dayjs.Dayjs) => Dayjs.Dayjs;
+// Type guards to check DayJs
+const isDayJs = (dateTimeParser: typeof Dayjs | typeof moment): dateTimeParser is typeof Dayjs =>
+  (dateTimeParser as typeof Dayjs).extend !== undefined;
+
+export type TDateTimeParser = (input?: string | number | Date) => Dayjs.Dayjs | moment.Moment;
 
 export type LanguageCallbackFn = (t: TFunction) => void;
 
@@ -248,7 +253,7 @@ export class Streami18n {
     try {
       // This is a shallow check to see if given parser is instance of Dayjs.
       // For some reason Dayjs.isDayjs(this.DateTimeParser()) doesn't work.
-      if (this.DateTimeParser && this.DateTimeParser.extend) {
+      if (this.DateTimeParser && isDayJs(this.DateTimeParser)) {
         this.DateTimeParser.extend(LocalizedFormat);
         this.DateTimeParser.extend(calendar);
         this.DateTimeParser.extend(localeData);

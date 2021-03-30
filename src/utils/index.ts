@@ -9,9 +9,7 @@ import { TDateTimeParser } from '../i18n/Streami18n';
 Dayjs.extend(utc);
 Dayjs.extend(minMax);
 
-// import type { UserResponse } from 'getstream';
-
-export function humanizeTimestamp(timestamp: string | Dayjs.Dayjs, tDateTimeParser: TDateTimeParser) {
+export function humanizeTimestamp(timestamp: string | number | Date, tDateTimeParser: TDateTimeParser) {
   let time;
   // Following calculation is based on assumption that tDateTimeParser()
   // either returns momentjs or dayjs object.
@@ -24,8 +22,7 @@ export function humanizeTimestamp(timestamp: string | Dayjs.Dayjs, tDateTimePars
     time = tDateTimeParser(timestamp).add(Dayjs(timestamp).utcOffset(), 'minute'); // parse time as UTC
   }
 
-  const now = tDateTimeParser();
-  return time.from(now);
+  return time.fromNow();
 }
 
 type ErrorUser = { error: string };
