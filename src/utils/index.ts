@@ -1,7 +1,7 @@
 import React from 'react';
 import URL from 'url-parse';
 import Dayjs from 'dayjs';
-import moment from 'moment';
+import { Moment } from 'moment';
 import utc from 'dayjs/plugin/utc';
 import minMax from 'dayjs/plugin/minMax';
 import { EnrichedUser, UR } from 'getstream';
@@ -12,8 +12,8 @@ Dayjs.extend(minMax);
 
 // import type { UserResponse } from 'getstream';
 
-export function humanizeTimestamp<T extends Dayjs.Dayjs | moment.Moment = Dayjs.Dayjs>(
-  timestamp: string | (T extends Dayjs.Dayjs ? Dayjs.Dayjs : moment.Moment),
+export function humanizeTimestamp<T extends Dayjs.Dayjs | Moment = Dayjs.Dayjs>(
+  timestamp: string | (T extends Dayjs.Dayjs ? Dayjs.Dayjs : Moment),
   tDateTimeParser: TDateTimeParser<T>,
 ) {
   const timestampInstance = tDateTimeParser(timestamp);
