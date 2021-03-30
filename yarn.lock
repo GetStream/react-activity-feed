@@ -2867,6 +2867,13 @@
     "@types/unist" "*"
     "@types/vfile-message" "*"
 
+"@types/webscopeio__react-textarea-autocomplete@^4.6.3":
+  version "4.6.3"
+  resolved "https://registry.yarnpkg.com/@types/webscopeio__react-textarea-autocomplete/-/webscopeio__react-textarea-autocomplete-4.6.3.tgz#178c8ac3fdaaec143fb134a9026a95bf17d03d56"
+  integrity sha512-NMtkdfioDSldQx8UlWe6v3EW+PAkqi8QemnHdsMxMXqYg7pEqMLdnnPsRheiWq6WIEXc4iZjE2jMZI1/9c/H8g==
+  dependencies:
+    "@types/react" "*"
+
 "@types/websocket@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/websocket/-/websocket-1.0.1.tgz#039272c196c2c0e4868a0d8a1a27bbb86e9e9138"

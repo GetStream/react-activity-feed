@@ -1,5 +1,0 @@
-InputField
-
-```js
-<Textarea />
-```
