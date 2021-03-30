@@ -6,7 +6,7 @@ import { UR } from 'getstream';
 
 export type TextareaProps = {
   /** A ref that is bound to the textarea element */
-  innerRef?: React.RefObject<HTMLTextAreaElement> | ((el: HTMLTextAreaElement) => void);
+  innerRef?: React.MutableRefObject<HTMLTextAreaElement> | ((el: HTMLTextAreaElement) => void);
   maxLength?: number;
   onChange?: (event: React.SyntheticEvent<HTMLTextAreaElement>) => void;
   onPaste?: (event: React.ClipboardEvent<HTMLTextAreaElement>) => void;
@@ -28,8 +28,8 @@ const AutocompleteItem = ({ entity: { id, native } }: ItemComponentProps<BaseEmo
 export const Textarea = ({
   innerRef,
   maxLength,
-  onChange = () => null,
-  onPaste = () => null,
+  onChange,
+  onPaste,
   placeholder = 'Share your opinion',
   rows = 3,
   trigger = {},
@@ -54,8 +54,7 @@ export const Textarea = ({
         ((el) => {
           if (typeof innerRef === 'function') {
             innerRef(el);
-          } else if (innerRef != null) {
-            // @ts-expect-error
+          } else if (innerRef !== null) {
             innerRef.current = el;
           }
         })
