@@ -15,7 +15,6 @@ describe('Textarea', () => {
           onBlur={[Function]}
           onChange={[Function]}
           onClick={[Function]}
-          onPaste={[Function]}
           onScroll={[Function]}
           onSelect={[Function]}
           placeholder="Share your opinion"
