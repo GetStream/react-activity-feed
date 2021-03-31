@@ -1,6 +1,6 @@
 import React from 'react';
 
-import UserBar from './UserBar';
+import { UserBar } from './UserBar';
 import { Card } from './Card';
 import { Audio } from './Audio';
 import { Video } from './Video';
