@@ -11,12 +11,12 @@ export type ActivityFooterProps<UT extends DefaultUT = DefaultUT, AT extends Def
   /** The activity received for stream for which to show the like buton. This is
    * used to initalize the toggle state and the counter. */
   activity: EnrichedActivity<UT, AT>;
+  /** The function that toggles  reaction. */
+  onToggleReaction: FeedManager<UT, AT>['onToggleReaction'];
   /** The feed group part of the feed that the activity should be reposted to
    * when pressing the RepostButton, e.g. `user` when posting to your own profile
    * defaults to 'user' feed */
-  feedGroup: string;
-  /** The function that toggles  reaction. */
-  onToggleReaction: FeedManager<UT, AT>['onToggleReaction'];
+  feedGroup?: string;
   /** The user_id part of the feed that the activity should be reposted to when
    * pressing the RepostButton */
   userId?: string;
