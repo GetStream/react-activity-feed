@@ -3,11 +3,13 @@ import URL from 'url-parse';
 import Dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import minMax from 'dayjs/plugin/minMax';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { EnrichedUser, UR } from 'getstream';
 import { TDateTimeParser } from '../i18n/Streami18n';
 
 Dayjs.extend(utc);
 Dayjs.extend(minMax);
+Dayjs.extend(relativeTime);
 
 export function humanizeTimestamp(timestamp: string | number | Date, tDateTimeParser: TDateTimeParser) {
   let time;
