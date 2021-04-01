@@ -24,7 +24,7 @@ type Attachments = {
 
 export type DefaultUT = UR & { name: string; id?: string; profileImage?: string };
 
-export type DefaultAT = UR & { attachments?: Attachments; text?: string };
+export type DefaultAT = UR & { object: UR | string; attachments?: Attachments; text?: string };
 
 export type SharedFeed = { feedGroup: string; notify: boolean; options: GetFeedOptions };
 
