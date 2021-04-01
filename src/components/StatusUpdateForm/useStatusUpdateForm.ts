@@ -153,7 +153,7 @@ const useOg = ({ client, logErr }: UseOgProps) => {
     });
   }, []);
 
-  const handleOgDebounced = useDebouncedCallback(handleOG, 250, { leading: true, trailing: true });
+  const handleOgDebounced = useDebouncedCallback(handleOG, 750, { leading: true, trailing: true });
 
   useEffect(() => {
     og.order
