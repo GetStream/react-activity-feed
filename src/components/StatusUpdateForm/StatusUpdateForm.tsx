@@ -11,7 +11,6 @@ import {
   LoadingIndicator,
   FileUpload,
   ImageUpload,
-  UploadState,
 } from 'react-file-utils';
 
 import { DefaultAT, DefaultUT, useTranslationContext } from '../../Context';
@@ -60,15 +59,6 @@ export type StatusUpdateFormProps<AT extends DefaultAT = DefaultAT> = {
   /** The user_id part of the feed that the activity should be posted to  */
   userId?: string;
 };
-
-export type FileUploadState = {
-  file: File | Blob;
-  id: string;
-  state: UploadState;
-  url?: string;
-};
-
-export type ImageUploadState = FileUploadState & { previewUri?: string };
 
 export function StatusUpdateForm<
   UT extends DefaultUT = DefaultUT,
