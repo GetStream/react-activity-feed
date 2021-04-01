@@ -1,14 +1,14 @@
 import React, { createElement, ReactElement, ElementType, ComponentType } from 'react';
 import { UR } from 'getstream';
 
-type ElementOrComponentOrLiteralType<T> =
+export type ElementOrComponentOrLiteralType<P extends UR = UR> =
   | string
   | number
   | boolean
   | null
-  | ReactElement<T>
-  | ElementType<T>
-  | ComponentType<T>;
+  | ReactElement<P>
+  | ElementType<P>
+  | ComponentType<P>;
 
 export function smartRender<T extends UR = UR>(
   ElementOrComponentOrLiteral?: ElementOrComponentOrLiteralType<T>,
