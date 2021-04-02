@@ -5,7 +5,7 @@ import { NewActivitiesNotification } from './NewActivitiesNotification';
 import LoadMorePaginator from './LoadMorePaginator';
 import Notification from './Notification';
 import { LoadingIndicator } from 'react-file-utils';
-import FeedPlaceholder from './FeedPlaceholder';
+import { FeedPlaceholder } from './FeedPlaceholder';
 
 import { smartRender } from '../utils';
 
