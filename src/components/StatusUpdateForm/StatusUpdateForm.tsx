@@ -96,7 +96,7 @@ export function StatusUpdateForm<
             <div style={{ display: 'flex' }}>
               {state.userData.profileImage && (
                 <div style={{ marginRight: '16px' }}>
-                  <Avatar image={state.userData.profileImage || 'https://placehold.it/100x100'} size={50} circle />
+                  <Avatar image={state.userData.profileImage} size={50} circle />
                 </div>
               )}
 
