@@ -20,7 +20,7 @@ import { useTranslationContext } from '../Context';
 import { DefaultAT, DefaultUT } from '../Context/StreamApp';
 
 export type ActivityProps<UT extends DefaultUT = DefaultUT, AT extends DefaultAT = DefaultAT> = {
-  activity: EnrichedActivity<UT, AT>;
+  activity: EnrichedActivity<UT, AT> & { object: UR | string };
   icon?: string;
   /** Handler for any routing you may do on clicks on Hashtags */
   onClickHashtag?: (word: string) => void;
@@ -48,7 +48,6 @@ const DefaultActivityHeader = <UT extends DefaultUT = DefaultUT, AT extends Defa
   const { tDateTimeParser } = useTranslationContext();
 
   const actor = userOrDefault<UT>(activity.actor);
-
   return (
     <div style={{ padding: '8px 16px' }}>
       <UserBar
@@ -79,7 +78,7 @@ const DefaultAtivityContent = <UT extends DefaultUT = DefaultUT, AT extends Defa
         </div>
       )}
 
-      {verb === 'repost' && 'data' in object && <Card {...(object.data as UR)} />}
+      {verb === 'repost' && typeof object === 'object' && <Card {...(object.data as UR)} />}
 
       {attachments.og && Object.keys(attachments.og).length && (
         <div style={{ padding: '8px 16px' }}>
@@ -146,7 +145,7 @@ export const Activity = <UT extends DefaultUT = DefaultUT, AT extends DefaultAT 
         {},
         <DefaultAtivityContent activity={activity} onClickHashtag={onClickHashtag} onClickMention={onClickMention} />,
       )}
-      {smartRender(Footer, {}, null)}
+      {smartRender(Footer, { activity }, null)}
     </div>
   );
 };

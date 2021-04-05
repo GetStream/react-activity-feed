@@ -1,0 +1,38 @@
+---
+route: /components/activity
+menu: Composition Components
+---
+
+import { Playground, Props } from 'docz';
+import { Activity } from './Activity';
+import { ActivityFooter } from './ActivityFooter';
+
+# Activity
+
+## Properties
+
+<Props of={Activity} />
+
+## Basic usage
+
+<Playground>
+  <Activity
+    activity={{
+      actor: {
+        data: {
+          name: 'Nora Ferguson',
+          profileImage: 'https://randomuser.me/api/portraits/women/72.jpg',
+        },
+      },
+      verb: 'post',
+      object: 'I just missed my train 😤',
+      time: new Date(),
+      reaction_counts: {
+        repost: 17,
+        like: 17,
+        comment: 17,
+      },
+    }}
+    Footer={({ activity }) => <ActivityFooter userId="123" activity={activity} />}
+  />
+</Playground>
