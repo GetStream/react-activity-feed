@@ -15,7 +15,7 @@ export { default as InfiniteScrollPaginator } from './components/InfiniteScrollP
 export { default as LoadMorePaginator } from './components/LoadMorePaginator';
 
 // Activity sub components
-export { default as ActivityFooter } from './components/ActivityFooter';
+export * from './components/ActivityFooter';
 export * from './components/AttachedActivity';
 export * from './components/UserBar';
 export * from './components/Card';
