@@ -1,9 +1,9 @@
 import React from 'react';
 import { FileIcon } from 'react-file-utils';
-import { EnrichedActivity, UR } from 'getstream';
+import { EnrichedActivity } from 'getstream';
 
 import { UserBar } from './UserBar';
-import { Card } from './Card';
+import { Card, CardProps } from './Card';
 import { Audio } from './Audio';
 import { Video } from './Video';
 import { Gallery } from './Gallery';
@@ -19,16 +19,18 @@ import {
 import { useTranslationContext } from '../Context';
 import { DefaultAT, DefaultUT } from '../Context/StreamApp';
 
+type WordClickHandler = (word: string) => void;
+
 export type ActivityProps<UT extends DefaultUT = DefaultUT, AT extends DefaultAT = DefaultAT> = {
-  activity: EnrichedActivity<UT, AT> & { object: UR | string };
+  activity: EnrichedActivity<UT, AT> & { object: { data: CardProps } | string };
   icon?: string;
   /** Handler for any routing you may do on clicks on Hashtags */
-  onClickHashtag?: (word: string) => void;
+  onClickHashtag?: WordClickHandler;
   /** Handler for any routing you may do on clicks on Mentions */
-  onClickMention?: (word: string) => void;
+  onClickMention?: WordClickHandler;
   onClickUser?: (user: UserOrDefaultReturnType<UT>) => void;
   sub?: string;
-} & Record<'Header' | 'HeaderRight' | 'Footer' | 'Content', ElementOrComponentOrLiteralType>;
+} & Partial<Record<'Header' | 'HeaderRight' | 'Footer' | 'Content', ElementOrComponentOrLiteralType>>;
 
 type DefaultActivityHeaderProps<UT extends DefaultUT = DefaultUT, AT extends DefaultAT = DefaultAT> = Pick<
   ActivityProps<UT, AT>,
@@ -68,7 +70,13 @@ const DefaultAtivityContent = <UT extends DefaultUT = DefaultUT, AT extends Defa
   onClickHashtag,
   onClickMention,
 }: DefaultActivityContentProps<UT, AT>) => {
-  const { object, text = (typeof object === 'string' ? object : '').trim(), attachments = {}, verb, image } = activity;
+  const {
+    object,
+    text = (typeof object === 'string' ? object : '').trim(),
+    attachments: { og, images = [], files = [] } = {},
+    verb,
+    image,
+  } = activity;
 
   return (
     <div className="raf-activity__content">
@@ -78,38 +86,29 @@ const DefaultAtivityContent = <UT extends DefaultUT = DefaultUT, AT extends Defa
         </div>
       )}
 
-      {verb === 'repost' && typeof object === 'object' && <Card {...(object.data as UR)} />}
+      {verb === 'repost' && typeof object === 'object' && <Card {...object.data} />}
 
-      {attachments.og && Object.keys(attachments.og).length && (
+      {og && (
         <div style={{ padding: '8px 16px' }}>
-          {attachments.og.videos ? (
-            <Video og={attachments.og} />
-          ) : attachments.og.audios ? (
-            <Audio og={attachments.og} />
-          ) : (
-            <Card {...attachments.og} />
-          )}
+          {og.videos ? <Video og={og} /> : og.audios ? <Audio og={og} /> : <Card {...og} />}
         </div>
       )}
 
       {typeof image === 'string' && (
         <div style={{ padding: '8px 0' }}>
-          <Gallery
-            images={[image]}
-            // resizeMethod="resize"
-          />
+          <Gallery images={[image]} />
         </div>
       )}
 
-      {attachments.images?.length && (
+      {!!images.length && (
         <div style={{ padding: '8px 0' }}>
-          <Gallery images={attachments.images} />
+          <Gallery images={images} />
         </div>
       )}
 
-      {attachments.files?.length && (
+      {!!files.length && (
         <ol className="raf-activity__attachments">
-          {attachments.files.map(({ name, url, mimeType }, i) => (
+          {files.map(({ name, url, mimeType }, i) => (
             <a href={sanitizeURL(url)} download key={i}>
               <li className="raf-activity__file">
                 <FileIcon mimeType={mimeType} filename={name} /> {name}

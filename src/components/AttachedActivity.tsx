@@ -30,7 +30,7 @@ export function AttachedActivity<UT extends DefaultUT = DefaultUT, AT extends De
           <p className="raf-attached-activity__author">
             <strong>{user.data.name}</strong>
           </p>
-          <p className="raf-attached-activity__content">{object}</p>
+          <p className="raf-attached-activity__content">{object as string}</p>
         </React.Fragment>
       )}
     </div>

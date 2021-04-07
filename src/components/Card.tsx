@@ -5,7 +5,7 @@ import { OGAPIResponse } from 'getstream';
 import { sanitizeURL, trimURL } from '../utils';
 import { AvatarIcon, CloseIcon } from './Icons';
 
-type CardProps = {
+export type CardProps = {
   alt?: string;
   handleClose?: (e: SyntheticEvent) => void;
   image?: string | null;
