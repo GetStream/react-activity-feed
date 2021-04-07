@@ -39,7 +39,7 @@ export * from './components/FollowButton';
 export { default as CommentList } from './components/CommentList';
 export { default as ReactionList } from './components/ReactionList';
 export * from './components/CommentItem';
-export { default as CommentField } from './components/CommentField';
+export * from './components/CommentField';
 
 // Generic components
 export * from './components/Button';
