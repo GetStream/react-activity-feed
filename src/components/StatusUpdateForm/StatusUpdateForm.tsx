@@ -168,7 +168,7 @@ export function StatusUpdateForm<
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <div style={{ flex: 1 }}>
                 <div style={{ marginRight: '32px', display: 'inline-block' }}>
-                  <ImageUploadButton handleFiles={state.uploadNewFiles} multiple />
+                  <ImageUploadButton resetOnChange handleFiles={state.uploadNewFiles} multiple />
                 </div>
                 <div style={{ marginRight: '32px', display: 'inline-block' }}>
                   <FileUploadButton handleFiles={state.uploadNewFiles} multiple />
