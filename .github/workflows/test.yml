@@ -30,6 +30,10 @@ jobs:
       - name: Unit tests
         run: yarn test
 
+      - name: Browser Bundle
+        if: matrix.node == 14
+        run: yarn test-browser-build
+
       - name: Validate translation
         run: yarn validate-translations
 
