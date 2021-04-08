@@ -34,7 +34,7 @@ export const UserBar = ({
   const [humanReadableTimestamp, parsedTimestamp] = useMemo(
     () => [
       !time && timestamp ? humanizeTimestamp(timestamp, tDateTimeParser) : time,
-      tDateTimeParser(timestamp).toJSON(),
+      timestamp ? tDateTimeParser(timestamp).toJSON() : undefined,
     ],
     [timestamp, tDateTimeParser],
   );
@@ -43,7 +43,7 @@ export const UserBar = ({
     <div className="raf-user-bar">
       {avatar && <Avatar onClick={onClickUser} size={50} circle image={avatar} />}
       <div className="raf-user-bar__details">
-        <p className="raf-user-bar__username" onClick={onClickUser}>
+        <p data-testid="user-bar-username" className="raf-user-bar__username" onClick={onClickUser}>
           {username}
         </p>
         {AfterUsername}

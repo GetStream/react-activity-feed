@@ -39,7 +39,7 @@ describe('UserBar', () => {
         avatar="https://i.pinimg.com/originals/4f/a1/41/4fa141173a1b04470bb2f850bc5da13b.png"
         AfterUsername={<label>Gotham City</label>}
         icon="https://pics.freeicons.io/uploads/icons/png/4781616661579237635-24.png"
-        timestamp="2020-09-19T07:44:11+00:00"
+        timestamp={new Date().toJSON()}
         subtitle="The Dark Knight Rises"
       />,
     );
@@ -81,8 +81,8 @@ describe('UserBar', () => {
             className="raf-user-bar__subtitle"
           >
             <time
-              dateTime="2020-09-19T07:44:11+00:00"
-              title="2020-09-19T07:44:11+00:00"
+              dateTime="2021-04-08T10:52:02.250Z"
+              title="2021-04-08T10:52:02.250Z"
             >
               The Dark Knight Rises
             </time>
@@ -92,10 +92,10 @@ describe('UserBar', () => {
           className="raf-user-bar__extra"
         >
           <time
-            dateTime="2020-09-19T07:44:11+00:00"
-            title="2020-09-19T07:44:11+00:00"
+            dateTime="2021-04-08T10:52:02.250Z"
+            title="2021-04-08T10:52:02.250Z"
           >
-            6 months ago
+            a few seconds ago
           </time>
         </p>
       </div>
@@ -103,7 +103,7 @@ describe('UserBar', () => {
   });
 
   it('renders with time property defined', () => {
-    const tree = renderer.create(<UserBar username="Batman" time="2021-03-31T10:55:24.997Z" />);
+    const tree = renderer.create(<UserBar username="Batman" time={new Date().toJSON()} />);
 
     expect(tree).toMatchInlineSnapshot(`
       <div
@@ -123,7 +123,7 @@ describe('UserBar', () => {
           className="raf-user-bar__extra"
         >
           <time>
-            2021-03-31T10:55:24.997Z
+            2021-04-08T10:52:02.297Z
           </time>
         </p>
       </div>
