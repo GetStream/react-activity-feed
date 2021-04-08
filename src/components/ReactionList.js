@@ -1,5 +1,5 @@
 import React from 'react';
-import LoadMorePaginator from './LoadMorePaginator';
+import { LoadMorePaginator } from './LoadMorePaginator';
 import { FeedContext } from '../Context';
 
 import { smartRender } from '../utils';
