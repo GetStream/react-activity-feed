@@ -64,7 +64,7 @@ export function dataTransferItemsHaveFiles(items?: DataTransferItemList) {
   if (!items || !items.length) return false;
 
   for (let i = 0; i < items.length; i += 1) {
-    const item = items.item(i);
+    const item = items[i];
     if (item.kind === 'file' || item.type === 'text/html') return true;
   }
 
@@ -134,7 +134,7 @@ export async function dataTransferItemsToFiles(items?: DataTransferItemList) {
   return fileLikes;
 }
 
-export function inputValueFromEvent(event?: React.SyntheticEvent<HTMLInputElement>) {
+export function inputValueFromEvent(event?: React.SyntheticEvent<HTMLInputElement | HTMLTextAreaElement>) {
   const target = (event?.currentTarget || event?.target) as HTMLInputElement;
   return target?.value;
 }

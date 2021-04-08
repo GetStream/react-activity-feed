@@ -6,7 +6,7 @@ import { UR } from 'getstream';
 
 export type TextareaProps = {
   /** A ref that is bound to the textarea element */
-  innerRef?: React.MutableRefObject<HTMLTextAreaElement> | ((el: HTMLTextAreaElement) => void);
+  innerRef?: React.MutableRefObject<HTMLTextAreaElement | undefined> | ((el: HTMLTextAreaElement) => void);
   maxLength?: number;
   onChange?: (event: React.SyntheticEvent<HTMLTextAreaElement>) => void;
   onPaste?: (event: React.ClipboardEvent<HTMLTextAreaElement>) => void;

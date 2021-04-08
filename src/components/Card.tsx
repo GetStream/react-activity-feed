@@ -9,7 +9,7 @@ type CardProps = {
   description?: string;
   handleClose?: (e: SyntheticEvent) => void;
   image?: string | null;
-  images?: Array<{ image: string }>;
+  images?: Array<{ image?: string }>;
   nolink?: boolean;
   title?: string;
   url?: string;

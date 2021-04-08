@@ -71,6 +71,7 @@ const normalBundle = {
     'react-images',
     'stream-analytics',
     'url-parse',
+    'use-debounce',
   ],
   plugins: [
     resolve({ browser: true, extensions }),

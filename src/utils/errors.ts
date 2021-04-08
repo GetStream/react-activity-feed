@@ -7,6 +7,8 @@ export type NetworkRequestTypes =
   | 'get-reactions-next-page'
   | 'get-notification-counts'
   | 'upload-image'
+  | 'upload-file'
+  | 'get-og'
   | 'add-activity'
   | 'delete-activity'
   | 'add-reaction'
