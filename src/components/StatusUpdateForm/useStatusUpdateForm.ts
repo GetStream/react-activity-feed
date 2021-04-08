@@ -483,7 +483,7 @@ export function useStatusUpdateForm<
 
   const onChange = useCallback((event: SyntheticEvent<HTMLTextAreaElement>) => {
     const text = inputValueFromEvent(event);
-    if (text == null) return;
+    if (text === null || text === undefined) return;
     setText(text);
     handleOgDebounced(text);
   }, []);
