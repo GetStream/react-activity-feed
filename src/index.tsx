@@ -38,7 +38,7 @@ export * from './components/FollowButton';
 // Comment related
 export { default as CommentList } from './components/CommentList';
 export { default as ReactionList } from './components/ReactionList';
-export { default as CommentItem } from './components/CommentItem';
+export * from './components/CommentItem';
 export { default as CommentField } from './components/CommentField';
 
 // Generic components
