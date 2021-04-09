@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, MouseEvent } from 'react';
 import URL from 'url-parse';
 import Dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -6,6 +6,7 @@ import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { EnrichedUser, UR } from 'getstream';
 import { TDateTimeParser } from '../i18n/Streami18n';
+import { DefaultUT } from '../Context/StreamApp';
 
 Dayjs.extend(utc);
 Dayjs.extend(minMax);
@@ -161,6 +162,24 @@ export const trimURL = (url?: string) =>
     ?.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '')
     .split('/')
     .shift();
+
+export type OnClickUserHandler<UT extends DefaultUT = DefaultUT> = (user: UserOrDefaultReturnType<UT>) => void;
+export const useOnClickUser = <
+  UT extends DefaultUT = DefaultUT,
+  E extends HTMLElement | SVGGElement = HTMLImageElement | SVGSVGElement
+>(
+  onClickUser?: OnClickUserHandler<UT>,
+) =>
+  useMemo(
+    () =>
+      onClickUser
+        ? (user?: EnrichedUser<UT>) => (event: MouseEvent<E>) => {
+            event.stopPropagation();
+            onClickUser(userOrDefault<UT>(user));
+          }
+        : undefined,
+    [onClickUser],
+  );
 
 export * from './textRenderer';
 export * from './smartRender';
