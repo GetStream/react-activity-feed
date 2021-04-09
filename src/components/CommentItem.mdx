@@ -1,0 +1,35 @@
+---
+route: /components/comment-item
+menu: UI Components
+---
+
+import { Playground, Props } from 'docz';
+import { CommentItem } from './CommentItem';
+
+# CommentItem
+
+## Properties
+
+<Props of={CommentItem} />
+
+## Basic usage
+
+<Playground>
+  <CommentItem
+    onClickHashtag={(word) => window.alert(`You clicked on ${word}`)}
+    onClickUser={console.log}
+    comment={{
+      user: {
+        data: {
+          name: 'Rosemary',
+          subtitle: 'likes playing fresbee in the park',
+          profileImage: 'https://randomuser.me/api/portraits/women/20.jpg',
+        },
+      },
+      created_at: new Date().toJSON(),
+      data: {
+        text: 'Snowboarding is awesome! #snowboarding #winter',
+      },
+    }}
+  />
+</Playground>
