@@ -33,7 +33,8 @@ import { ActivityFooter } from './ActivityFooter';
         comment: 17,
       },
     }}
-    Footer={({ activity }) => <ActivityFooter userId="batman" activity={activity} />}
+    userId="batman"
+    Footer={({ activity, userId }) => <ActivityFooter userId={userId} activity={activity} />}
   />
 </Playground>
 
@@ -86,5 +87,25 @@ import { ActivityFooter } from './ActivityFooter';
       },
       time: new Date().toJSON(),
     }}
+  />
+</Playground>
+
+## Activity with custom header and content components
+
+<Playground>
+  <Activity
+    activity={{
+      actor: {
+        data: {
+          name: 'Nora Ferguson',
+          profileImage: 'https://randomuser.me/api/portraits/women/72.jpg',
+        },
+      },
+      verb: 'post',
+      object: 'You can customize your activity however you like!',
+      time: new Date().toJSON(),
+    }}
+    Header={({ activity }) => <div>{activity.actor.data.name}</div>}
+    Content={({ activity }) => <div>{activity.object}</div>}
   />
 </Playground>
