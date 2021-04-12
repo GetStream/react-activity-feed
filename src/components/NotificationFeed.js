@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Feed, FeedContext } from '../Context';
 import { NewActivitiesNotification } from './NewActivitiesNotification';
-import LoadMorePaginator from './LoadMorePaginator';
+import { LoadMorePaginator } from './LoadMorePaginator';
 import Notification from './Notification';
 import { LoadingIndicator } from 'react-file-utils';
 import { FeedPlaceholder } from './FeedPlaceholder';

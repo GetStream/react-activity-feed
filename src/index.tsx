@@ -12,7 +12,7 @@ export { default as B2BTimeline } from './components/B2BTimeline';
 // Feed sub components
 export * from './components/NewActivitiesNotification';
 export { default as InfiniteScrollPaginator } from './components/InfiniteScrollPaginator';
-export { default as LoadMorePaginator } from './components/LoadMorePaginator';
+export * from './components/LoadMorePaginator';
 
 // Activity sub components
 export * from './components/ActivityFooter';
