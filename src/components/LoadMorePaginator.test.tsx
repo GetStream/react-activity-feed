@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import LoadMorePaginator from './LoadMorePaginator';
+import { LoadMorePaginator } from './LoadMorePaginator';
 
 jest.mock('./LoadMoreButton', () => ({
   LoadMoreButton: jest.fn(({ refreshing, loadNextPage }) => (
@@ -8,14 +8,17 @@ jest.mock('./LoadMoreButton', () => ({
   )),
 }));
 
-describe('LoadMorePaginator', () => {
-  it('renders null with default props', () => {
-    const tree = renderer.create(<LoadMorePaginator />).toJSON();
-    expect(tree).toMatchInlineSnapshot(`null`);
-  });
+const loadNextPage = () => {};
 
+describe('LoadMorePaginator', () => {
   it('renders the button', () => {
-    const tree = renderer.create(<LoadMorePaginator hasNextPage>children</LoadMorePaginator>).toJSON();
+    const tree = renderer
+      .create(
+        <LoadMorePaginator hasNextPage loadNextPage={loadNextPage}>
+          children
+        </LoadMorePaginator>,
+      )
+      .toJSON();
     expect(tree).toMatchInlineSnapshot(`
       Array [
         "children",
@@ -27,7 +30,7 @@ describe('LoadMorePaginator', () => {
   it('renders in reverse mode', () => {
     const tree = renderer
       .create(
-        <LoadMorePaginator hasNextPage reverse>
+        <LoadMorePaginator hasNextPage reverse loadNextPage={loadNextPage}>
           children
         </LoadMorePaginator>,
       )
@@ -43,7 +46,7 @@ describe('LoadMorePaginator', () => {
   it('pass down props to LoadMoreButton', () => {
     const tree = renderer
       .create(
-        <LoadMorePaginator hasNextPage loadNextPage="fn" refreshing>
+        <LoadMorePaginator hasNextPage loadNextPage={loadNextPage} refreshing>
           children
         </LoadMorePaginator>,
       )

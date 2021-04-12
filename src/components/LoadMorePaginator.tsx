@@ -24,12 +24,10 @@ export const LoadMorePaginator = ({
   hasNextPage,
   refreshing,
   loadNextPage,
-}: LoadMorePaginatorProps) => {
-  return (
-    <>
-      {!reverse && children}
-      {hasNextPage && smartRender(LoadMoreButton, { refreshing, onClick: loadNextPage })}
-      {reverse && children}
-    </>
-  );
-};
+}: LoadMorePaginatorProps) => (
+  <>
+    {!reverse && children}
+    {hasNextPage && smartRender<LoadMoreButtonProps>(LoadMoreButton, { refreshing, onClick: loadNextPage })}
+    {reverse && children}
+  </>
+);
