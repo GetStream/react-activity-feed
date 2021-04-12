@@ -36,9 +36,7 @@ export const CommentField = <UT extends DefaultUT = DefaultUT, AT extends Defaul
     if (!text) return;
 
     try {
-      await onAddReaction('comment', activity, {
-        text,
-      });
+      await onAddReaction('comment', activity, { text });
     } catch (error) {
       console.error(error);
     }
@@ -63,7 +61,7 @@ export const CommentField = <UT extends DefaultUT = DefaultUT, AT extends Defaul
 
   return (
     <form onSubmit={handleFormSubmit} className="raf-comment-field">
-      <Avatar image={image} circle size={39} />
+      {image && <Avatar image={image} circle size={39} />}
       <div className="raf-comment-field__group">
         <Textarea
           rows={1}
