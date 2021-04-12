@@ -135,8 +135,10 @@ export async function dataTransferItemsToFiles(items?: DataTransferItemList) {
   return fileLikes;
 }
 
-export function inputValueFromEvent(event?: React.SyntheticEvent<HTMLInputElement | HTMLTextAreaElement>) {
-  const target = (event?.currentTarget || event?.target) as HTMLInputElement;
+export function inputValueFromEvent<T extends HTMLInputElement | HTMLTextAreaElement = HTMLInputElement>(
+  event?: React.SyntheticEvent<T>,
+) {
+  const target = (event?.currentTarget || event?.target) as T;
   return target?.value;
 }
 
