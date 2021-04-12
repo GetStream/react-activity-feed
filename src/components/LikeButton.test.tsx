@@ -11,7 +11,7 @@ const testActivityData: LikeButtonProps['activity'] = {
   },
   own_reactions: {},
   actor: '',
-  object: {},
+  object: 'string',
   verb: '',
   foreign_id: '',
   time: '',
