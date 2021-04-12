@@ -45,15 +45,16 @@ export const CommentField = <UT extends DefaultUT = DefaultUT, AT extends Defaul
     onSuccess?.();
   };
 
-  const handleFormSubmitKey = (event: KeyboardEvent) => {
-    const { current: textarea } = textareaReference;
-    if (event.key === 'Enter' && textarea?.nextSibling === null) {
-      handleFormSubmit(event);
-    }
-  };
-
   useEffect(() => {
     if (!textareaReference.current) return;
+
+    const handleFormSubmitKey = (event: KeyboardEvent) => {
+      const { current: textarea } = textareaReference;
+      if (event.key === 'Enter' && textarea?.nextSibling === null) {
+        handleFormSubmit(event);
+      }
+    };
+
     textareaReference.current.addEventListener('keydown', handleFormSubmitKey);
 
     return () => textareaReference.current?.removeEventListener('keydown', handleFormSubmitKey);
