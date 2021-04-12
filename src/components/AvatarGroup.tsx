@@ -1,14 +1,14 @@
-import React, { useMemo, MouseEvent } from 'react';
+import React from 'react';
 import { EnrichedUser } from 'getstream';
 
-import { userOrDefault, UserOrDefaultReturnType } from '../utils';
+import { useOnClickUser, OnClickUserHandler } from '../utils';
 import { DefaultUT } from '../Context/StreamApp';
 import { Avatar } from './Avatar';
 
 export type AvatarGroupProps<UT extends DefaultUT = DefaultUT> = {
   avatarSize?: number;
   limit?: number;
-  onClickUser?: (user: UserOrDefaultReturnType<UT>) => void;
+  onClickUser?: OnClickUserHandler<UT>;
   users?: Array<EnrichedUser<UT>>;
 };
 
@@ -18,22 +18,13 @@ export function AvatarGroup<UT extends DefaultUT = DefaultUT>({
   avatarSize = 30,
   onClickUser,
 }: AvatarGroupProps<UT>) {
-  const handleClick = useMemo(
-    () =>
-      onClickUser
-        ? (user: EnrichedUser<UT>) => (event: MouseEvent<HTMLImageElement | SVGSVGElement>) => {
-            event.stopPropagation();
-            onClickUser(userOrDefault<UT>(user));
-          }
-        : undefined,
-    [onClickUser],
-  );
+  const handleUserClick = useOnClickUser<UT>(onClickUser);
 
   return (
     <div className="raf-avatar-group">
       {users.slice(0, limit).map((user, i) => (
         <div className="raf-avatar-group__avatar" key={`avatar-${i}`}>
-          <Avatar onClick={handleClick?.(user)} image={user.data?.profileImage} size={avatarSize} circle />
+          <Avatar onClick={handleUserClick?.(user)} image={user.data?.profileImage} size={avatarSize} circle />
         </div>
       ))}
     </div>

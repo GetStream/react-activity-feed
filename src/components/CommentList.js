@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactionList from './ReactionList';
-import CommentItem from './CommentItem';
 import { LoadMorePaginator } from './LoadMorePaginator';
+import { CommentItem } from './CommentItem';
 import { smartRender } from '../utils';
 
 /**
