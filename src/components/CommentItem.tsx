@@ -36,7 +36,7 @@ export const CommentItem = <UT extends DefaultUT = DefaultUT>({
           </time>
           <p>
             <span onClick={handleUserClick?.(user)} className="raf-comment-item__author">
-              {user && user.data.name}
+              {user?.data.name}
             </span>{' '}
             {textRenderer(data.text as string, 'raf-comment-item', onClickMention, onClickHashtag)}
           </p>
