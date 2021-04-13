@@ -38,7 +38,6 @@ export type ActivityProps<
   onClickUser?: (user: UserOrDefaultReturnType<UT>) => void;
   /** The function that toggles  reaction. */
   onToggleReaction?: FeedManager<UT, AT, CT, RT, CRT>['onToggleReaction'];
-  sub?: string;
   /** The user_id part of the feed that the activity should be reposted to when
    * pressing the RepostButton */
   userId?: string;
