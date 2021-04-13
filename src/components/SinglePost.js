@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FlatFeed from './FlatFeed';
+import { FlatFeed } from './FlatFeed';
 
 /**
  * Shows the detail of a single activity
