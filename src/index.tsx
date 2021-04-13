@@ -4,7 +4,7 @@ export { default as FlatFeed } from './components/FlatFeed';
 export { default as NotificationFeed } from './components/NotificationFeed';
 export { default as SinglePost } from './components/SinglePost';
 export * from './components/StatusUpdateForm';
-export { default as Activity } from './components/Activity';
+export * from './components/Activity';
 export { default as Notification } from './components/Notification';
 export { default as NotificationDropdown } from './components/NotificationDropdown';
 export { default as B2BTimeline } from './components/B2BTimeline';

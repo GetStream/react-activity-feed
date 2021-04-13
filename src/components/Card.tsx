@@ -1,19 +1,16 @@
 import React, { SyntheticEvent, useMemo } from 'react';
 import { IconButton } from 'react-file-utils';
-import { sanitizeURL, trimURL } from '../utils';
+import { OGAPIResponse } from 'getstream';
 
+import { sanitizeURL, trimURL } from '../utils';
 import { AvatarIcon, CloseIcon } from './Icons';
 
-type CardProps = {
+export type CardProps = {
   alt?: string;
-  description?: string;
   handleClose?: (e: SyntheticEvent) => void;
   image?: string | null;
-  images?: Array<{ image?: string }>;
   nolink?: boolean;
-  title?: string;
-  url?: string;
-};
+} & Pick<OGAPIResponse, 'description' | 'images' | 'url' | 'title'>;
 
 export const Card = ({
   alt,
@@ -25,8 +22,7 @@ export const Card = ({
   url,
   title,
 }: CardProps) => {
-  // TODO: remove casting when sanitizeURL is properly typed
-  const sanitizedURL = useMemo(() => sanitizeURL(url), [url]) as string | undefined;
+  const sanitizedURL = useMemo(() => sanitizeURL(url), [url]);
   const trimmedURL = useMemo(() => trimURL(sanitizedURL), [sanitizedURL]);
 
   const [{ image }] = !imageURL && images.length ? images : [{ image: imageURL }];

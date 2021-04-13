@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, MouseEventHandler } from 'react';
 
 import { humanizeTimestamp } from '../utils';
 import { Avatar } from './Avatar';
@@ -11,7 +11,7 @@ export type UserBarProps = {
   avatar?: string;
   follow?: boolean;
   icon?: string;
-  onClickUser?: () => void;
+  onClickUser?: MouseEventHandler;
   Right?: ElementOrComponentOrLiteralType;
   subtitle?: string;
   time?: string; // text that should be displayed as the time

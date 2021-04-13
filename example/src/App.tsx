@@ -5,8 +5,10 @@ import {
   StreamApp,
   StatusUpdateForm,
   FlatFeed,
+  FeedManager,
   NotificationDropdown,
   Activity,
+  ActivityProps,
   LikeButton,
   CommentField,
   CommentList,
@@ -55,19 +57,19 @@ function App() {
             // withRecentReactions: true
           }}
           Paginator={(props: UR) => <InfiniteScrollPaginator threshold={10} {...props} />}
-          Activity={(activityProps: UR) => (
+          Activity={(activityProps: ActivityProps & FeedManager) => (
             <Activity
               {...activityProps}
               Footer={() => (
                 <React.Fragment>
                   <CommentField activity={activityProps.activity} onAddReaction={activityProps.onAddReaction} />
                   <CommentList
-                    // @ts-expect-error
                     activityId={activityProps.activity.id}
                     CommentItem={(props: UR) => (
                       <React.Fragment>
                         <CommentItem {...props} />
-                        <LikeButton reaction={props.comment} {...activityProps} />
+                        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                        <LikeButton reaction={props.comment as any} {...activityProps} />
                       </React.Fragment>
                     )}
                   />
