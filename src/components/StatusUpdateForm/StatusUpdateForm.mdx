@@ -4,9 +4,9 @@ menu: Top Level Components
 ---
 
 import { Playground, Props } from 'docz';
-import { StreamApp } from '../../Context/StreamApp';
-import Activity from '../Activity';
-import FlatFeed from '../FlatFeed';
+import { WithExampleStreamApp } from '../docz';
+import { Activity } from '../Activity';
+import { FlatFeed } from '../FlatFeed';
 import { StatusUpdateForm } from './StatusUpdateForm';
 
 # StatusUpdateForm
@@ -27,12 +27,8 @@ This component should be a child of `<StreamApp/>` component.
 ## Basic usage
 
 <Playground>
-  <StreamApp
-    apiKey="fpwesm5u2evu"
-    appId="64527"
-    token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZXhhbXBsZS11c2VyIn0.cM6zFlcQ68qP2LLz-Y6fPeNglfOuwB2aeBUaQild1wg"
-  >
+  <WithExampleStreamApp>
     <StatusUpdateForm />
     <FlatFeed feedGroup="user" options={{ limit: 2 }} notify Activity={(props) => <Activity {...props} />} />
-  </StreamApp>
+  </WithExampleStreamApp>
 </Playground>
