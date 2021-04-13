@@ -1,7 +1,6 @@
 import React from 'react';
 import { EnrichedActivity, UR } from 'getstream';
 
-import { CardProps } from './Card';
 import { ActivityContent as DefaultActivityContent, ActivityContentProps } from './ActivityContent';
 import { ActivityHeader as DefaultActivityHeader, ActivityHeaderProps } from './ActivityHeader';
 import { ActivityFooterProps } from './ActivityFooter';
@@ -21,7 +20,7 @@ export type ActivityProps<
 > = {
   /** The activity received for stream for which to show the like buton. This is
    * used to initalize the toggle state and the counter. */
-  activity: EnrichedActivity<UT, AT> & { object: { data: CardProps } | string };
+  activity: EnrichedActivity<UT, AT>;
   Content?: ElementOrComponentOrLiteralType<ActivityContentProps<UT, AT>>;
   /** The feed group part of the feed that the activity should be reposted to
    * when pressing the RepostButton, e.g. `user` when posting to your own profile

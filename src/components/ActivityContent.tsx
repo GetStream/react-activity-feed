@@ -35,6 +35,8 @@ export const ActivityContent = <UT extends DefaultUT = DefaultUT, AT extends Def
         </div>
       )}
 
+      {/* TODO: fix repost renders */}
+      {/* @ts-expect-error */}
       {verb === 'repost' && typeof object === 'object' && <Card {...object.data} />}
 
       {og && (
