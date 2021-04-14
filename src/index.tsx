@@ -1,13 +1,12 @@
 // Top level components
 export * from './Context';
-export { default as FlatFeed } from './components/FlatFeed';
+export * from './components/FlatFeed';
 export * from './components/NotificationFeed';
 export { default as SinglePost } from './components/SinglePost';
 export * from './components/StatusUpdateForm';
 export * from './components/Activity';
 export * from './components/Notification';
 export { default as NotificationDropdown } from './components/NotificationDropdown';
-export { default as B2BTimeline } from './components/B2BTimeline';
 
 // Feed sub components
 export * from './components/NewActivitiesNotification';
