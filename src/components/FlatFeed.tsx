@@ -46,31 +46,21 @@ export type FlatFeedProps<
   RT extends UR = UR,
   CRT extends UR = UR,
   PT extends UR = UR
-> = Partial<FlatFeedInnerProps<UT, AT, CT, RT, CRT>> & {
-  /** The location that should be used for analytics when liking in the feed,
-   * this is only useful when you have analytics enabled for your app. */
-  analyticsLocation?: string;
-  /** Override activity delete request */
-  doActivityDeleteRequest?: FeedManagerProps<UT, AT, CT, RT, CRT, PT>['doActivityDeleteRequest'];
-  /** Override child reaction add request */
-  doChildReactionAddRequest?: FeedManagerProps<UT, AT, CT, RT, CRT, PT>['doChildReactionAddRequest'];
-  /** Override child reaction delete request */
-  doChildReactionDeleteRequest?: FeedManagerProps<UT, AT, CT, RT, CRT, PT>['doChildReactionDeleteRequest'];
-  /** The feed read handler (change only for advanced/complex use-cases) */
-  doFeedRequest?: FeedManagerProps<UT, AT, CT, RT, CRT, PT>['doFeedRequest'];
-  /** Override reaction add request */
-  doReactionAddRequest?: FeedManagerProps<UT, AT, CT, RT, CRT, PT>['doReactionAddRequest'];
-  /** Override reaction delete request */
-  doReactionDeleteRequest?: FeedManagerProps<UT, AT, CT, RT, CRT, PT>['doReactionDeleteRequest'];
-  /** Override reactions filter request */
-  doReactionsFilterRequest?: FeedManagerProps<UT, AT, CT, RT, CRT, PT>['doReactionsFilterRequest'];
-  /** The feed group part of the feed that should be displayed */
-  feedGroup?: string;
-  /** If true, feed shows the Notifier component when new activities are added */
-  notify?: boolean;
-  /** The user_id part of the feed that should be displayed */
-  userId?: string;
-};
+> = Partial<FlatFeedInnerProps<UT, AT, CT, RT, CRT>> &
+  Pick<
+    FeedManagerProps<UT, AT, CT, RT, CRT, PT>,
+    | 'analyticsLocation'
+    | 'doActivityDeleteRequest'
+    | 'doChildReactionAddRequest'
+    | 'doChildReactionDeleteRequest'
+    | 'doFeedRequest'
+    | 'doReactionAddRequest'
+    | 'doReactionDeleteRequest'
+    | 'doReactionsFilterRequest'
+    | 'feedGroup'
+    | 'notify'
+    | 'userId'
+  >;
 
 const DefaultNotifier = (props: NewActivitiesNotificationProps) => (
   <NewActivitiesNotification labelPlural="activities" labelSingle="activity" {...props} />
