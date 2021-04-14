@@ -72,7 +72,7 @@ export type FeedManagerState<
   RT extends UR = UR,
   CRT extends UR = UR
 > = {
-  activities: immutable.Map<string, ResponseResult<UT, AT, CT, RT, CRT>>;
+  activities: immutable.Map<string, immutable.Record<ResponseResult<UT, AT, CT, RT, CRT>>>;
   activityIdToPath: Record<string, Array<string | number>>;
   // Used for finding reposted activities
   activityIdToPaths: Record<string, Array<Array<string | number>>>;
@@ -610,7 +610,7 @@ export class FeedManager<
 
   responseToActivityMap = (
     response: FeedAPIResponse<UT, AT, CT, RT, CRT>,
-  ): immutable.Map<string, ResponseResult<UT, AT, CT, RT, CRT>> =>
+  ): immutable.Map<string, immutable.Record<ResponseResult<UT, AT, CT, RT, CRT>>> =>
     immutable.fromJS(
       // @ts-expect-error
       response.results.reduce((map: Record<string, ResponseResult>, a: ResponseResult) => {
