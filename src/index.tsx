@@ -1,6 +1,6 @@
 // Top level components
 export * from './Context';
-export { default as FlatFeed } from './components/FlatFeed';
+export * from './components/FlatFeed';
 export { default as NotificationFeed } from './components/NotificationFeed';
 export { default as SinglePost } from './components/SinglePost';
 export * from './components/StatusUpdateForm';
