@@ -39,70 +39,66 @@ const getUsers = <
 
 const getHeaderText = (t: TFunction, activitiesLen: number, verb: string, actorName: string, activityVerb: string) => {
   if (activitiesLen === 1) {
-    if (verb === 'like') {
-      return t('{{ actorName }} liked your {{ activityVerb }}', { actorName, activityVerb });
+    switch (verb) {
+      case 'like':
+        return t('{{ actorName }} liked your {{ activityVerb }}', { actorName, activityVerb });
+      case 'repost':
+        return t('{{ actorName }} reposted your {{ activityVerb }}', { actorName, activityVerb });
+      case 'follow':
+        return t('{{ actorName }} followed you', { actorName });
+      case 'comment':
+        return t('{{ actorName }} commented on your {{ activityVerb }}', { actorName, activityVerb });
+      default:
+        console.warn('No notification styling found for your verb, please create your own custom Notification group.');
+        return '';
     }
-    if (verb === 'repost') {
-      return t('{{ actorName }} reposted your {{ activityVerb }}', { actorName, activityVerb });
-    }
-    if (verb === 'follow') {
-      return t('{{ actorName }} followed you', { actorName });
-    }
-    if (verb === 'comment') {
-      return t('{{ actorName }} commented on your {{ activityVerb }}', { actorName, activityVerb });
-    }
-    console.warn('No notification styling found for your verb, please create your own custom Notification group.');
-    return '';
   }
 
   if (activitiesLen > 1 && activitiesLen < 3) {
-    if (verb === 'like') {
-      return t('{{ actorName }} and 1 other liked your {{ activityVerb }}', { actorName, activityVerb });
+    switch (verb) {
+      case 'like':
+        return t('{{ actorName }} and 1 other liked your {{ activityVerb }}', { actorName, activityVerb });
+      case 'repost':
+        return t('{{ actorName }} and 1 other reposted your {{ activityVerb }}', { actorName, activityVerb });
+      case 'follow':
+        return t('{{ actorName }} and 1 other followed you', { actorName });
+      case 'comment':
+        return t('{{ actorName }} and 1 other commented on your {{ activityVerb }}', { actorName, activityVerb });
+      default:
+        console.warn('No notification styling found for your verb, please create your own custom Notification group.');
+        return '';
     }
-    if (verb === 'repost') {
-      return t('{{ actorName }} and 1 other reposted your {{ activityVerb }}', { actorName, activityVerb });
-    }
-    if (verb === 'follow') {
-      return t('{{ actorName }} and 1 other followed you', { actorName });
-    }
-    if (verb === 'comment') {
-      return t('{{ actorName }} and 1 other commented on your {{ activityVerb }}', { actorName, activityVerb });
-    }
-    console.warn('No notification styling found for your verb, please create your own custom Notification group.');
-    return '';
   }
 
   const countOtherActors = activitiesLen - 1;
-  if (verb === 'like') {
-    return t('{{ actorName }} and {{ countOtherActors }} others liked your {{ activityVerb }}', {
-      actorName,
-      activityVerb,
-      countOtherActors,
-    });
+  switch (verb) {
+    case 'like':
+      return t('{{ actorName }} and {{ countOtherActors }} others liked your {{ activityVerb }}', {
+        actorName,
+        activityVerb,
+        countOtherActors,
+      });
+    case 'repost':
+      return t('{{ actorName }} and {{ countOtherActors }} others reposted your {{ activityVerb }}', {
+        actorName,
+        activityVerb,
+        countOtherActors,
+      });
+    case 'follow':
+      return t('{{ actorName }} and {{ countOtherActors }} others followed you', {
+        actorName,
+        countOtherActors,
+      });
+    case 'comment':
+      return t('{{ actorName }} and {{ countOtherActors }} others commented on your {{ activityVerb }}', {
+        actorName,
+        activityVerb,
+        countOtherActors,
+      });
+    default:
+      console.warn('No notification styling found for your verb, please create your own custom Notification group.');
+      return '';
   }
-  if (verb === 'repost') {
-    return t('{{ actorName }} and {{ countOtherActors }} others reposted your {{ activityVerb }}', {
-      actorName,
-      activityVerb,
-      countOtherActors,
-    });
-  }
-  if (verb === 'follow') {
-    return t('{{ actorName }} and {{ countOtherActors }} others followed you', {
-      actorName,
-      countOtherActors,
-    });
-  }
-  if (verb === 'comment') {
-    return t('{{ actorName }} and {{ countOtherActors }} others commented on your {{ activityVerb }}', {
-      actorName,
-      activityVerb,
-      countOtherActors,
-    });
-  }
-
-  console.warn('No notification styling found for your verb, please create your own custom Notification group.');
-  return '';
 };
 
 export const Notification = <
@@ -118,8 +114,8 @@ export const Notification = <
   onClickNotification,
 }: NotificationProps<UT, AT, CT, RT, CRT>) => {
   const { t, tDateTimeParser } = useTranslationContext();
-  const activities = activityGroup.activities;
-  const latestActivity = activities[0];
+  const { activities } = activityGroup;
+  const [latestActivity, ...restOfActivities] = activities;
 
   if (typeof latestActivity.object === 'string') return null;
 
@@ -137,7 +133,7 @@ export const Notification = <
   return (
     <div
       onClick={handleNotificationClick}
-      className={'raf-notification' + (activityGroup.is_read ? ' raf-notification--read' : '')}
+      className={`raf-notification ${activityGroup.is_read ? 'raf-notification--read' : ''}`}
     >
       <Avatar
         onClick={handleUserClick?.(lastActor as EnrichedUser<UT>)}
@@ -177,7 +173,7 @@ export const Notification = <
           <AvatarGroup
             onClickUser={onClickUser}
             avatarSize={30}
-            users={getUsers<UT, AT, CT, RT, CRT>(activities.slice(1, activities.length)) as Array<EnrichedUser<UT>>}
+            users={getUsers<UT, AT, CT, RT, CRT>(restOfActivities) as Array<EnrichedUser<UT>>}
           />
         )}
       </div>
