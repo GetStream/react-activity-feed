@@ -10,3 +10,46 @@ export const WithExampleStreamApp: FC = ({ children }) => (
     {children}
   </StreamApp>
 );
+
+export const notificationGroup1 = {
+  activities: [
+    {
+      actor: { data: { name: 'Jacky Davidson', profileImage: 'https://randomuser.me/api/portraits/men/72.jpg' } },
+      verb: 'like',
+      object: {
+        verb: 'post',
+        attachments: {
+          files: [],
+          images: [
+            'https://stream-cloud-uploads.imgix.net/images/41814/a5db2d18-1803-4300-906f-579af270edf1.3356358479_a0e3ee8a05_b.jpg?s=65db066cf45ee7895529725a8d478c14',
+          ],
+        },
+        object:
+          'https://stream-cloud-uploads.imgix.net/images/41814/a5db2d18-1803-4300-906f-579af270edf1.3356358479_a0e3ee8a05_b.jpg?s=65db066cf45ee7895529725a8d478c14',
+        actor: { data: { name: 'Josh' } },
+      },
+      time: Date.now() - 1000000,
+    },
+  ],
+};
+
+export const notificationGroup2 = {
+  activities: [
+    {
+      actor: { data: { name: 'Jordan Belfair', profileImage: 'https://randomuser.me/api/portraits/women/72.jpg' } },
+      verb: 'follow',
+      object: {},
+      time: Date.now() - 4000000,
+    },
+    {
+      actor: { data: { name: 'Jacky Davidson', profileImage: 'https://randomuser.me/api/portraits/men/72.jpg' } },
+      verb: 'follow',
+      object: {},
+    },
+    {
+      actor: { data: { name: 'Jared Fault', profileImage: 'https://randomuser.me/api/portraits/women/7.jpg' } },
+      verb: 'follow',
+      object: {},
+    },
+  ],
+};

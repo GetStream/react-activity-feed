@@ -1,0 +1,29 @@
+---
+route: /components/notification
+menu: Top Level Components
+---
+
+import { Playground, Props } from 'docz';
+import { Notification } from './Notification';
+import { WithExampleStreamApp, notificationGroup1, notificationGroup2 } from './docz';
+
+# Notification
+
+This component renders each grouped activity inside the `<NotificationFeed />` component.
+
+It supports the following activity verbs by default: `follow`, `like`, `repost`, `comment`.
+
+## Properties
+
+<Props of={Notification} />
+
+## Basic usage
+
+<Playground>
+  <WithExampleStreamApp>
+    <>
+      <Notification activityGroup={notificationGroup1} />
+      <Notification activityGroup={notificationGroup2} onClickUser={console.log} onClickNotification={console.log} />
+    </>
+  </WithExampleStreamApp>
+</Playground>

@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactTextareaAutocomplete, { ItemComponentProps, TriggerType } from '@webscopeio/react-textarea-autocomplete';
+import ReactTextareaAutocomplete, { TriggerType } from '@webscopeio/react-textarea-autocomplete';
 import { LoadingIndicator } from 'react-file-utils';
 import { BaseEmoji, emojiIndex } from 'emoji-mart';
 import { UR } from 'getstream';
@@ -19,11 +19,22 @@ export type TextareaProps = {
   value?: string;
 };
 
-const AutocompleteItem = ({ entity: { id, native } }: ItemComponentProps<BaseEmoji>) => (
-  <div>
-    {native} {id}
-  </div>
-);
+const defaultTriggers: TriggerType<BaseEmoji> = {
+  ':': {
+    component: function AutocompleteItem({ entity: { id, native } }) {
+      return (
+        <div>
+          {native} {id}
+        </div>
+      );
+    },
+    output: (item) => ({ key: item.id, text: item.native, caretPosition: 'next' }),
+    dataProvider: (token: string) => {
+      const emojis = emojiIndex.search(token) || [];
+      return emojis.slice(0, 10) as BaseEmoji[];
+    },
+  },
+};
 
 export const Textarea = ({
   innerRef,
@@ -38,17 +49,8 @@ export const Textarea = ({
   return (
     <ReactTextareaAutocomplete
       loadingComponent={LoadingIndicator}
-      trigger={{
-        ':': {
-          component: AutocompleteItem,
-          output: (item: BaseEmoji) => ({ key: item.id, text: item.native, caretPosition: 'next' }),
-          dataProvider: (token: string) => {
-            const emojis = emojiIndex.search(token) || [];
-            return emojis.slice(0, 10) as BaseEmoji[];
-          },
-        },
-        ...trigger,
-      }}
+      // @ts-expect-error
+      trigger={{ ...defaultTriggers, ...trigger }}
       innerRef={
         innerRef &&
         ((el) => {
