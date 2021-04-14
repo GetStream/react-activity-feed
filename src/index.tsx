@@ -7,7 +7,6 @@ export * from './components/StatusUpdateForm';
 export * from './components/Activity';
 export { default as Notification } from './components/Notification';
 export { default as NotificationDropdown } from './components/NotificationDropdown';
-export { default as B2BTimeline } from './components/B2BTimeline';
 
 // Feed sub components
 export * from './components/NewActivitiesNotification';
