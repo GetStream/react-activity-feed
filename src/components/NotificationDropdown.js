@@ -1,7 +1,7 @@
 import React from 'react';
 import { Feed, FeedContext } from '../Context';
 import NotificationFeed from './NotificationFeed';
-import Notification from './Notification';
+import { Notification } from './Notification';
 import { NewActivitiesNotification } from './NewActivitiesNotification';
 import { LoadMorePaginator } from './LoadMorePaginator';
 import { FeedPlaceholder } from './FeedPlaceholder';
