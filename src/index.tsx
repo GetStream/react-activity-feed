@@ -1,7 +1,7 @@
 // Top level components
 export * from './Context';
 export * from './components/FlatFeed';
-export { default as NotificationFeed } from './components/NotificationFeed';
+export * from './components/NotificationFeed';
 export * from './components/SinglePost';
 export * from './components/StatusUpdateForm';
 export * from './components/Activity';
