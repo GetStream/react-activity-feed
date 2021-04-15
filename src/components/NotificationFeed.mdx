@@ -32,8 +32,8 @@ This component should be a child of `<StreamApp/>` component.
       Group={(props) => (
         <Notification
           {...props}
-          onClickUser={(user) => console.log(user)}
-          onClickNotification={(notification) => console.log(notification)}
+          onClickUser={(user) => console.log('Clicked on user', user)}
+          onClickNotification={(notification) => console.log('Clicked on notification', notification)}
         />
       )}
     />
