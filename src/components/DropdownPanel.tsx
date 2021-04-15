@@ -16,6 +16,7 @@ export type DropdownPanelProps = {
 export const DropdownPanel = ({ arrow = false, right = false, Header, Footer, children }: DropdownPanelProps) => {
   return (
     <div
+      data-testid="dp-wrapper"
       className={`raf-dropdown-panel${arrow ? ' raf-dropdown-panel--arrow' : ''} ${
         right
           ? ' raf-dropdown-panel--right raf-dropdown-panel--arrow-right'
