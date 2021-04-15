@@ -1,0 +1,41 @@
+---
+route: /components/single-post
+menu: Top Level Components
+---
+
+import { Playground, Props } from 'docz';
+import { WithExampleStreamApp } from './docz';
+import { SinglePost } from './SinglePost';
+import { Activity } from './Activity';
+import { CommentField } from './CommentField';
+import CommentList from './CommentList';
+
+# SinglePost
+
+This component should be a child of `<StreamApp/>` component.
+
+## Properties
+
+<Props of={SinglePost} />
+
+## Basic usage
+
+<Playground>
+  <WithExampleStreamApp>
+    <SinglePost
+      activityId="aba1d300-dc4a-11e8-8080-80010edf5810"
+      feedGroup="timeline"
+      Activity={(props) => (
+        <Activity
+          {...props}
+          Footer={
+            <div style={{ padding: '0 16px 16px' }}>
+              <CommentField activity={props.activity} onAddReaction={props.onAddReaction} />
+              <CommentList activityId={props.activity.id} />
+            </div>
+          }
+        />
+      )}
+    />
+  </WithExampleStreamApp>
+</Playground>

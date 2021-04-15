@@ -2,7 +2,7 @@
 export * from './Context';
 export * from './components/FlatFeed';
 export { default as NotificationFeed } from './components/NotificationFeed';
-export { default as SinglePost } from './components/SinglePost';
+export * from './components/SinglePost';
 export * from './components/StatusUpdateForm';
 export * from './components/Activity';
 export * from './components/Notification';
