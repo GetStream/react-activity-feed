@@ -9,11 +9,11 @@ export type IconBadgeProps = {
   unseen?: number;
 };
 
-export const IconBadge = ({ children, onClick, hidden, unseen, showNumber }: IconBadgeProps) => {
+export const IconBadge = ({ children, onClick, hidden, unseen = 0, showNumber }: IconBadgeProps) => {
   return (
     <div className="raf-icon-badge" role="button" onClick={onClick}>
       {children ?? <BellIcon />}
-      {unseen && !hidden && (
+      {unseen > 0 && !hidden && (
         <div className="raf-icon-badge__badge" data-testid="unseen-wrapper">
           {showNumber && <p data-testid="unseen-count">{unseen}</p>}
         </div>
