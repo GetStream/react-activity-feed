@@ -38,7 +38,7 @@ export type UserOrDefaultReturnType<T extends UR = UR> =
   | (EnrichedUser<{ name: 'Unknown'; profileImage: '' }> & { id: '!not-found' });
 
 export function userOrDefault<T extends UR = UR>(
-  user?: EnrichedUser<T> | string | { error: string } | null,
+  user?: EnrichedUser<T> | UserOrDefaultReturnType<T> | string | { error: string } | null,
 ): UserOrDefaultReturnType<T> {
   if (!user || typeof user === 'string' || isErrorUser(user))
     return {
@@ -175,7 +175,7 @@ export const useOnClickUser = <
   useMemo(
     () =>
       onClickUser
-        ? (user?: EnrichedUser<UT>) => (event: MouseEvent<E>) => {
+        ? (user?: EnrichedUser<UT> | UserOrDefaultReturnType<UT>) => (event: MouseEvent<E>) => {
             event.stopPropagation();
             onClickUser(userOrDefault<UT>(user));
           }
