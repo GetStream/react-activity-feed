@@ -1,10 +1,10 @@
-import React, { ReactNode, MouseEvent } from 'react';
+import React, { ReactNode, MouseEventHandler } from 'react';
 import { BellIcon } from './Icons';
 
 export type IconBadgeProps = {
   children?: ReactNode;
   hidden?: boolean;
-  onClick?: (event: MouseEvent<HTMLDivElement>) => void;
+  onClick?: MouseEventHandler<HTMLDivElement>;
   showNumber?: boolean;
   unseen?: number;
 };
