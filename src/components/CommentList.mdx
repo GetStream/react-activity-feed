@@ -23,3 +23,16 @@ import { Feed } from '../Context/Feed';
     </Feed>
   </WithExampleStreamApp>
 </Playground>
+
+## Custom CommentItem
+
+<Playground>
+  <WithExampleStreamApp>
+    <Feed feedGroup="user">
+      <CommentList
+        CommentItem={(props) => <div style={{ padding: 10 }}>{props.comment.data.text}</div>}
+        activityId="aba1d300-dc4a-11e8-8080-80010edf5810"
+      />
+    </Feed>
+  </WithExampleStreamApp>
+</Playground>
