@@ -5,7 +5,7 @@ import { Notification } from './Notification';
 import { NewActivitiesNotification } from './NewActivitiesNotification';
 import { LoadMorePaginator } from './LoadMorePaginator';
 import { FeedPlaceholder } from './FeedPlaceholder';
-import IconBadge from './IconBadge';
+import { IconBadge } from './IconBadge';
 import { DropdownPanel } from './DropdownPanel';
 
 import { smartRender } from '../utils';
