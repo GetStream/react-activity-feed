@@ -2,7 +2,7 @@ import React from 'react';
 
 import { DefaultAT, DefaultUT } from '../Context/StreamApp';
 import { useTranslationContext } from '../Context/TranslationContext';
-import { userOrDefault, humanizeTimestamp } from '../utils';
+import { userOrDefault, humanizeTimestamp, useOnClickUser } from '../utils';
 import { ActivityProps } from './Activity';
 import { UserBar } from './UserBar';
 
@@ -20,12 +20,14 @@ export const ActivityHeader = <UT extends DefaultUT = DefaultUT, AT extends Defa
   const { tDateTimeParser } = useTranslationContext();
 
   const actor = userOrDefault<UT>(activity.actor);
+  const handleUserClick = useOnClickUser<UT>(onClickUser);
+
   return (
     <div style={{ padding: '8px 16px' }}>
       <UserBar
         username={actor.data.name}
         avatar={actor.data.profileImage}
-        onClickUser={onClickUser ? () => onClickUser(actor) : undefined}
+        onClickUser={handleUserClick?.(actor)}
         subtitle={HeaderRight ? humanizeTimestamp(activity.time, tDateTimeParser) : undefined}
         timestamp={activity.time}
         icon={icon}
