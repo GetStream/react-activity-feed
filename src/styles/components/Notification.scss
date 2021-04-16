@@ -56,3 +56,31 @@
 .raf-notification--read {
   background: white;
 }
+
+.raf-notification-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.raf-notification-dropdown__panel {
+  position: absolute;
+  width: 100vw;
+  z-index: 9999;
+  transition: all 0.2s ease-out;
+  top: 35px;
+  left: -22px;
+  visibility: hidden;
+  transform: translateY(10px);
+  opacity: 0;
+}
+
+.raf-notification-dropdown__panel--open {
+  visibility: visible;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.raf-notification-dropdown__panel--right {
+  left: unset;
+  right: -29px;
+}
