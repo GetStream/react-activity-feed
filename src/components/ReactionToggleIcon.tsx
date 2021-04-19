@@ -6,12 +6,12 @@ import { DefaultUT } from '../Context/StreamApp';
 
 type ReactionToggleIconProps<UT extends DefaultUT = DefaultUT, RT extends UR = UR, CRT extends UR = UR> = {
   /** The icon to show when the user has done this reaction (e.g. a filled in heart) */
-  activeIcon: string;
+  activeIcon: ReactionIconProps['icon'];
   /** The icon to show when the user has not done this reaction yet (e.g. an empty in heart) */
-  inactiveIcon: string;
+  inactiveIcon: ReactionIconProps['icon'];
   /** The map with own reactions */
-  own_reactions: ReactionsRecords<RT, CRT, UT>;
-} & ReactionIconProps;
+  own_reactions?: ReactionsRecords<RT, CRT, UT> | Record<string, CRT>;
+} & Omit<ReactionIconProps, 'icon'>;
 
 export const ReactionToggleIcon = <UT extends DefaultUT = DefaultUT, RT extends UR = UR, CRT extends UR = UR>({
   inactiveIcon,
