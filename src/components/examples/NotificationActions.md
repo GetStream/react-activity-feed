@@ -1,5 +1,0 @@
-NotificationActions
-
-```js
-<NotificationActions />
-```
