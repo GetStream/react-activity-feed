@@ -6,7 +6,7 @@ export * from './components/SinglePost';
 export * from './components/StatusUpdateForm';
 export * from './components/Activity';
 export * from './components/Notification';
-export { default as NotificationDropdown } from './components/NotificationDropdown';
+export * from './components/NotificationDropdown';
 
 // Feed sub components
 export * from './components/NewActivitiesNotification';
