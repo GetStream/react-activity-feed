@@ -35,7 +35,7 @@ export * from './components/IconBadge';
 export * from './components/FollowButton';
 
 // Comment related
-export { default as CommentList } from './components/CommentList';
+export * from './components/CommentList';
 export { default as ReactionList } from './components/ReactionList';
 export * from './components/CommentItem';
 export * from './components/CommentField';

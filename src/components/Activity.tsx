@@ -20,7 +20,7 @@ export type ActivityProps<
 > = {
   /** The activity received for stream for which to show the like buton. This is
    * used to initalize the toggle state and the counter. */
-  activity: EnrichedActivity<UT, AT>;
+  activity: EnrichedActivity<UT, AT, CT, RT, CRT>;
   Content?: ElementOrComponentOrLiteralType<ActivityContentProps<UT, AT>>;
   /** The feed group part of the feed that the activity should be reposted to
    * when pressing the RepostButton, e.g. `user` when posting to your own profile
