@@ -17,11 +17,9 @@ export type NotificationDropdownProps<
   PT extends UR = UR
 > = {
   width: number;
-  Footer?: DropdownPanelProps['Footer'];
-  Header?: DropdownPanelProps['Header'];
   Icon?: ElementOrComponentOrLiteralType;
-  right?: DropdownPanelProps['right'];
-} & NotificationFeedProps<UT, AT, CT, RT, CRT, PT>;
+} & Pick<DropdownPanelProps, 'Footer' | 'Header' | 'right'> &
+  NotificationFeedProps<UT, AT, CT, RT, CRT, PT>;
 
 const NotificationDropdownInner = <
   UT extends DefaultUT = DefaultUT,
