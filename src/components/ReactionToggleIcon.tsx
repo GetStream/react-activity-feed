@@ -20,7 +20,7 @@ export const ReactionToggleIcon = <UT extends DefaultUT = DefaultUT, RT extends 
   kind,
   ...restProps
 }: ReactionToggleIconProps<UT, RT, CRT>) => {
-  const icon = ownReactions?.[kind ?? ''].length ? activeIcon : inactiveIcon;
+  const icon = ownReactions?.[kind ?? '']?.length ? activeIcon : inactiveIcon;
   return (
     <div className="raf-reaction-toggle-icon">
       <ReactionIcon icon={icon} kind={kind} {...restProps} />
