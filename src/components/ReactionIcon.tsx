@@ -2,13 +2,21 @@ import React, { useMemo, MouseEventHandler } from 'react';
 import { useTranslationContext } from '../Context';
 
 export type ReactionIconProps = {
+  /** The reaction counts for the activity */
   counts?: Record<string, number>;
+  /** The height of the icon */
   height?: number;
   icon?: string | JSX.Element;
+  /** The kind of reaction that this toggles */
   kind?: string;
+  /** The label to display if the count is more than one (e.g "likes") */
   labelPlural?: string;
+  /** The label to display if the count is one (e.g "like") */
   labelSingle?: string;
+  /** Function to call when pressed, usually this should call
+   * `props.onToggleReaction` */
   onPress?: MouseEventHandler<HTMLDivElement>;
+  /** The width of the icon */
   width?: number;
 };
 

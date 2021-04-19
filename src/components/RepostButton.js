@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactionToggleIcon from './ReactionToggleIcon';
+import { ReactionToggleIcon } from './ReactionToggleIcon';
 
 import { StreamApp, withTranslationContext } from '../Context';
 

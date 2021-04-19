@@ -30,7 +30,7 @@ export * from './components/Audio';
 export * from './components/LikeButton';
 export { default as RepostButton } from './components/RepostButton';
 export * from './components/ReactionIcon';
-export { default as ReactionToggleIcon } from './components/ReactionToggleIcon';
+export * from './components/ReactionToggleIcon';
 export * from './components/IconBadge';
 export * from './components/FollowButton';
 

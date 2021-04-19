@@ -3,7 +3,7 @@ import { EnrichedReaction, UR, Reaction } from 'getstream';
 
 import { FeedManager } from '../Context/FeedManager';
 import { DefaultAT, DefaultUT } from '../Context/StreamApp';
-import ReactionToggleIcon from './ReactionToggleIcon';
+import { ReactionToggleIcon } from './ReactionToggleIcon';
 import { ThumbsUpIcon, Color } from './Icons';
 import { ActivityProps } from './Activity';
 
