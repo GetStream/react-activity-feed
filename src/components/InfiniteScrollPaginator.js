@@ -1,5 +1,5 @@
 import React from 'react';
-import InfiniteScroll from './InfiniteScroll';
+import { InfiniteScroll } from './InfiniteScroll';
 import { LoadingIndicator } from 'react-file-utils';
 
 import { smartRender } from '../utils';
