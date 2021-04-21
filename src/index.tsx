@@ -10,7 +10,7 @@ export * from './components/NotificationDropdown';
 
 // Feed sub components
 export * from './components/NewActivitiesNotification';
-export { default as InfiniteScrollPaginator } from './components/InfiniteScrollPaginator';
+export * from './components/InfiniteScrollPaginator';
 export * from './components/LoadMorePaginator';
 
 // Activity sub components
