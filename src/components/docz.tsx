@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { StreamApp } from '../Context';
 
 export const WithExampleStreamApp: FC = ({ children }) => (
@@ -52,4 +52,17 @@ export const notificationGroup2 = {
       object: {},
     },
   ],
+};
+
+export const resolveAfter = (duration: number) => new Promise((resolve) => setTimeout(resolve, duration));
+
+type StatefulComponentProps<T> = {
+  children: (renderProps: { setState: React.Dispatch<React.SetStateAction<T>>; state: T }) => JSX.Element;
+  initialValue: T;
+};
+
+export const StatefulComponent = <T extends unknown>({ children, initialValue }: StatefulComponentProps<T>) => {
+  const [state, setState] = useState<T>(initialValue);
+
+  return children({ state, setState });
 };
