@@ -1,5 +1,5 @@
 import React from 'react';
-import { EnrichedReactionAPIResponse, UR, EnrichedUser } from 'getstream';
+import { EnrichedReaction, UR } from 'getstream';
 
 import { Flex } from './Flex';
 import { Avatar } from './Avatar';
@@ -7,17 +7,17 @@ import { humanizeTimestamp, textRenderer, OnClickUserHandler, useOnClickUser } f
 import { useTranslationContext } from '../Context';
 import { DefaultUT } from '../Context/StreamApp';
 
-export type CommentItemProps<UT extends DefaultUT = DefaultUT> = {
-  comment: EnrichedReactionAPIResponse<UR, UR, EnrichedUser<UT>>;
+export type CommentItemProps<UT extends DefaultUT = DefaultUT, RT extends UR = UR, CRT extends UR = UR> = {
+  comment: EnrichedReaction<RT, CRT, UT>;
   onClickUser?: OnClickUserHandler<UT>;
 } & Partial<Record<'onClickMention' | 'onClickHashtag', (word: string) => void>>;
 
-export const CommentItem = <UT extends DefaultUT = DefaultUT>({
+export const CommentItem = <UT extends DefaultUT = DefaultUT, RT extends UR = UR, CRT extends UR = UR>({
   comment: { user, created_at, data },
   onClickHashtag,
   onClickMention,
   onClickUser,
-}: CommentItemProps<UT>) => {
+}: CommentItemProps<UT, RT, CRT>) => {
   const { tDateTimeParser } = useTranslationContext();
 
   const handleUserClick = useOnClickUser<UT, SVGSVGElement | HTMLSpanElement>(onClickUser);
