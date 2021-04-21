@@ -57,9 +57,7 @@ export const ReactionList = <
     false,
   );
 
-  if (reverseOrder) {
-    reactions = reactions.reverse();
-  }
+  if (reverseOrder) reactions.reverse();
 
   const loadNextPage = () => {
     feed.loadNextReactions(activityId, reactionKind, activityPath, oldestToNewest);
