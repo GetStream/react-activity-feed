@@ -46,8 +46,8 @@ export const ReactionList = <
 
   const activityPath = defaultActivityPath || feed.getActivityPath(activityId);
   const orderPrefix = oldestToNewest ? 'oldest' : 'latest';
-  const reactions_extra = feed.activities.getIn([...activityPath, orderPrefix + '_reactions_extra']);
-  const hasNextPage = reactions_extra ? !!reactions_extra.getIn([reactionKind, 'next'], '') : true;
+  const reactionsExtra = feed.activities.getIn([...activityPath, orderPrefix + '_reactions_extra']);
+  const hasNextPage = reactionsExtra ? !!reactionsExtra.getIn([reactionKind, 'next'], '') : true;
   let reactions = feed.activities.getIn(
     [...activityPath, orderPrefix + '_reactions', reactionKind],
     immutable.List(),
@@ -66,7 +66,7 @@ export const ReactionList = <
   };
 
   useEffect(() => {
-    if (oldestToNewest && reactions_extra) {
+    if (oldestToNewest && reactionsExtra) {
       loadNextPage();
     }
   }, []);
