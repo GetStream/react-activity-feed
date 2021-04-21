@@ -14,6 +14,7 @@ import {
   frTranslations,
   hiTranslations,
   itTranslations,
+  esTranslations,
 } from './i18n';
 
 const defaultNS = 'translation';
@@ -119,6 +120,13 @@ Dayjs.updateLocale('ru', {
     lastDay: '[Вчера, в] LT',
   },
 });
+Dayjs.updateLocale('es', {
+  calendar: {
+    sameDay: '[Hoy a] LT',
+    nextDay: '[Mañana a] LT',
+    lastDay: '[Ayer a] LT',
+  },
+});
 
 const en_locale = {
   weekdays: 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split(
@@ -153,6 +161,7 @@ export class Streami18n {
     fr: { [defaultNS]: frTranslations },
     hi: { [defaultNS]: hiTranslations },
     it: { [defaultNS]: itTranslations },
+    es: { [defaultNS]: esTranslations },
   };
   /**
    * dayjs.updateLocale('nl') also changes the global locale. We don't want to do that
