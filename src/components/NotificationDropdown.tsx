@@ -16,8 +16,8 @@ export type NotificationDropdownProps<
   CRT extends UR = UR,
   PT extends UR = UR
 > = {
-  width: number;
   Icon?: ElementOrComponentOrLiteralType;
+  width?: number;
 } & Pick<DropdownPanelProps, 'Footer' | 'Header' | 'right'> &
   NotificationFeedProps<UT, AT, CT, RT, CRT, PT>;
 
