@@ -1,0 +1,31 @@
+---
+route: /components/repost-button
+menu: UI Components
+---
+
+import { Playground, Props } from 'docz';
+import { RepostButton } from './RepostButton';
+import { Activity } from './Activity';
+import { FlatFeed } from './FlatFeed';
+import { WithExampleStreamApp } from './docz';
+
+# RepostButton
+
+## Properties
+
+<Props of={RepostButton} />
+
+## Basic usage
+
+Repost an activity to the current user's `user` feed
+
+<Playground>
+  <WithExampleStreamApp>
+    <FlatFeed
+      notify
+      feedGroup="user"
+      options={{ limit: 3, withRecentReactions: true }}
+      Activity={(props) => <Activity {...props} Footer={<RepostButton activity={props.activity} feedGroup="user" />} />}
+    />
+  </WithExampleStreamApp>
+</Playground>

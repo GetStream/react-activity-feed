@@ -28,7 +28,7 @@ export * from './components/Audio';
 
 // Icons
 export * from './components/LikeButton';
-export { default as RepostButton } from './components/RepostButton';
+export * from './components/RepostButton';
 export * from './components/ReactionIcon';
 export * from './components/ReactionToggleIcon';
 export * from './components/IconBadge';

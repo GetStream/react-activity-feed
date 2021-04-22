@@ -2,7 +2,7 @@ import React from 'react';
 import { UR } from 'getstream';
 
 import { LikeButton } from './LikeButton';
-import RepostButton from './RepostButton';
+import { RepostButton } from './RepostButton';
 import { Flex } from './Flex';
 import { DefaultAT, DefaultUT } from '../Context/StreamApp';
 import { ActivityProps } from './Activity';
@@ -29,7 +29,7 @@ export const ActivityFooter = <
     <div className="raf-activity-footer__right">
       <Flex a="center">
         <LikeButton<UT, AT, CT, RT, CRT> activity={props.activity} onToggleReaction={props.onToggleReaction} />
-        <RepostButton {...props} />
+        <RepostButton<UT, AT, CT, RT, CRT> {...props} />
       </Flex>
     </div>
   </div>
