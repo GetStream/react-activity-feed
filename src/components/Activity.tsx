@@ -5,7 +5,6 @@ import { ActivityContent as DefaultActivityContent, ActivityContentProps } from 
 import { ActivityHeader as DefaultActivityHeader, ActivityHeaderProps } from './ActivityHeader';
 import { ActivityFooterProps } from './ActivityFooter';
 
-import { FeedManager } from '../Context/FeedManager';
 import { smartRender, ElementOrComponentOrLiteralType, UserOrDefaultReturnType } from '../utils';
 import { DefaultAT, DefaultUT } from '../Context/StreamApp';
 
@@ -18,8 +17,8 @@ export type ActivityProps<
   RT extends UR = UR,
   CRT extends UR = UR
 > = {
-  /** The activity received for stream for which to show the like buton. This is
-   * used to initalize the toggle state and the counter. */
+  /** The activity received for stream for which to show the like button. This is
+   * used to initialize the toggle state and the counter. */
   activity: EnrichedActivity<UT, AT, CT, RT, CRT>;
   Content?: ElementOrComponentOrLiteralType<ActivityContentProps<UT, AT, CT, RT, CRT>>;
   /** The feed group part of the feed that the activity should be reposted to
@@ -35,8 +34,6 @@ export type ActivityProps<
   /** Handler for any routing you may do on clicks on Mentions */
   onClickMention?: WordClickHandler;
   onClickUser?: (user: UserOrDefaultReturnType<UT>) => void;
-  /** The function that toggles  reaction. */
-  onToggleReaction?: FeedManager<UT, AT, CT, RT, CRT>['onToggleReaction']; // TODO: remove and pick up from context
   /** UI component to render original activity within a repost */
   Repost?: ElementOrComponentOrLiteralType<ActivityProps<UT, AT, CT, RT, CRT>>;
   /** The user_id part of the feed that the activity should be reposted to when
@@ -82,7 +79,6 @@ export const Activity = <
   onClickHashtag,
   onClickMention,
   onClickUser,
-  onToggleReaction,
   Repost = DefaultRepost,
   userId,
   feedGroup,
@@ -100,10 +96,9 @@ export const Activity = <
       onClickHashtag,
       onClickMention,
       onClickUser,
-      onToggleReaction,
       Repost,
       userId,
     })}
-    {smartRender<ActivityFooterProps<UT, AT, CT, RT, CRT>>(Footer, { activity, feedGroup, userId, onToggleReaction })}
+    {smartRender<ActivityFooterProps<UT, AT, CT, RT, CRT>>(Footer, { activity, feedGroup, userId })}
   </div>
 );

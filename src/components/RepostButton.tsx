@@ -12,7 +12,7 @@ export type RepostButtonType<
   RT extends UR = UR,
   CRT extends UR = UR
 > = {
-  /** The activity received for stream for which to show the like button. This is
+  /** The activity received for stream for which to show the repost button. This is
    * used to initialize the toggle state and the counter. */
   activity: EnrichedActivity<UT, AT, CT, RT, CRT>;
   /** The feed group part of the feed that the activity should be reposted to,
