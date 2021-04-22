@@ -1,24 +1,34 @@
 import React from 'react';
 import { FileIcon } from 'react-file-utils';
+import { EnrichedActivity, UR } from 'getstream';
 
 import { DefaultAT, DefaultUT } from '../Context/StreamApp';
-import { textRenderer, sanitizeURL } from '../utils';
+import { textRenderer, smartRender, sanitizeURL } from '../utils';
 import { Audio } from './Audio';
 import { Video } from './Video';
 import { Card } from './Card';
 import { Gallery } from './Gallery';
 import { ActivityProps } from './Activity';
 
-export type ActivityContentProps<UT extends DefaultUT = DefaultUT, AT extends DefaultAT = DefaultAT> = Pick<
-  ActivityProps<UT, AT>,
-  'activity' | 'onClickMention' | 'onClickHashtag'
->;
+export type ActivityContentProps<
+  UT extends DefaultUT = DefaultUT,
+  AT extends DefaultAT = DefaultAT,
+  CT extends UR = UR,
+  RT extends UR = UR,
+  CRT extends UR = UR
+> = ActivityProps<UT, AT, CT, RT, CRT>;
 
-export const ActivityContent = <UT extends DefaultUT = DefaultUT, AT extends DefaultAT = DefaultAT>({
+export const ActivityContent = <
+  UT extends DefaultUT = DefaultUT,
+  AT extends DefaultAT = DefaultAT,
+  CT extends UR = UR,
+  RT extends UR = UR,
+  CRT extends UR = UR
+>({
   activity,
-  onClickHashtag,
-  onClickMention,
-}: ActivityContentProps<UT, AT>) => {
+  Repost,
+  ...props
+}: ActivityContentProps<UT, AT, CT, RT, CRT>) => {
   const {
     object,
     text = (typeof object === 'string' ? object : '').trim(),
@@ -31,13 +41,9 @@ export const ActivityContent = <UT extends DefaultUT = DefaultUT, AT extends Def
     <div className="raf-activity__content">
       {text && (
         <div style={{ padding: '8px 16px' }}>
-          <p>{textRenderer(text, 'raf-activity', onClickMention, onClickHashtag)}</p>
+          <p>{textRenderer(text, 'raf-activity', props.onClickMention, props.onClickHashtag)}</p>
         </div>
       )}
-
-      {/* TODO: fix repost renders */}
-      {/* @ts-expect-error */}
-      {verb === 'repost' && typeof object === 'object' && <Card {...object.data} />}
 
       {og && (
         <div style={{ padding: '8px 16px' }}>
@@ -68,6 +74,13 @@ export const ActivityContent = <UT extends DefaultUT = DefaultUT, AT extends Def
           ))}
         </ol>
       )}
+
+      {verb === 'repost' &&
+        typeof object === 'object' &&
+        smartRender(Repost, {
+          ...props,
+          activity: object as EnrichedActivity<UT, AT, CT, RT, CRT>,
+        })}
     </div>
   );
 };
