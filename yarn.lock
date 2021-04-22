@@ -8366,10 +8366,10 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
-getstream@^7.2.5:
-  version "7.2.5"
-  resolved "https://registry.yarnpkg.com/getstream/-/getstream-7.2.5.tgz#0a8e45030b53d8b088f9edef4f9477010f7c51a0"
-  integrity sha512-2ScWdnVU8RdiqeAK3ohrQZtnlAyGDDRBCw221Jgre2YPPaFMLh7sgJ2Axc90B9SIAI+wnWK1/xEDbULw5R7Cuw==
+getstream@^7.2.6:
+  version "7.2.6"
+  resolved "https://registry.yarnpkg.com/getstream/-/getstream-7.2.6.tgz#fcaf2686b9182f742c8ad2416478a29262f78986"
+  integrity sha512-baAehEGn/h5leopp6r7gzcgqtpS+33isihOYsh3DqZOnweH0bl8PAl3Q0NWNOuSNOAFm1+tAaZG80diDPefubw==
   dependencies:
     "@babel/runtime" "^7.13.10"
     "@types/jsonwebtoken" "^8.5.0"

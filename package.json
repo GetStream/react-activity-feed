@@ -131,7 +131,7 @@
     "@webscopeio/react-textarea-autocomplete": "^4.7.3",
     "dayjs": "^1.10.4",
     "emoji-mart": "^3.0.1",
-    "getstream": "^7.2.5",
+    "getstream": "^7.2.6",
     "i18next": "^20.2.1",
     "immutable": "^4.0.0-rc.12",
     "linkifyjs": "^2.1.9",

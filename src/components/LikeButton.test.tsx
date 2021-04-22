@@ -21,9 +21,13 @@ const testReactionData: LikeButtonProps['reaction'] = {
   activity_id: '',
   user_id: '',
   user: {
-    profileImage: '',
     id: '',
-    name: '',
+    created_at: '',
+    updated_at: '',
+    data: {
+      profileImage: '',
+      name: '',
+    },
   },
   data: {},
   id: '',
