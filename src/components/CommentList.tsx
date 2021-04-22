@@ -1,46 +1,64 @@
 import React from 'react';
+import { UR } from 'getstream';
 
 import { ElementOrComponentOrLiteralType, smartRender } from '../utils';
-import { DefaultUT } from '../Context/StreamApp';
+import { DefaultUT, DefaultAT } from '../Context/StreamApp';
 
-import ReactionList from './ReactionList';
+import { ReactionList } from './ReactionList';
 import { LoadMorePaginator, LoadMorePaginatorProps } from './LoadMorePaginator';
 import { CommentItem as DefaultCommentItem, CommentItemProps } from './CommentItem';
 
-export type CommentListProps<UT extends DefaultUT = DefaultUT> = {
+export type CommentListProps<
+  UT extends DefaultUT = DefaultUT,
+  // @ts-expect-error
+  AT extends DefaultAT = DefaultAT, // eslint-disable-line
+  // @ts-expect-error
+  CT extends UR = UR, // eslint-disable-line
+  RT extends UR = UR,
+  CRT extends UR = UR
+> = {
   /** The ID of the activity for which these comments are */
   activityId: string;
   /** Only needed for reposted activities where you want to show the comments
    * of the original activity, not of the repost */
   activityPath?: Array<string>;
   /** The component that should render the comment */
-  CommentItem?: ElementOrComponentOrLiteralType<CommentItemProps<UT>>;
+  CommentItem?: ElementOrComponentOrLiteralType<CommentItemProps<UT, RT, CRT>>;
   /** Show and load comments starting with the oldest reaction first, instead
    * of the default where comments are displayed and loaded most recent first.
    */
   oldestToNewest?: boolean;
   /** By default pagination is done with a "Load more" button, you can use
-   * InifiniteScrollPaginator to enable infinite scrolling */
+   * InfiniteScrollPaginator to enable infinite scrolling */
   Paginator?: ElementOrComponentOrLiteralType<LoadMorePaginatorProps>;
   /** Reverse the order the comments are displayed in. */
   reverseOrder?: boolean;
 };
 
-export const CommentList = <UT extends DefaultUT = DefaultUT>({
+export const CommentList = <
+  UT extends DefaultUT = DefaultUT,
+  AT extends DefaultAT = DefaultAT,
+  CT extends UR = UR,
+  RT extends UR = UR,
+  CRT extends UR = UR,
+  PT extends UR = UR
+>({
   Paginator = LoadMorePaginator,
   CommentItem = DefaultCommentItem,
   activityId,
   activityPath,
   oldestToNewest = false,
   reverseOrder = false,
-}: CommentListProps<UT>) => (
-  <ReactionList
+}: CommentListProps<UT, AT, CT, RT, CRT>) => (
+  <ReactionList<UT, AT, CT, RT, CRT, PT>
     Paginator={Paginator}
     activityId={activityId}
     reactionKind="comment"
-    // TODO: remove once ReactionList is typed
-    // @ts-expect-error
-    Reaction={({ reaction: comment }) => smartRender<CommentItemProps<UT>>(CommentItem, { comment })}
+    Reaction={({ reaction: comment }) => (
+      <>
+        {smartRender<CommentItemProps<UT, RT, CRT>>(CommentItem, { comment })}
+      </>
+    )}
     activityPath={activityPath}
     oldestToNewest={oldestToNewest}
     reverseOrder={reverseOrder}
