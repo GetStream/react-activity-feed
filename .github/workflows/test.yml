@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [10, 12, 14]
+        node: [12, 14, 16]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -24,14 +24,14 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Lint
-        if: matrix.node == 14
+        if: matrix.node == 16
         run: yarn lint
 
       - name: Unit tests
         run: yarn test
 
       - name: Browser Bundle
-        if: matrix.node == 14
+        if: matrix.node == 16
         run: yarn test-browser-build
 
       - name: Validate translation
@@ -45,5 +45,5 @@ jobs:
           restore-keys: docz-${{ matrix.node }}-gatsby-v0-
 
       - name: Docs
-        if: matrix.node == 14
+        if: matrix.node == 16
         run: yarn docs-build
