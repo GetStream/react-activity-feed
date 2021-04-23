@@ -5,12 +5,12 @@ import { InfiniteScroll } from './InfiniteScroll';
 import { ElementOrComponentOrLiteralType, smartRender } from '../utils';
 
 export type InfiniteScrollPaginatorProps = PropsWithChildren<{
-  /** callback to load the next page */
-  loadNextPage: () => void;
   /** indicates if there is a next page to load */
   hasNextPage?: boolean;
   /** the loading indicator to use */
   Loader?: ElementOrComponentOrLiteralType;
+  /** callback to load the next page */
+  loadNextPage?: () => void;
   /** indicates if there there's currently any refreshing taking place */
   refreshing?: boolean;
   /** display the items in opposite order */
