@@ -10,6 +10,7 @@ import scss from 'rollup-plugin-scss';
 import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
 import cssnano from 'cssnano';
+import sass from 'sass';
 
 import pkg from './package.json';
 
@@ -22,6 +23,7 @@ const styleBundle = (watch = false) => ({
   output: [{ file: pkg.style, format: 'es' }],
   plugins: [
     scss({
+      sass,
       failOnError: true,
       watch: 'src/styles',
       output: pkg.style,
