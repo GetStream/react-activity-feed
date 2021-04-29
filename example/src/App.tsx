@@ -1,14 +1,11 @@
 import React from 'react';
-import { UR } from 'getstream';
 
 import {
   StreamApp,
   StatusUpdateForm,
   FlatFeed,
-  FeedManager,
   NotificationDropdown,
   Activity,
-  ActivityProps,
   LikeButton,
   CommentField,
   CommentList,
@@ -28,7 +25,7 @@ function App() {
       <StreamApp apiKey={apiKey} appId={appId} token={token}>
         <div
           style={{
-            background: '#fff', //#1A1A14
+            background: '#fff',
             height: 60,
             borderRadius: 4,
             margin: '10px 0',
@@ -41,35 +38,26 @@ function App() {
           }}
         >
           <h3>React Activity Feed</h3>
-          <NotificationDropdown arrow right />
+          <NotificationDropdown right />
         </div>
-        <StatusUpdateForm
-        // submitHandler={(e) => {
-        //   alert(e);
-        // }}
-        />
+        <StatusUpdateForm />
         <FlatFeed
           feedGroup="user" // or timeline
           notify
-          options={{
-            limit: 6,
-            // withOwnChildren: true,
-            // withRecentReactions: true
-          }}
-          Paginator={(props: UR) => <InfiniteScrollPaginator threshold={10} {...props} />}
-          Activity={(activityProps: ActivityProps & FeedManager) => (
+          options={{ limit: 6, withOwnChildren: true, withRecentReactions: true }}
+          Paginator={(props) => <InfiniteScrollPaginator {...props} />}
+          Activity={(props) => (
             <Activity
-              {...activityProps}
+              {...props}
               Footer={() => (
                 <React.Fragment>
-                  <CommentField activity={activityProps.activity} onAddReaction={activityProps.onAddReaction} />
+                  <CommentField activity={props.activity} />
                   <CommentList
-                    activityId={activityProps.activity.id}
-                    CommentItem={(props: UR) => (
+                    activityId={props.activity.id}
+                    CommentItem={(commentProps) => (
                       <React.Fragment>
-                        <CommentItem {...props} />
-                        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                        <LikeButton reaction={props.comment as any} {...activityProps} />
+                        <CommentItem {...commentProps} />
+                        <LikeButton reaction={commentProps.comment} />
                       </React.Fragment>
                     )}
                   />
