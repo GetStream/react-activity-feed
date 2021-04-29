@@ -178,21 +178,3 @@ export function StreamApp<
     </StreamAppProvider>
   );
 }
-
-// TODO: remove this once its not used anywhere else
-StreamApp.Consumer = function StreamAppConsumer(props: unknown) {
-  return (
-    <StreamContext.Consumer>
-      {(appCtx) => {
-        // @ts-expect-error
-        if (!props.children || !props.children.length) return null;
-        if (!appCtx.client || !appCtx.user)
-          throw new Error('This component should be a child of a StreamApp component');
-
-        // @ts-expect-error
-        const Child = props.children;
-        return Child(appCtx);
-      }}
-    </StreamContext.Consumer>
-  );
-};

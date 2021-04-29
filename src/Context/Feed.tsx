@@ -107,7 +107,6 @@ export type FeedProps<
   userId?: string;
 };
 
-// TODO: remove UR
 export const FeedContext = React.createContext<FeedContextValue | UR>({});
 
 export const FeedProvider = <
