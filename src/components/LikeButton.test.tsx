@@ -3,6 +3,7 @@ import renderer from 'react-test-renderer';
 import { render, fireEvent } from '@testing-library/react';
 
 import { LikeButton, LikeButtonProps } from './LikeButton';
+import { FeedProvider } from '../Context';
 
 const testActivityData: LikeButtonProps['activity'] = {
   id: '',
@@ -43,9 +44,7 @@ const testReactionData: LikeButtonProps['reaction'] = {
 
 describe('LikeButton', () => {
   it('renders with required properties', () => {
-    const tree = renderer
-      .create(<LikeButton activity={testActivityData} onToggleReaction={async (...data) => await console.log(data)} />)
-      .toJSON();
+    const tree = renderer.create(<LikeButton activity={testActivityData} />).toJSON();
     expect(tree).toMatchInlineSnapshot(`
       <div
         className="raf-reaction-toggle-icon"
@@ -83,16 +82,7 @@ describe('LikeButton', () => {
   });
 
   it('renders with reaction and onToggleChildReaction specified', () => {
-    const tree = renderer
-      .create(
-        <LikeButton
-          activity={testActivityData}
-          reaction={testReactionData}
-          onToggleReaction={async (...data) => await console.log(data)}
-          onToggleChildReaction={async (...data) => await console.log(data)}
-        />,
-      )
-      .toJSON();
+    const tree = renderer.create(<LikeButton reaction={testReactionData} />).toJSON();
     expect(tree).toMatchInlineSnapshot(`
       <div
         className="raf-reaction-toggle-icon"
@@ -130,29 +120,32 @@ describe('LikeButton', () => {
   });
 
   it('checks if onToggleReaction callback has been called', () => {
-    const onClick = jest.fn();
-
-    const { getByRole } = render(<LikeButton activity={testActivityData} onToggleReaction={onClick} />);
-
-    fireEvent.click(getByRole('button'));
-
-    expect(onClick).toHaveBeenCalledTimes(1);
-  });
-
-  it('checks if onToggleChildReaction callback has been called', () => {
-    const onClick = jest.fn();
+    const onToggleReaction = jest.fn();
 
     const { getByRole } = render(
-      <LikeButton
-        activity={testActivityData}
-        reaction={testReactionData}
-        onToggleChildReaction={onClick}
-        onToggleReaction={async () => {}}
-      />,
+      // @ts-expect-error
+      <FeedProvider value={{ onToggleReaction }}>
+        <LikeButton activity={testActivityData} />
+      </FeedProvider>,
     );
 
     fireEvent.click(getByRole('button'));
 
-    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(onToggleReaction).toHaveBeenCalledTimes(1);
+  });
+
+  it('checks if onToggleChildReaction callback has been called', () => {
+    const onToggleChildReaction = jest.fn();
+
+    const { getByRole } = render(
+      // @ts-expect-error
+      <FeedProvider value={{ onToggleChildReaction }}>
+        <LikeButton reaction={testReactionData} />
+      </FeedProvider>,
+    );
+
+    fireEvent.click(getByRole('button'));
+
+    expect(onToggleChildReaction).toHaveBeenCalledTimes(1);
   });
 });

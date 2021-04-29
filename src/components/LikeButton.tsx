@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-import { EnrichedReaction, UR, Reaction } from 'getstream';
+import { EnrichedReaction, UR, Reaction, EnrichedActivity } from 'getstream';
 
-import { FeedManager } from '../Context/FeedManager';
 import { DefaultAT, DefaultUT } from '../Context/StreamApp';
 import { ReactionToggleIcon } from './ReactionToggleIcon';
 import { ThumbsUpIcon, Color } from './Icons';
-import { ActivityProps } from './Activity';
+import { useFeedContext } from '../Context';
 
 export type LikeButtonProps<
   UT extends DefaultUT = DefaultUT,
@@ -14,48 +13,39 @@ export type LikeButtonProps<
   RT extends UR = UR,
   CRT extends UR = UR
 > = {
-  /** The function that toggles reactions on reactions. */
-  onToggleChildReaction?: FeedManager<UT, AT, CT, RT, CRT>['onToggleChildReaction'];
-  /** The reaction received from stream that should be liked when pressing the
-   * LikeButton. Liking a reaction requires to pass both this field and
-   * the `onToggleChildReaction` as well. */
+  /** The activity received from stream that should be liked when pressing the LikeButton. */
+  activity?: EnrichedActivity<UT, AT, CT, RT, CRT>;
+  /** The reaction received from stream that should be liked when pressing the LikeButton. */
   reaction?: EnrichedReaction<RT, CRT, UT>;
-} & Pick<ActivityProps<UT, AT, CT, RT, CRT>, 'onToggleReaction' | 'activity'>;
+};
 
 export const LikeButton = <
   UT extends DefaultUT = DefaultUT,
   AT extends DefaultAT = DefaultAT,
   CT extends UR = UR,
   RT extends UR = UR,
-  CRT extends UR = UR
+  CRT extends UR = UR,
+  PT extends UR = UR
 >({
   activity,
   reaction,
-  onToggleChildReaction,
-  onToggleReaction,
 }: LikeButtonProps<UT, AT, CT, RT, CRT>) => {
-  useEffect(() => {
-    if (reaction && !onToggleChildReaction)
-      console.warn(
-        'reaction is passed to the LikeButton but onToggleChildReaction is not, falling back to liking the activity',
-      );
-  }, [reaction, onToggleChildReaction]);
+  const feed = useFeedContext<UT, AT, CT, RT, CRT, PT>();
 
-  const [counts, ownReactions] =
-    reaction && onToggleChildReaction
-      ? [reaction.children_counts, reaction.own_children]
-      : [activity.reaction_counts, activity.own_reactions];
+  useEffect(() => {
+    if (!reaction && !activity) console.warn('LikeButton requires an activity or reaction to work properly');
+    if (reaction && activity) console.warn('LikeButton requires only one of the activity or reaction to work properly');
+  }, []);
 
   return (
     <ReactionToggleIcon
-      counts={counts}
-      own_reactions={ownReactions}
+      counts={reaction?.children_counts ?? activity?.reaction_counts}
+      own_reactions={reaction?.own_children ?? activity?.own_reactions}
       kind="like"
       onPress={() => {
-        if (reaction && onToggleChildReaction)
-          return onToggleChildReaction('like', reaction as Reaction<RT>, {} as CRT);
-
-        return onToggleReaction?.('like', activity, {} as RT);
+        if (reaction) return feed.onToggleChildReaction('like', reaction as Reaction<RT>, {} as CRT);
+        if (activity) return feed.onToggleReaction('like', activity, {} as RT);
+        return Promise.resolve();
       }}
       activeIcon={<ThumbsUpIcon style={{ color: Color.Active }} />}
       inactiveIcon={<ThumbsUpIcon style={{ color: Color.Inactive }} />}

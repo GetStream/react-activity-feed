@@ -13,7 +13,7 @@ export type ActivityFooterProps<
   CT extends UR = UR,
   RT extends UR = UR,
   CRT extends UR = UR
-> = Pick<ActivityProps<UT, AT, CT, RT, CRT>, 'activity' | 'feedGroup' | 'userId' | 'onToggleReaction'>;
+> = Pick<ActivityProps<UT, AT, CT, RT, CRT>, 'activity' | 'feedGroup' | 'userId'>;
 
 export const ActivityFooter = <
   UT extends DefaultUT = DefaultUT,
@@ -28,7 +28,7 @@ export const ActivityFooter = <
     <div className="raf-activity-footer__left" />
     <div className="raf-activity-footer__right">
       <Flex a="center">
-        <LikeButton<UT, AT, CT, RT, CRT> activity={props.activity} onToggleReaction={props.onToggleReaction} />
+        <LikeButton<UT, AT, CT, RT, CRT> {...props} />
         <RepostButton<UT, AT, CT, RT, CRT> {...props} />
       </Flex>
     </div>

@@ -5,6 +5,11 @@ menu: UI Components
 
 import { Playground, Props } from 'docz';
 import { LikeButton } from './LikeButton';
+import { SinglePost } from './SinglePost';
+import { Activity } from './Activity';
+import { CommentList } from './CommentList';
+import { CommentField } from './CommentField';
+import { WithExampleStreamApp } from './docz';
 
 # LikeButton
 
@@ -12,23 +17,45 @@ import { LikeButton } from './LikeButton';
 
 <Props of={LikeButton} />
 
-## Basic usage
+## Basic usage with Activity
 
 <Playground>
-  <LikeButton
-    activity={{
-      own_reactions: {
-        like: [{}],
-      },
-      name: '',
-      actor: '',
-      foreign_id: '',
-      id: '',
-      object: {},
-      verb: '',
-      time: '',
-      reaction_counts: { like: 7 },
-    }}
-    onToggleReaction={async (...properties) => await console.log(properties)}
-  />
+  <WithExampleStreamApp>
+    <SinglePost
+      feedGroup="timeline"
+      activityId="aba1d300-dc4a-11e8-8080-80010edf5810"
+      Activity={(props) => <Activity {...props} Footer={<LikeButton activity={props.activity} />} />}
+    />
+  </WithExampleStreamApp>
+</Playground>
+
+## Basic usage with Reaction(comment)
+
+<Playground>
+  <WithExampleStreamApp>
+    <SinglePost
+      feedGroup="timeline"
+      activityId="aba1d300-dc4a-11e8-8080-80010edf5810"
+      options={{ withOwnChildren: true }}
+      Activity={(props) => (
+        <Activity
+          {...props}
+          Footer={
+            <React.Fragment>
+              <CommentField activity={props.activity} />
+              <CommentList
+                activityId={props.activity.id}
+                CommentItem={({ comment }) => (
+                  <div>
+                    <div>{comment.data.text}</div>
+                    <LikeButton reaction={comment} />
+                  </div>
+                )}
+              />
+            </React.Fragment>
+          }
+        />
+      )}
+    />
+  </WithExampleStreamApp>
 </Playground>

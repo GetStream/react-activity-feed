@@ -12,7 +12,7 @@ export type RepostButtonType<
   RT extends UR = UR,
   CRT extends UR = UR
 > = {
-  /** The activity received for stream for which to show the like button. This is
+  /** The activity received for stream for which to show the repost button. This is
    * used to initialize the toggle state and the counter. */
   activity: EnrichedActivity<UT, AT, CT, RT, CRT>;
   /** The feed group part of the feed that the activity should be reposted to,
@@ -43,13 +43,19 @@ export const RepostButton = <
   const feed = useFeedContext<UT, AT, CT, RT, CRT, PT>();
   const app = useStreamContext<UT, AT, CT, RT, CRT, PT>();
 
+  // this to prevent reposting another repost, you can only repost an original activity to avoid nesting
+  const originalActivity =
+    activity.verb === 'repost' && typeof activity.object === 'object'
+      ? (activity.object as EnrichedActivity<UT, AT, CT, RT, CRT>)
+      : activity;
+
   return (
     <ReactionToggleIcon<UT, RT, CRT>
-      counts={activity.reaction_counts}
-      own_reactions={activity.own_reactions}
+      counts={originalActivity.reaction_counts}
+      own_reactions={originalActivity.own_reactions}
       kind="repost"
       onPress={() =>
-        feed.onToggleReaction('repost', activity, repostData, {
+        feed.onToggleReaction('repost', originalActivity, repostData, {
           targetFeeds: [`${feedGroup}:${userId || app.user?.id}`],
         })
       }
