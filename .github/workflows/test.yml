@@ -41,8 +41,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ./.docz
-          key: docz-${{ matrix.node }}-gatsby-v0-${{ github.run_id }}
-          restore-keys: docz-${{ matrix.node }}-gatsby-v0-
+          key: docz-${{ matrix.node }}-gatsby-v1-${{ github.run_id }}
+          restore-keys: docz-${{ matrix.node }}-gatsby-v1-
 
       - name: Docs
         if: matrix.node == 16
