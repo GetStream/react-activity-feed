@@ -30,7 +30,7 @@ This component should be a child of `<StreamApp/>` component.
           {...props}
           Footer={
             <div style={{ padding: '0 16px 16px' }}>
-              <CommentField activity={props.activity} onAddReaction={props.onAddReaction} />
+              <CommentField activity={props.activity} />
               <CommentList activityId={props.activity.id} />
             </div>
           }

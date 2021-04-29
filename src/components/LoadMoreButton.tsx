@@ -6,7 +6,7 @@ import { TranslationContext } from '../Context';
 
 export type LoadMoreButtonProps = {
   children?: ReactNode;
-  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (event?: MouseEvent<HTMLButtonElement>) => void;
   refreshing?: boolean;
 };
 

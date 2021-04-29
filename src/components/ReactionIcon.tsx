@@ -13,8 +13,7 @@ export type ReactionIconProps = {
   labelPlural?: string;
   /** The label to display if the count is one (e.g "like") */
   labelSingle?: string;
-  /** Function to call when pressed, usually this should call
-   * `props.onToggleReaction` */
+  /** Function to call when pressed, usually this should call `onToggleReaction` */
   onPress?: MouseEventHandler<HTMLDivElement>;
   /** The width of the icon */
   width?: number;
