@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import { render, fireEvent } from '@testing-library/react';
 import moment from 'moment';
 
-import { TranslationProvider } from '../Context/TranslationContext';
+import { TranslationProvider } from '../context/TranslationContext';
 import { UserBar } from './UserBar';
 
 // @ts-expect-error

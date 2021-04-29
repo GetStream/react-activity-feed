@@ -2,7 +2,7 @@ import React from 'react';
 import { FileIcon } from 'react-file-utils';
 import { EnrichedActivity, UR } from 'getstream';
 
-import { DefaultAT, DefaultUT } from '../Context/StreamApp';
+import { DefaultAT, DefaultUT } from '../context/StreamApp';
 import { textRenderer, smartRender, sanitizeURL } from '../utils';
 import { Audio } from './Audio';
 import { Video } from './Video';

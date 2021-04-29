@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { EnrichedReaction, UR, Reaction, EnrichedActivity } from 'getstream';
 
-import { DefaultAT, DefaultUT } from '../Context/StreamApp';
+import { DefaultAT, DefaultUT } from '../context/StreamApp';
 import { ReactionToggleIcon } from './ReactionToggleIcon';
 import { ThumbsUpIcon, Color } from './Icons';
-import { useFeedContext } from '../Context';
+import { useFeedContext } from '../context';
 
 export type LikeButtonProps<
   UT extends DefaultUT = DefaultUT,

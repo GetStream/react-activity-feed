@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { EmojiData, Picker } from 'emoji-mart';
 
-import { useTranslationContext } from '../Context';
+import { useTranslationContext } from '../context';
 import { useOnClickOutside } from '../hooks/useOnClickOutside';
 import { EmojiIcon } from './Icons';
 

@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { StreamApp } from '../Context';
+import { StreamApp } from '../context';
 import { NotificationProps } from './Notification';
 
 export const WithExampleStreamApp: FC = ({ children }) => (

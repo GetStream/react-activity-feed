@@ -3,7 +3,7 @@ import React, { useMemo, MouseEventHandler } from 'react';
 import { humanizeTimestamp } from '../utils';
 import { Avatar } from './Avatar';
 import { smartRender, ElementOrComponentOrLiteralType } from '../utils';
-import { useTranslationContext } from '../Context';
+import { useTranslationContext } from '../context';
 
 export type UserBarProps = {
   username: string;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTranslationContext } from '../Context';
+import { useTranslationContext } from '../context';
 
 export type FeedPlaceholderProps = {
   text?: string;

@@ -3,7 +3,7 @@ import { EnrichedActivity } from 'getstream';
 import { Thumbnail } from 'react-file-utils';
 
 import { userOrDefault } from '../utils';
-import { DefaultUT, DefaultAT } from '../Context/StreamApp';
+import { DefaultUT, DefaultAT } from '../context/StreamApp';
 
 export type AttachedActivityProps<UT extends DefaultUT = DefaultUT, AT extends DefaultAT = DefaultAT> = {
   activity: EnrichedActivity<UT, AT>;

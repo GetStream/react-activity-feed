@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { DefaultAT, DefaultUT } from '../Context/StreamApp';
-import { useTranslationContext } from '../Context/TranslationContext';
+import { DefaultAT, DefaultUT } from '../context/StreamApp';
+import { useTranslationContext } from '../context/TranslationContext';
 import { userOrDefault, humanizeTimestamp, useOnClickUser } from '../utils';
 import { ActivityProps } from './Activity';
 import { UserBar } from './UserBar';

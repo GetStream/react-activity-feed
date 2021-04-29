@@ -2,7 +2,7 @@ import React, { useContext, ReactNode, MouseEvent } from 'react';
 
 import { Button } from './Button';
 
-import { TranslationContext } from '../Context';
+import { TranslationContext } from '../context';
 
 export type LoadMoreButtonProps = {
   children?: ReactNode;

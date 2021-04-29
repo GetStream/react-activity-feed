@@ -2,7 +2,7 @@ import React from 'react';
 import { EnrichedActivity, UR } from 'getstream';
 
 import { ReactionToggleIcon } from './ReactionToggleIcon';
-import { useFeedContext, DefaultAT, DefaultUT, useStreamContext } from '../Context';
+import { useFeedContext, DefaultAT, DefaultUT, useStreamContext } from '../context';
 import { RepostIcon, Color } from './Icons';
 
 export type RepostButtonType<

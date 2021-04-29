@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import { render, fireEvent } from '@testing-library/react';
 
 import { LikeButton, LikeButtonProps } from './LikeButton';
-import { FeedProvider } from '../Context';
+import { FeedProvider } from '../context';
 
 const testActivityData: LikeButtonProps['activity'] = {
   id: '',

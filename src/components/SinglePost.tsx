@@ -1,7 +1,7 @@
 import React from 'react';
 import { GetFeedOptions, UR } from 'getstream';
 
-import { DefaultAT, DefaultUT } from '../Context';
+import { DefaultAT, DefaultUT } from '../context';
 import { FlatFeed, FlatFeedProps } from './FlatFeed';
 
 export type SinglePostProps<

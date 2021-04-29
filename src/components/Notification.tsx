@@ -8,7 +8,7 @@ import { AttachedActivity } from './AttachedActivity';
 import { Dropdown } from './Dropdown';
 import { Link } from './Link';
 import { humanizeTimestamp, useOnClickUser, userOrDefault, OnClickUserHandler } from '../utils';
-import { DefaultUT, DefaultAT, useTranslationContext, FeedManager } from '../Context';
+import { DefaultUT, DefaultAT, useTranslationContext, FeedManager } from '../context';
 
 export type NotificationProps<
   UT extends DefaultUT = DefaultUT,

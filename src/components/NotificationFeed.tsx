@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { NotificationActivityEnriched, UR } from 'getstream';
 
-import { Feed, FeedManagerProps, FeedProps, DefaultUT, DefaultAT, useFeedContext } from '../Context';
+import { Feed, FeedManagerProps, FeedProps, DefaultUT, DefaultAT, useFeedContext } from '../context';
 import { NewActivitiesNotification, NewActivitiesNotificationProps } from './NewActivitiesNotification';
 import { LoadMorePaginator, LoadMorePaginatorProps } from './LoadMorePaginator';
 import { Notification, NotificationProps } from './Notification';

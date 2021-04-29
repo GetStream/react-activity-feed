@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import { fireEvent, render, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { CommentField, CommentFieldProps } from './CommentField';
-import { FeedProvider } from '../Context';
+import { FeedProvider } from '../context';
 
 describe('CommentField', () => {
   it('renders with default props', () => {

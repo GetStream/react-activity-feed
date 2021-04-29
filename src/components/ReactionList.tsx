@@ -3,7 +3,7 @@ import immutable from 'immutable';
 import { UR, EnrichedReaction } from 'getstream';
 
 import { LoadMorePaginator, LoadMorePaginatorProps } from './LoadMorePaginator';
-import { useFeedContext, DefaultUT, DefaultAT } from '../Context';
+import { useFeedContext, DefaultUT, DefaultAT } from '../context';
 import { smartRender, ElementOrComponentOrLiteralType } from '../utils';
 
 export type ReactionListType<UT extends DefaultUT = DefaultUT, RT extends UR = UR, CRT extends UR = UR> = {

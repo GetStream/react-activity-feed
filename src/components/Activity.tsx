@@ -6,7 +6,7 @@ import { ActivityHeader as DefaultActivityHeader, ActivityHeaderProps } from './
 import { ActivityFooterProps } from './ActivityFooter';
 
 import { smartRender, ElementOrComponentOrLiteralType, UserOrDefaultReturnType } from '../utils';
-import { DefaultAT, DefaultUT } from '../Context/StreamApp';
+import { DefaultAT, DefaultUT } from '../context/StreamApp';
 
 type WordClickHandler = (word: string) => void;
 

@@ -1,5 +1,5 @@
 import React, { useMemo, MouseEventHandler } from 'react';
-import { useTranslationContext } from '../Context';
+import { useTranslationContext } from '../context';
 
 export type ReactionIconProps = {
   /** The reaction counts for the activity */

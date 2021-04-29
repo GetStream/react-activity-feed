@@ -17,7 +17,7 @@ import { BaseEmoji, EmojiData } from 'emoji-mart';
 import { UploadState } from 'react-file-utils';
 import { NewActivity, OGAPIResponse, StreamClient, UR } from 'getstream';
 
-import { DefaultAT, DefaultUT, useStreamContext } from '../../Context';
+import { DefaultAT, DefaultUT, useStreamContext } from '../../context';
 import { StatusUpdateFormProps } from './StatusUpdateForm';
 import {
   generateRandomId,

@@ -2,7 +2,7 @@ import React from 'react';
 import { ReactionsRecords, UR } from 'getstream';
 
 import { ReactionIcon, ReactionIconProps } from './ReactionIcon';
-import { DefaultUT } from '../Context/StreamApp';
+import { DefaultUT } from '../context/StreamApp';
 
 type ReactionToggleIconProps<UT extends DefaultUT = DefaultUT, RT extends UR = UR, CRT extends UR = UR> = {
   /** The icon to show when the user has done this reaction (e.g. a filled in heart) */

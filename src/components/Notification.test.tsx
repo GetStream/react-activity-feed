@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import { notificationGroup1, notificationGroup2 } from './docz';
 import { Notification } from './Notification';
-import { TranslationProvider } from '../Context/TranslationContext';
+import { TranslationProvider } from '../context/TranslationContext';
 
 // @ts-expect-error
 Date.now = jest.fn(() => new Date('2021-04-15T11:34:36.104Z'));

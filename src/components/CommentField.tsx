@@ -5,8 +5,8 @@ import { Avatar } from './Avatar';
 import { Button } from './Button';
 import { Textarea, TextareaProps } from './Textarea';
 import { inputValueFromEvent } from '../utils';
-import { useFeedContext, useTranslationContext } from '../Context';
-import { DefaultAT, DefaultUT } from '../Context/StreamApp';
+import { useFeedContext, useTranslationContext } from '../context';
+import { DefaultAT, DefaultUT } from '../context/StreamApp';
 
 export type CommentFieldProps<UT extends DefaultUT = DefaultUT, AT extends DefaultAT = DefaultAT> = {
   activity: EnrichedActivity<UT, AT>;

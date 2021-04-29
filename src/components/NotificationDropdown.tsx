@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { UR } from 'getstream';
 
-import { Feed, useFeedContext, DefaultAT, DefaultUT } from '../Context';
+import { Feed, useFeedContext, DefaultAT, DefaultUT } from '../context';
 import { smartRender, ElementOrComponentOrLiteralType } from '../utils';
 import { useOnClickOutside } from '../hooks/useOnClickOutside';
 import { NotificationFeed, NotificationFeedProps } from './NotificationFeed';

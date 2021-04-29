@@ -13,7 +13,7 @@ import {
   ImageUpload,
 } from 'react-file-utils';
 
-import { DefaultAT, DefaultUT, useTranslationContext } from '../../Context';
+import { DefaultAT, DefaultUT, useTranslationContext } from '../../context';
 import { useStatusUpdateForm } from './useStatusUpdateForm';
 import { Panel, PanelContent, PanelHeading, PanelFooter } from '../Panel';
 import { Textarea, TextareaProps } from '../Textarea';

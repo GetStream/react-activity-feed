@@ -4,7 +4,7 @@ import { UR } from 'getstream';
 import { LikeButton } from './LikeButton';
 import { RepostButton } from './RepostButton';
 import { Flex } from './Flex';
-import { DefaultAT, DefaultUT } from '../Context/StreamApp';
+import { DefaultAT, DefaultUT } from '../context/StreamApp';
 import { ActivityProps } from './Activity';
 
 export type ActivityFooterProps<

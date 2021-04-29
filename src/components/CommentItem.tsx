@@ -4,8 +4,8 @@ import { EnrichedReaction, UR } from 'getstream';
 import { Flex } from './Flex';
 import { Avatar } from './Avatar';
 import { humanizeTimestamp, textRenderer, OnClickUserHandler, useOnClickUser } from '../utils';
-import { useTranslationContext } from '../Context';
-import { DefaultUT } from '../Context/StreamApp';
+import { useTranslationContext } from '../context';
+import { DefaultUT } from '../context/StreamApp';
 
 export type CommentItemProps<UT extends DefaultUT = DefaultUT, RT extends UR = UR, CRT extends UR = UR> = {
   comment: EnrichedReaction<RT, CRT, UT>;

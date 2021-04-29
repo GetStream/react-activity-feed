@@ -4,7 +4,7 @@ import renderer from 'react-test-renderer';
 import moment from 'moment';
 import { CommentItem, CommentItemProps } from './CommentItem';
 
-import { TranslationProvider } from '../Context/TranslationContext';
+import { TranslationProvider } from '../context/TranslationContext';
 
 // @ts-expect-error
 Date.now = jest.fn(() => new Date('2021-04-15T11:34:36.104Z'));

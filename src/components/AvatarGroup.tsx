@@ -2,7 +2,7 @@ import React from 'react';
 import { EnrichedUser } from 'getstream';
 
 import { useOnClickUser, OnClickUserHandler } from '../utils';
-import { DefaultUT } from '../Context/StreamApp';
+import { DefaultUT } from '../context/StreamApp';
 import { Avatar } from './Avatar';
 
 export type AvatarGroupProps<UT extends DefaultUT = DefaultUT> = {

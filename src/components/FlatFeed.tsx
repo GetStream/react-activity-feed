@@ -15,7 +15,7 @@ import {
   DefaultUT,
   FeedManagerProps,
   FeedProps,
-} from '../Context';
+} from '../context';
 
 type FlatFeedInnerProps<
   UT extends DefaultUT = DefaultUT,

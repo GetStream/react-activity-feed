@@ -2,7 +2,7 @@ import React from 'react';
 import { UR } from 'getstream';
 
 import { ElementOrComponentOrLiteralType, smartRender } from '../utils';
-import { DefaultUT, DefaultAT } from '../Context/StreamApp';
+import { DefaultUT, DefaultAT } from '../context/StreamApp';
 
 import { ReactionList } from './ReactionList';
 import { LoadMorePaginator, LoadMorePaginatorProps } from './LoadMorePaginator';

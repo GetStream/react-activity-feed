@@ -1,7 +1,7 @@
 import React, { MouseEvent } from 'react';
 import { RealTimeMessage } from 'getstream';
 import { Link } from './Link';
-import { useTranslationContext } from '../Context';
+import { useTranslationContext } from '../context';
 
 type Attributes = {
   addCount: number;

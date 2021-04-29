@@ -1,5 +1,5 @@
 // Top level components
-export * from './Context';
+export * from './context';
 export * from './components/FlatFeed';
 export * from './components/NotificationFeed';
 export * from './components/SinglePost';
