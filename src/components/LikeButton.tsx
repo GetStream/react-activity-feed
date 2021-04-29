@@ -39,8 +39,8 @@ export const LikeButton = <
 
   return (
     <ReactionToggleIcon
-      counts={reaction?.children_counts || activity?.reaction_counts}
-      own_reactions={reaction?.own_children || activity?.own_reactions}
+      counts={reaction?.children_counts ?? activity?.reaction_counts}
+      own_reactions={reaction?.own_children ?? activity?.own_reactions}
       kind="like"
       onPress={() => {
         if (reaction) return feed.onToggleChildReaction('like', reaction as Reaction<RT>, {} as CRT);
