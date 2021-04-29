@@ -3,17 +3,11 @@ import renderer from 'react-test-renderer';
 import { fireEvent, render, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { CommentField, CommentFieldProps } from './CommentField';
+import { FeedProvider } from '../Context';
 
 describe('CommentField', () => {
   it('renders with default props', () => {
-    const tree = renderer
-      .create(
-        <CommentField
-          activity={({} as unknown) as CommentFieldProps['activity']}
-          onAddReaction={async (...data) => await console.log(data)}
-        />,
-      )
-      .toJSON();
+    const tree = renderer.create(<CommentField activity={({} as unknown) as CommentFieldProps['activity']} />).toJSON();
     expect(tree).toMatchInlineSnapshot(`
       <form
         className="raf-comment-field"
@@ -55,7 +49,6 @@ describe('CommentField', () => {
       .create(
         <CommentField
           activity={({} as unknown) as CommentFieldProps['activity']}
-          onAddReaction={async (...data) => await console.log(data)}
           image="https://getstream.imgix.net/images/random_svg/A.png"
           placeholder="Add a comment"
         />,
@@ -109,31 +102,34 @@ describe('CommentField', () => {
   });
 
   it('changes value onChange and after button click', async () => {
-    const reactionFn = jest.fn(async (...data) => await console.log(data));
+    const onAddReaction = jest.fn();
     const successFn = jest.fn();
 
     const { getByPlaceholderText, getByText } = render(
-      <CommentField
-        activity={({} as unknown) as CommentFieldProps['activity']}
-        onAddReaction={reactionFn}
-        onSuccess={successFn}
-        placeholder="textarea"
-      />,
+      // @ts-expect-error
+      <FeedProvider value={{ onAddReaction }}>
+        <CommentField
+          activity={({} as unknown) as CommentFieldProps['activity']}
+          onSuccess={successFn}
+          placeholder="textarea"
+        />
+      </FeedProvider>,
     );
 
+    const text = 'test';
     const button = getByText('Post');
     const textarea = getByPlaceholderText('textarea');
 
-    fireEvent.change(textarea, { target: { value: 'test' } });
+    fireEvent.change(textarea, { target: { value: text } });
 
-    expect(textarea).toHaveValue('test');
+    expect(textarea).toHaveValue(text);
 
     //  eslint-disable-next-line require-await
     await act(async () => {
       fireEvent.click(button);
     });
 
-    expect(reactionFn).toHaveBeenCalled();
+    expect(onAddReaction).toHaveBeenCalledWith('comment', {}, { text });
     expect(successFn).toHaveBeenCalled();
     expect(textarea).toHaveValue('');
   });

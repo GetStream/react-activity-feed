@@ -103,20 +103,9 @@ const NotificationFeedInner = <
             refreshing: feed.refreshing,
             children: feed.activityOrder.map((id) =>
               smartRender<NotificationProps<UT, AT, CT, RT, CRT>>(Group, {
+                activityGroup: feed.activities.get(id)?.toJS() as NotificationActivityEnriched<UT, AT, CT, RT, CRT>,
                 // @ts-expect-error
                 key: id,
-                activityGroup: feed.activities.get(id)?.toJS() as NotificationActivityEnriched<UT, AT, CT, RT, CRT>,
-                onToggleReaction: feed.onToggleReaction,
-                onAddReaction: feed.onAddReaction,
-                onRemoveReaction: feed.onRemoveReaction,
-                onToggleChildReaction: feed.onToggleChildReaction,
-                onAddChildReaction: feed.onAddChildReaction,
-                onRemoveChildReaction: feed.onRemoveChildReaction,
-                onRemoveActivity: feed.onRemoveActivity,
-                feedGroup: feed.feedGroup,
-                userId: feed.userId,
-                onMarkAsRead: feed.onMarkAsRead,
-                onMarkAsSeen: feed.onMarkAsSeen,
               }),
             ),
           })}

@@ -111,18 +111,11 @@ const FlatFeedInner = <
             refreshing: feed.refreshing,
             children: feed.activityOrder.map((id) =>
               smartRender<ActivityProps<UT, AT, CT, RT, CRT>>(Activity, {
-                // @ts-expect-error
-                key: id,
                 activity: feed.activities.get(id)?.toJS() as EnrichedActivity<UT, AT, CT, RT, CRT>,
-                onToggleReaction: feed.onToggleReaction,
-                onAddReaction: feed.onAddReaction,
-                onRemoveReaction: feed.onRemoveReaction,
-                onToggleChildReaction: feed.onToggleChildReaction,
-                onAddChildReaction: feed.onAddChildReaction,
-                onRemoveChildReaction: feed.onRemoveChildReaction,
-                onRemoveActivity: feed.onRemoveActivity,
                 feedGroup: feed.feedGroup,
                 userId: feed.userId,
+                // @ts-expect-error
+                key: id,
               }),
             ),
           })}

@@ -5,12 +5,11 @@ import { Avatar } from './Avatar';
 import { Button } from './Button';
 import { Textarea, TextareaProps } from './Textarea';
 import { inputValueFromEvent } from '../utils';
-import { useTranslationContext, FeedManager } from '../Context';
+import { useFeedContext, useTranslationContext } from '../Context';
 import { DefaultAT, DefaultUT } from '../Context/StreamApp';
 
 export type CommentFieldProps<UT extends DefaultUT = DefaultUT, AT extends DefaultAT = DefaultAT> = {
   activity: EnrichedActivity<UT, AT>;
-  onAddReaction: FeedManager<UT, AT>['onAddReaction'];
   image?: string;
   kind?: string;
   onSuccess?: () => void;
@@ -20,12 +19,12 @@ export type CommentFieldProps<UT extends DefaultUT = DefaultUT, AT extends Defau
 
 export const CommentField = <UT extends DefaultUT = DefaultUT, AT extends DefaultAT = DefaultAT>({
   activity,
-  onAddReaction,
   onSuccess,
   image,
   placeholder,
   trigger,
 }: CommentFieldProps<UT, AT>) => {
+  const feed = useFeedContext<UT, AT>();
   const { t } = useTranslationContext();
   const textareaReference = useRef<HTMLTextAreaElement>();
   const [text, setText] = useState<string>();
@@ -36,7 +35,7 @@ export const CommentField = <UT extends DefaultUT = DefaultUT, AT extends Defaul
     if (!text) return;
 
     try {
-      await onAddReaction('comment', activity, { text });
+      await feed.onAddReaction('comment', activity, { text });
     } catch (error) {
       console.error(error);
     }
