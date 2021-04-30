@@ -162,12 +162,12 @@
   "size-limit": [
     {
       "path": "dist/index.es.js",
-      "limit": "300 KB",
+      "limit": "200 KB",
       "import": "{ createComponent }"
     },
     {
       "path": "dist/index.css",
-      "limit": "10 KB",
+      "limit": "8 KB",
       "webpack": false
     }
   ]
