@@ -8,7 +8,7 @@ import { useTranslationContext } from '../context';
 import { useOnClickOutside } from '../hooks/useOnClickOutside';
 import { EmojiIcon } from './Icons';
 
-export type EmojiPickerType = {
+export type EmojiPickerProps = {
   /** Override the default emoji dataset, library has a light set of emojis
    * to show more emojis use your own or emoji-mart sets
    * https://github.com/missive/emoji-mart#datasets
@@ -17,7 +17,7 @@ export type EmojiPickerType = {
   onSelect?: (emoji: EmojiData) => void;
 };
 
-export const EmojiPicker = ({ emojiData = defaultEmojiData, onSelect }: EmojiPickerType) => {
+export const EmojiPicker = ({ emojiData = defaultEmojiData, onSelect }: EmojiPickerProps) => {
   const { t } = useTranslationContext();
   const [open, setOpen] = useState(false);
   const emojiPicker = useRef<HTMLDivElement>(null);

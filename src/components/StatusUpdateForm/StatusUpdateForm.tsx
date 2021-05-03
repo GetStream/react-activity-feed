@@ -21,7 +21,7 @@ import { Avatar } from '../Avatar';
 import { Card } from '../Card';
 import { Audio } from '../Audio';
 import { Video } from '../Video';
-import { EmojiPicker, EmojiPickerType } from '../EmojiPicker';
+import { EmojiPicker, EmojiPickerProps } from '../EmojiPicker';
 import { Button } from '../Button';
 import { Title } from '../Title';
 
@@ -34,7 +34,7 @@ export type StatusUpdateFormProps<AT extends DefaultAT = DefaultAT> = {
    * to show more emojis use your own or emoji-mart sets
    * https://github.com/missive/emoji-mart#datasets
    */
-  emojiData?: EmojiPickerType['emojiData'];
+  emojiData?: EmojiPickerProps['emojiData'];
   /** The feed group part of the feed that the activity should be posted to, default to "user" */
   feedGroup?: string;
   /** Add extra footer item */
