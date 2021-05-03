@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import ReactTextareaAutocomplete, { TriggerType } from '@webscopeio/react-textarea-autocomplete';
 import { LoadingIndicator } from 'react-file-utils';
-import { BaseEmoji, emojiIndex } from 'emoji-mart';
+import { BaseEmoji } from 'emoji-mart';
 import { UR } from 'getstream';
+import { NimbleEmojiIndex, Data as EmojiDataSet } from 'emoji-mart';
+// @ts-expect-error
+import EmojiIndex from 'emoji-mart/dist/utils/emoji-index/nimble-emoji-index';
+import defaultEmojiData from '../utils/emojiData';
 
 export type TextareaProps = {
+  /** Override the default emoji dataset, library has a light set of emojis
+   * to show more emojis use your own or emoji-mart sets
+   * https://github.com/missive/emoji-mart#datasets
+   */
+  emojiData?: EmojiDataSet;
   /** A ref that is bound to the textarea element */
   innerRef?: React.MutableRefObject<HTMLTextAreaElement | undefined> | ((el: HTMLTextAreaElement) => void);
   maxLength?: number;
@@ -19,24 +28,26 @@ export type TextareaProps = {
   value?: string;
 };
 
-const defaultTriggers: TriggerType<BaseEmoji> = {
-  ':': {
-    component: function AutocompleteItem({ entity: { id, native } }) {
-      return (
-        <div>
-          {native} {id}
-        </div>
-      );
+const emojiTrigger: (emojiData: EmojiDataSet) => TriggerType<BaseEmoji> = (emojiData) => {
+  const emojiIndex = new EmojiIndex(emojiData) as NimbleEmojiIndex;
+
+  return {
+    ':': {
+      output: (item) => ({ key: item.id, text: item.native, caretPosition: 'next' }),
+      dataProvider: (token: string) => (emojiIndex.search(token) || []).slice(0, 10) as BaseEmoji[],
+      component: function AutocompleteItem({ entity: { id, native } }) {
+        return (
+          <div>
+            {native} {id}
+          </div>
+        );
+      },
     },
-    output: (item) => ({ key: item.id, text: item.native, caretPosition: 'next' }),
-    dataProvider: (token: string) => {
-      const emojis = emojiIndex.search(token) || [];
-      return emojis.slice(0, 10) as BaseEmoji[];
-    },
-  },
+  };
 };
 
 export const Textarea = ({
+  emojiData = defaultEmojiData,
   innerRef,
   maxLength,
   onChange,
@@ -46,11 +57,13 @@ export const Textarea = ({
   trigger = {},
   value,
 }: TextareaProps) => {
+  const emoji = useMemo(() => emojiTrigger(emojiData), []);
+
   return (
     <ReactTextareaAutocomplete
       loadingComponent={LoadingIndicator}
       // @ts-expect-error
-      trigger={{ ...defaultTriggers, ...trigger }}
+      trigger={{ ...emoji, ...trigger }}
       innerRef={
         innerRef &&
         ((el) => {

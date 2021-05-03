@@ -21,7 +21,7 @@ import { Avatar } from '../Avatar';
 import { Card } from '../Card';
 import { Audio } from '../Audio';
 import { Video } from '../Video';
-import { EmojiPicker } from '../EmojiPicker';
+import { EmojiPicker, EmojiPickerProps } from '../EmojiPicker';
 import { Button } from '../Button';
 import { Title } from '../Title';
 
@@ -30,6 +30,11 @@ export type StatusUpdateFormProps<AT extends DefaultAT = DefaultAT> = {
   activityVerb?: string;
   /** Override Post request */
   doRequest?: (activity: NewActivity<AT>) => Promise<Activity<AT>>;
+  /** Override the default emoji dataset, library has a light set of emojis
+   * to show more emojis use your own or emoji-mart sets
+   * https://github.com/missive/emoji-mart#datasets
+   */
+  emojiData?: EmojiPickerProps['emojiData'];
   /** The feed group part of the feed that the activity should be posted to, default to "user" */
   feedGroup?: string;
   /** Add extra footer item */
@@ -71,6 +76,7 @@ export function StatusUpdateForm<
   feedGroup = 'user',
   activityVerb = 'post',
   modifyActivityData,
+  emojiData,
   Header,
   FooterItem,
   trigger,
@@ -105,6 +111,7 @@ export function StatusUpdateForm<
                 placeholder={t('Type your post...')}
                 value={state.text}
                 onChange={state.onChange}
+                emojiData={emojiData}
                 trigger={trigger}
                 onPaste={state.onPaste}
               />
@@ -173,7 +180,7 @@ export function StatusUpdateForm<
                 <div style={{ marginRight: '32px', display: 'inline-block' }}>
                   <FileUploadButton handleFiles={state.uploadNewFiles} multiple />
                 </div>
-                <EmojiPicker onSelect={state.onSelectEmoji} />
+                <EmojiPicker onSelect={state.onSelectEmoji} emojiData={emojiData} />
                 {FooterItem}
               </div>
 

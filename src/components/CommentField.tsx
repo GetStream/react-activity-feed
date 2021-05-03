@@ -1,5 +1,6 @@
 import React, { useRef, useState, FormEvent, useEffect } from 'react';
 import { EnrichedActivity } from 'getstream';
+import { Data as EmojiDataSet } from 'emoji-mart';
 
 import { Avatar } from './Avatar';
 import { Button } from './Button';
@@ -10,6 +11,11 @@ import { DefaultAT, DefaultUT } from '../context/StreamApp';
 
 export type CommentFieldProps<UT extends DefaultUT = DefaultUT, AT extends DefaultAT = DefaultAT> = {
   activity: EnrichedActivity<UT, AT>;
+  /** Override the default emoji dataset, library has a light set of emojis
+   * to show more emojis use your own or emoji-mart sets
+   * https://github.com/missive/emoji-mart#datasets
+   */
+  emojiData?: EmojiDataSet;
   image?: string;
   kind?: string;
   onSuccess?: () => void;
@@ -19,6 +25,7 @@ export type CommentFieldProps<UT extends DefaultUT = DefaultUT, AT extends Defau
 
 export const CommentField = <UT extends DefaultUT = DefaultUT, AT extends DefaultAT = DefaultAT>({
   activity,
+  emojiData,
   onSuccess,
   image,
   placeholder,
@@ -68,6 +75,7 @@ export const CommentField = <UT extends DefaultUT = DefaultUT, AT extends Defaul
           value={text}
           placeholder={placeholder ?? t('Start Typing...')}
           onChange={(event) => setText((pv) => inputValueFromEvent<HTMLTextAreaElement>(event) ?? pv)}
+          emojiData={emojiData}
           trigger={trigger}
           maxLength={280}
           innerRef={(element) => (textareaReference.current = element)}
