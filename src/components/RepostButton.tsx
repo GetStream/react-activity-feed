@@ -5,7 +5,7 @@ import { ReactionToggleIcon } from './ReactionToggleIcon';
 import { useFeedContext, DefaultAT, DefaultUT, useStreamContext } from '../context';
 import { RepostIcon, Color } from './Icons';
 
-export type RepostButtonType<
+export type RepostButtonProps<
   UT extends DefaultUT = DefaultUT,
   AT extends DefaultAT = DefaultAT,
   CT extends UR = UR,
@@ -39,7 +39,7 @@ export const RepostButton = <
   feedGroup = 'user',
   userId,
   repostData,
-}: RepostButtonType<UT, AT, CT, RT, CRT>) => {
+}: RepostButtonProps<UT, AT, CT, RT, CRT>) => {
   const feed = useFeedContext<UT, AT, CT, RT, CRT, PT>();
   const app = useStreamContext<UT, AT, CT, RT, CRT, PT>();
 
