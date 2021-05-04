@@ -35,15 +35,10 @@
     "docs-build": "docz build",
     "size": "size-limit",
     "analyze": "size-limit --why",
-    "prepare": "yarn run build",
+    "prepare": "yarn run build && husky install",
     "preversion": "yarn install && yarn lint && yarn test",
     "version": "yarn docs-build && git add -A docs",
     "postversion": "git push && git push --tags && npm publish"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn run lint"
-    }
   },
   "peerDependencies": {
     "react": "^17.0.0 || ^16.8.0",
