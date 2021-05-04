@@ -1,40 +1,38 @@
-import React, { useState, useMemo } from 'react';
-import Lightbox from 'react-images';
+import React, { useState } from 'react';
+import Lightbox from 'react-image-lightbox';
 
 export type GalleryProps = {
   images?: Array<string>;
 };
 
 export const Gallery = ({ images = [] }: GalleryProps) => {
-  const formattedImages = useMemo(() => images.map((src) => ({ src })), [images]);
-
-  const [currentImage, setCurrentImage] = useState<number | null>(null);
-
-  const changeSelectedImage = (crement: number) => setCurrentImage((pv) => (pv !== null ? pv + crement : null));
+  const [index, setIndex] = useState<number | null>(null);
+  const len = images.length;
 
   return (
     <div className="raf-gallery">
       {images.slice(0, 5).map((image, i) => (
         <div
           role="button"
-          className={`img ${i === 4 && images.length > 5 ? 'img--last' : ''}`}
-          onClick={() => setCurrentImage(i)}
+          className={`img ${i === 4 && len > 5 ? 'img--last' : ''}`}
+          onClick={() => setIndex(i)}
           key={`image-${i}`}
         >
           <img src={image} className="raf-gallery__image" alt="" />
-          {i === 4 && images.length > 5 && <p>{images.length - 4} more</p>}
+          {i === 4 && len > 5 && <p>{len - 4} more</p>}
         </div>
       ))}
 
-      <Lightbox
-        backdropClosesModal
-        images={formattedImages}
-        isOpen={currentImage !== null}
-        onClickPrev={() => changeSelectedImage(-1)}
-        onClickNext={() => changeSelectedImage(1)}
-        onClose={() => setCurrentImage(null)}
-        currentImage={currentImage ?? undefined}
-      />
+      {index !== null && (
+        <Lightbox
+          mainSrc={images[index]}
+          nextSrc={images[(index + 1) % len]}
+          prevSrc={images[(index + len - 1) % len]}
+          onCloseRequest={() => setIndex(null)}
+          onMoveNextRequest={() => setIndex((index + 1) % len)}
+          onMovePrevRequest={() => setIndex((index + len - 1) % len)}
+        />
+      )}
     </div>
   );
 };

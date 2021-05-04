@@ -6,16 +6,12 @@ import '@testing-library/jest-dom';
 import { Gallery } from './Gallery';
 
 jest.mock(
-  'react-images',
+  'react-image-lightbox',
   // eslint-disable-next-line react/display-name
-  () => ({ isOpen, onClose, currentImage }: { isOpen: boolean; onClose: () => void; currentImage?: number }) => (
-    <>
-      {isOpen && (
-        <div onClick={onClose}>
-          lightbox <span>{currentImage}</span>
-        </div>
-      )}
-    </>
+  () => ({ onCloseRequest, mainSrc }: { onCloseRequest: () => void; mainSrc?: string }) => (
+    <div onClick={onCloseRequest}>
+      lightbox <span>{mainSrc}</span>
+    </div>
   ),
 );
 
@@ -121,7 +117,7 @@ describe('Gallery', () => {
         <div>
           lightbox 
           <span>
-            0
+            https://source.unsplash.com/random/800x600
           </span>
         </div>
       </div>
