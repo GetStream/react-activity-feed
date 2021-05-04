@@ -10,15 +10,15 @@
     "build": "SKIP_PREFLIGHT_CHECK=true react-scripts build"
   },
   "dependencies": {
-    "@types/node": "^12.0.0",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
+    "@types/node": "^15.0.1",
+    "@types/react": "^17.0.4",
+    "@types/react-dom": "^17.0.3",
     "react": "link:../node_modules/react",
-    "react-dom": "link:../node_modules/react-dom",
     "react-activity-feed": "link:..",
+    "react-dom": "link:../node_modules/react-dom",
     "react-scripts": "4.0.3",
-    "typescript": "^4.1.2",
-    "web-vitals": "^1.0.1"
+    "typescript": "^4.2.4",
+    "web-vitals": "^1.1.1"
   },
   "browserslist": [
     "last 1 chrome version",
