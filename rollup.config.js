@@ -60,7 +60,6 @@ const normalBundle = {
   external: [
     /@babel/,
     '@webscopeio/react-textarea-autocomplete',
-    '@webscopeio/react-textarea-autocomplete/style.css',
     /dayjs/,
     /emoji-mart/,
     'getstream',
