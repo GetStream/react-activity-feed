@@ -1,8 +1,8 @@
 @import './functions.scss';
 @import './variables.scss';
-@import './vendor/react-file-utils';
-@import './vendor/emoji-mart';
-@import './vendor/react-text-area-autocomplete';
+@import '../../node_modules/react-file-utils/dist/index';
+@import '../../node_modules/emoji-mart/css/emoji-mart';
+@import '../../node_modules/@webscopeio/react-textarea-autocomplete/style';
 @import './components/Activity.scss';
 @import './components/ActivityFooter.scss';
 @import './components/AttachedActivity.scss';
