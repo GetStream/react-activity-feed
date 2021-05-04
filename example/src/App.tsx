@@ -6,6 +6,7 @@ import {
   FlatFeed,
   NotificationDropdown,
   Activity,
+  ActivityFooter,
   LikeButton,
   CommentField,
   CommentList,
@@ -13,6 +14,7 @@ import {
   InfiniteScrollPaginator,
 } from 'react-activity-feed';
 import 'react-activity-feed/dist/index.css';
+import './app.css';
 
 const apiKey = 'sesb46h7zb6p';
 const appId = '66001';
@@ -23,45 +25,35 @@ function App() {
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto' }}>
       <StreamApp apiKey={apiKey} appId={appId} token={token}>
-        <div
-          style={{
-            background: '#fff',
-            height: 60,
-            borderRadius: 4,
-            margin: '10px 0',
-            padding: '0 20px',
-            boxShadow: '0px 0px 4px rgba(0,0,0,0.15)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexDirection: 'row',
-          }}
-        >
+        <div className="wrapper box">
           <h3>React Activity Feed</h3>
           <NotificationDropdown right />
         </div>
         <StatusUpdateForm />
         <FlatFeed
-          feedGroup="user" // or timeline
           notify
+          feedGroup="user"
           options={{ limit: 6, withOwnChildren: true, withRecentReactions: true }}
-          Paginator={(props) => <InfiniteScrollPaginator {...props} />}
-          Activity={(props) => (
+          Paginator={InfiniteScrollPaginator}
+          Activity={({ activity, feedGroup, userId }) => (
             <Activity
-              {...props}
+              activity={activity}
+              feedGroup={feedGroup}
+              userId={userId}
               Footer={() => (
-                <React.Fragment>
-                  <CommentField activity={props.activity} />
+                <>
+                  <ActivityFooter activity={activity} feedGroup={feedGroup} userId={userId} />
+                  <CommentField activity={activity} />
                   <CommentList
-                    activityId={props.activity.id}
-                    CommentItem={(commentProps) => (
-                      <React.Fragment>
-                        <CommentItem {...commentProps} />
-                        <LikeButton reaction={commentProps.comment} />
-                      </React.Fragment>
+                    activityId={activity.id}
+                    CommentItem={({ comment }) => (
+                      <div className="wrapper">
+                        <CommentItem comment={comment} />
+                        <LikeButton reaction={comment} />
+                      </div>
                     )}
                   />
-                </React.Fragment>
+                </>
               )}
             />
           )}
