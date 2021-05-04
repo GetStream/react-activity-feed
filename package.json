@@ -161,7 +161,7 @@
     },
     {
       "path": "dist/index.css",
-      "limit": "8 KB",
+      "limit": "10 KB",
       "webpack": false
     }
   ]
