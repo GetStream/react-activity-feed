@@ -1,0 +1,95 @@
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: #f0f0f0;
+}
+
+.wrapper {
+  background: #fff;
+  height: 60;
+  margin: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  border-bottom: 1px solid #ddd;
+}
+.wrapper:last-child,
+.wrapper:last-of-type {
+  border: none;
+}
+
+.box {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+}
+
+.raf-comment-item {
+  border-bottom: 0;
+}
+
+/* libary overwrites */
+
+.raf-avatar {
+  object-fit: cover;
+}
+
+.raf-comment-field__group .raf-button,
+.raf-comment-field__group textarea {
+  margin: 0 !important;
+}
+
+.raf-comment-field__group {
+  padding: 8px;
+}
+
+.raf-comment-field {
+  margin: 0 !important;
+}
+
+.raf-comment-item {
+  border: none !important;
+}
+
+.raf-activity-footer {
+  margin: 0px 16px !important;
+  padding: 0 !important;
+  border-top: 1px solid #ddd !important;
+}
+
+div[class='raf-activity'] {
+  margin-bottom: 8px;
+  margin-top: 0px !important;
+}
+
+div[class='raf-activity']:last-child {
+  margin-bottom: 0px;
+}
+
+.raf-load-more-button > button {
+  width: auto !important;
+}
+
+.raf-load-more-button {
+  display: flex;
+  justify-content: center;
+}
+
+.raf-activity-repost {
+  margin: 8px 16px !important;
+}
+
+.raf-icon-badge {
+  display: flex;
+}
+
+.raf-panel-footer button {
+  margin-right: 0;
+}
