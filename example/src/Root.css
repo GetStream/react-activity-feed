@@ -44,18 +44,18 @@ body {
 }
 
 .raf-activity-footer {
-  margin: 0px 16px !important;
+  margin: 0 16px !important;
   padding: 0 !important;
   border-top: 1px solid #ddd !important;
 }
 
 div[class='raf-activity'] {
   margin-bottom: 8px;
-  margin-top: 0px !important;
+  margin-top: 0 !important;
 }
 
 div[class='raf-activity']:last-child {
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 .raf-load-more-button > button {
@@ -86,10 +86,11 @@ div[class='raf-activity']:last-child {
   justify-content: center;
   align-items: center;
 }
+
 .ea-content {
-  height: 80%;
+  height: 100%;
   background-color: #ddd;
-  width: 80%;
+  width: 100%;
   display: flex;
   border-radius: 5px;
 }
@@ -159,7 +160,7 @@ div[class='raf-activity']:last-child {
   color: #fff;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
-  padding: 2px 0px;
+  padding: 2px 0;
   text-align: center;
   font-weight: 400;
   display: none;
@@ -173,11 +174,13 @@ div[class='raf-activity']:last-child {
   .ea-column__hidden {
     display: none;
   }
+
   .ea-content {
     flex-direction: column;
-    border-top-right-radius: 0px;
-    border-top-left-radius: 0px;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
   }
+
   .ea-column {
     width: 100%;
     height: calc(100% - 22px); /* 22px is height of suggestion bar */
@@ -189,6 +192,6 @@ div[class='raf-activity']:last-child {
   .ea-content {
     width: 100%;
     height: 100%;
-    border-radius: 0px;
+    border-radius: 0;
   }
 }

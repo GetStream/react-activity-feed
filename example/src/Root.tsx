@@ -24,6 +24,7 @@ import 'react-activity-feed/dist/index.css';
 
 import './Root.css';
 
+// move these to .env
 const apiKey = 'aqymkkv2z53t';
 const appId = '1123024';
 
@@ -52,6 +53,7 @@ const FollowButton = ({ userId }: Record<'userId', string>) => {
   const handleButtonClick = async () => {
     setLoading(true);
     try {
+      // add Robins user (feed group 'user') feed to Batman
       await client?.feed('timeline')[followingUser ? 'unfollow' : 'follow']('user', userId);
     } catch {
       console.error(`Error while trying to follow user with user_id: ${userId}`);
