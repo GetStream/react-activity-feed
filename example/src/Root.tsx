@@ -1,5 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react';
+import React, { useEffect, useState, useMemo, PropsWithChildren } from 'react';
+
+import { capitalize } from 'lodash';
+import decodeToken from 'jwt-decode';
 
 import {
   StreamApp,
@@ -15,6 +17,8 @@ import {
   InfiniteScrollPaginator,
   useStreamContext,
   Avatar,
+  Button,
+  Title,
 } from 'react-activity-feed';
 import 'react-activity-feed/dist/index.css';
 
@@ -23,29 +27,82 @@ import './Root.css';
 const apiKey = 'aqymkkv2z53t';
 const appId = '1123024';
 
-const Header = () => {
+const Header = ({ onTitleClick }: { onTitleClick: React.MouseEventHandler<HTMLDivElement> }) => {
   const { userData } = useStreamContext();
 
   return (
-    <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 10 }}>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+    <header className="ea-column-header">
+      <div onClick={onTitleClick} className="ea-column-header-title">
         <Avatar circle size={30} image={userData?.profileImage} />
-        <span style={{ marginLeft: 5 }}>
+        <span>
           <strong>{`${userData?.name ?? 'User'}'s`}</strong> activity feed
         </span>
       </div>
+
       <NotificationDropdown right />
     </header>
   );
 };
 
-const ExampleFeed = ({ token, children }: any) => {
+const FollowButton = ({ userId }: Record<'userId', string>) => {
+  const { client } = useStreamContext();
+  const [followingUser, setFollowingUser] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleButtonClick = async () => {
+    setLoading(true);
+    try {
+      await client?.feed('timeline')[followingUser ? 'unfollow' : 'follow']('user', userId);
+    } catch {
+      console.error(`Error while trying to follow user with user_id: ${userId}`);
+    }
+    setLoading(false);
+
+    setFollowingUser((pv) => !pv);
+  };
+
+  useEffect(() => {
+    client
+      ?.feed('timeline')
+      .following({ filter: [`user:${userId}`] })
+      .then(({ results }) => {
+        setFollowingUser(!!results.length);
+      });
+  }, []);
+
+  return (
+    <Button loading={loading} type="button" onClick={handleButtonClick}>
+      {followingUser ? 'Unfollow' : 'Follow'} {capitalize(userId)}
+    </Button>
+  );
+};
+
+const ExampleFeed = ({
+  token,
+  children,
+  isVisibleInMobile,
+  onHeaderTitleClick,
+}: PropsWithChildren<
+  Record<'token', string> & {
+    isVisibleInMobile: boolean;
+    onHeaderTitleClick: React.MouseEventHandler<HTMLDivElement>;
+  }
+>) => {
+  const currentUserId = useMemo(() => decodeToken(token), [token]) as Record<'user_id', string>;
+
   return (
     <StreamApp apiKey={apiKey} appId={appId} token={token}>
-      <div style={{ width: '50%', padding: 10 }}>
-        <Header />
+      <div className={`ea-column ${isVisibleInMobile ? '' : 'ea-column__hidden'}`}>
+        <Header onTitleClick={onHeaderTitleClick} />
 
-        <StatusUpdateForm />
+        <StatusUpdateForm
+          Header={
+            <div className="ea-panel-header">
+              <Title>New post</Title>
+              {currentUserId.user_id === 'batman' && <FollowButton userId="robin" />}
+            </div>
+          }
+        />
 
         {children}
       </div>
@@ -54,7 +111,7 @@ const ExampleFeed = ({ token, children }: any) => {
 };
 
 const ExampleFlatFeed = ({ feedGroup: fg = 'user' }) => (
-  <div className="custom-flat-feed" style={{ overflowY: 'auto', height: 'calc(100% - 318px)' }}>
+  <div className="ea-column-content">
     <FlatFeed
       notify
       feedGroup={fg}
@@ -70,9 +127,10 @@ const ExampleFlatFeed = ({ feedGroup: fg = 'user' }) => (
               <ActivityFooter activity={activity} feedGroup={feedGroup} userId={userId} />
               <CommentField activity={activity} />
               <CommentList
+                reverseOrder
                 activityId={activity.id}
                 CommentItem={({ comment }) => (
-                  <div className="wrapper">
+                  <div className="ea-comment-item">
                     <CommentItem comment={comment} />
                     <LikeButton reaction={comment} />
                   </div>
@@ -86,19 +144,30 @@ const ExampleFlatFeed = ({ feedGroup: fg = 'user' }) => (
   </div>
 );
 
-const Root = () => {
+export const Root = () => {
+  const [isLeftColumnVisible, setLeftColumnVisible] = useState(true);
+
   return (
-    <div style={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <div style={{ height: '80%', backgroundColor: '#ddd', width: '80%', display: 'flex', borderRadius: 5 }}>
-        <ExampleFeed token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYmF0bWFuIn0.ZX6L04ANBi-lgN_qbjOxezxpuJDzYfX460jwayv_7h0">
+    <div className="ea-root">
+      <div className="ea-content">
+        <div className="ea-suggestion-bar">Click on title below to switch between feeds</div>
+        {/* Batman */}
+        <ExampleFeed
+          isVisibleInMobile={isLeftColumnVisible}
+          onHeaderTitleClick={() => setLeftColumnVisible(false)}
+          token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYmF0bWFuIn0.ZX6L04ANBi-lgN_qbjOxezxpuJDzYfX460jwayv_7h0"
+        >
           <ExampleFlatFeed feedGroup="timeline" />
         </ExampleFeed>
-        <ExampleFeed token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoicm9iaW4ifQ.PTGTKiZ0KvBuWV7g9F2uAbRy7j7TAnCTxxXggX-j9xU">
+        {/* Robin */}
+        <ExampleFeed
+          isVisibleInMobile={!isLeftColumnVisible}
+          onHeaderTitleClick={() => setLeftColumnVisible(true)}
+          token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoicm9iaW4ifQ.PTGTKiZ0KvBuWV7g9F2uAbRy7j7TAnCTxxXggX-j9xU"
+        >
           <ExampleFlatFeed />
         </ExampleFeed>
       </div>
     </div>
   );
 };
-
-export default Root;

@@ -11,21 +11,6 @@ body {
   background-color: #f0f0f0;
 }
 
-.wrapper {
-  background: #fff;
-  height: 60;
-  margin: 0 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: row;
-  border-bottom: 1px solid #ddd;
-}
-.wrapper:last-child,
-.wrapper:last-of-type {
-  border: none;
-}
-
 .box {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
@@ -92,4 +77,118 @@ div[class='raf-activity']:last-child {
 
 .raf-panel-footer button {
   margin-right: 0;
+}
+
+/* custom example application classes */
+.ea-root {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ea-content {
+  height: 80%;
+  background-color: #ddd;
+  width: 80%;
+  display: flex;
+  border-radius: 5px;
+}
+
+.ea-column {
+  width: 50%;
+  padding: 10px;
+}
+
+.ea-column-content {
+  overflow-y: auto;
+  height: calc(100% - 318px); /* 318px is the height of Header and StatusUpdateForm */
+}
+
+.ea-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.ea-column-header-title {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.ea-column-header-title > span {
+  margin-left: 5px;
+}
+
+.ea-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.ea-panel-header button {
+  padding: 3px 8px;
+  margin: 0;
+}
+
+.ea-panel-header button div {
+  width: 19px !important;
+  height: 19px !important;
+}
+
+.ea-comment-item {
+  background: #fff;
+  height: 60;
+  margin: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  border-bottom: 1px solid #ddd;
+}
+
+.ea-comment-item:last-child,
+.ea-comment-item:last-of-type {
+  border: none;
+}
+
+.ea-suggestion-bar {
+  background-color: #0ba8e0;
+  color: #fff;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  padding: 2px 0px;
+  text-align: center;
+  font-weight: 400;
+  display: none;
+}
+
+@media only screen and (max-width: 965px) {
+  .ea-suggestion-bar {
+    display: block;
+  }
+
+  .ea-column__hidden {
+    display: none;
+  }
+  .ea-content {
+    flex-direction: column;
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+  }
+  .ea-column {
+    width: 100%;
+    height: calc(100% - 22px); /* 22px is height of suggestion bar */
+    box-sizing: border-box;
+  }
+}
+
+@media only screen and (max-width: 670px) {
+  .ea-content {
+    width: 100%;
+    height: 100%;
+    border-radius: 0px;
+  }
 }
