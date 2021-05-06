@@ -68,7 +68,7 @@ const normalBundle = {
     /linkifyjs/,
     /lodash/,
     'react-file-utils',
-    'react-images',
+    'react-image-lightbox',
     'stream-analytics',
     'url-parse',
     'use-debounce',
