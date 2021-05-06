@@ -5,34 +5,24 @@
   "author": "GetStream",
   "license": "BSD-3-Clause",
   "private": true,
-  "dependencies": {
-    "prop-types": "^15.7.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "^3.4.1",
-    "react-activity-feed": "link:.."
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "start": "SKIP_PREFLIGHT_CHECK=true react-scripts start",
+    "build": "SKIP_PREFLIGHT_CHECK=true react-scripts build"
   },
-  "devDependencies": {
-    "cross-env": "^7.0.2",
-    "eslint": "^7.4.0",
-    "eslint-plugin-babel": "^5.3.1",
-    "eslint-plugin-flowtype": "^5.2.0",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jest": "^23.18.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-react": "^7.20.3"
+  "dependencies": {
+    "@types/node": "^15.0.1",
+    "@types/react": "^17.0.4",
+    "@types/react-dom": "^17.0.3",
+    "react": "link:../node_modules/react",
+    "react-activity-feed": "link:..",
+    "react-dom": "link:../node_modules/react-dom",
+    "react-scripts": "4.0.3",
+    "typescript": "^4.2.4",
+    "web-vitals": "^1.1.1"
   },
   "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
+    "last 1 chrome version",
+    "last 1 firefox version",
+    "last 1 safari version"
   ]
 }

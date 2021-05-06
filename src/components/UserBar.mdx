@@ -1,0 +1,26 @@
+---
+route: /components/user-bar
+menu: UI Components
+---
+
+import { Playground, Props } from 'docz';
+import { UserBar } from './UserBar';
+
+# UserBar
+
+## Properties
+
+<Props of={UserBar} />
+
+## Basic usage
+
+<Playground>
+  <UserBar
+    username="Batman"
+    onClickUser={console.log}
+    avatar="https://i.pinimg.com/originals/4f/a1/41/4fa141173a1b04470bb2f850bc5da13b.png"
+    AfterUsername={<label>Gotham City</label>}
+    timestamp="2020-09-19T07:44:11+00:00"
+    subtitle="The Dark Knight Rises"
+  />
+</Playground>

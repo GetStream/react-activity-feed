@@ -1,0 +1,43 @@
+.raf-textarea {
+  display: flex;
+  width: 100%;
+
+  .raf-textarea__textarea {
+    width: 100%;
+    color: tint($fontColor, 3%); // color-mod(var(fontColor) tint(3%));
+    font-size: 16px;
+    line-height: 30px;
+    font-weight: 500;
+    border-color: $transparent;
+    border-radius: $borderRadius;
+    padding: 8px;
+    transition: background 0.4s;
+    resize: vertical;
+
+    &:focus {
+      background: tint($black, 95%); // color-mod(var(black) tint(95%));
+      outline: none;
+    }
+
+    &::placeholder {
+      color: tint($fontColor, 65%); // color-mod(var(fontColor) tint(65%));
+    }
+  }
+}
+
+.raf-emojisearch {
+  &__list {
+    border-radius: $borderRadius;
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 30px;
+    position: relative;
+    z-index: $z9;
+  }
+
+  &__item {
+    div {
+      padding: 0 10px 0 5px;
+    }
+  }
+}

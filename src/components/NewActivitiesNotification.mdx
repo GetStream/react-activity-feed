@@ -1,0 +1,35 @@
+---
+route: /components/new-activities-notification
+menu: UI Components
+---
+
+import { Playground, Props } from 'docz';
+import { NewActivitiesNotification } from './NewActivitiesNotification';
+
+# NewActivitiesNotification
+
+## Properties
+
+<Props of={NewActivitiesNotification} />
+
+## Basic usage
+
+<Playground>
+  <NewActivitiesNotification
+    adds={[{}, {}]}
+    deletes={[{}, {}]}
+    labelPlural="notifications"
+    labelSingle="notification"
+    onClick={console.log}
+  />
+</Playground>
+
+## Custom label function
+
+<Playground>
+  <NewActivitiesNotification
+    adds={[{}, {}]}
+    deletes={[{}, {}]}
+    labelFunction={({ count }) => `You have ${count} unread ${count > 1 ? 'messages' : 'message'}`}
+  />
+</Playground>

@@ -1,0 +1,47 @@
+---
+route: /components/dropdown-panel
+menu: Composition Components
+---
+
+import { Playground, Props } from 'docz';
+import { DropdownPanel } from './DropdownPanel';
+import { NewActivitiesNotification } from './NewActivitiesNotification';
+import { Title } from './Title';
+import { Link } from './Link';
+import { Notification } from './Notification';
+import { WithExampleStreamApp, notificationGroup1, notificationGroup2 } from './docz';
+
+# DropdownPanel
+
+## Properties
+
+<Props of={DropdownPanel} />
+
+## Basic usage
+
+<Playground>
+  <WithExampleStreamApp>
+    <DropdownPanel
+      Header={
+        <>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 10 }}>
+            <Title size={14}>Notifications</Title>
+            <Link>Mark as read</Link>
+          </div>
+          <NewActivitiesNotification adds={[{}, {}]} />
+        </>
+      }
+      Footer={
+        <div style={{ display: 'flex', padding: 10, alignItems: 'center', justifyContent: 'center' }}>
+          <Link to="#">View All Notifications</Link>
+        </div>
+      }
+    >
+      <Notification activityGroup={notificationGroup1} />
+      <Notification activityGroup={notificationGroup1} />
+      <Notification activityGroup={notificationGroup2} />
+      <Notification activityGroup={notificationGroup1} />
+      <Notification activityGroup={notificationGroup2} />
+    </DropdownPanel>
+  </WithExampleStreamApp>
+</Playground>

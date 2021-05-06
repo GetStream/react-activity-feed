@@ -1,0 +1,86 @@
+.raf-notification {
+  display: flex;
+  border-bottom: 1px solid tint($black, 93%); // color-mod(var(black) tint(93%));
+  padding: 18px;
+  background: tint($black, 97%); // color-mod(var(black) tint(97%));
+  cursor: pointer;
+
+  &:hover {
+    background: tint($black, 98%); // color-mod(var(black) tint(98%));
+  }
+}
+
+.raf-notification .raf-avatar {
+  margin-right: 16px;
+}
+
+.raf-notification {
+  font-size: 14px;
+  margin-top: 0;
+  margin-bottom: 0;
+  color: tint($fontColor, 10%); // color-mod(var(fontColor) tint(10%));
+  font-weight: 350;
+  line-height: 16px;
+}
+
+.raf-notification strong {
+  color: $fontColor;
+  font-weight: 900;
+}
+
+.raf-notification small {
+  font-size: 12px;
+}
+
+.raf-notification__content {
+  flex: 1;
+}
+
+.raf-notification__header .raf-dropdown {
+  .raf-icon-button {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .raf-dropdown__button {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.raf-notification__extra {
+  margin-left: 16px;
+  align-self: center;
+}
+
+.raf-notification--read {
+  background: white;
+}
+
+.raf-notification-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.raf-notification-dropdown__panel {
+  position: absolute;
+  width: 100vw;
+  z-index: 9999;
+  transition: all 0.2s ease-out;
+  top: 35px;
+  left: -22px;
+  visibility: hidden;
+  transform: translateY(10px);
+  opacity: 0;
+}
+
+.raf-notification-dropdown__panel--open {
+  visibility: visible;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.raf-notification-dropdown__panel--right {
+  left: unset;
+  right: -29px;
+}

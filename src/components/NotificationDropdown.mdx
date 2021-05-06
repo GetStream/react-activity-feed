@@ -1,0 +1,39 @@
+---
+route: /components/notification-dropdown
+menu: Top Level Components
+---
+
+import { Playground, Props } from 'docz';
+import { WithExampleStreamApp } from './docz';
+import { NotificationDropdown } from './NotificationDropdown';
+
+# NotificationDropdown
+
+This component should be a child of `<StreamApp/>` component.
+
+## Properties
+
+<Props of={NotificationDropdown} />
+
+## Basic usage
+
+<Playground>
+  <WithExampleStreamApp>
+    <NotificationDropdown notify />
+  </WithExampleStreamApp>
+</Playground>
+
+## With custom Header, Footer, Icon and right align
+
+<Playground>
+  <WithExampleStreamApp>
+    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <NotificationDropdown
+        right
+        Header={() => <p style={{ margin: 0, padding: 0, backgroundColor: 'green' }}>Header</p>}
+        Footer={() => <p style={{ margin: 0, padding: 0, backgroundColor: 'green' }}>Footer</p>}
+        Icon={() => <div style={{ width: 20, height: 20, borderRadius: '50%', backgroundColor: 'hotpink' }} />}
+      />
+    </div>
+  </WithExampleStreamApp>
+</Playground>

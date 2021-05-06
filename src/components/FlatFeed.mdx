@@ -1,0 +1,38 @@
+---
+route: /components/flat-feed
+menu: Top Level Components
+---
+
+import { Playground, Props } from 'docz';
+import { WithExampleStreamApp } from './docz';
+import { FlatFeed } from './FlatFeed';
+import { Activity } from './Activity';
+import { ActivityFooter } from './ActivityFooter';
+
+# FlatFeed
+
+This component should be a child of `<StreamApp/>` component.
+
+## Properties
+
+<Props of={FlatFeed} />
+
+## Basic usage
+
+<Playground>
+  <WithExampleStreamApp>
+    <FlatFeed feedGroup="user" />
+  </WithExampleStreamApp>
+</Playground>
+
+## With custom ActivityFooter
+
+<Playground>
+  <WithExampleStreamApp>
+    <FlatFeed
+      feedGroup="user"
+      options={{ limit: 3, withRecentReactions: true }}
+      Activity={(props) => <Activity {...props} Footer={<ActivityFooter {...props} />} />}
+    />
+  </WithExampleStreamApp>
+</Playground>

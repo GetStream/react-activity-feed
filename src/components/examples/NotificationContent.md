@@ -1,5 +1,0 @@
-NotificationContent
-
-```js
-<NotificationContent />
-```

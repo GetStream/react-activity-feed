@@ -1,0 +1,20 @@
+.raf-reaction-icon {
+  display: flex;
+  align-items: center;
+  margin: 4px 0;
+  cursor: pointer;
+
+  svg {
+    width: 1em;
+  }
+}
+
+.raf-reaction-icon__image {
+  margin-right: 8px;
+}
+
+.raf-reaction-icon__label {
+  font-size: 14px;
+  color: $fontColor;
+  font-weight: 800;
+}

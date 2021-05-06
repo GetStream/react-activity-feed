@@ -1,0 +1,44 @@
+---
+route: /components/reaction-list
+menu: Composition Components
+---
+
+import { Playground, Props } from 'docz';
+import { ReactionList } from './ReactionList';
+import { WithExampleStreamApp } from './docz';
+import { Feed } from '../context/Feed';
+
+# ReactionList
+
+## Properties
+
+<Props of={ReactionList} />
+
+## Basic usage
+
+<Playground>
+  <WithExampleStreamApp>
+    <Feed feedGroup="user">
+      <ReactionList
+        activityId="aba1d300-dc4a-11e8-8080-80010edf5810"
+        reactionKind="comment"
+        Reaction={(props) => <div style={{ padding: 10, border: '1px solid black' }}>{props.reaction.data.text}</div>}
+      />
+    </Feed>
+  </WithExampleStreamApp>
+</Playground>
+
+## Reverse order
+
+<Playground>
+  <WithExampleStreamApp>
+    <Feed feedGroup="user">
+      <ReactionList
+        activityId="aba1d300-dc4a-11e8-8080-80010edf5810"
+        reactionKind="comment"
+        reverseOrder
+        Reaction={(props) => <div style={{ padding: 10, border: '1px solid black' }}>{props.reaction.data.text}</div>}
+      />
+    </Feed>
+  </WithExampleStreamApp>
+</Playground>

@@ -1,0 +1,25 @@
+---
+route: /components/follow-button
+menu: Composition Components
+---
+
+import { Playground, Props } from 'docz';
+import { FollowButton } from './FollowButton';
+
+# FollowButton
+
+## Properties
+
+<Props of={FollowButton} />
+
+## Basic usage
+
+<Playground>
+  <FollowButton onClick={console.log} />
+</Playground>
+
+## Property _followed_ set to _true_
+
+<Playground>
+  <FollowButton followed={true} onClick={console.log} />
+</Playground>

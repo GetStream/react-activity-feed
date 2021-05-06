@@ -1,0 +1,59 @@
+.raf-status-update-form {
+  &__url-list {
+    list-style-type: none;
+    margin: 0 -8px;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+
+    &-item {
+      flex: 1 0 calc(50% - 16px);
+      margin: 8px;
+      padding: 8px 16px;
+      background: white;
+      border-radius: $borderRadius;
+      border: 1px solid shade(#fafafa, 10%); // color(#fafafa shade(10%));
+      color: tint($fontColor, 50%); // color-mod(var(fontColor) tint(50%));
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      @media screen and (max-width: 375px) {
+        flex: 1 0 calc(100% - 16px);
+      }
+
+      &--active {
+        border: 1px solid shade(#fafafa, 20%); // color(#fafafa shade(20%));
+        box-shadow: 0 1px 3px 0 change-color($black, $alpha: 0.1); // color-mod(var(black) a(10%));
+        background: #fafafa;
+        color: $primary;
+      }
+    }
+  }
+
+  &__og-loading {
+    border: 1px solid shade(#fafafa, 20%); // color(#fafafa shade(20%));
+    box-shadow: 0 1px 3px 0 change-color($black, $alpha: 0.1); // color-mod(var(black) a(10%));
+    border-radius: $borderRadius;
+    background: #fafafa;
+    color: $primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    margin: 8px 0;
+    position: relative;
+
+    .raf-loading-indicator__spinner {
+      position: absolute;
+      left: 16px;
+    }
+  }
+
+  .raf-panel-content > p {
+    font-size: 14px;
+    font-weight: 500;
+    color: $fontColor;
+  }
+}

@@ -1,0 +1,43 @@
+---
+route: /components/button
+menu: UI Components
+---
+
+import { Playground, Props } from 'docz';
+import { Button } from './Button';
+
+# Button
+
+## Properties
+
+<Props of={Button} />
+
+## Basic usage
+
+<Playground>
+  <Button buttonStyle="faded">Cancel</Button>
+  <Button buttonStyle="info">Info</Button>
+  <Button buttonStyle="primary">Post</Button>
+</Playground>
+
+## Disabled state
+
+<Playground>
+  <Button buttonStyle="faded" disabled>
+    Cancel
+  </Button>
+  <Button buttonStyle="info" disabled>
+    Info
+  </Button>
+  <Button buttonStyle="primary" disabled>
+    Post
+  </Button>
+</Playground>
+
+## Loading state
+
+<Playground>
+  <Button buttonStyle="faded" disabled loading />
+  <Button buttonStyle="info" disabled loading />
+  <Button buttonStyle="primary" disabled loading />
+</Playground>

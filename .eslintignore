@@ -3,9 +3,9 @@ node_modules/
 /example/build/
 /lib/
 /dist/
-/flow-typed/
 /docs/
 /.git/
 **/*.sh
 vendor/
 *.md
+.docz

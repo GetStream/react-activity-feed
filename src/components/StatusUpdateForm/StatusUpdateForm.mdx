@@ -1,0 +1,34 @@
+---
+route: /components/status-update-form
+menu: Top Level Components
+---
+
+import { Playground, Props } from 'docz';
+import { WithExampleStreamApp } from '../docz';
+import { Activity } from '../Activity';
+import { FlatFeed } from '../FlatFeed';
+import { StatusUpdateForm } from './StatusUpdateForm';
+
+# StatusUpdateForm
+
+This component should be a child of `<StreamApp/>` component.
+
+### Features:
+
+- OG scraping
+- Image uploads
+- File uploads
+- Emoji select and autocomplete
+
+## Properties
+
+<Props of={StatusUpdateForm} />
+
+## Basic usage
+
+<Playground>
+  <WithExampleStreamApp>
+    <StatusUpdateForm />
+    <FlatFeed feedGroup="user" options={{ limit: 2 }} notify Activity={(props) => <Activity {...props} />} />
+  </WithExampleStreamApp>
+</Playground>

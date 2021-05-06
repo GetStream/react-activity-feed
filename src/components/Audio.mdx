@@ -1,0 +1,27 @@
+---
+route: /components/audio
+menu: UI Components
+---
+
+import { Playground, Props } from 'docz';
+import { Audio } from './Audio';
+
+# Audio
+
+## Properties
+
+<Props of={Audio} />
+
+## Basic usage
+
+<Playground>
+  <Audio
+    og={{
+      audios: [{ secure_url: 'https://media1.vocaroo.com/mp3/17SJoO2u3JcO' }],
+      images: [{ image: 'https://i1.sndcdn.com/artworks-000239059018-lxf0kl-t500x500.jpg' }],
+      title: 'Jesse James',
+      description: 'Perla',
+    }}
+    handleClose={console.log}
+  />
+</Playground>

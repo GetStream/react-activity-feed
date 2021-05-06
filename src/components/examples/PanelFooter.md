@@ -1,5 +1,0 @@
-PanelFooter
-
-```js
-<PanelFooter />
-```

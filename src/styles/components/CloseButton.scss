@@ -1,0 +1,10 @@
+.raf-close-button {
+  cursor: pointer;
+}
+
+.raf-close-button[role='button']:active,
+.raf-close-button[role='button']:focus {
+  outline-offset: 5px;
+  outline: 3px solid change-color($info, $alpha: 0.2); // color-mod(var(info) a(20%));
+  cursor: pointer;
+}

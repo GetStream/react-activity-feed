@@ -1,0 +1,42 @@
+.raf-comment-item {
+  display: flex;
+
+  /* margin: 8px 0; */
+  padding: 8px 0;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+
+  &__hashtag {
+    color: #095482;
+    cursor: pointer;
+  }
+
+  &__mention {
+    color: #095482;
+    cursor: pointer;
+  }
+
+  &__link {
+    color: $info;
+  }
+}
+
+.raf-comment-item__content {
+  margin: 0 0 0 8px;
+  font-size: 14px;
+
+  time {
+    color: tint($fontColor, 30%); // color-mod(var(fontColor) tint(30%));
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 0;
+    color: tint($fontColor, 30%); // color-mod(var(fontColor) tint(30%));
+    font-weight: 600;
+  }
+}
+
+.raf-comment-item__author {
+  color: $info;
+  font-weight: 700;
+}

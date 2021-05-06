@@ -1,0 +1,45 @@
+---
+route: /components/load-more-paginator
+menu: UI Components
+---
+
+import { Playground, Props } from 'docz';
+import { LoadMorePaginator } from './LoadMorePaginator';
+
+# LoadMorePaginator
+
+## Properties
+
+<Props of={LoadMorePaginator} />
+
+## Basic usage
+
+<Playground>
+  <LoadMorePaginator hasNextPage loadNextPage={console.log}>
+    Children items
+  </LoadMorePaginator>
+</Playground>
+
+## Reverse
+
+<Playground>
+  <LoadMorePaginator hasNextPage loadNextPage={console.log} reverse>
+    Children items
+  </LoadMorePaginator>
+</Playground>
+
+## Refreshing state
+
+<Playground>
+  <LoadMorePaginator hasNextPage loadNextPage={console.log} refreshing>
+    Children items
+  </LoadMorePaginator>
+</Playground>
+
+## Last page
+
+<Playground>
+  <LoadMorePaginator hasNextPage={false} loadNextPage={console.log}>
+    Children items
+  </LoadMorePaginator>
+</Playground>

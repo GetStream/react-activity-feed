@@ -1,5 +1,0 @@
-ImageUploadButton
-
-```js
-<ImageUploadButton />
-```
