@@ -1,8 +1,8 @@
-import React, { useContext, ReactNode, MouseEvent } from 'react';
+import React, { ReactNode, MouseEvent } from 'react';
 
 import { Button } from './Button';
 
-import { TranslationContext } from '../context';
+import { useTranslationContext } from '../context';
 
 export type LoadMoreButtonProps = {
   children?: ReactNode;
@@ -11,7 +11,8 @@ export type LoadMoreButtonProps = {
 };
 
 export const LoadMoreButton = ({ onClick, refreshing = false, children }: LoadMoreButtonProps) => {
-  const { t } = useContext(TranslationContext);
+  const { t } = useTranslationContext();
+
   return (
     <div className="raf-load-more-button">
       <Button onClick={onClick} buttonStyle="info" disabled={refreshing} loading={refreshing}>
