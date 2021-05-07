@@ -82,27 +82,36 @@ div[class='raf-activity']:last-child {
 /* custom example application classes */
 .ea-root {
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  box-sizing: border-box;
+  padding: 10px;
 }
 
 .ea-content {
   height: 100%;
-  background-color: #ddd;
   width: 100%;
   display: flex;
-  border-radius: 5px;
 }
 
 .ea-column {
   width: 50%;
   padding: 10px;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.15);
+  padding-top: 0;
+  position: relative;
+}
+
+.ea-column__right {
+  margin-left: 5px;
+}
+
+.ea-column__left {
+  margin-right: 5px;
 }
 
 .ea-column-content {
   overflow-y: auto;
-  height: calc(100% - 318px); /* 318px is the height of Header and StatusUpdateForm */
+  height: calc(100% - 50px); /* 50px is the height of Header */
 }
 
 .ea-column-header {
@@ -112,31 +121,33 @@ div[class='raf-activity']:last-child {
   padding: 10px;
 }
 
+.ea-column-header button {
+  padding: 5px 8px;
+  margin: 0;
+}
+
+.ea-column-header button div {
+  width: 19px !important;
+  height: 19px !important;
+}
+
 .ea-column-header-title {
   display: flex;
   align-items: center;
-  cursor: pointer;
+  pointer-events: none;
 }
 
 .ea-column-header-title > span {
   margin-left: 5px;
 }
 
-.ea-panel-header {
+.ea-column-header-child {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
 }
 
-.ea-panel-header button {
-  padding: 3px 8px;
-  margin: 0;
-}
-
-.ea-panel-header button div {
-  width: 19px !important;
-  height: 19px !important;
+.ea-column-header-child button:last-child {
+  margin-left: 5px;
 }
 
 .ea-comment-item {
@@ -166,32 +177,73 @@ div[class='raf-activity']:last-child {
   display: none;
 }
 
-@media only screen and (max-width: 965px) {
-  .ea-suggestion-bar {
-    display: block;
-  }
+.ea-modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 91; /* 90 is the z-index of a raf-new-activities-notification button */
+  backdrop-filter: blur(3px);
+  left: 0;
+  border-radius: 5px;
+}
 
-  .ea-column__hidden {
-    display: none;
+.ea-modal-content {
+  position: absolute;
+  z-index: 92;
+  width: calc(100% - 60px);
+  padding: 0 30px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 0;
+}
+
+@media only screen and (max-width: 965px) {
+  .ea-root {
+    /* might add later */
+    padding: 0;
   }
 
   .ea-content {
     flex-direction: column;
-    border-top-right-radius: 0;
-    border-top-left-radius: 0;
+  }
+
+  .ea-suggestion-bar {
+    display: block;
   }
 
   .ea-column {
     width: 100%;
     height: calc(100% - 22px); /* 22px is height of suggestion bar */
     box-sizing: border-box;
+    border-radius: 0;
+  }
+
+  .ea-column__left {
+    margin: 0;
+  }
+
+  .ea-column__right {
+    margin: 0;
+  }
+
+  .ea-column__hidden {
+    display: none;
+  }
+
+  .ea-column-header-title {
+    pointer-events: all;
+    cursor: pointer;
   }
 }
 
+/*
 @media only screen and (max-width: 670px) {
   .ea-content {
     width: 100%;
     height: 100%;
     border-radius: 0;
   }
-}
+} */

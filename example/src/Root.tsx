@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useMemo, PropsWithChildren } from 'react';
+import React, { useEffect, useState, PropsWithChildren, useRef, useCallback } from 'react';
 
 import { capitalize } from 'lodash';
-import decodeToken from 'jwt-decode';
+import { UR } from 'getstream';
 
 import {
   StreamApp,
@@ -18,7 +18,7 @@ import {
   useStreamContext,
   Avatar,
   Button,
-  Title,
+  useFeedContext,
 } from 'react-activity-feed';
 import 'react-activity-feed/dist/index.css';
 
@@ -28,7 +28,11 @@ import './Root.css';
 const apiKey = 'aqymkkv2z53t';
 const appId = '1123024';
 
-const Header = ({ onTitleClick }: { onTitleClick: React.MouseEventHandler<HTMLDivElement> }) => {
+const Header = ({
+  onTitleClick,
+  children,
+  title,
+}: PropsWithChildren<{ onTitleClick: React.MouseEventHandler<HTMLDivElement>; title?: string }>) => {
   const { userData } = useStreamContext();
 
   return (
@@ -36,16 +40,16 @@ const Header = ({ onTitleClick }: { onTitleClick: React.MouseEventHandler<HTMLDi
       <div onClick={onTitleClick} className="ea-column-header-title">
         <Avatar circle size={30} image={userData?.profileImage} />
         <span>
-          <strong>{`${userData?.name ?? 'User'}'s`}</strong> activity feed
+          <strong>{`${userData?.name ?? 'User'}'s`}</strong> {title ?? 'activity feed'}
         </span>
       </div>
 
-      <NotificationDropdown right />
+      {children}
     </header>
   );
 };
 
-const FollowButton = ({ userId }: Record<'userId', string>) => {
+const FollowButton = ({ userId, onSuccess }: Record<'userId', string> & { onSuccess?: () => void }) => {
   const { client } = useStreamContext();
   const [followingUser, setFollowingUser] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -53,13 +57,14 @@ const FollowButton = ({ userId }: Record<'userId', string>) => {
   const handleButtonClick = async () => {
     setLoading(true);
     try {
-      // add Robins user (feed group 'user') feed to Batman
+      // add Robin's user feed (feed group 'user') to Batman's timeline feed (feed group timeline)
       await client?.feed('timeline')[followingUser ? 'unfollow' : 'follow']('user', userId);
     } catch {
       console.error(`Error while trying to follow user with user_id: ${userId}`);
     }
     setLoading(false);
 
+    onSuccess?.();
     setFollowingUser((pv) => !pv);
   };
 
@@ -83,91 +88,140 @@ const ExampleFeed = ({
   token,
   children,
   isVisibleInMobile,
-  onHeaderTitleClick,
+  className = '',
 }: PropsWithChildren<
   Record<'token', string> & {
     isVisibleInMobile: boolean;
-    onHeaderTitleClick: React.MouseEventHandler<HTMLDivElement>;
+    className?: string;
   }
->) => {
-  const currentUserId = useMemo(() => decodeToken(token), [token]) as Record<'user_id', string>;
+>) => (
+  <StreamApp apiKey={apiKey} appId={appId} token={token}>
+    <div className={`ea-column ${isVisibleInMobile ? '' : 'ea-column__hidden'} ${className}`.trim()}>{children}</div>
+  </StreamApp>
+);
 
+const ExampleContent = ({ children }: PropsWithChildren<UR>) => <div className="ea-column-content">{children}</div>;
+
+type SetRefresh = (f: unknown) => void;
+
+// workaround for exposing refresh method of the
+// feed manager outside feed context
+const ExposeRefresh = ({ setRefresh }: { setRefresh?: SetRefresh }) => {
+  const { refresh } = useFeedContext();
+
+  useEffect(() => {
+    setRefresh?.(refresh);
+  }, []);
+
+  return null;
+};
+
+const ExampleFlatFeed = ({ feedGroup: fg = 'user', setRefresh }: { feedGroup?: string; setRefresh?: SetRefresh }) => (
+  <FlatFeed
+    notify
+    feedGroup={fg}
+    options={{ limit: 6, withOwnChildren: true, withRecentReactions: true }}
+    Paginator={(props) => (
+      <>
+        {setRefresh && <ExposeRefresh setRefresh={setRefresh} />}
+        <InfiniteScrollPaginator {...props} useWindow={false} />
+      </>
+    )}
+    Activity={({ activity, feedGroup, userId }) => (
+      <Activity
+        activity={activity}
+        feedGroup={feedGroup}
+        userId={userId}
+        Footer={() => (
+          <>
+            <ActivityFooter activity={activity} feedGroup={feedGroup} userId={userId} />
+            <CommentField activity={activity} />
+            <CommentList
+              reverseOrder
+              activityId={activity.id}
+              CommentItem={({ comment }) => (
+                <div className="ea-comment-item">
+                  <CommentItem comment={comment} />
+                  <LikeButton reaction={comment} />
+                </div>
+              )}
+            />
+          </>
+        )}
+      />
+    )}
+  />
+);
+
+const Modal = ({ open = false, onClose, children }: PropsWithChildren<{ onClose?: () => void; open?: boolean }>) => {
+  const modalContentReference = useRef<HTMLDivElement>(null);
+  if (!open) return null;
   return (
-    <StreamApp apiKey={apiKey} appId={appId} token={token}>
-      <div className={`ea-column ${isVisibleInMobile ? '' : 'ea-column__hidden'}`}>
-        <Header onTitleClick={onHeaderTitleClick} />
-
-        <StatusUpdateForm
-          Header={
-            <div className="ea-panel-header">
-              <Title>New post</Title>
-              {currentUserId.user_id === 'batman' && <FollowButton userId="robin" />}
-            </div>
-          }
-        />
-
+    <>
+      <div onClick={onClose} className="ea-modal-backdrop" />
+      <div
+        ref={modalContentReference}
+        onClick={(e) => {
+          if (e.target !== modalContentReference.current) return;
+          onClose?.();
+        }}
+        className="ea-modal-content"
+      >
         {children}
       </div>
-    </StreamApp>
+    </>
   );
 };
 
-const ExampleFlatFeed = ({ feedGroup: fg = 'user' }) => (
-  <div className="ea-column-content">
-    <FlatFeed
-      notify
-      feedGroup={fg}
-      options={{ limit: 6, withOwnChildren: true, withRecentReactions: true }}
-      Paginator={(props) => <InfiniteScrollPaginator {...props} useWindow={false} />}
-      Activity={({ activity, feedGroup, userId }) => (
-        <Activity
-          activity={activity}
-          feedGroup={feedGroup}
-          userId={userId}
-          Footer={() => (
-            <>
-              <ActivityFooter activity={activity} feedGroup={feedGroup} userId={userId} />
-              <CommentField activity={activity} />
-              <CommentList
-                reverseOrder
-                activityId={activity.id}
-                CommentItem={({ comment }) => (
-                  <div className="ea-comment-item">
-                    <CommentItem comment={comment} />
-                    <LikeButton reaction={comment} />
-                  </div>
-                )}
-              />
-            </>
-          )}
-        />
-      )}
-    />
-  </div>
-);
-
 export const Root = () => {
   const [isLeftColumnVisible, setLeftColumnVisible] = useState(true);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const refreshReference = useRef<unknown>();
+  const setRefresh = useCallback((refresh) => (refreshReference.current = refresh), []);
 
   return (
     <div className="ea-root">
       <div className="ea-content">
         <div className="ea-suggestion-bar">Click on title below to switch between feeds</div>
+
         {/* Batman */}
         <ExampleFeed
           isVisibleInMobile={isLeftColumnVisible}
-          onHeaderTitleClick={() => setLeftColumnVisible(false)}
           token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYmF0bWFuIn0.ZX6L04ANBi-lgN_qbjOxezxpuJDzYfX460jwayv_7h0"
+          className="ea-column__left"
         >
-          <ExampleFlatFeed feedGroup="timeline" />
+          <Modal open={isModalOpen} onClose={() => setModalOpen(false)}>
+            <StatusUpdateForm onSuccess={() => setModalOpen(false)} />
+          </Modal>
+
+          <Header title="timeline feed" onTitleClick={() => setLeftColumnVisible(false)}>
+            <div className="ea-column-header-child">
+              <FollowButton
+                onSuccess={() => typeof refreshReference.current === 'function' && refreshReference.current()}
+                userId="robin"
+              />
+              <Button onClick={() => setModalOpen(true)}>New post</Button>
+            </div>
+          </Header>
+          <ExampleContent>
+            <ExampleFlatFeed setRefresh={setRefresh} feedGroup="timeline" />
+          </ExampleContent>
         </ExampleFeed>
+
         {/* Robin */}
         <ExampleFeed
           isVisibleInMobile={!isLeftColumnVisible}
-          onHeaderTitleClick={() => setLeftColumnVisible(true)}
           token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoicm9iaW4ifQ.PTGTKiZ0KvBuWV7g9F2uAbRy7j7TAnCTxxXggX-j9xU"
+          className="ea-column__right"
         >
-          <ExampleFlatFeed />
+          <Header title="user feed" onTitleClick={() => setLeftColumnVisible(true)}>
+            <NotificationDropdown right />
+          </Header>
+
+          <ExampleContent>
+            <StatusUpdateForm />
+            <ExampleFlatFeed />
+          </ExampleContent>
         </ExampleFeed>
       </div>
     </div>
