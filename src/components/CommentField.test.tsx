@@ -129,7 +129,7 @@ describe('CommentField', () => {
       fireEvent.click(button);
     });
 
-    expect(onAddReaction).toHaveBeenCalledWith('comment', {}, { text });
+    expect(onAddReaction).toHaveBeenCalledWith('comment', {}, { text }, { targetFeeds: undefined });
     expect(successFn).toHaveBeenCalled();
     expect(textarea).toHaveValue('');
   });
