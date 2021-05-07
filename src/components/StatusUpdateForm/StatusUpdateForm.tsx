@@ -82,6 +82,7 @@ export function StatusUpdateForm<
   trigger,
   doRequest,
   userId,
+  onSuccess,
 }: StatusUpdateFormProps<AT>) {
   const { t } = useTranslationContext();
   const state = useStatusUpdateForm<UT, AT, CT, RT, CRT, PT>({
@@ -90,6 +91,7 @@ export function StatusUpdateForm<
     modifyActivityData,
     doRequest,
     userId,
+    onSuccess,
   });
 
   return (
