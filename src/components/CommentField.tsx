@@ -20,6 +20,7 @@ export type CommentFieldProps<UT extends DefaultUT = DefaultUT, AT extends Defau
   kind?: string;
   onSuccess?: () => void;
   placeholder?: string;
+  targetFeeds?: string[];
   trigger?: TextareaProps['trigger'];
 };
 
@@ -30,6 +31,7 @@ export const CommentField = <UT extends DefaultUT = DefaultUT, AT extends Defaul
   image,
   placeholder,
   trigger,
+  targetFeeds,
 }: CommentFieldProps<UT, AT>) => {
   const feed = useFeedContext<UT, AT>();
   const { t } = useTranslationContext();
@@ -42,7 +44,7 @@ export const CommentField = <UT extends DefaultUT = DefaultUT, AT extends Defaul
     if (!text) return;
 
     try {
-      await feed.onAddReaction('comment', activity, { text });
+      await feed.onAddReaction('comment', activity, { text }, { targetFeeds });
     } catch (error) {
       console.error(error);
     }
