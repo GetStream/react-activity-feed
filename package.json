@@ -155,9 +155,8 @@
   ],
   "size-limit": [
     {
-      "path": "dist/index.es.js",
-      "limit": "200 KB",
-      "import": "{ createComponent }"
+      "path": "dist/index.cjs.js",
+      "limit": "270 KB"
     },
     {
       "path": "dist/index.css",
