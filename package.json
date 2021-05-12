@@ -5,12 +5,13 @@
   "author": "GetStream",
   "license": "BSD-3-Clause",
   "repository": "GetStream/react-activity-feed",
-  "main": "dist/index.js",
-  "module": "dist/index.es.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "jsnext:main": "dist/index.es.js",
+  "jsnext:main": "dist/index.js",
   "jsdelivr": "dist/browser.full-bundle.js",
   "style": "dist/index.css",
+  "sideEffects": false,
   "files": [
     "src",
     "dist"
@@ -28,7 +29,7 @@
     "lint": "yarn run prettier && yarn run eslint && stylelint '**/*.{css,scss}'",
     "lint-fix": "yarn run prettier-fix && yarn run eslint --fix && stylelint --fix '**/*.{css,scss}'",
     "stylelint": "stylelint '**/*.{css,scss}'",
-    "types": "tsc --emitDeclarationOnly true",
+    "types": "tsc",
     "build": "yarn run types && rollup -c",
     "start": "yarn run types && rollup -c -w",
     "docs": "docz dev",
@@ -104,7 +105,6 @@
     "react-dom": "^17.0.1",
     "react-test-renderer": "^17.0.2",
     "rollup": "^2.47.0",
-    "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-scss": "^2.6.1",
@@ -155,9 +155,8 @@
   ],
   "size-limit": [
     {
-      "path": "dist/index.es.js",
-      "limit": "200 KB",
-      "import": "{ createComponent }"
+      "path": "dist/index.cjs.js",
+      "limit": "270 KB"
     },
     {
       "path": "dist/index.css",
