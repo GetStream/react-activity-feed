@@ -1,6 +1,6 @@
 import React from 'react';
 
-import '../../../src/styles/index.scss';
+import '../../../dist/index.css';
 
 const Wrapper = ({ children }) => <>{children}</>;
 
