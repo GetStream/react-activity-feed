@@ -3,6 +3,7 @@ import { EnrichedActivity, UR } from 'getstream';
 
 import { ActivityContent as DefaultActivityContent, ActivityContentProps } from './ActivityContent';
 import { ActivityHeader as DefaultActivityHeader, ActivityHeaderProps } from './ActivityHeader';
+import { Card as DefaultCard, CardProps } from './Card';
 import { ActivityFooterProps } from './ActivityFooter';
 
 import { smartRender, ElementOrComponentOrLiteralType, UserOrDefaultReturnType } from '../utils';
@@ -20,6 +21,10 @@ export type ActivityProps<
   /** The activity received for stream for which to show the like button. This is
    * used to initialize the toggle state and the counter. */
   activity: EnrichedActivity<UT, AT, CT, RT, CRT>;
+  /** Card component to display.
+   * #Card (Component)#
+   */
+  Card?: ElementOrComponentOrLiteralType<CardProps>;
   /** Content component to display.
    * #ActivityContent (Component)#
    */
@@ -82,6 +87,7 @@ export const Activity = <
   HeaderRight,
   Content = DefaultActivityContent,
   Footer,
+  Card = DefaultCard,
   activity,
   icon,
   onClickHashtag,
@@ -96,6 +102,7 @@ export const Activity = <
     {smartRender<ActivityContentProps<UT, AT, CT, RT, CRT>>(Content, {
       activity,
       Content,
+      Card,
       feedGroup,
       Footer,
       Header,
