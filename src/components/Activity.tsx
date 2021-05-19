@@ -21,7 +21,7 @@ export type ActivityProps<
    * used to initialize the toggle state and the counter. */
   activity: EnrichedActivity<UT, AT, CT, RT, CRT>;
   /** Content component to display.
-   * #DefaultActivityContent (Component)#
+   * #ActivityContent (Component)#
    */
   Content?: ElementOrComponentOrLiteralType<ActivityContentProps<UT, AT, CT, RT, CRT>>;
   /** The feed group part of the feed that the activity should be reposted to
@@ -30,7 +30,7 @@ export type ActivityProps<
   feedGroup?: string;
   Footer?: ElementOrComponentOrLiteralType<ActivityFooterProps<UT, AT, CT, RT, CRT>>;
   /** Header component to display.
-   * #DefaultActivityHeader (Component)#
+   * #ActivityHeader (Component)#
    */
   Header?: ElementOrComponentOrLiteralType<ActivityHeaderProps<UT, AT>>;
   HeaderRight?: ElementOrComponentOrLiteralType;
@@ -41,7 +41,7 @@ export type ActivityProps<
   onClickMention?: WordClickHandler;
   onClickUser?: (user: UserOrDefaultReturnType<UT>) => void;
   /** UI component to render original activity within a repost
-   * #DefaultRepost (Component)#
+   * #Repost (Component)#
    */
   Repost?: ElementOrComponentOrLiteralType<ActivityProps<UT, AT, CT, RT, CRT>>;
   /** The user_id part of the feed that the activity should be reposted to when
