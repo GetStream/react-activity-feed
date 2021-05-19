@@ -31,8 +31,7 @@ export type StatusUpdateFormProps<AT extends DefaultAT = DefaultAT> = {
   /** Override Post request */
   doRequest?: (activity: NewActivity<AT>) => Promise<Activity<AT>>;
   /** Override the default emoji dataset, library has a light set of emojis
-   * to show more emojis use your own or emoji-mart sets
-   * https://github.com/missive/emoji-mart#datasets
+   * to show more emojis use your own or [emoji-mart sets](https://github.com/missive/emoji-mart#datasets)
    */
   emojiData?: EmojiPickerProps['emojiData'];
   /** The feed group part of the feed that the activity should be posted to, default to "user" */

@@ -20,7 +20,9 @@ export type ReactionListType<UT extends DefaultUT = DefaultUT, RT extends UR = U
    * of the default where reactions are displayed and loaded most recent first. */
   oldestToNewest?: boolean;
   /** By default pagination is done with a "Load more" button, you can use
-   * InfiniteScrollPaginator to enable infinite scrolling */
+   * [InfiniteScrollPaginator](/components/infinite-scroll) to enable infinite scrolling
+   * #LoadMorePaginator (Component)#
+   */
   Paginator?: ElementOrComponentOrLiteralType<LoadMorePaginatorProps>;
   /** Reverse the order the reactions are displayed in. */
   reverseOrder?: boolean;

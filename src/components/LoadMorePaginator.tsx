@@ -9,7 +9,9 @@ export type LoadMorePaginatorProps = {
   hasNextPage: boolean;
   /** callback to load the next page */
   loadNextPage: LoadMoreButtonProps['onClick'];
-  /** The button the user should click to click to load more */
+  /** The button the user should click to click to load more
+   * #LoadMoreButton (Component)#
+   */
   LoadMoreButton?: ElementOrComponentOrLiteralType<LoadMoreButtonProps>;
   /** indicates if there there's currently any refreshing taking place */
   refreshing?: boolean;
