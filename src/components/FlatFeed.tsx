@@ -24,16 +24,26 @@ type FlatFeedInnerProps<
   RT extends UR = UR,
   CRT extends UR = UR
 > = {
-  /** The component used to render an activity in the feed */
+  /** The component used to render an activity in the feed
+   * #Activity (Component)#
+   */
   Activity: ElementOrComponentOrLiteralType<ActivityProps<UT, AT, CT, RT, CRT>>;
-  /** Component to show when the feed is refreshing **/
+  /** Component to show when the feed is refreshing
+   * #LoadingIndicator (Component)#
+   */
   LoadingIndicator: ElementOrComponentOrLiteralType<LoadingIndicatorProps>;
-  /** The component to use to render new activities notification */
+  /** The component to use to render new activities notification
+   * #Notifier (NewActivitiesNotification Component)#
+   */
   Notifier: ElementOrComponentOrLiteralType<NewActivitiesNotificationProps>;
   /** By default pagination is done with a "Load more" button, you can use
-   * InfiniteScrollPaginator to enable infinite scrolling */
+   * [InfiniteScrollPaginator](/components/infinite-scroll) to enable infinite scrolling
+   * #LoadMorePaginator (Component)#
+   */
   Paginator: ElementOrComponentOrLiteralType<LoadMorePaginatorProps>;
-  /** Component to show when there are no activities in the feed **/
+  /** Component to show when there are no activities in the feed
+   * #FeedPlaceholder (Component)#
+   */
   Placeholder: ElementOrComponentOrLiteralType<FeedPlaceholderProps>;
   /** Read options for the API client (eg. limit, ranking, ...) */
   options?: FeedProps['options'];
