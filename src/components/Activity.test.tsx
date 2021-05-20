@@ -30,10 +30,10 @@ const testData: ActivityProps = {
 };
 
 describe('Activity', () => {
-  const [Header, HeaderRight, Footer, Content, Repost] = Array.from({ length: 5 }).map(() => jest.fn(() => null));
+  const [Header, HeaderRight, Footer, Content, Repost, Card] = Array.from({ length: 6 }).map(() => jest.fn(() => null));
 
   it('runs render functions with proper arguments', () => {
-    render(<Activity {...testData} {...{ Header, HeaderRight, Footer, Content, Repost }} />);
+    render(<Activity {...testData} {...{ Header, HeaderRight, Footer, Content, Repost, Card }} />);
 
     expect(Footer).toHaveBeenCalledWith(
       { userId: testData.userId, feedGroup: testData.feedGroup, activity: testData.activity },
@@ -51,6 +51,7 @@ describe('Activity', () => {
         Footer,
         Header,
         Repost,
+        Card,
       },
       {},
     );
