@@ -130,7 +130,7 @@
     "linkifyjs": "^2.1.9",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
-    "react-file-utils": "^1.0.3",
+    "react-file-utils": "^1.1.0",
     "react-image-lightbox": "^5.1.1",
     "stream-analytics": "^3.4.2",
     "tslib": "^2.2.0",
@@ -154,8 +154,8 @@
   ],
   "size-limit": [
     {
-      "path": "dist/index.cjs.js",
-      "limit": "270 KB"
+      "path": "dist/index.js",
+      "limit": "225 KB"
     },
     {
       "path": "dist/index.css",
