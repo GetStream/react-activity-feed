@@ -1,7 +1,7 @@
 import React, { useEffect, useState, PropsWithChildren, useRef, useCallback } from 'react';
 
 import { capitalize } from 'lodash';
-import { UR } from 'getstream';
+import { EnrichedUser, UR } from 'getstream';
 
 import {
   StreamApp,
@@ -134,15 +134,23 @@ const ExampleFlatFeed = ({ feedGroup: fg = 'user', setRefresh }: { feedGroup?: s
         userId={userId}
         Footer={() => (
           <>
-            <ActivityFooter activity={activity} feedGroup={feedGroup} userId={userId} />
-            <CommentField activity={activity} />
+            <ActivityFooter
+              activity={activity}
+              feedGroup={feedGroup}
+              userId={userId}
+              targetFeeds={[`notification:${(activity.actor as EnrichedUser).id}`]}
+            />
+            <CommentField activity={activity} targetFeeds={[`notification:${(activity.actor as EnrichedUser).id}`]} />
             <CommentList
               reverseOrder
               activityId={activity.id}
               CommentItem={({ comment }) => (
                 <div className="ea-comment-item">
                   <CommentItem comment={comment} />
-                  <LikeButton reaction={comment} />
+                  <LikeButton
+                    targetFeeds={[`notification:${(activity.actor as EnrichedUser).id}`]}
+                    reaction={comment}
+                  />
                 </div>
               )}
             />
