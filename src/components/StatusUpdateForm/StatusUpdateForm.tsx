@@ -1,7 +1,5 @@
 import React, { ReactNode } from 'react';
 import { Activity, NewActivity, UR } from 'getstream';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookmark } from '@fortawesome/free-regular-svg-icons';
 import {
   ImageUploadButton,
   FileUploadButton,
@@ -24,6 +22,7 @@ import { Video } from '../Video';
 import { EmojiPicker, EmojiPickerProps } from '../EmojiPicker';
 import { Button } from '../Button';
 import { Title } from '../Title';
+import { BookmarkIcon } from '../Icons';
 
 export type StatusUpdateFormProps<AT extends DefaultAT = DefaultAT> = {
   /** The verb that should be used to post the activity, default to "post" */
@@ -147,7 +146,13 @@ export function StatusUpdateForm<
                       url === state.ogActiveUrl ? ' raf-status-update-form__url-list-item--active' : ''
                     }`}
                   >
-                    <FontAwesomeIcon icon={faBookmark} /> {title !== undefined ? title : url}
+                    <BookmarkIcon
+                      style={{
+                        width: '0.75em',
+                        verticalAlign: '-0.125em',
+                      }}
+                    />{' '}
+                    {title !== undefined ? title : url}
                   </li>
                 ))}
               </ol>
