@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.2.0 - 2021-5-26
+
+### Fix
+
+- Removed Fort Awesome packages and replaced them with custom icons #272 #271
+
+### Chore
+
+- Bump `react-file-utils` version, reducing bundle size by 20% #273
+
 ## 1.1.1 - 2021-5-20
 
 ### Feature
