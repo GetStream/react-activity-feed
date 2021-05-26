@@ -11,7 +11,9 @@
   "jsnext:main": "dist/index.js",
   "jsdelivr": "dist/browser.full-bundle.js",
   "style": "dist/index.css",
-  "sideEffects": false,
+  "sideEffects": [
+    "*.css"
+  ],
   "files": [
     "src",
     "dist"
