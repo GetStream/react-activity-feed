@@ -75,7 +75,7 @@ export function dataTransferItemsHaveFiles(items?: DataTransferItemList) {
 function getFileLikes(items: DataTransferItemList) {
   const fileLikes: Array<Blob | File> = [];
   for (let i = 0; i < items.length; i += 1) {
-    const item = items.item(i);
+    const item = items[i];
     if (item.kind === 'file') {
       const file = item.getAsFile();
       if (file) fileLikes.push(file);
@@ -95,7 +95,7 @@ export async function dataTransferItemsToFiles(items?: DataTransferItemList) {
   const blobPromises = [];
   const parser = new DOMParser();
   for (let i = 0; i < items.length; i += 1) {
-    const item = items.item(i);
+    const item = items[i];
     if (item.type === 'text/html') {
       blobPromises.push(
         new Promise((accept) => {
