@@ -1023,13 +1023,14 @@ export class FeedManager<
     }
   };
 
-  unsubscribe = () => {
+  unsubscribe = async () => {
     const { subscription } = this.state;
     if (!subscription || this.registeredCallbacks.length) {
       return;
     }
 
     try {
+      await subscription;
       // @ts-expect-error
       subscription?.cancel();
       console.log(`stopped listening to changes in realtime for ${this.feed().id}`);
