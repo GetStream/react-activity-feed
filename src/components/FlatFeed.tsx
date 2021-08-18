@@ -98,7 +98,7 @@ const FlatFeedInner = <
 
   useEffect(() => {
     refreshFeed();
-  }, [feed.feedGroup]);
+  }, [feed.feedGroup, feed.userId]);
 
   if (feed.refreshing && !feed.hasDoneRequest) {
     return <div className="raf-loading-indicator">{smartRender<LoadingIndicatorProps>(LoadingIndicator)}</div>;

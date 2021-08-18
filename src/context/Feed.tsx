@@ -164,7 +164,7 @@ export function Feed<
       sharedFeedManagers[feedId] ||
       new FeedManager<UT, AT, CT, RT, CRT, PT>({ ...props, analyticsClient, client, user, errorHandler })
     );
-  }, [feedGroup]);
+  }, [feedGroup, userId]);
 
   useEffect(() => {
     const forceUpdate = () => setForceUpdateState((prevState) => prevState + 1);

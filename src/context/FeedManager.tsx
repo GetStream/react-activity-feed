@@ -167,10 +167,10 @@ export class FeedManager<
       | Partial<FeedManagerState<UT, AT, CT, RT, CRT>>
       | ((oldState: FeedManagerState<UT, AT, CT, RT, CRT>) => Partial<FeedManagerState<UT, AT, CT, RT, CRT>>),
   ) => {
-    if (typeof changed === 'function') {
-      changed = changed(this.state);
-    }
-    this.state = { ...this.state, ...changed };
+    this.state = {
+      ...this.state,
+      ...(typeof changed === 'function' ? changed(this.state) : changed),
+    };
     this.triggerUpdate();
   };
 
@@ -1030,7 +1030,9 @@ export class FeedManager<
     }
 
     try {
-      (await subscription).cancel();
+      await subscription;
+      // @ts-expect-error
+      subscription?.cancel();
       console.log(`stopped listening to changes in realtime for ${this.feed().id}`);
     } catch (err) {
       console.error(err);
