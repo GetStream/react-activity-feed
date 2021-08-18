@@ -14,6 +14,7 @@ export * from './components/InfiniteScrollPaginator';
 export * from './components/LoadMorePaginator';
 
 // Activity sub components
+export * from './components/ActivityHeader';
 export * from './components/ActivityFooter';
 export * from './components/AttachedActivity';
 export * from './components/UserBar';
