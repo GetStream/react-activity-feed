@@ -92,7 +92,7 @@ const NotificationFeedInner = <
       feed.activities.clear();
       feed.activityOrder.splice(0, feed.activityOrder.length);
     };
-  }, []);
+  }, [feed.feedGroup, feed.userId]);
 
   if (feed.refreshing && !feed.hasDoneRequest) {
     return <div className="raf-loading-indicator">{smartRender<LoadingIndicatorProps>(LoadingIndicator)}</div>;
@@ -135,8 +135,8 @@ export const NotificationFeed = <
   CRT extends UR = UR,
   PT extends UR = UR
 >({
-  userId,
   options,
+  userId,
   analyticsLocation,
   doFeedRequest,
   doActivityDeleteRequest,
@@ -145,8 +145,8 @@ export const NotificationFeed = <
   doReactionAddRequest,
   doReactionDeleteRequest,
   feedGroup = 'notification',
-  Group = Notification,
   notify = false,
+  Group = Notification,
   Notifier = NewActivitiesNotification,
   Paginator = LoadMorePaginator,
   Placeholder = FeedPlaceholder,
