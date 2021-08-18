@@ -1,7 +1,5 @@
 import React, { ReactNode } from 'react';
 import { Activity, NewActivity, UR } from 'getstream';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookmark } from '@fortawesome/free-regular-svg-icons';
 import {
   ImageUploadButton,
   FileUploadButton,
@@ -24,6 +22,7 @@ import { Video } from '../Video';
 import { EmojiPicker, EmojiPickerProps } from '../EmojiPicker';
 import { Button } from '../Button';
 import { Title } from '../Title';
+import { BookmarkIcon } from '../Icons';
 
 export type StatusUpdateFormProps<AT extends DefaultAT = DefaultAT> = {
   /** The verb that should be used to post the activity, default to "post" */
@@ -31,8 +30,7 @@ export type StatusUpdateFormProps<AT extends DefaultAT = DefaultAT> = {
   /** Override Post request */
   doRequest?: (activity: NewActivity<AT>) => Promise<Activity<AT>>;
   /** Override the default emoji dataset, library has a light set of emojis
-   * to show more emojis use your own or emoji-mart sets
-   * https://github.com/missive/emoji-mart#datasets
+   * to show more emojis use your own or [emoji-mart sets](https://github.com/missive/emoji-mart#datasets)
    */
   emojiData?: EmojiPickerProps['emojiData'];
   /** The feed group part of the feed that the activity should be posted to, default to "user" */
@@ -82,6 +80,7 @@ export function StatusUpdateForm<
   trigger,
   doRequest,
   userId,
+  onSuccess,
 }: StatusUpdateFormProps<AT>) {
   const { t } = useTranslationContext();
   const state = useStatusUpdateForm<UT, AT, CT, RT, CRT, PT>({
@@ -90,6 +89,7 @@ export function StatusUpdateForm<
     modifyActivityData,
     doRequest,
     userId,
+    onSuccess,
   });
 
   return (
@@ -146,7 +146,13 @@ export function StatusUpdateForm<
                       url === state.ogActiveUrl ? ' raf-status-update-form__url-list-item--active' : ''
                     }`}
                   >
-                    <FontAwesomeIcon icon={faBookmark} /> {title !== undefined ? title : url}
+                    <BookmarkIcon
+                      style={{
+                        width: '0.75em',
+                        verticalAlign: '-0.125em',
+                      }}
+                    />{' '}
+                    {title !== undefined ? title : url}
                   </li>
                 ))}
               </ol>

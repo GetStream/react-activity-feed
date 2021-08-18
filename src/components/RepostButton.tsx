@@ -20,6 +20,8 @@ export type RepostButtonProps<
   feedGroup?: string;
   /** Repost reaction custom data  */
   repostData?: RT;
+  /** onAddReaction supports targetFeeds that you can use to send a notification to the post owner like ["notification:USER_ID"] */
+  targetFeeds?: string[];
   /** The user_id part of the feed that the activity should be reposted to, default to current user id */
   userId?: string;
 };
@@ -39,6 +41,7 @@ export const RepostButton = <
   feedGroup = 'user',
   userId,
   repostData,
+  targetFeeds = [],
 }: RepostButtonProps<UT, AT, CT, RT, CRT>) => {
   const feed = useFeedContext<UT, AT, CT, RT, CRT, PT>();
   const app = useStreamContext<UT, AT, CT, RT, CRT, PT>();
@@ -56,7 +59,7 @@ export const RepostButton = <
       kind="repost"
       onPress={() =>
         feed.onToggleReaction('repost', originalActivity, repostData, {
-          targetFeeds: [`${feedGroup}:${userId || app.user?.id}`],
+          targetFeeds: [`${feedGroup}:${userId || app.user?.id}`, ...targetFeeds],
         })
       }
       activeIcon={<RepostIcon style={{ color: Color.Active }} />}

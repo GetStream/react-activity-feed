@@ -3,7 +3,6 @@ import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import external from 'rollup-plugin-peer-deps-external';
 import json from '@rollup/plugin-json';
-import copy from 'rollup-plugin-copy';
 import resolve from '@rollup/plugin-node-resolve';
 import globals from 'rollup-plugin-node-globals';
 import scss from 'rollup-plugin-scss';
@@ -51,11 +50,6 @@ const normalBundle = {
       format: 'cjs',
       sourcemap: true,
     },
-    {
-      file: pkg.module,
-      format: 'es',
-      sourcemap: true,
-    },
   ],
   external: [
     /@babel/,
@@ -79,7 +73,6 @@ const normalBundle = {
     json(),
     external(),
     babel({ babelHelpers: 'runtime', exclude: 'node_modules/**', extensions }),
-    copy({ targets: [{ src: 'src/i18n/*.json', dest: 'dist/i18n' }] }),
   ],
 };
 

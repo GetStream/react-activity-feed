@@ -6,7 +6,7 @@ import { DefaultAT, DefaultUT } from '../context/StreamApp';
 import { textRenderer, smartRender, sanitizeURL } from '../utils';
 import { Audio } from './Audio';
 import { Video } from './Video';
-import { Card } from './Card';
+import { Card as DefaultCard } from './Card';
 import { Gallery } from './Gallery';
 import { ActivityProps } from './Activity';
 
@@ -27,6 +27,7 @@ export const ActivityContent = <
 >({
   activity,
   Repost,
+  Card = DefaultCard,
   ...props
 }: ActivityContentProps<UT, AT, CT, RT, CRT>) => {
   const {
@@ -47,7 +48,7 @@ export const ActivityContent = <
 
       {og && (
         <div style={{ padding: '8px 16px' }}>
-          {og.videos ? <Video og={og} /> : og.audios ? <Audio og={og} /> : <Card {...og} />}
+          {og.videos ? <Video og={og} /> : og.audios ? <Audio og={og} /> : smartRender(Card, og)}
         </div>
       )}
 

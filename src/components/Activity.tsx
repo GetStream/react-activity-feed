@@ -3,6 +3,7 @@ import { EnrichedActivity, UR } from 'getstream';
 
 import { ActivityContent as DefaultActivityContent, ActivityContentProps } from './ActivityContent';
 import { ActivityHeader as DefaultActivityHeader, ActivityHeaderProps } from './ActivityHeader';
+import { Card as DefaultCard, CardProps } from './Card';
 import { ActivityFooterProps } from './ActivityFooter';
 
 import { smartRender, ElementOrComponentOrLiteralType, UserOrDefaultReturnType } from '../utils';
@@ -20,12 +21,22 @@ export type ActivityProps<
   /** The activity received for stream for which to show the like button. This is
    * used to initialize the toggle state and the counter. */
   activity: EnrichedActivity<UT, AT, CT, RT, CRT>;
+  /** Card component to display.
+   * #Card (Component)#
+   */
+  Card?: ElementOrComponentOrLiteralType<CardProps>;
+  /** Content component to display.
+   * #ActivityContent (Component)#
+   */
   Content?: ElementOrComponentOrLiteralType<ActivityContentProps<UT, AT, CT, RT, CRT>>;
   /** The feed group part of the feed that the activity should be reposted to
    * when pressing the RepostButton, e.g. `user` when posting to your own profile
    * defaults to 'user' feed */
   feedGroup?: string;
   Footer?: ElementOrComponentOrLiteralType<ActivityFooterProps<UT, AT, CT, RT, CRT>>;
+  /** Header component to display.
+   * #ActivityHeader (Component)#
+   */
   Header?: ElementOrComponentOrLiteralType<ActivityHeaderProps<UT, AT>>;
   HeaderRight?: ElementOrComponentOrLiteralType;
   icon?: string;
@@ -34,7 +45,9 @@ export type ActivityProps<
   /** Handler for any routing you may do on clicks on Mentions */
   onClickMention?: WordClickHandler;
   onClickUser?: (user: UserOrDefaultReturnType<UT>) => void;
-  /** UI component to render original activity within a repost */
+  /** UI component to render original activity within a repost
+   * #Repost (Component)#
+   */
   Repost?: ElementOrComponentOrLiteralType<ActivityProps<UT, AT, CT, RT, CRT>>;
   /** The user_id part of the feed that the activity should be reposted to when
    * pressing the RepostButton */
@@ -74,6 +87,7 @@ export const Activity = <
   HeaderRight,
   Content = DefaultActivityContent,
   Footer,
+  Card = DefaultCard,
   activity,
   icon,
   onClickHashtag,
@@ -88,6 +102,7 @@ export const Activity = <
     {smartRender<ActivityContentProps<UT, AT, CT, RT, CRT>>(Content, {
       activity,
       Content,
+      Card,
       feedGroup,
       Footer,
       Header,

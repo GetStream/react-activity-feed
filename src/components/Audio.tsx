@@ -1,11 +1,9 @@
 import React, { useRef, useState, useEffect, MouseEventHandler } from 'react';
 import { IconButton } from 'react-file-utils';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlayCircle, faPauseCircle } from '@fortawesome/free-regular-svg-icons';
 import { OGAPIResponse } from 'getstream';
 
-import { sanitizeURL } from '../utils';
-import { CloseIcon } from './Icons';
+import { sanitizeURL, smartRender } from '../utils';
+import { CloseIcon, PlayCircleIcon, PauseCircleIcon } from './Icons';
 
 type AudioProps = {
   og: OGAPIResponse;
@@ -70,7 +68,7 @@ export const Audio = ({ og: { audios = [], images = [], description, title }, ha
         <div className="raf-audio__image">
           <div className="raf-audio__image--overlay">
             <div role="button" onClick={() => setPlaying((pv) => !pv)} className="raf-audio__image--button">
-              <FontAwesomeIcon icon={playing ? faPauseCircle : faPlayCircle} />
+              {smartRender(playing ? PauseCircleIcon : PlayCircleIcon, { style: { width: '1em' } })}
             </div>
           </div>
           <img src={imageURL} alt={description ?? ''} />
