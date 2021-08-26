@@ -5,6 +5,7 @@ import trTranslations from './tr.json';
 import frTranslations from './fr.json';
 import hiTranslations from './hi.json';
 import itTranslations from './it.json';
+import esTranslations from './es.json';
 
 export {
   enTranslations,
@@ -14,4 +15,5 @@ export {
   frTranslations,
   hiTranslations,
   itTranslations,
+  esTranslations,
 };
