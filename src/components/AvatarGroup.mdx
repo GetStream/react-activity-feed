@@ -1,0 +1,58 @@
+---
+route: /components/avatar-group
+menu: UI Components
+---
+
+import { Playground, Props } from 'docz';
+import { AvatarGroup } from './AvatarGroup';
+
+# AvatarGroup
+
+## Properties
+
+<Props of={AvatarGroup} />
+
+## Basic usage
+
+<Playground>
+  <AvatarGroup
+    users={[
+      {
+        data: {
+          name: 'Jaap Bakker',
+          profileImage: 'https://randomuser.me/api/portraits/men/1.jpg',
+        },
+      },
+      {
+        data: {
+          name: 'Sloan Humfrey',
+          profileImage: 'https://randomuser.me/api/portraits/women/1.jpg',
+        },
+      },
+    ]}
+    avatarSize={50}
+  />
+</Playground>
+
+## Rounded
+
+<Playground>
+  <AvatarGroup
+    users={[
+      {
+        data: {
+          name: 'Jaap Bakker',
+          profileImage: 'https://randomuser.me/api/portraits/men/1.jpg',
+        },
+      },
+      {
+        data: {
+          name: 'Sloan Humfrey',
+          profileImage: 'https://randomuser.me/api/portraits/women/1.jpg',
+        },
+      },
+    ]}
+    avatarSize={50}
+    rounded
+  />
+</Playground>

@@ -1,0 +1,31 @@
+---
+route: /components/avatar
+menu: UI Components
+---
+
+import { Playground, Props } from 'docz';
+import { Avatar } from './Avatar';
+
+# Avatar
+
+## Properties
+
+<Props of={Avatar} />
+
+## Without Image source
+
+<Playground>
+  <Avatar size={50} />
+</Playground>
+
+## With Image source
+
+<Playground>
+  <Avatar image="https://getstream.imgix.net/images/random_svg/A.png" size={60} />
+</Playground>
+
+## Circle
+
+<Playground>
+  <Avatar image="https://getstream.imgix.net/images/random_svg/A.png" size={50} circle />
+</Playground>

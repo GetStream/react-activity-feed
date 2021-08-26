@@ -1,0 +1,25 @@
+---
+route: /components/textarea
+menu: UI Components
+---
+
+import { Playground, Props } from 'docz';
+import { Textarea } from './Textarea';
+
+# Textarea
+
+## Properties
+
+<Props of={Textarea} />
+
+## Basic usage
+
+<Playground>
+  <Textarea />
+</Playground>
+
+## Customized
+
+<Playground>
+  <Textarea rows={5} maxLength={300} placeholder="Start writing your message here..." />
+</Playground>

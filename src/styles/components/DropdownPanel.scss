@@ -1,0 +1,47 @@
+.raf-dropdown-panel {
+  background-color: $white;
+  box-shadow: 0 2px 4px 0 change-color($black, $alpha: 0.3); // color-mod(var(black) a(30%));
+  border-radius: $borderRadius;
+  overflow: hidden;
+
+  &--arrow {
+    &::after {
+      bottom: 100%;
+      left: 30px;
+      border: solid $transparent;
+      content: ' ';
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      border-color: $transparent;
+      border-bottom-color: rgb(247, 247, 247);
+      border-width: 8px;
+      margin-left: -8px;
+    }
+
+    &-right {
+      &::after {
+        left: initial;
+        right: 30px;
+      }
+    }
+  }
+}
+
+.raf-dropdown-panel .raf-dropdown-panel__header {
+  overflow: hidden;
+  border-radius: $borderRadius $borderRadius 0 0;
+}
+
+.raf-dropdown-panel__content {
+  max-height: 425px;
+  overflow-y: auto;
+}
+
+.raf-dropdown-panel__footer {
+  background: $white;
+  box-shadow: 0 -1px 2px change-color($black, $alpha: 0.1); // color-mod(var(black) a(10%));
+  border-radius: 0 0 $borderRadius $borderRadius;
+  margin-top: 2px;
+}

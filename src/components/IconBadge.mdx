@@ -1,0 +1,47 @@
+---
+route: /components/icon-badge
+menu: Composition Components
+---
+
+import { Playground, Props } from 'docz';
+import { IconBadge } from './IconBadge';
+
+# IconBadge
+
+IconBadge is technically a wrapper that displays a badge with or without numbers on it's children.
+
+## Properties
+
+<Props of={IconBadge} />
+
+## Basic usage
+
+<Playground>
+  <IconBadge onClick={() => console.log('hello world.')} />
+</Playground>
+
+## With Unseen
+
+<Playground>
+  <IconBadge unseen={3} />
+</Playground>
+
+## With Numbers
+
+<Playground>
+  <IconBadge unseen={3} showNumber />
+</Playground>
+
+## Custom Icon
+
+<Playground>
+  <IconBadge showNumber unseen={3}>
+    <div style={{ width: 20, height: 20, borderRadius: '50%', backgroundColor: 'hotpink' }} />
+  </IconBadge>
+</Playground>
+
+## Hidden
+
+<Playground>
+  <IconBadge showNumber unseen={3} hidden />
+</Playground>

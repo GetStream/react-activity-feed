@@ -1,0 +1,29 @@
+.raf-panel-header {
+  position: relative;
+  border-bottom: 2px solid tint($black, 95%); // color-mod(var(black) tint(95%));
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+
+  > * {
+    margin: 0 5px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:first-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.raf-panel-header .raf-close-button {
+  position: absolute;
+  right: 30px;
+}
+
+.raf-panel-header .raf-title {
+  display: flex;
+  align-items: center;
+}

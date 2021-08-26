@@ -1,0 +1,41 @@
+---
+route: /components/notification-feed
+menu: Top Level Components
+---
+
+import { Playground, Props } from 'docz';
+import { NotificationFeed } from './NotificationFeed';
+import { Notification } from './Notification';
+import { WithExampleStreamApp } from './docz';
+
+# NotificationFeed
+
+This component should be a child of `<StreamApp/>` component.
+
+## Properties
+
+<Props of={NotificationFeed} />
+
+## Basic usage
+
+<Playground>
+  <WithExampleStreamApp>
+    <NotificationFeed />
+  </WithExampleStreamApp>
+</Playground>
+
+## Customized Notification UI
+
+<Playground>
+  <WithExampleStreamApp>
+    <NotificationFeed
+      Group={(props) => (
+        <Notification
+          {...props}
+          onClickUser={(user) => console.log('Clicked on user', user)}
+          onClickNotification={(notification) => console.log('Clicked on notification', notification)}
+        />
+      )}
+    />
+  </WithExampleStreamApp>
+</Playground>

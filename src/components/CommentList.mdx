@@ -1,0 +1,38 @@
+---
+route: /components/comment-list
+menu: Composition Components
+---
+
+import { Playground, Props } from 'docz';
+import { CommentList } from './CommentList';
+import { WithExampleStreamApp } from './docz';
+import { Feed } from '../context/Feed';
+
+# CommentList
+
+## Properties
+
+<Props of={CommentList} />
+
+## Basic usage
+
+<Playground>
+  <WithExampleStreamApp>
+    <Feed feedGroup="user">
+      <CommentList activityId="aba1d300-dc4a-11e8-8080-80010edf5810" />
+    </Feed>
+  </WithExampleStreamApp>
+</Playground>
+
+## Custom CommentItem
+
+<Playground>
+  <WithExampleStreamApp>
+    <Feed feedGroup="user">
+      <CommentList
+        CommentItem={(props) => <div style={{ padding: 10 }}>{props.comment.data.text}</div>}
+        activityId="aba1d300-dc4a-11e8-8080-80010edf5810"
+      />
+    </Feed>
+  </WithExampleStreamApp>
+</Playground>

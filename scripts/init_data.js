@@ -1,7 +1,4 @@
-/* global process */
-// @flow
-
-const stream = require('getstream');
+const { connect } = require('getstream');
 const faker = require('faker');
 
 const dotenv = require('dotenv');
@@ -27,15 +24,14 @@ async function main() {
     console.error('STREAM_SECRET should be set');
     return;
   }
-  const client = stream.connect(apiKey, apiSecret);
+  const client = connect(apiKey, apiSecret);
 
   const exampleUser = client.user(exampleUserId);
   const userFeed = client.feed('user', exampleUserId);
   const act = await userFeed.addActivity({
     actor: exampleUser,
     verb: 'post',
-    object:
-      'Winds 2 is the Open Source megalocosmos flat earth effect of anti-gravity food chemicals...',
+    object: 'Winds 2 is the Open Source megalocosmos flat earth effect of anti-gravity food chemicals...',
   });
   const users = getUsers();
   const acts = getActivities(client, users);
@@ -104,8 +100,7 @@ const getActivities = (client, users) => [
         description:
           'Serial entrepreneur Elon Musk wants to fundamentally change the way we live. But his path to success has been characterized by both great accomplishments and flirtations with failure.',
         title: 'Elon Musk’s Highs and Lows: PayPal, SpaceX, Tesla',
-        url:
-          'https://www.nytimes.com/video/business/100000006060092/elon-musk-tesla-spacex.html',
+        url: 'https://www.nytimes.com/video/business/100000006060092/elon-musk-tesla-spacex.html',
         images: [
           {
             image:
@@ -130,11 +125,9 @@ const getActivities = (client, users) => [
     time: '2018-10-26T13:49:50',
     attachments: {
       og: {
-        description:
-          'Why choose one when you can wear both? These energizing pairings stand out from the crowd',
+        description: 'Why choose one when you can wear both? These energizing pairings stand out from the crowd',
         title: 'How to Pair Neutrals and Bright Colors',
-        url:
-          'https://graphics.wsj.com/glider/marketreport-4a039902-7e0d-4631-ab83-6cc1931c1bc6',
+        url: 'https://graphics.wsj.com/glider/marketreport-4a039902-7e0d-4631-ab83-6cc1931c1bc6',
         images: [{ image: 'https://images.wsj.net/im-21927/TOP' }],
       },
     },
@@ -147,16 +140,14 @@ const getActivities = (client, users) => [
     time: '2018-10-25T13:49:50',
     attachments: {
       og: {
-        description:
-          'Why choose one when you can wear both? These energizing pairings stand out from the crowd',
+        description: 'Why choose one when you can wear both? These energizing pairings stand out from the crowd',
         title:
           "'Queen' rapper rescheduling dates to 2019 after deciding to &#8220;reevaluate elements of production on the 'NickiHndrxx Tour'",
         url:
           'https://www.rollingstone.com/music/music-news/nicki-minaj-cancels-north-american-tour-with-future-714315/',
         images: [
           {
-            image:
-              'https://www.rollingstone.com/wp-content/uploads/2018/08/GettyImages-1020376858.jpg',
+            image: 'https://www.rollingstone.com/wp-content/uploads/2018/08/GettyImages-1020376858.jpg',
           },
         ],
       },

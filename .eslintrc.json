@@ -1,11 +1,14 @@
 {
-  "plugins": ["babel", "markdown", "sonarjs"],
+  "root": true,
+  "plugins": ["babel", "sonarjs", "prettier", "react-hooks", "jest-dom", "jest"],
   "extends": [
     "eslint:recommended",
-    "plugin:flowtype/recommended",
+    "plugin:prettier/recommended",
     "plugin:react/recommended",
+    "plugin:sonarjs/recommended",
+    "plugin:mdx/recommended",
     "plugin:jest/recommended",
-    "plugin:sonarjs/recommended"
+    "plugin:jest-dom/recommended"
   ],
   "rules": {
     "no-console": 0,
@@ -27,21 +30,13 @@
     "react/prop-types": 0,
     "no-var": 2,
     "linebreak-style": [2, "unix"],
-    "semi": [1, "always"],
-    "flowtype/require-valid-file-annotation": [
-      0,
-      "always",
-      {
-        "annotationStyle": "line"
-      }
-    ],
-    "flowtype/generic-spacing": 0,
-    "flowtype/space-after-type-colon": 0,
-    "sonarjs/cognitive-complexity": ["error", 30],
-    "sonarjs/no-duplicate-string": ["error", 5]
+    "sonarjs/cognitive-complexity": ["error", 35],
+    "sonarjs/no-duplicate-string": ["error", 5],
+    "semi": [1, "always"]
   },
   "env": {
     "es6": true,
+    "node": true,
     "browser": true
   },
   "parser": "babel-eslint",
@@ -54,7 +49,45 @@
   },
   "overrides": [
     {
-      "files": ["*.md"],
+      "files": ["**/*.ts", "**/*.tsx"],
+      "parser": "@typescript-eslint/parser",
+      "plugins": [
+        "prettier",
+        "react-hooks",
+        "jest",
+        "jest-dom",
+        "sonarjs",
+        "@typescript-eslint",
+        "typescript-sort-keys"
+      ],
+      "extends": [
+        "eslint:recommended",
+        "plugin:prettier/recommended",
+        "plugin:react/recommended",
+        "plugin:sonarjs/recommended",
+        "plugin:jest/recommended",
+        "plugin:jest-dom/recommended",
+        "plugin:@typescript-eslint/recommended"
+      ],
+      "rules": {
+        "lines-between-class-members": 0,
+        "@typescript-eslint/explicit-module-boundary-types": 0,
+        "@typescript-eslint/ban-ts-comment": 0,
+        "no-useless-constructor": 0,
+        "react/prop-types": 0,
+        "@typescript-eslint/no-empty-function": 0,
+        "@typescript-eslint/triple-slash-reference": 0,
+        "typescript-sort-keys/interface": [
+          "error",
+          "asc",
+          { "caseSensitive": false, "natural": true, "requiredFirst": true }
+        ],
+        "typescript-sort-keys/string-enum": ["error", "asc", { "caseSensitive": false, "natural": true }]
+      }
+    },
+    {
+      "files": ["*.md", "*.mdx"],
+      "extends": ["plugin:mdx/overrides"],
       "rules": {
         "react/jsx-no-undef": 0,
         "react/react-in-jsx-scope": 0,

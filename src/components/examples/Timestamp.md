@@ -1,5 +1,0 @@
-Timestamp
-
-```js
-<Timestamp />
-```

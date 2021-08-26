@@ -1,0 +1,49 @@
+---
+route: /components/attached-activity
+menu: UI Components
+---
+
+import { Playground, Props } from 'docz';
+import { AttachedActivity } from './AttachedActivity';
+
+# AttachedActivity
+
+## Properties
+
+<Props of={AttachedActivity} />
+
+## Basic usage
+
+<Playground>
+  <AttachedActivity
+    activity={{
+      attachments: {
+        images: [
+          'https://getstream.imgix.net/images/random_svg/A.png',
+          'https://getstream.imgix.net/images/random_svg/B.png',
+          'https://getstream.imgix.net/images/random_svg/C.png',
+        ],
+      },
+      verb: 'post',
+    }}
+  />
+</Playground>
+
+## Without images
+
+<Playground>
+  <AttachedActivity
+    activity={{
+      attachments: {
+        images: [],
+      },
+      object: 'Random string',
+      actor: {
+        data: {
+          name: 'Random user',
+        },
+      },
+      verb: 'post',
+    }}
+  />
+</Playground>

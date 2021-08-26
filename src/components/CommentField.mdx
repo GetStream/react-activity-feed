@@ -1,0 +1,26 @@
+---
+route: /components/comment-field
+menu: Composition Components
+---
+
+import { Playground, Props } from 'docz';
+import { CommentField } from './CommentField';
+
+# CommentField
+
+## Properties
+
+<Props of={CommentField} />
+
+## Basic usage
+
+<Playground>
+  <CommentField
+    activity={{}}
+    onAddReaction={async function (...data) {
+      await console.log(data);
+    }}
+    image="https://randomuser.me/api/portraits/men/91.jpg"
+    onSuccess={() => window.alert('Success!')}
+  />
+</Playground>

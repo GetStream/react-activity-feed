@@ -1,0 +1,21 @@
+---
+route: /components/link
+menu: Composition Components
+---
+
+import { Playground, Props } from 'docz';
+import { Link } from './Link';
+
+# Link
+
+## Properties
+
+<Props of={Link} />
+
+## Basic usage
+
+<Playground>
+  <Link to="https://getstream.io/activity-feeds" onClick={console.log}>
+    Stream.IO Activity Feeds
+  </Link>
+</Playground>

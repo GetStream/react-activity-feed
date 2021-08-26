@@ -1,0 +1,44 @@
+---
+route: /components/infinite-scroll
+menu: Composition Components
+---
+
+import { Playground, Props } from 'docz';
+import { LoadingIndicator } from 'react-file-utils';
+
+import { InfiniteScroll } from './InfiniteScroll';
+import { resolveAfter, StatefulComponent } from './docz';
+
+# InfiniteScroll
+
+## Properties
+
+<Props of={InfiniteScroll} />
+
+## Basic usage
+
+<Playground>
+  {/* Change hasMore condition to trigger loading (load more items) */}
+  <StatefulComponent initialValue={{ loading: false, data: Array(50).fill(null) }}>
+    {({ state: { loading, data }, setState }) => (
+      <InfiniteScroll
+        isLoading={loading}
+        loader={<LoadingIndicator key="loader" />}
+        hasMore={data.length < 100}
+        loadMore={() => {
+          setState((pv) => ({ ...pv, loading: true }));
+          resolveAfter(1000).then(() => {
+            setState((pv) => ({
+              loading: false,
+              data: [...pv.data, ...Array(50).fill(null)],
+            }));
+          });
+        }}
+      >
+        {data.map((value, index) => (
+          <div key={index}>{index}</div>
+        ))}
+      </InfiniteScroll>
+    )}
+  </StatefulComponent>
+</Playground>
