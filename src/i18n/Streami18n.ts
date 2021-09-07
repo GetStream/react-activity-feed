@@ -27,6 +27,7 @@ import 'dayjs/locale/tr';
 import 'dayjs/locale/fr';
 import 'dayjs/locale/hi';
 import 'dayjs/locale/it';
+import 'dayjs/locale/es';
 // These locale imports also set these locale globally.
 // So As a last step I am going to import english locale
 // to make sure I don't mess up language at other places in app.
