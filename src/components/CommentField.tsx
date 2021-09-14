@@ -1,5 +1,5 @@
 import React, { useRef, useState, FormEvent, useEffect } from 'react';
-import { EnrichedActivity } from 'getstream';
+import { EnrichedActivity, Activity } from 'getstream';
 import { Data as EmojiDataSet } from 'emoji-mart';
 
 import { Avatar } from './Avatar';
@@ -44,7 +44,7 @@ export const CommentField = <UT extends DefaultUT = DefaultUT, AT extends Defaul
     if (!text) return;
 
     try {
-      await feed.onAddReaction('comment', activity, { text }, { targetFeeds });
+      await feed.onAddReaction('comment', activity as Activity<AT>, { text }, { targetFeeds });
     } catch (error) {
       console.error(error);
     }
