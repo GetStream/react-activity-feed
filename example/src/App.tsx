@@ -31,22 +31,7 @@ function App() {
         </div>
         <StatusUpdateForm
           emojiI18n={{
-            search: 'Testing it',
-            notfound: 'Not found string',
-            skintext: 'Skin text',
-            categories: {
-              search: 'Categories/search',
-              activity: 'Categories/activity',
-              custom: 'Categories/custom',
-              flags: 'Categories/flags',
-              foods: 'Categories/foods',
-              nature: 'Categories/nature',
-              objects: 'Categories/objects',
-              people: 'Categories/people',
-              places: 'Categories/places',
-              recent: 'Categories/recent',
-              symbols: 'Categories/symbols',
-            },
+            search: 'Type here to search...',
           }}
         />
         <FlatFeed
