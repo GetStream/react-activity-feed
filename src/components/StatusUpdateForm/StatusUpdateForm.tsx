@@ -29,7 +29,6 @@ export type StatusUpdateFormProps<AT extends DefaultAT = DefaultAT> = {
   activityVerb?: string;
   /** Override Post request */
   doRequest?: (activity: NewActivity<AT>) => Promise<Activity<AT>>;
-  //: FIXME: We should be able to merge props emojiData and emojiI18n into one prop
   /** Override the default emoji dataset, library has a light set of emojis
    * to show more emojis use your own or [emoji-mart sets](https://github.com/missive/emoji-mart#datasets)
    */
