@@ -10,6 +10,7 @@ import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
 import cssnano from 'cssnano';
 import sass from 'sass';
+import image from '@rollup/plugin-image';
 
 import pkg from './package.json';
 
@@ -98,6 +99,7 @@ const fullBrowserBundle = {
     babel({ babelHelpers: 'runtime', exclude: 'node_modules/**', extensions }),
     json(),
     globals({ process: true }),
+    image(),
   ],
 };
 
