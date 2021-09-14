@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
-import { EmojiData, Data as EmojiDataSet } from 'emoji-mart';
-// @ts-expect-error
-import NimbleEmojiPicker from 'emoji-mart/dist/components/picker/nimble-picker.js';
+import { EmojiData, Data as EmojiDataSet, I18n } from 'emoji-mart';
+import { NimblePicker } from 'emoji-mart';
 
 import defaultEmojiData from '../utils/emojiData';
 import { useTranslationContext } from '../context';
@@ -14,10 +13,11 @@ export type EmojiPickerProps = {
    * https://github.com/missive/emoji-mart#datasets
    */
   emojiData?: EmojiDataSet;
+  i18n?: Partial<I18n>;
   onSelect?: (emoji: EmojiData) => void;
 };
 
-export const EmojiPicker = ({ emojiData = defaultEmojiData, onSelect }: EmojiPickerProps) => {
+export const EmojiPicker = ({ emojiData = defaultEmojiData, i18n, onSelect }: EmojiPickerProps) => {
   const { t } = useTranslationContext();
   const [open, setOpen] = useState(false);
   const emojiPicker = useRef<HTMLDivElement>(null);
@@ -28,7 +28,13 @@ export const EmojiPicker = ({ emojiData = defaultEmojiData, onSelect }: EmojiPic
     <div className="raf-emoji-picker">
       {open && (
         <div data-testid="picker-wrapper" className="raf-emoji-picker__container" ref={emojiPicker}>
-          <NimbleEmojiPicker emoji="point_up" title={t('Pick your emoji')} data={emojiData} onSelect={onSelect} />
+          <NimblePicker
+            emoji="point_up"
+            title={t('Pick your emoji')}
+            data={emojiData}
+            onSelect={onSelect}
+            i18n={i18n}
+          />
         </div>
       )}
       <div role="button" onClick={() => setOpen(true)} className="raf-emoji-picker__button">
