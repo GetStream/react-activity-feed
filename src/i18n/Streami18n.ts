@@ -179,6 +179,11 @@ export type TDateTimeParser = (input?: string | number | Date) => Dayjs.Dayjs | 
 
 export type LanguageCallbackFn = (t: TFunction) => void;
 
+export type Translator = {
+  t: TFunction;
+  tDateTimeParser: TDateTimeParser;
+};
+
 export class Streami18n {
   i18nInstance = i18n.createInstance();
   Dayjs = null;
@@ -333,7 +338,7 @@ export class Streami18n {
   /**
    * Initializes the i18next instance with configuration (which enables natural language as default keys)
    */
-  async init() {
+  async init(): Promise<Translator> {
     this.validateCurrentLanguage();
 
     try {
@@ -384,7 +389,7 @@ export class Streami18n {
   /**
    * Returns current version translator function.
    */
-  async getTranslators() {
+  async getTranslators(): Promise<Translator> {
     if (!this.initialized) {
       if (this.dayjsLocales[this.currentLanguage]) {
         this.addOrUpdateLocale(this.currentLanguage, this.dayjsLocales[this.currentLanguage]);
