@@ -3,10 +3,24 @@ import renderer from 'react-test-renderer';
 import { fireEvent, render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
+import { EmojiPicker } from './EmojiPicker';
+import { TranslationProviderMock } from '../mock-builders/TranslationContext';
+import { Streami18n, Translator } from '../i18n/Streami18n';
+import { EmojiData, I18n } from 'emoji-mart';
+import { Data as EmojiDataSet } from 'emoji-mart/dist-es/utils/data';
+
+interface SupportedNimblePickerProps {
+  data: EmojiDataSet;
+  emoji: string;
+  i18n: I18n;
+  onSelect: (emoji: EmojiData) => void;
+  title: string;
+}
+
 jest.mock(
   'emoji-mart/dist/components/picker/nimble-picker.js',
   // eslint-disable-next-line react/display-name
-  () => ({ i18n }: EmojiPickerProps) => {
+  () => ({ i18n }: SupportedNimblePickerProps) => {
     // console.log(JSON.stringify(i18n));
     return (
       <div>
@@ -16,10 +30,6 @@ jest.mock(
     );
   },
 );
-
-import { EmojiPicker, EmojiPickerProps } from './EmojiPicker';
-import { TranslationProviderMock } from '../mock-builders/TranslationContext';
-import { Streami18n, Translator } from '../i18n/Streami18n';
 
 describe('EmojiPicker', () => {
   it('renders correctly with default props', () => {
