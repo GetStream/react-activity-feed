@@ -7,7 +7,6 @@ import resolve from '@rollup/plugin-node-resolve';
 import globals from 'rollup-plugin-node-globals';
 import postcss from 'rollup-plugin-postcss';
 import autoprefixer from 'autoprefixer';
-import image from '@rollup/plugin-image';
 
 import pkg from './package.json';
 
@@ -92,7 +91,6 @@ const fullBrowserBundle = {
     babel({ babelHelpers: 'runtime', exclude: 'node_modules/**', extensions }),
     json(),
     globals({ process: true }),
-    image(),
   ],
 };
 
