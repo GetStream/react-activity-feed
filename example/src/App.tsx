@@ -32,6 +32,7 @@ function App() {
         <StatusUpdateForm
           emojiI18n={{
             search: 'Type here to search...',
+            categories: { recent: 'Recent Emojis' },
           }}
         />
         <FlatFeed

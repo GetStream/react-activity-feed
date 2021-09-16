@@ -41,7 +41,8 @@
     "prepare": "yarn run build && husky install",
     "preversion": "yarn install && yarn lint && yarn test",
     "version": "yarn docs-build && git add -A docs",
-    "postversion": "git push && git push --tags && npm publish"
+    "postversion": "git push && git push --tags && npm publish",
+    "watch": "watch 'yarn build' ./src/components --wait=3"
   },
   "peerDependencies": {
     "react": "^17.0.0 || ^16.8.0",
