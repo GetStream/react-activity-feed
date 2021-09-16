@@ -21,6 +21,7 @@ export type EmojiPickerProps = {
 
 export const getEmojiPickerFieldsTranslations = (t: TFunction): I18n => ({
   search: t('Search'),
+  // todo: remove @ts-ignore after fixed I18n type definition in emoji-mart package
   // @ts-ignore
   clear: t('Clear'),
   notfound: t('No emoji found'),

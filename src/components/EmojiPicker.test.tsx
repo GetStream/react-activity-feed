@@ -21,7 +21,6 @@ jest.mock(
   'emoji-mart/dist/components/picker/nimble-picker.js',
   // eslint-disable-next-line react/display-name
   () => ({ i18n }: SupportedNimblePickerProps) => {
-    // console.log(JSON.stringify(i18n));
     return (
       <div>
         emoji-picker-props
