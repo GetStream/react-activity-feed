@@ -4,7 +4,7 @@ import { TranslationContextValue, TranslationProvider } from '../context';
 
 export const translationProviderData = { t: String, tDateTimeParser: moment };
 
-type TranslationProviderMockProps = { children?: ReactNode; value?: TranslationContextValue };
+type TranslationProviderMockProps = PropsWithChildren<{ value?: TranslationContextValue }>;
 
 export const TranslationProviderMock = ({ value, children }: TranslationProviderMockProps) => (
   <TranslationProvider value={value || translationProviderData}>{children}</TranslationProvider>
