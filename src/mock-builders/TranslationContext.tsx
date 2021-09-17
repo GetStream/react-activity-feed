@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { PropsWithChildren } from 'react';
 import moment from 'moment';
 import { TranslationContextValue, TranslationProvider } from '../context';
 
