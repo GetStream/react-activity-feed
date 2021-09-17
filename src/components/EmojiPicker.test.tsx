@@ -4,10 +4,10 @@ import { fireEvent, render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import { EmojiPicker } from './EmojiPicker';
-import { TranslationProviderMock } from '../mock-builders/TranslationContext';
 import { Streami18n, Translator } from '../i18n/Streami18n';
 import { EmojiData, I18n } from 'emoji-mart';
 import { Data as EmojiDataSet } from 'emoji-mart/dist-es/utils/data';
+import { TranslationProvider } from '../context/TranslationContext';
 
 interface SupportedNimblePickerProps {
   data: EmojiDataSet;
@@ -72,11 +72,7 @@ describe('EmojiPicker', () => {
   });
 
   it('provides default i18n strings in english to underlying emoji picker component', () => {
-    const { getByRole, container } = render(
-      <TranslationProviderMock>
-        <EmojiPicker />
-      </TranslationProviderMock>,
-    );
+    const { getByRole, container } = render(<EmojiPicker />);
     fireEvent.click(getByRole('button'));
     expect(container.firstChild).toMatchInlineSnapshot(`
       <div
@@ -117,9 +113,9 @@ describe('EmojiPicker', () => {
   it('displays default i18n strings in other language than default english - spanish', async () => {
     const translator = await getTranslator('es');
     const { getByRole, container } = render(
-      <TranslationProviderMock value={translator}>
+      <TranslationProvider value={translator}>
         <EmojiPicker />
-      </TranslationProviderMock>,
+      </TranslationProvider>,
     );
     fireEvent.click(getByRole('button'));
     expect(container.firstChild).toMatchInlineSnapshot(`
@@ -160,17 +156,15 @@ describe('EmojiPicker', () => {
 
   it('displays custom i18n strings', () => {
     const { getByRole, container } = render(
-      <TranslationProviderMock>
-        <EmojiPicker
-          i18n={{
-            search: 'Custom Searchh',
-            clear: 'Custom Clear',
-            skintext: 'Custom Skintext',
-            // @ts-ignore
-            categories: { recent: 'Custom Recent' },
-          }}
-        />
-      </TranslationProviderMock>,
+      <EmojiPicker
+        i18n={{
+          search: 'Custom Searchh',
+          clear: 'Custom Clear',
+          skintext: 'Custom Skintext',
+          // @ts-ignore
+          categories: { recent: 'Custom Recent' },
+        }}
+      />,
     );
     fireEvent.click(getByRole('button'));
     expect(container.firstChild).toMatchInlineSnapshot(`
