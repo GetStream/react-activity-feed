@@ -33,6 +33,7 @@ import 'dayjs/locale/es';
 // to make sure I don't mess up language at other places in app.
 import 'dayjs/locale/en';
 import { UR } from 'getstream';
+import { TranslationContextValue } from '../context';
 
 Dayjs.extend(updateLocale);
 
@@ -178,11 +179,6 @@ const isDayJs = (dateTimeParser: typeof Dayjs | typeof moment): dateTimeParser i
 export type TDateTimeParser = (input?: string | number | Date) => Dayjs.Dayjs | moment.Moment;
 
 export type LanguageCallbackFn = (t: TFunction) => void;
-
-export type Translator = {
-  t: TFunction;
-  tDateTimeParser: TDateTimeParser;
-};
 
 export class Streami18n {
   i18nInstance = i18n.createInstance();
@@ -338,7 +334,7 @@ export class Streami18n {
   /**
    * Initializes the i18next instance with configuration (which enables natural language as default keys)
    */
-  async init(): Promise<Translator> {
+  async init(): Promise<TranslationContextValue> {
     this.validateCurrentLanguage();
 
     try {
@@ -389,7 +385,7 @@ export class Streami18n {
   /**
    * Returns current version translator function.
    */
-  async getTranslators(): Promise<Translator> {
+  async getTranslators(): Promise<TranslationContextValue> {
     if (!this.initialized) {
       if (this.dayjsLocales[this.currentLanguage]) {
         this.addOrUpdateLocale(this.currentLanguage, this.dayjsLocales[this.currentLanguage]);

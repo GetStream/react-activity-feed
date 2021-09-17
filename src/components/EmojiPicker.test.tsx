@@ -4,10 +4,10 @@ import { fireEvent, render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import { EmojiPicker } from './EmojiPicker';
-import { Streami18n, Translator } from '../i18n/Streami18n';
+import { Streami18n } from '../i18n/Streami18n';
 import { EmojiData, I18n } from 'emoji-mart';
 import { Data as EmojiDataSet } from 'emoji-mart/dist-es/utils/data';
-import { TranslationProvider } from '../context/TranslationContext';
+import { TranslationContextValue, TranslationProvider } from '../context/TranslationContext';
 
 interface SupportedNimblePickerProps {
   data: EmojiDataSet;
@@ -204,6 +204,6 @@ describe('EmojiPicker', () => {
   });
 });
 
-async function getTranslator(language: string): Promise<Translator> {
+async function getTranslator(language: string): Promise<TranslationContextValue> {
   return await new Streami18n({ language }).getTranslators();
 }
