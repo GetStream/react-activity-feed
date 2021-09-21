@@ -8,6 +8,7 @@ import { useTranslationContext } from '../context';
 import { useOnClickOutside } from '../hooks/useOnClickOutside';
 import { EmojiIcon } from './Icons';
 import { TFunction } from 'i18next';
+import { PartialI18n } from 'emoji-mart/dist-es/utils/shared-props';
 
 export type EmojiPickerProps = {
   /** Override the default emoji dataset, library has a light set of emojis
@@ -15,7 +16,7 @@ export type EmojiPickerProps = {
    * https://github.com/missive/emoji-mart#datasets
    */
   emojiData?: EmojiDataSet;
-  i18n?: Partial<I18n>;
+  i18n?: PartialI18n;
   onSelect?: (emoji: EmojiData) => void;
 };
 
