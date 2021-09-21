@@ -19,9 +19,7 @@ describe('StatusUpdateForm', () => {
       categories: { recent: 'Recent Emojis' },
     };
 
-    const context = {};
-
     render(<StatusUpdateForm emojiI18n={emojiI18n} />);
-    expect(EmojiPicker).toHaveBeenCalledWith(expect.objectContaining({ i18n: emojiI18n }), context);
+    expect(EmojiPicker).toHaveBeenCalledWith(expect.objectContaining({ i18n: emojiI18n }), {});
   });
 });
