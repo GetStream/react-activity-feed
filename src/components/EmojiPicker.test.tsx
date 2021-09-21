@@ -159,9 +159,9 @@ describe('EmojiPicker', () => {
       <EmojiPicker
         i18n={{
           search: 'Custom Searchh',
+          // @ts-expect-error
           clear: 'Custom Clear',
           skintext: 'Custom Skintext',
-          // @ts-ignore
           categories: { recent: 'Custom Recent' },
         }}
       />,
