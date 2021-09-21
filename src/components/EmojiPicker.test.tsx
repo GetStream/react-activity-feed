@@ -85,7 +85,7 @@ describe('EmojiPicker', () => {
           <div>
             emoji-picker-props
             <div>
-              {"search":"Search","clear":"Clear","notfound":"No emoji found","skintext":"Choose your default skin tone","categorieslabel":"Emoji categories","categories":{"search":"Search Results","recent":"Frequently Used","people":"Smileys & People","nature":"Animals & Nature","foods":"Food & Drink","activity":"Activity","places":"Travel & Places","objects":"Objects","symbols":"Symbols","flags":"Flags","custom":"Custom"}}
+              {"search":"Search","clear":"Clear","notfound":"No emoji found","skintext":"Choose your default skin tone","categorieslabel":"Emoji categories","categories":{"search":"Search Results","recent":"Frequently Used","people":"Smileys & Emotion","nature":"Animals & Nature","foods":"Food & Drink","activity":"Activity","places":"Travel & Places","objects":"Objects","symbols":"Symbols","flags":"Flags","custom":"Custom"}}
             </div>
           </div>
         </div>
@@ -129,7 +129,7 @@ describe('EmojiPicker', () => {
           <div>
             emoji-picker-props
             <div>
-              {"search":"Buscar","clear":"Claro","notfound":"No se ha encontrado ningún emoji","skintext":"Elige tu tono de piel por defecto","categorieslabel":"Categorías de emoji","categories":{"search":"Resultados de la búsqueda","recent":"Usado frecuentemente","people":"Sonrisas y personas","nature":"Animales y naturaleza","foods":"Alimentación y Bebidas","activity":"Actividad","places":"Viajes y lugares","objects":"Objetos","symbols":"Símbolos","flags":"Banderas","custom":"Personalizado"}}
+              {"search":"Buscar","clear":"Claro","notfound":"No se ha encontrado ningún emoji","skintext":"Elige tu tono de piel por defecto","categorieslabel":"Categorías de emoji","categories":{"search":"Resultados de la búsqueda","recent":"Usado frecuentemente","people":"Sonrisas y emociones","nature":"Animales y naturaleza","foods":"Alimentación y Bebidas","activity":"Actividad","places":"Viajes y lugares","objects":"Objetos","symbols":"Símbolos","flags":"Banderas","custom":"Personalizado"}}
             </div>
           </div>
         </div>

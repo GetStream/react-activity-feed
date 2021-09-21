@@ -30,7 +30,7 @@ export const getEmojiPickerFieldsTranslations = (t: TFunction): I18n => ({
   categories: {
     search: t('Search Results'),
     recent: t('Frequently Used'),
-    people: t('Smileys & People'),
+    people: t('Smileys & Emotion'),
     nature: t('Animals & Nature'),
     foods: t('Food & Drink'),
     activity: t('Activity'),
