@@ -1,5 +1,5 @@
 import React from 'react';
-import { EnrichedActivity, UR } from 'getstream';
+import { Activity, EnrichedActivity, UR } from 'getstream';
 
 import { ReactionToggleIcon } from './ReactionToggleIcon';
 import { useFeedContext, DefaultAT, DefaultUT, useStreamContext } from '../context';
@@ -58,7 +58,7 @@ export const RepostButton = <
       own_reactions={originalActivity.own_reactions}
       kind="repost"
       onPress={() =>
-        feed.onToggleReaction('repost', originalActivity, repostData, {
+        feed.onToggleReaction('repost', originalActivity as Activity<AT>, repostData, {
           targetFeeds: [`${feedGroup}:${userId || app.user?.id}`, ...targetFeeds],
         })
       }

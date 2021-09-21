@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { EnrichedReaction, UR, Reaction, EnrichedActivity } from 'getstream';
+import { Activity, EnrichedReaction, UR, Reaction, EnrichedActivity } from 'getstream';
 
 import { DefaultAT, DefaultUT } from '../context/StreamApp';
 import { ReactionToggleIcon } from './ReactionToggleIcon';
@@ -47,7 +47,7 @@ export const LikeButton = <
       kind="like"
       onPress={() => {
         if (reaction) return feed.onToggleChildReaction('like', reaction as Reaction<RT>, {} as CRT, { targetFeeds });
-        if (activity) return feed.onToggleReaction('like', activity, {} as RT, { targetFeeds });
+        if (activity) return feed.onToggleReaction('like', activity as Activity<AT>, {} as RT, { targetFeeds });
         return Promise.resolve();
       }}
       activeIcon={<ThumbsUpIcon style={{ color: Color.Active }} />}

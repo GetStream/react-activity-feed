@@ -48,7 +48,7 @@ type ImagesState = { data: Record<string, ImageUploadState>; order: string[] };
 
 type FilesState = { data: Record<string, FileUploadState>; order: string[] };
 
-type UseOgProps = { client: StreamClient; logErr: (e: Error, type: NetworkRequestTypes) => void };
+type UseOgProps = { client: StreamClient; logErr: (e: Error | unknown, type: NetworkRequestTypes) => void };
 
 type UseUploadProps = UseOgProps;
 
@@ -385,8 +385,8 @@ export function useStatusUpdateForm<
   const appCtx = useStreamContext<UT, AT, CT, RT, CRT, PT>();
   const client = appCtx.client as StreamClient<UT, AT, CT, RT, CRT, PT>;
   const userData = (appCtx.user?.data || {}) as UT;
-  const logErr = useCallback(
-    (e: Error, type: NetworkRequestTypes) => appCtx.errorHandler(e, type, { userId, feedGroup }),
+  const logErr: UseOgProps['logErr'] = useCallback(
+    (e, type) => appCtx.errorHandler(e, type, { userId, feedGroup }),
     [],
   );
 

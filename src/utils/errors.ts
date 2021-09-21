@@ -27,7 +27,11 @@ type ErrorDetail = UR & {
   userId?: string;
 };
 
-export type ErrorHandler = (error: Error | StreamApiError, type: NetworkRequestTypes, details: ErrorDetail) => void;
+export type ErrorHandler = (
+  error: Error | StreamApiError | unknown,
+  type: NetworkRequestTypes,
+  details: ErrorDetail,
+) => void;
 
 export const handleError: ErrorHandler = (error, type, detail) => {
   console.warn(error, type, detail);

@@ -5,11 +5,8 @@ import external from 'rollup-plugin-peer-deps-external';
 import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
 import globals from 'rollup-plugin-node-globals';
-import scss from 'rollup-plugin-scss';
-import postcss from 'postcss';
+import postcss from 'rollup-plugin-postcss';
 import autoprefixer from 'autoprefixer';
-import cssnano from 'cssnano';
-import sass from 'sass';
 
 import pkg from './package.json';
 
@@ -18,18 +15,14 @@ process.env.NODE_ENV = 'production';
 const styleBundle = (watch = false) => ({
   input: 'src/styles/index.scss',
   cache: false,
-  watch: watch ? { include: 'src/styles', chokidar: false } : {},
+  watch: watch ? { include: 'src/styles/**/*', chokidar: false } : {},
   output: [{ file: pkg.style, format: 'es' }],
   plugins: [
-    scss({
-      sass,
-      failOnError: true,
-      watch: 'src/styles',
-      output: pkg.style,
-      processor: (css) =>
-        postcss([autoprefixer, cssnano])
-          .process(css)
-          .then(({ css: newCss }) => newCss),
+    // TODO: find out how to implement "failOnError"
+    postcss({
+      extract: true,
+      minimize: true,
+      plugins: [autoprefixer],
     }),
   ],
 });
