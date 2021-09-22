@@ -33,6 +33,8 @@ export type StatusUpdateFormProps<AT extends DefaultAT = DefaultAT> = {
    * to show more emojis use your own or [emoji-mart sets](https://github.com/missive/emoji-mart#datasets)
    */
   emojiData?: EmojiPickerProps['emojiData'];
+  /** Override the default i18n dictionary providing your own translations where necessary */
+  emojiI18n?: EmojiPickerProps['i18n'];
   /** The feed group part of the feed that the activity should be posted to, default to "user" */
   feedGroup?: string;
   /** Add extra footer item */
@@ -75,6 +77,7 @@ export function StatusUpdateForm<
   activityVerb = 'post',
   modifyActivityData,
   emojiData,
+  emojiI18n,
   Header,
   FooterItem,
   trigger,
@@ -186,7 +189,7 @@ export function StatusUpdateForm<
                 <div style={{ marginRight: '32px', display: 'inline-block' }}>
                   <FileUploadButton handleFiles={state.uploadNewFiles} multiple />
                 </div>
-                <EmojiPicker onSelect={state.onSelectEmoji} emojiData={emojiData} />
+                <EmojiPicker onSelect={state.onSelectEmoji} emojiData={emojiData} i18n={emojiI18n} />
                 {FooterItem}
               </div>
 

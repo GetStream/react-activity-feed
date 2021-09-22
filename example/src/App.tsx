@@ -29,7 +29,12 @@ function App() {
           <h3>React Activity Feed</h3>
           <NotificationDropdown right />
         </div>
-        <StatusUpdateForm />
+        <StatusUpdateForm
+          emojiI18n={{
+            search: 'Type here to search...',
+            categories: { recent: 'Recent Emojis' },
+          }}
+        />
         <FlatFeed
           notify
           feedGroup="user"
