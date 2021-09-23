@@ -5,6 +5,7 @@ import { DefaultAT, DefaultUT } from '../context/StreamApp';
 import { ReactionToggleIcon } from './ReactionToggleIcon';
 import { ThumbsUpIcon, Color } from './Icons';
 import { useFeedContext } from '../context';
+import { PropsWithElementAttributes } from '../utils';
 
 export type LikeButtonProps<
   UT extends DefaultUT = DefaultUT,
@@ -12,14 +13,14 @@ export type LikeButtonProps<
   CT extends UR = UR,
   RT extends UR = UR,
   CRT extends UR = UR
-> = {
+> = PropsWithElementAttributes<{
   /** The activity received from stream that should be liked when pressing the LikeButton. */
   activity?: EnrichedActivity<UT, AT, CT, RT, CRT>;
   /** The reaction received from stream that should be liked when pressing the LikeButton. */
   reaction?: EnrichedReaction<RT, CRT, UT>;
   /** onAddReaction supports targetFeeds that you can use to send a notification to the post owner like ["notification:USER_ID"] */
   targetFeeds?: string[];
-};
+}>;
 
 export const LikeButton = <
   UT extends DefaultUT = DefaultUT,
@@ -32,6 +33,8 @@ export const LikeButton = <
   activity,
   reaction,
   targetFeeds,
+  className,
+  style,
 }: LikeButtonProps<UT, AT, CT, RT, CRT>) => {
   const feed = useFeedContext<UT, AT, CT, RT, CRT, PT>();
 
@@ -42,6 +45,8 @@ export const LikeButton = <
 
   return (
     <ReactionToggleIcon
+      className={className}
+      style={style}
       counts={reaction?.children_counts ?? activity?.reaction_counts}
       own_reactions={reaction?.own_children ?? activity?.own_reactions}
       kind="like"
