@@ -179,13 +179,6 @@ export const useOnClickUser = <
     [onClickUser],
   );
 
-// export type PropsWithWrapper<T extends { elementType?: HTMLElement; props?: UR } = UR> = T['props'] & {
-//   wrapperProps?: DetailedHTMLProps<
-//     HTMLAttributes<T['elementType'] extends HTMLElement ? T['elementType'] : HTMLDivElement>,
-//     T['elementType'] extends HTMLElement ? T['elementType'] : HTMLDivElement
-//   >;
-// };
-
 export type PropsWithElementAttributes<T extends UR = UR, E extends HTMLElement = HTMLDivElement> = T &
   Pick<DetailedHTMLProps<HTMLAttributes<E>, E>, 'className' | 'style'>;
 
