@@ -61,7 +61,7 @@ describe('CommentField', () => {
       >
         <img
           alt=""
-          className="raf-avatar  raf-avatar--circle"
+          className="raf-avatar raf-avatar--circle"
           src="https://getstream.imgix.net/images/random_svg/A.png"
           style={
             Object {

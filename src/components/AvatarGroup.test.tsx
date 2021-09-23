@@ -48,7 +48,7 @@ describe('AvatarGroup', () => {
         >
           <img
             alt=""
-            className="raf-avatar  raf-avatar--circle"
+            className="raf-avatar raf-avatar--circle"
             src="https://randomuser.me/api/portraits/men/1.jpg"
             style={
               Object {
@@ -63,7 +63,7 @@ describe('AvatarGroup', () => {
         >
           <img
             alt=""
-            className="raf-avatar  raf-avatar--circle"
+            className="raf-avatar raf-avatar--circle"
             src="https://randomuser.me/api/portraits/women/1.jpg"
             style={
               Object {
@@ -78,7 +78,7 @@ describe('AvatarGroup', () => {
         >
           <img
             alt=""
-            className="raf-avatar  raf-avatar--circle"
+            className="raf-avatar raf-avatar--circle"
             src="https://randomuser.me/api/portraits/men/3.jpg"
             style={
               Object {
@@ -105,7 +105,7 @@ describe('AvatarGroup', () => {
         >
           <img
             alt=""
-            className="raf-avatar  raf-avatar--circle"
+            className="raf-avatar raf-avatar--circle"
             onClick={[Function]}
             src="https://randomuser.me/api/portraits/men/1.jpg"
             style={
@@ -121,7 +121,7 @@ describe('AvatarGroup', () => {
         >
           <img
             alt=""
-            className="raf-avatar  raf-avatar--circle"
+            className="raf-avatar raf-avatar--circle"
             onClick={[Function]}
             src="https://randomuser.me/api/portraits/women/1.jpg"
             style={

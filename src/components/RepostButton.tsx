@@ -4,6 +4,7 @@ import { Activity, EnrichedActivity, UR } from 'getstream';
 import { ReactionToggleIcon } from './ReactionToggleIcon';
 import { useFeedContext, DefaultAT, DefaultUT, useStreamContext } from '../context';
 import { RepostIcon, Color } from './Icons';
+import { PropsWithElementAttributes } from '../utils';
 
 export type RepostButtonProps<
   UT extends DefaultUT = DefaultUT,
@@ -11,7 +12,7 @@ export type RepostButtonProps<
   CT extends UR = UR,
   RT extends UR = UR,
   CRT extends UR = UR
-> = {
+> = PropsWithElementAttributes<{
   /** The activity received for stream for which to show the repost button. This is
    * used to initialize the toggle state and the counter. */
   activity: EnrichedActivity<UT, AT, CT, RT, CRT>;
@@ -24,7 +25,7 @@ export type RepostButtonProps<
   targetFeeds?: string[];
   /** The user_id part of the feed that the activity should be reposted to, default to current user id */
   userId?: string;
-};
+}>;
 
 /**
  * A repost button ready to be embedded as Activity footer
@@ -42,6 +43,8 @@ export const RepostButton = <
   userId,
   repostData,
   targetFeeds = [],
+  className,
+  style,
 }: RepostButtonProps<UT, AT, CT, RT, CRT>) => {
   const feed = useFeedContext<UT, AT, CT, RT, CRT, PT>();
   const app = useStreamContext<UT, AT, CT, RT, CRT, PT>();
@@ -64,6 +67,8 @@ export const RepostButton = <
       }
       activeIcon={<RepostIcon style={{ color: Color.Active }} />}
       inactiveIcon={<RepostIcon style={{ color: Color.Inactive }} />}
+      className={className}
+      style={style}
     />
   );
 };
