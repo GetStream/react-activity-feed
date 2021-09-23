@@ -17,7 +17,7 @@ export const ActivityHeader = <UT extends DefaultUT = DefaultUT, AT extends Defa
   icon,
   onClickUser,
   style = { padding: '8px 16px' },
-  ...rest
+  className,
 }: ActivityHeaderProps<UT, AT>) => {
   const { tDateTimeParser } = useTranslationContext();
 
@@ -25,7 +25,7 @@ export const ActivityHeader = <UT extends DefaultUT = DefaultUT, AT extends Defa
   const handleUserClick = useOnClickUser<UT>(onClickUser);
 
   return (
-    <div style={style} {...rest}>
+    <div style={style} className={className}>
       <UserBar
         username={actor.data.name}
         avatar={actor.data.profileImage}

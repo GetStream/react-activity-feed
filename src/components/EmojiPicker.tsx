@@ -49,7 +49,7 @@ export const EmojiPicker = ({
   i18n,
   onSelect,
   className = 'raf-emoji-picker',
-  ...rest
+  style,
 }: EmojiPickerProps) => {
   const { t } = useTranslationContext();
   const [open, setOpen] = useState(false);
@@ -58,7 +58,7 @@ export const EmojiPicker = ({
   useOnClickOutside(emojiPicker, () => setOpen(false), open);
 
   return (
-    <div className={className} {...rest}>
+    <div className={className} style={style}>
       {open && (
         <div data-testid="picker-wrapper" className="raf-emoji-picker__container" ref={emojiPicker}>
           <NimbleEmojiPicker

@@ -7,14 +7,9 @@ export type DataLabelProps = PropsWithElementAttributes<{
   label?: string;
 }>;
 
-export const DataLabel = ({
-  data = 'data',
-  label = 'label',
-  className = 'raf-data-label',
-  ...rest
-}: DataLabelProps) => {
+export const DataLabel = ({ data = 'data', label = 'label', className = 'raf-data-label', style }: DataLabelProps) => {
   return (
-    <div className={className} {...rest}>
+    <div className={className} style={style}>
       <span className="raf-data-label__label">{label}</span>
       <span className="raf-data-label__data">{data}</span>
     </div>

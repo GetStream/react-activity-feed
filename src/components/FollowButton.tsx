@@ -7,12 +7,12 @@ export type FollowButtonProps = PropsWithElementAttributes<{
   onClick?: (event: MouseEvent<HTMLDivElement>) => void;
 }>;
 
-export const FollowButton = ({ followed = false, onClick, className, ...rest }: FollowButtonProps) => (
+export const FollowButton = ({ followed = false, onClick, className, style }: FollowButtonProps) => (
   <div
     className={className ?? `raf-follow-button ${followed ? 'raf-follow-button--active' : ''}`}
     role="button"
     onClick={onClick}
-    {...rest}
+    style={style}
   >
     {followed ? 'Following' : 'Follow'}
   </div>

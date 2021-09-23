@@ -7,11 +7,11 @@ export type GalleryProps = PropsWithElementAttributes<{
   images?: Array<string>;
 }>;
 
-export const Gallery = ({ images = [], className = 'raf-gallery', ...rest }: GalleryProps) => {
+export const Gallery = ({ images = [], className = 'raf-gallery', style }: GalleryProps) => {
   const [index, setIndex] = useState<number | null>(null);
 
   return (
-    <div className={className} {...rest}>
+    <div className={className} style={style}>
       {images.slice(0, 5).map((image, i) => (
         <div
           role="button"

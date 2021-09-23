@@ -119,7 +119,7 @@ export const Notification = <
   onClickUser,
   onClickNotification,
   className,
-  ...rest
+  style,
 }: NotificationProps<UT, AT, CT, RT, CRT>) => {
   const { t, tDateTimeParser } = useTranslationContext();
   const { activities } = activityGroup;
@@ -142,7 +142,7 @@ export const Notification = <
     <div
       onClick={handleNotificationClick}
       className={className ?? `raf-notification ${activityGroup.is_read ? 'raf-notification--read' : ''}`}
-      {...rest}
+      style={style}
     >
       <Avatar
         onClick={handleUserClick?.(lastActor as EnrichedUser<UT>)}

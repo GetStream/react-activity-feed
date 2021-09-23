@@ -10,8 +10,8 @@ export type LinkProps = PropsWithElementAttributes<
   HTMLAnchorElement
 >;
 
-export const Link = ({ to, children, onClick, className = 'raf-link', ...rest }: LinkProps) => (
-  <a href={to} className={className} onClick={onClick} {...rest}>
+export const Link = ({ to, children, onClick, className = 'raf-link', style }: LinkProps) => (
+  <a href={to} className={className} onClick={onClick} style={style}>
     {children}
   </a>
 );

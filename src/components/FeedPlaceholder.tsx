@@ -7,11 +7,11 @@ export type FeedPlaceholderProps = PropsWithElementAttributes<{
   text?: string;
 }>;
 
-export const FeedPlaceholder = ({ text, className = 'raf-feed-placeholder', ...rest }: FeedPlaceholderProps) => {
+export const FeedPlaceholder = ({ text, className = 'raf-feed-placeholder', style }: FeedPlaceholderProps) => {
   const { t } = useTranslationContext();
 
   return (
-    <div className={className} {...rest}>
+    <div className={className} style={style}>
       <p>{text || t('No data to display...')}</p>
     </div>
   );

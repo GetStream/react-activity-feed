@@ -16,12 +16,12 @@ export const LoadMoreButton = ({
   refreshing = false,
   children,
   className = 'raf-load-more-button',
-  ...rest
+  style,
 }: LoadMoreButtonProps) => {
   const { t } = useTranslationContext();
 
   return (
-    <div className={className} {...rest}>
+    <div className={className} style={style}>
       <Button onClick={onClick} buttonStyle="info" disabled={refreshing} loading={refreshing}>
         {children ? children : t('Load more')}
       </Button>

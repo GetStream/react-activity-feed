@@ -7,7 +7,7 @@ import { useOnClickOutside } from '../hooks/useOnClickOutside';
 export const Dropdown = ({
   children,
   className = 'raf-dropdown',
-  ...rest
+  style,
 }: PropsWithChildren<PropsWithElementAttributes>) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownBoxReference = useRef<HTMLDivElement | null>(null);
@@ -15,7 +15,7 @@ export const Dropdown = ({
   useOnClickOutside(dropdownBoxReference, () => setIsOpen(false), isOpen);
 
   return (
-    <div className={className} {...rest}>
+    <div className={className} style={style}>
       <IconButton onClick={() => setIsOpen((pv) => !pv)}>
         <svg
           className="raf-dropdown__button"

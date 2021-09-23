@@ -36,7 +36,7 @@ export const NewActivitiesNotification = ({
   onClick,
   labelFunction,
   className = 'raf-new-activities-notification',
-  ...rest
+  style,
 }: NewActivitiesNotificationProps) => {
   const { t } = useTranslationContext();
 
@@ -68,7 +68,7 @@ export const NewActivitiesNotification = ({
   if (!label) return null;
 
   return (
-    <button className={className} type="button" onClick={onClick} {...rest}>
+    <button className={className} type="button" onClick={onClick} style={style}>
       <Link>{label}</Link>
     </button>
   );

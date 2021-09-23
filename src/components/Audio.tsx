@@ -14,7 +14,7 @@ export const Audio = ({
   og: { audios = [], images = [], description, title },
   handleClose,
   className = 'raf-audio',
-  ...rest
+  style,
 }: AudioProps) => {
   const audioReference = useRef<HTMLAudioElement | null>(null);
   const intervalReference = useRef<number>();
@@ -65,7 +65,7 @@ export const Audio = ({
   const [{ image: imageURL }] = images;
 
   return (
-    <div className={className} {...rest}>
+    <div className={className} style={style}>
       <div className="raf-audio__wrapper">
         <audio ref={audioReference}>
           <source src={audioURL} type="audio/mp3" />

@@ -38,7 +38,7 @@ export const CommentField = <UT extends DefaultUT = DefaultUT, AT extends Defaul
   trigger,
   targetFeeds,
   className = 'raf-comment-field',
-  ...rest
+  style,
 }: CommentFieldProps<UT, AT>) => {
   const feed = useFeedContext<UT, AT>();
   const { t } = useTranslationContext();
@@ -76,7 +76,7 @@ export const CommentField = <UT extends DefaultUT = DefaultUT, AT extends Defaul
   }, []);
 
   return (
-    <form onSubmit={handleFormSubmit} className={className} {...rest}>
+    <form onSubmit={handleFormSubmit} className={className} style={style}>
       {image && <Avatar image={image} circle size={39} />}
       <div className="raf-comment-field__group">
         <Textarea

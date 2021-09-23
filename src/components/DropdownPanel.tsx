@@ -20,7 +20,7 @@ export const DropdownPanel = ({
   Footer,
   children,
   className,
-  ...rest
+  style,
 }: DropdownPanelProps) => {
   return (
     <div
@@ -33,7 +33,7 @@ export const DropdownPanel = ({
             : ' raf-dropdown-panel--left raf-dropdown-panel--arrow-left'
         }`
       }
-      {...rest}
+      style={style}
     >
       {!!Header && <div className="raf-dropdown-panel__header">{smartRender(Header)}</div>}
       <div className="raf-dropdown-panel__content">{children}</div>

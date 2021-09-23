@@ -30,14 +30,14 @@ export const CommentItem = <UT extends DefaultUT = DefaultUT, RT extends UR = UR
   onClickMention,
   onClickUser,
   className = 'raf-comment-item',
-  ...rest
+  style,
 }: CommentItemProps<UT, RT, CRT>) => {
   const { tDateTimeParser } = useTranslationContext();
 
   const handleUserClick = useOnClickUser<UT, SVGSVGElement | HTMLSpanElement>(onClickUser);
 
   return (
-    <div className={className} {...rest}>
+    <div className={className} style={style}>
       <Flex a="flex-start" style={{ padding: '8px 0' }}>
         {user?.data.profileImage && (
           <Avatar onClick={handleUserClick?.(user)} image={user.data.profileImage} circle size={25} />

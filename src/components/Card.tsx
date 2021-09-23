@@ -25,7 +25,7 @@ export const Card = ({
   url,
   title,
   className,
-  ...rest
+  style,
 }: CardProps) => {
   const sanitizedURL = useMemo(() => sanitizeURL(url), [url]);
   const trimmedURL = useMemo(() => trimURL(sanitizedURL), [sanitizedURL]);
@@ -38,7 +38,7 @@ export const Card = ({
       target="blank"
       rel="nofollow noreferrer noopener"
       className={className ?? `raf-card ${image !== undefined ? 'raf-card--with-image' : ''}`}
-      {...rest}
+      style={style}
     >
       {handleClose && image ? (
         <IconButton onClick={handleClose}>

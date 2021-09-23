@@ -102,9 +102,9 @@ export const Activity = <
   userId,
   feedGroup,
   className = 'raf-activity',
-  ...rest
+  style,
 }: ActivityProps<UT, AT, CT, RT, CRT>) => (
-  <div className={className} {...rest}>
+  <div className={className} style={style}>
     {smartRender<ActivityHeaderProps<UT, AT>>(Header, { HeaderRight, icon, activity, onClickUser })}
     {smartRender<ActivityContentProps<UT, AT, CT, RT, CRT>>(Content, {
       activity,

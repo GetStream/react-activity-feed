@@ -18,12 +18,12 @@ export function AvatarGroup<UT extends DefaultUT = DefaultUT>({
   avatarSize = 30,
   onClickUser,
   className = 'raf-avatar-group',
-  ...rest
+  style,
 }: AvatarGroupProps<UT>) {
   const handleUserClick = useOnClickUser<UT>(onClickUser);
 
   return (
-    <div className={className} {...rest}>
+    <div className={className} style={style}>
       {users.slice(0, limit).map((user, i) => (
         <div className="raf-avatar-group__avatar" key={`avatar-${i}`}>
           <Avatar onClick={handleUserClick?.(user)} image={user.data?.profileImage} size={avatarSize} circle />

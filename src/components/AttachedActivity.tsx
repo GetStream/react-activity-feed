@@ -15,7 +15,7 @@ export type AttachedActivityProps<
 export function AttachedActivity<UT extends DefaultUT = DefaultUT, AT extends DefaultAT = DefaultAT>({
   activity: { object, verb, attachments, actor },
   className = 'raf-attached-activity',
-  ...rest
+  style,
 }: AttachedActivityProps<UT, AT>) {
   const images = attachments?.images ?? [];
   const user = useMemo(() => userOrDefault<UT>(actor), [actor]);
@@ -23,7 +23,7 @@ export function AttachedActivity<UT extends DefaultUT = DefaultUT, AT extends De
   if (verb !== 'repost' && verb !== 'post' && verb !== 'comment') return null;
 
   return (
-    <div className={className} {...rest}>
+    <div className={className} style={style}>
       {images.length ? (
         <div className="raf-attached-activity__images">
           {images.slice(0, 5).map((image, i) => (

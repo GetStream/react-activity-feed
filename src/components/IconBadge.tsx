@@ -19,10 +19,10 @@ export const IconBadge = ({
   unseen = 0,
   showNumber,
   className = 'raf-icon-badge',
-  ...rest
+  style,
 }: IconBadgeProps) => {
   return (
-    <div className={className} role="button" onClick={onClick} {...rest}>
+    <div className={className} role="button" onClick={onClick} style={style}>
       {children ?? <BellIcon />}
       {unseen > 0 && !hidden && (
         <div className="raf-icon-badge__badge" data-testid="unseen-wrapper">
