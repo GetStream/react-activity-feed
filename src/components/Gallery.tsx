@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import Lightbox from 'react-image-lightbox';
 
-export type GalleryProps = {
-  images?: Array<string>;
-};
+import { PropsWithElementAttributes } from '../utils';
 
-export const Gallery = ({ images = [] }: GalleryProps) => {
+export type GalleryProps = PropsWithElementAttributes<{
+  images?: Array<string>;
+}>;
+
+export const Gallery = ({ images = [], className = 'raf-gallery', ...rest }: GalleryProps) => {
   const [index, setIndex] = useState<number | null>(null);
 
   return (
-    <div className="raf-gallery">
+    <div className={className} {...rest}>
       {images.slice(0, 5).map((image, i) => (
         <div
           role="button"

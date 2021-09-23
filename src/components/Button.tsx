@@ -1,15 +1,18 @@
-import React, { ButtonHTMLAttributes, MouseEvent, KeyboardEvent, ReactNode } from 'react';
+import React, { ButtonHTMLAttributes, MouseEvent, KeyboardEvent, PropsWithChildren } from 'react';
 import { LoadingIndicator } from 'react-file-utils';
 
-export type ButtonProps = {
-  buttonStyle?: 'info' | 'primary' | 'faded';
-  children?: ReactNode;
-  disabled?: boolean;
-  loading?: boolean;
-  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
-  onKeyPress?: (event: KeyboardEvent<HTMLButtonElement>) => void;
-  type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
-};
+import { PropsWithElementAttributes } from '../utils';
+
+export type ButtonProps = PropsWithChildren<
+  PropsWithElementAttributes<{
+    buttonStyle?: 'info' | 'primary' | 'faded';
+    disabled?: boolean;
+    loading?: boolean;
+    onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+    onKeyPress?: (event: KeyboardEvent<HTMLButtonElement>) => void;
+    type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
+  }>
+>;
 
 export const Button = ({
   buttonStyle = 'info',
@@ -19,14 +22,10 @@ export const Button = ({
   onClick,
   onKeyPress,
   children,
+  className = `raf-button raf-button--${buttonStyle}`,
+  ...rest
 }: ButtonProps) => (
-  <button
-    className={`raf-button${buttonStyle ? ' raf-button--' + buttonStyle : ''}`}
-    onClick={onClick}
-    onKeyPress={onKeyPress}
-    type={type}
-    disabled={disabled}
-  >
+  <button className={className} onClick={onClick} onKeyPress={onKeyPress} type={type} disabled={disabled} {...rest}>
     {loading ? <LoadingIndicator backgroundColor="rgba(255,255,255,0.1)" color="rgba(255,255,255,0.4)" /> : children}
   </button>
 );

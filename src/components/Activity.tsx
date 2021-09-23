@@ -6,7 +6,12 @@ import { ActivityHeader as DefaultActivityHeader, ActivityHeaderProps } from './
 import { Card as DefaultCard, CardProps } from './Card';
 import { ActivityFooterProps } from './ActivityFooter';
 
-import { smartRender, ElementOrComponentOrLiteralType, UserOrDefaultReturnType } from '../utils';
+import {
+  smartRender,
+  ElementOrComponentOrLiteralType,
+  UserOrDefaultReturnType,
+  PropsWithElementAttributes,
+} from '../utils';
 import { DefaultAT, DefaultUT } from '../context/StreamApp';
 
 type WordClickHandler = (word: string) => void;
@@ -17,7 +22,7 @@ export type ActivityProps<
   CT extends UR = UR,
   RT extends UR = UR,
   CRT extends UR = UR
-> = {
+> = PropsWithElementAttributes<{
   /** The activity received for stream for which to show the like button. This is
    * used to initialize the toggle state and the counter. */
   activity: EnrichedActivity<UT, AT, CT, RT, CRT>;
@@ -52,7 +57,7 @@ export type ActivityProps<
   /** The user_id part of the feed that the activity should be reposted to when
    * pressing the RepostButton */
   userId?: string;
-};
+}>;
 
 const DefaultRepost = <
   UT extends DefaultUT = DefaultUT,
@@ -96,8 +101,10 @@ export const Activity = <
   Repost = DefaultRepost,
   userId,
   feedGroup,
+  className = 'raf-activity',
+  ...rest
 }: ActivityProps<UT, AT, CT, RT, CRT>) => (
-  <div className="raf-activity">
+  <div className={className} {...rest}>
     {smartRender<ActivityHeaderProps<UT, AT>>(Header, { HeaderRight, icon, activity, onClickUser })}
     {smartRender<ActivityContentProps<UT, AT, CT, RT, CRT>>(Content, {
       activity,

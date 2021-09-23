@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { UR } from 'getstream';
 
 import { Feed, useFeedContext, DefaultAT, DefaultUT } from '../context';
-import { smartRender, ElementOrComponentOrLiteralType } from '../utils';
+import { smartRender, ElementOrComponentOrLiteralType, PropsWithElementAttributes } from '../utils';
 import { useOnClickOutside } from '../hooks/useOnClickOutside';
 import { NotificationFeed, NotificationFeedProps } from './NotificationFeed';
 import { DropdownPanel, DropdownPanelProps } from './DropdownPanel';
@@ -15,11 +15,13 @@ export type NotificationDropdownProps<
   RT extends UR = UR,
   CRT extends UR = UR,
   PT extends UR = UR
-> = {
-  Icon?: ElementOrComponentOrLiteralType;
-  width?: number;
-} & Pick<DropdownPanelProps, 'Footer' | 'Header' | 'right'> &
-  NotificationFeedProps<UT, AT, CT, RT, CRT, PT>;
+> = PropsWithElementAttributes<
+  {
+    Icon?: ElementOrComponentOrLiteralType;
+    width?: number;
+  } & Pick<DropdownPanelProps, 'Footer' | 'Header' | 'right'> &
+    NotificationFeedProps<UT, AT, CT, RT, CRT, PT>
+>;
 
 const NotificationDropdownInner = <
   UT extends DefaultUT = DefaultUT,
@@ -34,6 +36,8 @@ const NotificationDropdownInner = <
   Header,
   Icon,
   right,
+  className = 'raf-notification-dropdown',
+  style,
   ...feedProps
 }: NotificationDropdownProps<UT, AT, CT, RT, CRT, PT>) => {
   const feed = useFeedContext<UT, AT, CT, RT, CRT, PT>();
@@ -46,7 +50,7 @@ const NotificationDropdownInner = <
   }, []);
 
   return (
-    <div className="raf-notification-dropdown">
+    <div className={className} style={style}>
       <IconBadge showNumber unseen={feed.unseen} hidden={!feedProps.notify} onClick={() => setOpen(true)}>
         {Icon && smartRender(Icon)}
       </IconBadge>

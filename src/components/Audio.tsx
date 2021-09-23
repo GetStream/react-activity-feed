@@ -2,15 +2,20 @@ import React, { useRef, useState, useEffect, MouseEventHandler } from 'react';
 import { IconButton } from 'react-file-utils';
 import { OGAPIResponse } from 'getstream';
 
-import { sanitizeURL, smartRender } from '../utils';
+import { sanitizeURL, smartRender, PropsWithElementAttributes } from '../utils';
 import { CloseIcon, PlayCircleIcon, PauseCircleIcon } from './Icons';
 
-type AudioProps = {
+type AudioProps = PropsWithElementAttributes<{
   og: OGAPIResponse;
   handleClose?: (event: React.SyntheticEvent) => void;
-};
+}>;
 
-export const Audio = ({ og: { audios = [], images = [], description, title }, handleClose }: AudioProps) => {
+export const Audio = ({
+  og: { audios = [], images = [], description, title },
+  handleClose,
+  className = 'raf-audio',
+  ...rest
+}: AudioProps) => {
   const audioReference = useRef<HTMLAudioElement | null>(null);
   const intervalReference = useRef<number>();
 
@@ -60,7 +65,7 @@ export const Audio = ({ og: { audios = [], images = [], description, title }, ha
   const [{ image: imageURL }] = images;
 
   return (
-    <div className="raf-audio">
+    <div className={className} {...rest}>
       <div className="raf-audio__wrapper">
         <audio ref={audioReference}>
           <source src={audioURL} type="audio/mp3" />

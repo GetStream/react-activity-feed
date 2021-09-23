@@ -1,13 +1,17 @@
-import React, { MouseEvent, ReactNode } from 'react';
+import React, { MouseEvent, PropsWithChildren } from 'react';
 
-export type LinkProps = {
-  children: ReactNode;
-  onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
-  to?: string;
-};
+import { PropsWithElementAttributes } from '../utils';
 
-export const Link = ({ to, children, onClick }: LinkProps) => (
-  <a href={to} className="raf-link" onClick={onClick}>
+export type LinkProps = PropsWithElementAttributes<
+  PropsWithChildren<{
+    onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
+    to?: string;
+  }>,
+  HTMLAnchorElement
+>;
+
+export const Link = ({ to, children, onClick, className = 'raf-link', ...rest }: LinkProps) => (
+  <a href={to} className={className} onClick={onClick} {...rest}>
     {children}
   </a>
 );

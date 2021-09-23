@@ -2,10 +2,10 @@ import React, { useMemo, MouseEventHandler } from 'react';
 
 import { humanizeTimestamp } from '../utils';
 import { Avatar } from './Avatar';
-import { smartRender, ElementOrComponentOrLiteralType } from '../utils';
+import { smartRender, ElementOrComponentOrLiteralType, PropsWithElementAttributes } from '../utils';
 import { useTranslationContext } from '../context';
 
-export type UserBarProps = {
+export type UserBarProps = PropsWithElementAttributes<{
   username: string;
   AfterUsername?: React.ReactNode;
   avatar?: string;
@@ -16,7 +16,7 @@ export type UserBarProps = {
   subtitle?: string;
   time?: string; // text that should be displayed as the time
   timestamp?: string | number | Date; // a timestamp that should be humanized
-};
+}>;
 
 export const UserBar = ({
   time,
@@ -28,6 +28,8 @@ export const UserBar = ({
   username,
   onClickUser,
   avatar,
+  className = 'raf-user-bar',
+  style,
 }: UserBarProps) => {
   const { tDateTimeParser } = useTranslationContext();
 
@@ -40,7 +42,7 @@ export const UserBar = ({
   );
 
   return (
-    <div className="raf-user-bar">
+    <div className={className} style={style}>
       {avatar && <Avatar onClick={onClickUser} size={50} circle image={avatar} />}
       <div className="raf-user-bar__details">
         <p data-testid="user-bar-username" className="raf-user-bar__username" onClick={onClickUser}>
