@@ -36,8 +36,13 @@ export const ActivityFooter = <
     <div className="raf-activity-footer__left" />
     <div className="raf-activity-footer__right">
       <Flex a="center">
-        <LikeButton<UT, AT, CT, RT, CRT> {...{ activity, targetFeeds, feedGroup, userId }} />
-        <RepostButton<UT, AT, CT, RT, CRT> {...{ activity, targetFeeds, feedGroup, userId }} />
+        <LikeButton<UT, AT, CT, RT, CRT> activity={activity} targetFeeds={targetFeeds} />
+        <RepostButton<UT, AT, CT, RT, CRT>
+          activity={activity}
+          targetFeeds={targetFeeds}
+          feedGroup={feedGroup}
+          userId={userId}
+        />
       </Flex>
     </div>
   </div>
