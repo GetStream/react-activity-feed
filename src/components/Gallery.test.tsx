@@ -38,7 +38,7 @@ describe('Gallery', () => {
         className="raf-gallery"
       >
         <div
-          className="img "
+          className="img"
           onClick={[Function]}
           role="button"
         >
@@ -59,7 +59,7 @@ describe('Gallery', () => {
         className="raf-gallery"
       >
         <div
-          className="img "
+          className="img"
           onClick={[Function]}
           role="button"
         >
@@ -70,7 +70,7 @@ describe('Gallery', () => {
           />
         </div>
         <div
-          className="img "
+          className="img"
           onClick={[Function]}
           role="button"
         >
@@ -81,7 +81,7 @@ describe('Gallery', () => {
           />
         </div>
         <div
-          className="img "
+          className="img"
           onClick={[Function]}
           role="button"
         >
@@ -105,7 +105,7 @@ describe('Gallery', () => {
         class="raf-gallery"
       >
         <div
-          class="img "
+          class="img"
           role="button"
         >
           <img
@@ -130,7 +130,7 @@ describe('Gallery', () => {
         class="raf-gallery"
       >
         <div
-          class="img "
+          class="img"
           role="button"
         >
           <img
