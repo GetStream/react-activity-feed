@@ -1,4 +1,5 @@
 import React, { useMemo, MouseEventHandler } from 'react';
+import classNames from 'classnames';
 
 import { useTranslationContext } from '../context';
 import { PropsWithElementAttributes } from '../utils';
@@ -28,7 +29,7 @@ export const ReactionIcon = ({
   labelPlural,
   labelSingle,
   onPress,
-  className = 'raf-reaction-icon',
+  className,
   style,
 }: ReactionIconProps) => {
   const { t } = useTranslationContext();
@@ -57,7 +58,7 @@ export const ReactionIcon = ({
   }, [count, labelSingle, labelPlural, kind]);
 
   return (
-    <div className={className} role="button" onClick={onPress} style={style}>
+    <div className={classNames('raf-reaction-icon', className)} role="button" onClick={onPress} style={style}>
       {icon && (typeof icon === 'string' ? <img className="raf-reaction-icon__image" src={icon} alt="" /> : icon)}
       <p className="raf-reaction-icon__label">{label}</p>
     </div>

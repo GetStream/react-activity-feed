@@ -1,4 +1,5 @@
 import React, { PropsWithChildren, MouseEvent } from 'react';
+import classNames from 'classnames';
 
 import { Button } from './Button';
 import { PropsWithElementAttributes } from '../utils';
@@ -11,17 +12,11 @@ export type LoadMoreButtonProps = PropsWithElementAttributes<
   }>
 >;
 
-export const LoadMoreButton = ({
-  onClick,
-  refreshing = false,
-  children,
-  className = 'raf-load-more-button',
-  style,
-}: LoadMoreButtonProps) => {
+export const LoadMoreButton = ({ onClick, refreshing = false, children, className, style }: LoadMoreButtonProps) => {
   const { t } = useTranslationContext();
 
   return (
-    <div className={className} style={style}>
+    <div className={classNames('raf-load-more-button', className)} style={style}>
       <Button onClick={onClick} buttonStyle="info" disabled={refreshing} loading={refreshing}>
         {children ? children : t('Load more')}
       </Button>

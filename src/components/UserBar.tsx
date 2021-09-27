@@ -1,4 +1,5 @@
 import React, { useMemo, MouseEventHandler } from 'react';
+import classNames from 'classnames';
 
 import { humanizeTimestamp } from '../utils';
 import { Avatar } from './Avatar';
@@ -28,7 +29,7 @@ export const UserBar = ({
   username,
   onClickUser,
   avatar,
-  className = 'raf-user-bar',
+  className,
   style,
 }: UserBarProps) => {
   const { tDateTimeParser } = useTranslationContext();
@@ -42,7 +43,7 @@ export const UserBar = ({
   );
 
   return (
-    <div className={className} style={style}>
+    <div className={classNames('raf-user-bar', className)} style={style}>
       {avatar && <Avatar onClick={onClickUser} size={50} circle image={avatar} />}
       <div className="raf-user-bar__details">
         <p data-testid="user-bar-username" className="raf-user-bar__username" onClick={onClickUser}>

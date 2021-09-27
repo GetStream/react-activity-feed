@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { EnrichedReaction, UR } from 'getstream';
 
 import { Flex } from './Flex';
@@ -29,7 +30,7 @@ export const CommentItem = <UT extends DefaultUT = DefaultUT, RT extends UR = UR
   onClickHashtag,
   onClickMention,
   onClickUser,
-  className = 'raf-comment-item',
+  className,
   style,
 }: CommentItemProps<UT, RT, CRT>) => {
   const { tDateTimeParser } = useTranslationContext();
@@ -37,7 +38,7 @@ export const CommentItem = <UT extends DefaultUT = DefaultUT, RT extends UR = UR
   const handleUserClick = useOnClickUser<UT, SVGSVGElement | HTMLSpanElement>(onClickUser);
 
   return (
-    <div className={className} style={style}>
+    <div className={classNames('raf-comment-item', className)} style={style}>
       <Flex a="flex-start" style={{ padding: '8px 0' }}>
         {user?.data.profileImage && (
           <Avatar onClick={handleUserClick?.(user)} image={user.data.profileImage} circle size={25} />

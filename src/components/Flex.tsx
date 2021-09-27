@@ -1,4 +1,5 @@
 import React, { CSSProperties, PropsWithChildren } from 'react';
+import classNames from 'classnames';
 
 import { PropsWithElementAttributes } from '../utils';
 
@@ -12,9 +13,9 @@ export type FlexProps = PropsWithElementAttributes<
   }>
 >;
 
-export const Flex = ({ j, a, js, d = 'row', w = 'nowrap', style, children, className = 'raf-flex' }: FlexProps) => (
+export const Flex = ({ j, a, js, d = 'row', w = 'nowrap', style, children, className }: FlexProps) => (
   <div
-    className={className}
+    className={classNames('raf-flex', className)}
     style={{
       justifyContent: j,
       alignItems: a,

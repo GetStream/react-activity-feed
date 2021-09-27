@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { ReactionsRecords, UR } from 'getstream';
 
 import { ReactionIcon, ReactionIconProps } from './ReactionIcon';
@@ -25,13 +26,13 @@ export const ReactionToggleIcon = <UT extends DefaultUT = DefaultUT, RT extends 
   activeIcon,
   own_reactions: ownReactions,
   kind,
-  className = 'raf-reaction-toggle-icon',
+  className,
   style,
   ...restProps
 }: ReactionToggleIconProps<UT, RT, CRT>) => {
   const icon = ownReactions?.[kind ?? '']?.length ? activeIcon : inactiveIcon;
   return (
-    <div className={className} style={style}>
+    <div className={classNames('raf-reaction-toggle-icon', className)} style={style}>
       <ReactionIcon icon={icon} kind={kind} {...restProps} />
     </div>
   );

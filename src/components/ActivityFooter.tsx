@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { UR } from 'getstream';
 
 import { LikeButton } from './LikeButton';
@@ -28,10 +29,10 @@ export const ActivityFooter = <
   feedGroup = 'user',
   userId,
   targetFeeds,
-  className = 'raf-activity-footer',
+  className,
   style,
 }: ActivityFooterProps<UT, AT, CT, RT, CRT>) => (
-  <div className={className} style={style}>
+  <div className={classNames('raf-activity-footer', className)} style={style}>
     <div className="raf-activity-footer__left" />
     <div className="raf-activity-footer__right">
       <Flex a="center">

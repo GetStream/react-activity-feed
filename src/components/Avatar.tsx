@@ -1,4 +1,5 @@
 import React, { MouseEventHandler as F } from 'react';
+import classNames from 'classnames';
 import { AvatarIcon } from './Icons';
 import { PropsWithElementAttributes } from '../utils';
 
@@ -18,12 +19,17 @@ export function Avatar<T extends HTMLImageElement | SVGSVGElement>({
   rounded,
   circle,
   onClick,
-  className = `raf-avatar${rounded ? ' raf-avatar--rounded' : ''}${circle ? ' raf-avatar--circle' : ''}`,
+  className,
   style = size ? { width: `${size}px`, height: `${size}px` } : undefined,
 }: AvatarProps<T>) {
+  const cn = classNames('raf-avatar', className, {
+    'raf-avatar--rounded': rounded,
+    'raf-avatar--circle': circle,
+  });
+
   return image ? (
-    <img className={className} style={style} src={image} alt={alt ?? ''} onClick={onClick as F<HTMLImageElement>} />
+    <img className={cn} style={style} src={image} alt={alt ?? ''} onClick={onClick as F<HTMLImageElement>} />
   ) : (
-    <AvatarIcon className={className} style={style} onClick={onClick as F<SVGSVGElement>} />
+    <AvatarIcon className={cn} style={style} onClick={onClick as F<SVGSVGElement>} />
   );
 }

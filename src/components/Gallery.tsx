@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import Lightbox from 'react-image-lightbox';
 
 import { PropsWithElementAttributes } from '../utils';
@@ -7,15 +8,15 @@ export type GalleryProps = PropsWithElementAttributes<{
   images?: Array<string>;
 }>;
 
-export const Gallery = ({ images = [], className = 'raf-gallery', style }: GalleryProps) => {
+export const Gallery = ({ images = [], className, style }: GalleryProps) => {
   const [index, setIndex] = useState<number | null>(null);
 
   return (
-    <div className={className} style={style}>
+    <div className={classNames('raf-gallery', className)} style={style}>
       {images.slice(0, 5).map((image, i) => (
         <div
           role="button"
-          className={`img ${i === 4 && images.length > 5 ? 'img--last' : ''}`}
+          className={classNames('img', { 'img--last': i === 4 && images.length > 5 })}
           onClick={() => setIndex(i)}
           key={`image-${i}`}
         >

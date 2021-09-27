@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import classNames from 'classnames';
 import { EnrichedActivity } from 'getstream';
 import { Thumbnail } from 'react-file-utils';
 
@@ -14,7 +15,7 @@ export type AttachedActivityProps<
 
 export function AttachedActivity<UT extends DefaultUT = DefaultUT, AT extends DefaultAT = DefaultAT>({
   activity: { object, verb, attachments, actor },
-  className = 'raf-attached-activity',
+  className,
   style,
 }: AttachedActivityProps<UT, AT>) {
   const images = attachments?.images ?? [];
@@ -23,7 +24,7 @@ export function AttachedActivity<UT extends DefaultUT = DefaultUT, AT extends De
   if (verb !== 'repost' && verb !== 'post' && verb !== 'comment') return null;
 
   return (
-    <div className={className} style={style}>
+    <div className={classNames('raf-attached-activity', className)} style={style}>
       {images.length ? (
         <div className="raf-attached-activity__images">
           {images.slice(0, 5).map((image, i) => (

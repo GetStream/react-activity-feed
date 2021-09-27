@@ -1,21 +1,18 @@
 import React, { useRef, useState, PropsWithChildren } from 'react';
+import classNames from 'classnames';
 import { IconButton } from 'react-file-utils';
 
 import { PropsWithElementAttributes } from '../utils';
 import { useOnClickOutside } from '../hooks/useOnClickOutside';
 
-export const Dropdown = ({
-  children,
-  className = 'raf-dropdown',
-  style,
-}: PropsWithChildren<PropsWithElementAttributes>) => {
+export const Dropdown = ({ children, className, style }: PropsWithChildren<PropsWithElementAttributes>) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownBoxReference = useRef<HTMLDivElement | null>(null);
 
   useOnClickOutside(dropdownBoxReference, () => setIsOpen(false), isOpen);
 
   return (
-    <div className={className} style={style}>
+    <div className={classNames('raf-dropdown', className)} style={style}>
       <IconButton onClick={() => setIsOpen((pv) => !pv)}>
         <svg
           className="raf-dropdown__button"

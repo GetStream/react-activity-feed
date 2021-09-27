@@ -1,4 +1,5 @@
 import React, { PropsWithChildren } from 'react';
+import classNames from 'classnames';
 
 import { PropsWithElementAttributes } from '../utils';
 
@@ -20,22 +21,22 @@ export type PanelContentProps = ChildPanelProps;
 export type PanelFooterProps = ChildPanelProps;
 export type PanelHeadingProps = ChildPanelProps;
 
-export const PanelContent = ({ children, className = 'raf-panel-content', style }: PanelContentProps) => (
-  <div className={className} style={style}>
+export const PanelContent = ({ children, className, style }: PanelContentProps) => (
+  <div className={classNames('raf-panel-content', className)} style={style}>
     {children}
   </div>
 );
 
 // eslint-disable-next-line sonarjs/no-identical-functions
-export const PanelFooter = ({ children, className = 'raf-panel-footer', style }: PanelFooterProps) => (
-  <div className={className} style={style}>
+export const PanelFooter = ({ children, className, style }: PanelFooterProps) => (
+  <div className={classNames('raf-panel-footer', className)} style={style}>
     {children}
   </div>
 );
 
 // eslint-disable-next-line sonarjs/no-identical-functions
-export const PanelHeading = ({ children, className = 'raf-panel-header', style }: PanelHeadingProps) => (
-  <div className={className} style={style}>
+export const PanelHeading = ({ children, className, style }: PanelHeadingProps) => (
+  <div className={classNames('raf-panel-header', className)} style={style}>
     {children}
   </div>
 );

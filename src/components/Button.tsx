@@ -1,4 +1,5 @@
 import React, { ButtonHTMLAttributes, MouseEvent, KeyboardEvent, PropsWithChildren } from 'react';
+import classNames from 'classnames';
 import { LoadingIndicator } from 'react-file-utils';
 
 import { PropsWithElementAttributes } from '../utils';
@@ -22,10 +23,17 @@ export const Button = ({
   onClick,
   onKeyPress,
   children,
-  className = `raf-button raf-button--${buttonStyle}`,
+  className,
   style,
 }: ButtonProps) => (
-  <button className={className} onClick={onClick} onKeyPress={onKeyPress} type={type} disabled={disabled} style={style}>
+  <button
+    className={classNames('raf-button', `raf-button--${buttonStyle}`, className)}
+    onClick={onClick}
+    onKeyPress={onKeyPress}
+    type={type}
+    disabled={disabled}
+    style={style}
+  >
     {loading ? <LoadingIndicator backgroundColor="rgba(255,255,255,0.1)" color="rgba(255,255,255,0.4)" /> : children}
   </button>
 );

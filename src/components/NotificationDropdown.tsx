@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import classNames from 'classnames';
 import { UR } from 'getstream';
 
 import { Feed, useFeedContext, DefaultAT, DefaultUT } from '../context';
@@ -36,7 +37,7 @@ const NotificationDropdownInner = <
   Header,
   Icon,
   right,
-  className = 'raf-notification-dropdown',
+  className,
   style,
   ...feedProps
 }: NotificationDropdownProps<UT, AT, CT, RT, CRT, PT>) => {
@@ -50,7 +51,7 @@ const NotificationDropdownInner = <
   }, []);
 
   return (
-    <div className={className} style={style}>
+    <div className={classNames('raf-notification-dropdown', className)} style={style}>
       <IconBadge showNumber unseen={feed.unseen} hidden={!feedProps.notify} onClick={() => setOpen(true)}>
         {Icon && smartRender(Icon)}
       </IconBadge>

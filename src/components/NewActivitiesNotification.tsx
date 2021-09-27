@@ -1,4 +1,5 @@
 import React, { MouseEvent } from 'react';
+import classNames from 'classnames';
 import { RealTimeMessage } from 'getstream';
 import { Link } from './Link';
 import { useTranslationContext } from '../context';
@@ -35,7 +36,7 @@ export const NewActivitiesNotification = ({
   labelSingle,
   onClick,
   labelFunction,
-  className = 'raf-new-activities-notification',
+  className,
   style,
 }: NewActivitiesNotificationProps) => {
   const { t } = useTranslationContext();
@@ -68,7 +69,12 @@ export const NewActivitiesNotification = ({
   if (!label) return null;
 
   return (
-    <button className={className} type="button" onClick={onClick} style={style}>
+    <button
+      className={classNames('raf-new-activities-notification', className)}
+      type="button"
+      onClick={onClick}
+      style={style}
+    >
       <Link>{label}</Link>
     </button>
   );

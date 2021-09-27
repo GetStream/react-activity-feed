@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect, MouseEventHandler } from 'react';
+import classNames from 'classnames';
 import { IconButton } from 'react-file-utils';
 import { OGAPIResponse } from 'getstream';
 
@@ -13,7 +14,7 @@ type AudioProps = PropsWithElementAttributes<{
 export const Audio = ({
   og: { audios = [], images = [], description, title },
   handleClose,
-  className = 'raf-audio',
+  className,
   style,
 }: AudioProps) => {
   const audioReference = useRef<HTMLAudioElement | null>(null);
@@ -65,7 +66,7 @@ export const Audio = ({
   const [{ image: imageURL }] = images;
 
   return (
-    <div className={className} style={style}>
+    <div className={classNames('raf-audio', className)} style={style}>
       <div className="raf-audio__wrapper">
         <audio ref={audioReference}>
           <source src={audioURL} type="audio/mp3" />

@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import classNames from 'classnames';
 import ReactTextareaAutocomplete, { TriggerType } from '@webscopeio/react-textarea-autocomplete';
 import { LoadingIndicator } from 'react-file-utils';
 import { BaseEmoji } from 'emoji-mart';
@@ -57,7 +58,7 @@ export const Textarea = ({
   rows = 3,
   trigger = {},
   value,
-  className = 'raf-textarea__textarea',
+  className,
   style,
 }: TextareaProps) => {
   const emoji = useMemo(() => emojiTrigger(emojiData), []);
@@ -79,7 +80,7 @@ export const Textarea = ({
       }
       rows={rows}
       maxLength={maxLength}
-      className={className}
+      className={classNames('raf-textarea__textarea', className)}
       style={style}
       containerClassName="raf-textarea"
       dropdownClassName="raf-emojisearch"

@@ -1,4 +1,5 @@
 import React, { PropsWithChildren, MouseEventHandler } from 'react';
+import classNames from 'classnames';
 
 import { BellIcon } from './Icons';
 import { PropsWithElementAttributes } from '../utils';
@@ -12,17 +13,9 @@ export type IconBadgeProps = PropsWithChildren<
   }>
 >;
 
-export const IconBadge = ({
-  children,
-  onClick,
-  hidden,
-  unseen = 0,
-  showNumber,
-  className = 'raf-icon-badge',
-  style,
-}: IconBadgeProps) => {
+export const IconBadge = ({ children, onClick, hidden, unseen = 0, showNumber, className, style }: IconBadgeProps) => {
   return (
-    <div className={className} role="button" onClick={onClick} style={style}>
+    <div className={classNames('raf-icon-badge', className)} role="button" onClick={onClick} style={style}>
       {children ?? <BellIcon />}
       {unseen > 0 && !hidden && (
         <div className="raf-icon-badge__badge" data-testid="unseen-wrapper">

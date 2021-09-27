@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { EnrichedActivity, UR } from 'getstream';
 
 import { ActivityContent as DefaultActivityContent, ActivityContentProps } from './ActivityContent';
@@ -101,10 +102,10 @@ export const Activity = <
   Repost = DefaultRepost,
   userId,
   feedGroup,
-  className = 'raf-activity',
+  className,
   style,
 }: ActivityProps<UT, AT, CT, RT, CRT>) => (
-  <div className={className} style={style}>
+  <div className={classNames('raf-activity', className)} style={style}>
     {smartRender<ActivityHeaderProps<UT, AT>>(Header, { HeaderRight, icon, activity, onClickUser })}
     {smartRender<ActivityContentProps<UT, AT, CT, RT, CRT>>(Content, {
       activity,

@@ -1,4 +1,5 @@
 import React, { useRef, useState, FormEvent, useEffect } from 'react';
+import classNames from 'classnames';
 import { EnrichedActivity, Activity } from 'getstream';
 import { Data as EmojiDataSet } from 'emoji-mart';
 
@@ -37,7 +38,7 @@ export const CommentField = <UT extends DefaultUT = DefaultUT, AT extends Defaul
   placeholder,
   trigger,
   targetFeeds,
-  className = 'raf-comment-field',
+  className,
   style,
 }: CommentFieldProps<UT, AT>) => {
   const feed = useFeedContext<UT, AT>();
@@ -76,7 +77,7 @@ export const CommentField = <UT extends DefaultUT = DefaultUT, AT extends Defaul
   }, []);
 
   return (
-    <form onSubmit={handleFormSubmit} className={className} style={style}>
+    <form onSubmit={handleFormSubmit} className={classNames('raf-comment-field', className)} style={style}>
       {image && <Avatar image={image} circle size={39} />}
       <div className="raf-comment-field__group">
         <Textarea
