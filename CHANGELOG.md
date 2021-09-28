@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.3.0 - 2021-09-28
+
+### Feature
+
+- Supporting Spanish #293
+- Added `i18n` property and default translations to `EmojiPicker` component #296
+- Added `className` and `style` properties to all default components for easier styling (using styled-components or emotion) #302
+
+### Fix
+
+- pasting text with special characters would result in error #278
+- `ActivityHeader` is exported #283
+- `FeedManager.cancel` called correctly #285, #263
+
+### Chore
+
+- Bumped versions of `getsream`, `react-file-utils`, `tslib`
+- Replaced `node-sass` with `dart-sass`
+
 ## 1.2.1 - 2021-7-5
 
 ### Fix
