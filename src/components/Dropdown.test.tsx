@@ -75,7 +75,7 @@ describe('Dropdown', () => {
       </div>
     `);
 
-    fireEvent.click(container);
+    fireEvent.mouseDown(container);
 
     expect(container.firstChild).toMatchInlineSnapshot(`
       <div

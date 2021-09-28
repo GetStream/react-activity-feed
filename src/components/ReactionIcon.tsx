@@ -1,7 +1,10 @@
 import React, { useMemo, MouseEventHandler } from 'react';
-import { useTranslationContext } from '../context';
+import classNames from 'classnames';
 
-export type ReactionIconProps = {
+import { useTranslationContext } from '../context';
+import { PropsWithElementAttributes } from '../utils';
+
+export type ReactionIconProps = PropsWithElementAttributes<{
   /** The reaction counts for the activity */
   counts?: Record<string, number>;
   /** The height of the icon */
@@ -17,9 +20,18 @@ export type ReactionIconProps = {
   onPress?: MouseEventHandler<HTMLDivElement>;
   /** The width of the icon */
   width?: number;
-};
+}>;
 
-export const ReactionIcon = ({ counts, kind, icon, labelPlural, labelSingle, onPress }: ReactionIconProps) => {
+export const ReactionIcon = ({
+  counts,
+  kind,
+  icon,
+  labelPlural,
+  labelSingle,
+  onPress,
+  className,
+  style,
+}: ReactionIconProps) => {
   const { t } = useTranslationContext();
   const count = counts?.[kind ?? ''] ?? 0;
 
@@ -46,7 +58,7 @@ export const ReactionIcon = ({ counts, kind, icon, labelPlural, labelSingle, onP
   }, [count, labelSingle, labelPlural, kind]);
 
   return (
-    <div className="raf-reaction-icon" role="button" onClick={onPress}>
+    <div className={classNames('raf-reaction-icon', className)} role="button" onClick={onPress} style={style}>
       {icon && (typeof icon === 'string' ? <img className="raf-reaction-icon__image" src={icon} alt="" /> : icon)}
       <p className="raf-reaction-icon__label">{label}</p>
     </div>

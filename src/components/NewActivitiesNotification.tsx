@@ -1,7 +1,9 @@
 import React, { MouseEvent } from 'react';
+import classNames from 'classnames';
 import { RealTimeMessage } from 'getstream';
 import { Link } from './Link';
 import { useTranslationContext } from '../context';
+import { PropsWithElementAttributes } from '../utils';
 
 type Attributes = {
   addCount: number;
@@ -13,14 +15,17 @@ type Attributes = {
 
 export type LabelFunction = (attributes: Attributes) => string | null;
 
-export type NewActivitiesNotificationProps = {
-  adds?: RealTimeMessage['new'];
-  deletes?: RealTimeMessage['deleted'];
-  labelFunction?: LabelFunction;
-  labelPlural?: string;
-  labelSingle?: string;
-  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
-};
+export type NewActivitiesNotificationProps = PropsWithElementAttributes<
+  {
+    adds?: RealTimeMessage['new'];
+    deletes?: RealTimeMessage['deleted'];
+    labelFunction?: LabelFunction;
+    labelPlural?: string;
+    labelSingle?: string;
+    onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+  },
+  HTMLButtonElement
+>;
 
 const generateText = (count: number | string, word: string) => `You have ${count} new ${word}`;
 
@@ -31,6 +36,8 @@ export const NewActivitiesNotification = ({
   labelSingle,
   onClick,
   labelFunction,
+  className,
+  style,
 }: NewActivitiesNotificationProps) => {
   const { t } = useTranslationContext();
 
@@ -62,7 +69,12 @@ export const NewActivitiesNotification = ({
   if (!label) return null;
 
   return (
-    <button className="raf-new-activities-notification" type="button" onClick={onClick}>
+    <button
+      className={classNames('raf-new-activities-notification', className)}
+      type="button"
+      onClick={onClick}
+      style={style}
+    >
       <Link>{label}</Link>
     </button>
   );

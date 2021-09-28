@@ -12,6 +12,7 @@ import {
 } from 'react-file-utils';
 
 import { DefaultAT, DefaultUT, useTranslationContext } from '../../context';
+import { PropsWithElementAttributes } from '../../utils';
 import { useStatusUpdateForm } from './useStatusUpdateForm';
 import { Panel, PanelContent, PanelHeading, PanelFooter } from '../Panel';
 import { Textarea, TextareaProps } from '../Textarea';
@@ -24,7 +25,7 @@ import { Button } from '../Button';
 import { Title } from '../Title';
 import { BookmarkIcon } from '../Icons';
 
-export type StatusUpdateFormProps<AT extends DefaultAT = DefaultAT> = {
+export type StatusUpdateFormProps<AT extends DefaultAT = DefaultAT> = PropsWithElementAttributes<{
   /** The verb that should be used to post the activity, default to "post" */
   activityVerb?: string;
   /** Override Post request */
@@ -63,7 +64,7 @@ export type StatusUpdateFormProps<AT extends DefaultAT = DefaultAT> = {
   trigger?: TextareaProps['trigger'];
   /** The user_id part of the feed that the activity should be posted to  */
   userId?: string;
-};
+}>;
 
 export function StatusUpdateForm<
   UT extends DefaultUT = DefaultUT,
@@ -84,6 +85,8 @@ export function StatusUpdateForm<
   doRequest,
   userId,
   onSuccess,
+  style,
+  className,
 }: StatusUpdateFormProps<AT>) {
   const { t } = useTranslationContext();
   const state = useStatusUpdateForm<UT, AT, CT, RT, CRT, PT>({
@@ -96,7 +99,7 @@ export function StatusUpdateForm<
   });
 
   return (
-    <Panel>
+    <Panel style={style} className={className}>
       <form onSubmit={state.onSubmitForm}>
         <ImageDropzone handleFiles={state.uploadNewFiles}>
           <PanelHeading>{Header ?? <Title>{t('New Post')}</Title>}</PanelHeading>

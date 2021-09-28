@@ -123,6 +123,7 @@
     "@types/url-parse": "^1.4.3",
     "@types/webscopeio__react-textarea-autocomplete": "^4.7.0",
     "@webscopeio/react-textarea-autocomplete": "^4.7.3",
+    "classnames": "^2.3.1",
     "dayjs": "^1.10.4",
     "emoji-mart": "^3.0.1",
     "getstream": "^7.2.11",

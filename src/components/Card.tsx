@@ -2,15 +2,18 @@ import React, { SyntheticEvent, useMemo } from 'react';
 import { IconButton } from 'react-file-utils';
 import { OGAPIResponse } from 'getstream';
 
-import { sanitizeURL, trimURL } from '../utils';
+import { sanitizeURL, trimURL, PropsWithElementAttributes } from '../utils';
 import { AvatarIcon, CloseIcon } from './Icons';
 
-export type CardProps = {
-  alt?: string;
-  handleClose?: (e: SyntheticEvent) => void;
-  image?: string | null;
-  nolink?: boolean;
-} & Pick<OGAPIResponse, 'description' | 'images' | 'url' | 'title'>;
+export type CardProps = PropsWithElementAttributes<
+  {
+    alt?: string;
+    handleClose?: (e: SyntheticEvent) => void;
+    image?: string | null;
+    nolink?: boolean;
+  } & Pick<OGAPIResponse, 'description' | 'images' | 'url' | 'title'>,
+  HTMLAnchorElement
+>;
 
 export const Card = ({
   alt,
@@ -21,6 +24,8 @@ export const Card = ({
   nolink,
   url,
   title,
+  className,
+  style,
 }: CardProps) => {
   const sanitizedURL = useMemo(() => sanitizeURL(url), [url]);
   const trimmedURL = useMemo(() => trimURL(sanitizedURL), [sanitizedURL]);
@@ -32,7 +37,8 @@ export const Card = ({
       href={nolink ? undefined : sanitizedURL}
       target="blank"
       rel="nofollow noreferrer noopener"
-      className={`raf-card ${image !== undefined ? 'raf-card--with-image' : ''}`}
+      className={className ?? `raf-card ${image !== undefined ? 'raf-card--with-image' : ''}`}
+      style={style}
     >
       {handleClose && image ? (
         <IconButton onClick={handleClose}>

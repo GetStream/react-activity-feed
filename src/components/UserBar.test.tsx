@@ -57,7 +57,7 @@ describe('UserBar', () => {
       >
         <img
           alt=""
-          className="raf-avatar  raf-avatar--circle"
+          className="raf-avatar raf-avatar--circle"
           onClick={[Function]}
           src="https://i.pinimg.com/originals/4f/a1/41/4fa141173a1b04470bb2f850bc5da13b.png"
           style={

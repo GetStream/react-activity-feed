@@ -137,7 +137,7 @@ describe('CommentItem', () => {
         >
           <img
             alt=""
-            className="raf-avatar  raf-avatar--circle"
+            className="raf-avatar raf-avatar--circle"
             src="https://randomuser.me/api/portraits/women/20.jpg"
             style={
               Object {

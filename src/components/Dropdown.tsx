@@ -1,26 +1,19 @@
-import React, { useRef, useState, useEffect, SyntheticEvent } from 'react';
+import React, { useRef, useState, PropsWithChildren } from 'react';
+import classNames from 'classnames';
 import { IconButton } from 'react-file-utils';
 
-export const Dropdown = ({ children }: { children?: React.ReactNode }) => {
+import { PropsWithElementAttributes } from '../utils';
+import { useOnClickOutside } from '../hooks/useOnClickOutside';
+
+export const Dropdown = ({ children, className, style }: PropsWithChildren<PropsWithElementAttributes>) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownBoxReference = useRef<HTMLDivElement | null>(null);
 
-  const changeMenuVisibility = ({ target }: Event | SyntheticEvent) => {
-    if (dropdownBoxReference.current?.contains(target as Element)) return;
-    setIsOpen((pv) => !pv);
-  };
-
-  useEffect(() => {
-    if (!isOpen) return;
-
-    document.addEventListener('click', changeMenuVisibility);
-
-    return () => document.removeEventListener('click', changeMenuVisibility);
-  }, [isOpen]);
+  useOnClickOutside(dropdownBoxReference, () => setIsOpen(false), isOpen);
 
   return (
-    <div className="raf-dropdown">
-      <IconButton onClick={changeMenuVisibility}>
+    <div className={classNames('raf-dropdown', className)} style={style}>
+      <IconButton onClick={() => setIsOpen((pv) => !pv)}>
         <svg
           className="raf-dropdown__button"
           width="12"

@@ -9,9 +9,8 @@ describe('Avatar', () => {
     const tree = renderer.create(<Avatar />).toJSON();
     expect(tree).toMatchInlineSnapshot(`
       <svg
-        className="raf-avatar  "
+        className="raf-avatar"
         enableBackground="new 312.809 0 401 401"
-        style={Object {}}
         version="1.1"
         viewBox="312.809 0 401 401"
         xmlSpace="preserve"

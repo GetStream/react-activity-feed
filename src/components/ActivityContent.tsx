@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { FileIcon } from 'react-file-utils';
 import { EnrichedActivity, UR } from 'getstream';
 
@@ -28,6 +29,8 @@ export const ActivityContent = <
   activity,
   Repost,
   Card = DefaultCard,
+  className,
+  style,
   ...props
 }: ActivityContentProps<UT, AT, CT, RT, CRT>) => {
   const {
@@ -39,7 +42,7 @@ export const ActivityContent = <
   } = activity;
 
   return (
-    <div className="raf-activity__content">
+    <div className={classNames('raf-activity__content', className)} style={style}>
       {text && (
         <div style={{ padding: '8px 16px' }}>
           <p>{textRenderer(text, 'raf-activity', props.onClickMention, props.onClickHashtag)}</p>

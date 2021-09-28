@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import classNames from 'classnames';
 import { Data as EmojiDataSet, EmojiData, I18n } from 'emoji-mart';
 // @ts-expect-error
 import NimbleEmojiPicker from 'emoji-mart/dist/components/picker/nimble-picker.js';
@@ -9,8 +10,9 @@ import { useOnClickOutside } from '../hooks/useOnClickOutside';
 import { EmojiIcon } from './Icons';
 import { TFunction } from 'i18next';
 import { PartialI18n } from 'emoji-mart/dist-es/utils/shared-props';
+import { PropsWithElementAttributes } from '../utils';
 
-export type EmojiPickerProps = {
+export type EmojiPickerProps = PropsWithElementAttributes<{
   /** Override the default emoji dataset, library has a light set of emojis
    * to show more emojis use your own or emoji-mart sets
    * https://github.com/missive/emoji-mart#datasets
@@ -18,7 +20,7 @@ export type EmojiPickerProps = {
   emojiData?: EmojiDataSet;
   i18n?: PartialI18n;
   onSelect?: (emoji: EmojiData) => void;
-};
+}>;
 
 export const getEmojiPickerFieldsTranslations = (t: TFunction): I18n => ({
   search: t('Search'),
@@ -43,7 +45,7 @@ export const getEmojiPickerFieldsTranslations = (t: TFunction): I18n => ({
   },
 });
 
-export const EmojiPicker = ({ emojiData = defaultEmojiData, i18n, onSelect }: EmojiPickerProps) => {
+export const EmojiPicker = ({ emojiData = defaultEmojiData, i18n, onSelect, className, style }: EmojiPickerProps) => {
   const { t } = useTranslationContext();
   const [open, setOpen] = useState(false);
   const emojiPicker = useRef<HTMLDivElement>(null);
@@ -51,7 +53,7 @@ export const EmojiPicker = ({ emojiData = defaultEmojiData, i18n, onSelect }: Em
   useOnClickOutside(emojiPicker, () => setOpen(false), open);
 
   return (
-    <div className="raf-emoji-picker">
+    <div className={classNames('raf-emoji-picker', className)} style={style}>
       {open && (
         <div data-testid="picker-wrapper" className="raf-emoji-picker__container" ref={emojiPicker}>
           <NimbleEmojiPicker

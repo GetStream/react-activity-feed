@@ -1,4 +1,4 @@
-import React, { useMemo, MouseEvent } from 'react';
+import React, { useMemo, MouseEvent, DetailedHTMLProps, HTMLAttributes } from 'react';
 import URL from 'url-parse';
 import Dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -155,10 +155,6 @@ export function sanitizeURL(url?: string) {
   return undefined;
 }
 
-/**
- *
- * @param {string | undefined} url
- */
 export const trimURL = (url?: string) =>
   url
     ?.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '')
@@ -182,6 +178,9 @@ export const useOnClickUser = <
         : undefined,
     [onClickUser],
   );
+
+export type PropsWithElementAttributes<T extends UR = UR, E extends HTMLElement = HTMLDivElement> = T &
+  Pick<DetailedHTMLProps<HTMLAttributes<E>, E>, 'className' | 'style'>;
 
 export * from './textRenderer';
 export * from './smartRender';

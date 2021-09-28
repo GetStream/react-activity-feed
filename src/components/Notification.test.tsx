@@ -27,7 +27,7 @@ describe('Notification', () => {
       >
         <img
           alt=""
-          className="raf-avatar  raf-avatar--circle"
+          className="raf-avatar raf-avatar--circle"
           src="https://randomuser.me/api/portraits/men/72.jpg"
           style={
             Object {
@@ -105,7 +105,7 @@ describe('Notification', () => {
       >
         <img
           alt=""
-          className="raf-avatar  raf-avatar--circle"
+          className="raf-avatar raf-avatar--circle"
           onClick={[Function]}
           src="https://randomuser.me/api/portraits/women/72.jpg"
           style={
@@ -142,7 +142,7 @@ describe('Notification', () => {
             >
               <img
                 alt=""
-                className="raf-avatar  raf-avatar--circle"
+                className="raf-avatar raf-avatar--circle"
                 onClick={[Function]}
                 src="https://randomuser.me/api/portraits/men/72.jpg"
                 style={
@@ -158,7 +158,7 @@ describe('Notification', () => {
             >
               <img
                 alt=""
-                className="raf-avatar  raf-avatar--circle"
+                className="raf-avatar raf-avatar--circle"
                 onClick={[Function]}
                 src="https://randomuser.me/api/portraits/women/7.jpg"
                 style={

@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import classNames from 'classnames';
 import ReactTextareaAutocomplete, { TriggerType } from '@webscopeio/react-textarea-autocomplete';
 import { LoadingIndicator } from 'react-file-utils';
 import { BaseEmoji } from 'emoji-mart';
@@ -7,8 +8,9 @@ import { NimbleEmojiIndex, Data as EmojiDataSet } from 'emoji-mart';
 // @ts-expect-error
 import EmojiIndex from 'emoji-mart/dist/utils/emoji-index/nimble-emoji-index';
 import defaultEmojiData from '../utils/emojiData';
+import { PropsWithElementAttributes } from '../utils';
 
-export type TextareaProps = {
+export type TextareaProps = PropsWithElementAttributes<{
   /** Override the default emoji dataset, library has a light set of emojis
    * to show more emojis use your own or emoji-mart sets
    * https://github.com/missive/emoji-mart#datasets
@@ -26,7 +28,7 @@ export type TextareaProps = {
    */
   trigger?: TriggerType<UR>;
   value?: string;
-};
+}>;
 
 const emojiTrigger: (emojiData: EmojiDataSet) => TriggerType<BaseEmoji> = (emojiData) => {
   const emojiIndex = new EmojiIndex(emojiData) as NimbleEmojiIndex;
@@ -56,6 +58,8 @@ export const Textarea = ({
   rows = 3,
   trigger = {},
   value,
+  className,
+  style,
 }: TextareaProps) => {
   const emoji = useMemo(() => emojiTrigger(emojiData), []);
 
@@ -76,7 +80,8 @@ export const Textarea = ({
       }
       rows={rows}
       maxLength={maxLength}
-      className="raf-textarea__textarea"
+      className={classNames('raf-textarea__textarea', className)}
+      style={style}
       containerClassName="raf-textarea"
       dropdownClassName="raf-emojisearch"
       listClassName="raf-emojisearch__list"

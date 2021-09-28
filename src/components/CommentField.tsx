@@ -1,28 +1,34 @@
 import React, { useRef, useState, FormEvent, useEffect } from 'react';
+import classNames from 'classnames';
 import { EnrichedActivity, Activity } from 'getstream';
 import { Data as EmojiDataSet } from 'emoji-mart';
 
 import { Avatar } from './Avatar';
 import { Button } from './Button';
 import { Textarea, TextareaProps } from './Textarea';
-import { inputValueFromEvent } from '../utils';
+import { inputValueFromEvent, PropsWithElementAttributes } from '../utils';
 import { useFeedContext, useTranslationContext } from '../context';
 import { DefaultAT, DefaultUT } from '../context/StreamApp';
 
-export type CommentFieldProps<UT extends DefaultUT = DefaultUT, AT extends DefaultAT = DefaultAT> = {
-  activity: EnrichedActivity<UT, AT>;
-  /** Override the default emoji dataset, library has a light set of emojis
-   * to show more emojis use your own or emoji-mart sets
-   * https://github.com/missive/emoji-mart#datasets
-   */
-  emojiData?: EmojiDataSet;
-  image?: string;
-  kind?: string;
-  onSuccess?: () => void;
-  placeholder?: string;
-  targetFeeds?: string[];
-  trigger?: TextareaProps['trigger'];
-};
+export type CommentFieldProps<
+  UT extends DefaultUT = DefaultUT,
+  AT extends DefaultAT = DefaultAT
+> = PropsWithElementAttributes<
+  {
+    activity: EnrichedActivity<UT, AT>;
+    /** Override the default emoji dataset, library has a light set of emojis
+     * to show more emojis use your own or emoji-mart sets
+     * https://github.com/missive/emoji-mart#datasets
+     */
+    emojiData?: EmojiDataSet;
+    image?: string;
+    onSuccess?: () => void;
+    placeholder?: string;
+    targetFeeds?: string[];
+    trigger?: TextareaProps['trigger'];
+  },
+  HTMLFormElement
+>;
 
 export const CommentField = <UT extends DefaultUT = DefaultUT, AT extends DefaultAT = DefaultAT>({
   activity,
@@ -32,6 +38,8 @@ export const CommentField = <UT extends DefaultUT = DefaultUT, AT extends Defaul
   placeholder,
   trigger,
   targetFeeds,
+  className,
+  style,
 }: CommentFieldProps<UT, AT>) => {
   const feed = useFeedContext<UT, AT>();
   const { t } = useTranslationContext();
@@ -69,7 +77,7 @@ export const CommentField = <UT extends DefaultUT = DefaultUT, AT extends Defaul
   }, []);
 
   return (
-    <form onSubmit={handleFormSubmit} className="raf-comment-field">
+    <form onSubmit={handleFormSubmit} className={classNames('raf-comment-field', className)} style={style}>
       {image && <Avatar image={image} circle size={39} />}
       <div className="raf-comment-field__group">
         <Textarea

@@ -1,18 +1,21 @@
-import React, { CSSProperties, ReactNode } from 'react';
+import React, { CSSProperties, PropsWithChildren } from 'react';
+import classNames from 'classnames';
 
-export type FlexProps = {
-  children: ReactNode;
-  a?: CSSProperties['alignItems'];
-  d?: CSSProperties['flexDirection'];
-  j?: CSSProperties['justifyContent'];
-  js?: CSSProperties['justifySelf'];
-  style?: CSSProperties;
-  w?: CSSProperties['flexWrap'];
-};
+import { PropsWithElementAttributes } from '../utils';
 
-export const Flex = ({ j, a, js, d = 'row', w = 'nowrap', style, children }: FlexProps) => (
+export type FlexProps = PropsWithElementAttributes<
+  PropsWithChildren<{
+    a?: CSSProperties['alignItems'];
+    d?: CSSProperties['flexDirection'];
+    j?: CSSProperties['justifyContent'];
+    js?: CSSProperties['justifySelf'];
+    w?: CSSProperties['flexWrap'];
+  }>
+>;
+
+export const Flex = ({ j, a, js, d = 'row', w = 'nowrap', style, children, className }: FlexProps) => (
   <div
-    className="raf-flex"
+    className={classNames('raf-flex', className)}
     style={{
       justifyContent: j,
       alignItems: a,

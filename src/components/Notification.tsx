@@ -7,7 +7,13 @@ import { AvatarGroup } from './AvatarGroup';
 import { AttachedActivity } from './AttachedActivity';
 import { Dropdown } from './Dropdown';
 import { Link } from './Link';
-import { humanizeTimestamp, useOnClickUser, userOrDefault, OnClickUserHandler } from '../utils';
+import {
+  humanizeTimestamp,
+  useOnClickUser,
+  userOrDefault,
+  OnClickUserHandler,
+  PropsWithElementAttributes,
+} from '../utils';
 import { DefaultUT, DefaultAT, useTranslationContext, FeedManager } from '../context';
 
 export type NotificationProps<
@@ -16,7 +22,7 @@ export type NotificationProps<
   CT extends UR = UR,
   RT extends UR = UR,
   CRT extends UR = UR
-> = {
+> = PropsWithElementAttributes<{
   /** The activity group to display in this notification */
   activityGroup: NotificationActivityEnriched<UT, AT, CT, RT, CRT>;
   /** Callback to call when clicking on a notification */
@@ -25,7 +31,7 @@ export type NotificationProps<
   onClickUser?: OnClickUserHandler<UT>;
   /** Callback to mark a notification as read, if not supplied the dropdown used to mark as read will not be shown */
   onMarkAsRead?: FeedManager<UT, AT, CT, RT, CRT>['onMarkAsRead'];
-};
+}>;
 
 const getUsers = <
   UT extends DefaultUT = DefaultUT,
@@ -112,6 +118,8 @@ export const Notification = <
   onMarkAsRead,
   onClickUser,
   onClickNotification,
+  className,
+  style,
 }: NotificationProps<UT, AT, CT, RT, CRT>) => {
   const { t, tDateTimeParser } = useTranslationContext();
   const { activities } = activityGroup;
@@ -133,7 +141,8 @@ export const Notification = <
   return (
     <div
       onClick={handleNotificationClick}
-      className={`raf-notification ${activityGroup.is_read ? 'raf-notification--read' : ''}`}
+      className={className ?? `raf-notification ${activityGroup.is_read ? 'raf-notification--read' : ''}`}
+      style={style}
     >
       <Avatar
         onClick={handleUserClick?.(lastActor as EnrichedUser<UT>)}

@@ -1,29 +1,44 @@
 import React from 'react';
+import classNames from 'classnames';
 import { EnrichedReaction, UR } from 'getstream';
 
 import { Flex } from './Flex';
 import { Avatar } from './Avatar';
-import { humanizeTimestamp, textRenderer, OnClickUserHandler, useOnClickUser } from '../utils';
+import {
+  humanizeTimestamp,
+  textRenderer,
+  OnClickUserHandler,
+  useOnClickUser,
+  PropsWithElementAttributes,
+} from '../utils';
 import { useTranslationContext } from '../context';
 import { DefaultUT } from '../context/StreamApp';
 
-export type CommentItemProps<UT extends DefaultUT = DefaultUT, RT extends UR = UR, CRT extends UR = UR> = {
-  comment: EnrichedReaction<RT, CRT, UT>;
-  onClickUser?: OnClickUserHandler<UT>;
-} & Partial<Record<'onClickMention' | 'onClickHashtag', (word: string) => void>>;
+export type CommentItemProps<
+  UT extends DefaultUT = DefaultUT,
+  RT extends UR = UR,
+  CRT extends UR = UR
+> = PropsWithElementAttributes<
+  {
+    comment: EnrichedReaction<RT, CRT, UT>;
+    onClickUser?: OnClickUserHandler<UT>;
+  } & Partial<Record<'onClickMention' | 'onClickHashtag', (word: string) => void>>
+>;
 
 export const CommentItem = <UT extends DefaultUT = DefaultUT, RT extends UR = UR, CRT extends UR = UR>({
   comment: { user, created_at, data },
   onClickHashtag,
   onClickMention,
   onClickUser,
+  className,
+  style,
 }: CommentItemProps<UT, RT, CRT>) => {
   const { tDateTimeParser } = useTranslationContext();
 
   const handleUserClick = useOnClickUser<UT, SVGSVGElement | HTMLSpanElement>(onClickUser);
 
   return (
-    <div className="raf-comment-item">
+    <div className={classNames('raf-comment-item', className)} style={style}>
       <Flex a="flex-start" style={{ padding: '8px 0' }}>
         {user?.data.profileImage && (
           <Avatar onClick={handleUserClick?.(user)} image={user.data.profileImage} circle size={25} />
