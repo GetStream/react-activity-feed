@@ -2540,7 +2540,7 @@ atob@^2.1.2:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-attr-accept@^2.0.0:
+attr-accept@^2.2.1:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/attr-accept/-/attr-accept-2.2.2.tgz#646613809660110749e92f2c10833b70968d929b"
   integrity sha512-7prDjvt9HmqiZ0cl5CRjtS84sEyhsHP2coDkaZKRKVfCDo9s7iw7ChVmar78Gu9pC4SoR/28wFu/G5JJhTnqEg==
@@ -3311,6 +3311,11 @@ class-utils@^0.3.5:
     define-property "^0.2.5"
     isobject "^3.0.0"
     static-extend "^0.1.1"
+
+classnames@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.1.tgz#dfcfa3891e306ec1dad105d0e88f4417b8535e8e"
+  integrity sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==
 
 clean-css@^4.2.3:
   version "4.2.3"
@@ -5014,12 +5019,12 @@ file-loader@6.1.1:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
 
-file-selector@^0.1.12:
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/file-selector/-/file-selector-0.1.19.tgz#8ecc9d069a6f544f2e4a096b64a8052e70ec8abf"
-  integrity sha512-kCWw3+Aai8Uox+5tHCNgMFaUdgidxvMnLWO6fM5sZ0hA2wlHP5/DHGF0ECe84BiB95qdJbKNEJhWKVDvMN+JDQ==
+file-selector@^0.2.2:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/file-selector/-/file-selector-0.2.4.tgz#7b98286f9dbb9925f420130ea5ed0a69238d4d80"
+  integrity sha512-ZDsQNbrv6qRi1YTDOEWzf5J2KjZ9KMI1Q2SGeTkCJmNNW25Jg4TW4UMcmoqcg4WrAyKRcpBXdbWRxkfrOzVRbA==
   dependencies:
-    tslib "^2.0.1"
+    tslib "^2.0.3"
 
 file-uri-to-path@1.0.0:
   version "1.0.0"
@@ -5326,10 +5331,10 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
-getstream@^7.2.8:
-  version "7.2.8"
-  resolved "https://registry.yarnpkg.com/getstream/-/getstream-7.2.8.tgz#d37487c72149449dbc070842989fbc318dc5042c"
-  integrity sha512-kG4lHklQ7EEyjZ1MJQfmTZwAMW2owhRkcSKwsDFknMVBbsjsWKfLrQG9ZqDcYPoaevOYID3JN0arAGwIbEM6qg==
+getstream@^7.2.11:
+  version "7.2.11"
+  resolved "https://registry.yarnpkg.com/getstream/-/getstream-7.2.11.tgz#e21489320114ad3b14bb314d72f5bd5ebf729183"
+  integrity sha512-Pc9z3+OB6rTXkuKcynAsAZKTSoMsBtPpOY0ExhtrdYcpM8aB44N6CAmLTVm3WpZuWVAx3yAeWM5xa14pU3WUtQ==
   dependencies:
     "@babel/runtime" "^7.13.10"
     "@types/jsonwebtoken" "^8.5.0"
@@ -9196,7 +9201,7 @@ raw-body@2.4.0:
     unpipe "1.0.0"
 
 "react-activity-feed@link:..":
-  version "1.2.1"
+  version "1.3.0"
   dependencies:
     "@babel/runtime" "^7.14.0"
     "@types/emoji-mart" "^3.0.4"
@@ -9204,18 +9209,19 @@ raw-body@2.4.0:
     "@types/url-parse" "^1.4.3"
     "@types/webscopeio__react-textarea-autocomplete" "^4.7.0"
     "@webscopeio/react-textarea-autocomplete" "^4.7.3"
+    classnames "^2.3.1"
     dayjs "^1.10.4"
     emoji-mart "^3.0.1"
-    getstream "^7.2.8"
+    getstream "^7.2.11"
     i18next "^20.2.2"
     immutable "^4.0.0-rc.12"
     linkifyjs "^2.1.9"
     lodash "^4.17.21"
     moment "^2.29.1"
-    react-file-utils "^1.1.0"
+    react-file-utils "^1.1.7"
     react-image-lightbox "^5.1.1"
     stream-analytics "^3.4.2"
-    tslib "^2.2.0"
+    tslib "^2.3.1"
     url-parse "^1.5.1"
     use-debounce "^6.0.1"
 
@@ -9264,13 +9270,13 @@ react-dev-utils@^11.0.3:
 "react-dom@link:../node_modules/react-dom":
   version "0.0.0"
 
-react-dropzone@11.2.0:
-  version "11.2.0"
-  resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-11.2.0.tgz#4e54fa3479e6b6bb93f67914e4a27f1260807fdb"
-  integrity sha512-S/qaXQHCCg7MVlcrhqd05MLC6DupITLUB0CFn3iCLs6OTjzxdGDF1WTktTe5Jyq8jZdxYfMHNUZOHL0mg+K0Dw==
+react-dropzone@11.3.4:
+  version "11.3.4"
+  resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-11.3.4.tgz#aeb098df5c4491e165042c9f0b5e2e7185484740"
+  integrity sha512-B1nzNRZ4F1cnrfEC0T6KXeBN1mCPinu4JCoTrp7NjB+442KSPxqfDrw41QIA2kAwlYs1+wj/0BTedeM5hc2+xw==
   dependencies:
-    attr-accept "^2.0.0"
-    file-selector "^0.1.12"
+    attr-accept "^2.2.1"
+    file-selector "^0.2.2"
     prop-types "^15.7.2"
 
 react-error-overlay@^6.0.9:
@@ -9278,12 +9284,12 @@ react-error-overlay@^6.0.9:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.9.tgz#3c743010c9359608c375ecd6bc76f35d93995b0a"
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==
 
-react-file-utils@^1.1.0:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/react-file-utils/-/react-file-utils-1.1.3.tgz#93f09cfc3c033b683547250c931cfc1243740434"
-  integrity sha512-N80EsJOoyzWlozUcdwmNFuzPSVr+ZK48injrS9X+OLsmENynZr83TvFr25bvUM2Y+BPZfh9RZ9iwp7XtUvHRUg==
+react-file-utils@^1.1.7:
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/react-file-utils/-/react-file-utils-1.1.7.tgz#4888f7fecde43a0a67bdfac61af4a3ad0c7c8087"
+  integrity sha512-Y0gI0PnJDWqofxJosGNw2GnyAexsx1QTlkikP5o0SvkrZHySaL28GL5LZ8QMXolOvqErkgnREZQmsTsL/5CjTg==
   dependencies:
-    react-dropzone "11.2.0"
+    react-dropzone "11.3.4"
 
 react-image-lightbox@^5.1.1:
   version "5.1.4"
@@ -10775,9 +10781,9 @@ timsort@^0.3.0:
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
 
 tmpl@1.0.x:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/tmpl/-/tmpl-1.0.4.tgz#23640dd7b42d00433911140820e5cf440e521dd1"
-  integrity sha1-I2QN17QtAEM5ERQIIOXPRA5SHdE=
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/tmpl/-/tmpl-1.0.5.tgz#8683e0b902bb9c20c4f726e3c0b69f36518c07cc"
+  integrity sha512-3f0uOEAQwIqGuWW2MVzYg8fV/QNnc/IpuJNG837rLuczAaLVHslWHZQj4IGiEl5Hs3kkbhwL9Ab7Hrsmuj+Smw==
 
 to-arraybuffer@^1.0.0:
   version "1.0.1"
@@ -10875,12 +10881,12 @@ tslib@^1.8.1:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
-tslib@^2.0.1, tslib@^2.0.3:
+tslib@^2.0.3:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.2.0.tgz#fb2c475977e35e241311ede2693cee1ec6698f5c"
   integrity sha512-gS9GVHRU+RGn5KQM2rllAlR3dU6m7AcpJKdtH8gFvQiC4Otgk98XnmMU+nZenHt/+VhnBPWwgrJsyrdcw6i23w==
 
-tslib@^2.2.0:
+tslib@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
