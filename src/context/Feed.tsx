@@ -94,7 +94,7 @@ export type FeedProps<
     activity: Activity<AT>,
     data?: RT,
     options?: ReactionAddOptions,
-  ) => ReactionAPIResponse<RT>;
+  ) => Promise<ReactionAPIResponse<RT>>;
   /** Override reaction delete request */
   doReactionDeleteRequest?: DeleteRequestFn;
   /** Override reactions filter request */
