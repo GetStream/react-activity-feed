@@ -136,10 +136,17 @@ export async function dataTransferItemsToFiles(items?: DataTransferItemList) {
 }
 
 export function inputValueFromEvent<T extends HTMLInputElement | HTMLTextAreaElement = HTMLInputElement>(
-  event?: React.SyntheticEvent<T>,
+  event: React.SyntheticEvent<T> | undefined = undefined,
+  targetFirst: boolean | undefined = false,
 ) {
-  const target = (event?.currentTarget || event?.target) as T;
-  return target?.value;
+  try {
+    const target = (event?.[targetFirst ? 'target' : 'currentTarget'] ??
+      event?.[targetFirst ? 'currentTarget' : 'target']) as T;
+    return target?.value;
+  } catch (error) {
+    console.error(error);
+    return undefined;
+  }
 }
 
 export function sanitizeURL(url?: string) {
