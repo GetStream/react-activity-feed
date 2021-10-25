@@ -84,7 +84,7 @@ export const CommentField = <UT extends DefaultUT = DefaultUT, AT extends Defaul
           rows={1}
           value={text}
           placeholder={placeholder ?? t('Start Typing...')}
-          onChange={(event) => setText((pv) => inputValueFromEvent<HTMLTextAreaElement>(event) ?? pv)}
+          onChange={(event) => setText((pv) => inputValueFromEvent<HTMLTextAreaElement>(event, true) ?? pv)}
           emojiData={emojiData}
           trigger={trigger}
           maxLength={280}
