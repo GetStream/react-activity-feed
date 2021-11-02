@@ -160,7 +160,7 @@ export function Feed<
   const feedId = client?.feed(feedGroup, userId).id;
 
   const manager = useMemo(() => {
-    if (!client || !feedId) return null;
+    if (!feedId) return null;
 
     // TODO: check if any of the clients changed
 
