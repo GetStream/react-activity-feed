@@ -992,6 +992,7 @@ export class FeedManager<
     return this.setState(newState);
   };
 
+  // TODO: deprecate async in next major release
   // eslint-disable-next-line require-await
   subscribe = async () => {
     if (!this.props.notify) return;
