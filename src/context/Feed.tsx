@@ -13,7 +13,7 @@ import {
   ReactionFilterConditions,
 } from 'getstream';
 
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 
 import { FeedManager } from './FeedManager';
 import { DefaultAT, DefaultUT, useStreamContext } from './StreamApp';
@@ -172,6 +172,7 @@ export function Feed<
 
   useEffect(() => {
     const forceUpdate = () => setForceUpdateState((prevState) => prevState + 1);
+    if (manager) manager.props.notify = notify;
     manager?.register(forceUpdate);
     return () => {
       manager?.unregister(forceUpdate);
@@ -180,7 +181,7 @@ export function Feed<
 
   useEffect(() => {
     manager?.refresh(optionsReference.current);
-  }, [optionsReference.current]);
+  }, [optionsReference.current, manager]);
 
   if (!manager) return null;
 
