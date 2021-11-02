@@ -1,4 +1,13 @@
-import React, { useMemo, MouseEvent, DetailedHTMLProps, HTMLAttributes } from 'react';
+import React, {
+  useMemo,
+  MouseEvent,
+  DetailedHTMLProps,
+  HTMLAttributes,
+  useEffect,
+  useRef,
+  DependencyList,
+  EffectCallback,
+} from 'react';
 import URL from 'url-parse';
 import Dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -7,6 +16,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { EnrichedUser, UR } from 'getstream';
 import { TDateTimeParser } from '../i18n/Streami18n';
 import { DefaultUT } from '../context/StreamApp';
+import isEqual from 'lodash/isEqual';
 
 Dayjs.extend(utc);
 Dayjs.extend(minMax);
@@ -188,6 +198,16 @@ export const useOnClickUser = <
 
 export type PropsWithElementAttributes<T extends UR = UR, E extends HTMLElement = HTMLDivElement> = T &
   Pick<DetailedHTMLProps<HTMLAttributes<E>, E>, 'className' | 'style'>;
+
+export const useDeepCompareEffect = <D extends DependencyList>(effect: EffectCallback, dependencies: D) => {
+  const reference = useRef<D | undefined>();
+
+  if (!reference.current || !isEqual(dependencies, reference.current)) {
+    reference.current = dependencies;
+  }
+
+  useEffect(effect, reference.current);
+};
 
 export * from './textRenderer';
 export * from './smartRender';

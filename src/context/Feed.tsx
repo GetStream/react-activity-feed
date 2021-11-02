@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useContext, useEffect, useMemo, useState, useRef } from 'react';
+import React, { PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 import {
   Activity,
   GetFeedOptions,
@@ -13,10 +13,9 @@ import {
   ReactionFilterConditions,
 } from 'getstream';
 
-import isEqual from 'lodash/isEqual';
-
 import { FeedManager } from './FeedManager';
 import { DefaultAT, DefaultUT, useStreamContext } from './StreamApp';
+import { useDeepCompareEffect } from '../utils';
 
 export type FeedContextValue<
   UT extends DefaultUT = DefaultUT,
@@ -152,10 +151,6 @@ export function Feed<
   >();
   const { feedGroup, userId, children, options, notify } = props;
   const [, setForceUpdateState] = useState(0);
-  const optionsReference = useRef<GetFeedOptions | undefined>();
-
-  // compare options objects to trigger possible rerender
-  if (!isEqual(optionsReference.current, options)) optionsReference.current = options;
 
   const feedId = client?.feed(feedGroup, userId).id;
 
@@ -163,7 +158,6 @@ export function Feed<
     if (!feedId) return null;
 
     // TODO: check if any of the clients changed
-
     return (
       sharedFeedManagers[feedId] ||
       new FeedManager<UT, AT, CT, RT, CRT, PT>({ ...props, analyticsClient, client, user, errorHandler })
@@ -177,9 +171,9 @@ export function Feed<
     return () => manager?.unregister(forceUpdate);
   }, [manager, notify]);
 
-  useEffect(() => {
-    manager?.refresh(optionsReference.current);
-  }, [optionsReference.current, manager]);
+  useDeepCompareEffect(() => {
+    manager?.refresh(options);
+  }, [options]);
 
   if (!manager) return null;
 
