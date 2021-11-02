@@ -174,9 +174,7 @@ export function Feed<
     const forceUpdate = () => setForceUpdateState((prevState) => prevState + 1);
     if (manager) manager.props.notify = notify;
     manager?.register(forceUpdate);
-    return () => {
-      manager?.unregister(forceUpdate);
-    };
+    return () => manager?.unregister(forceUpdate);
   }, [manager, notify]);
 
   useEffect(() => {
