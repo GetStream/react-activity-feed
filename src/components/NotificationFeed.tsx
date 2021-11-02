@@ -85,14 +85,13 @@ const NotificationFeedInner = <
 
   const refreshFeed = () => feed.refresh(options);
 
-  useEffect(() => {
-    refreshFeed();
-
-    return () => {
+  useEffect(
+    () => () => {
       feed.activities.clear();
       feed.activityOrder.splice(0, feed.activityOrder.length);
-    };
-  }, [feed.feedGroup, feed.userId]);
+    },
+    [feed.feedGroup, feed.userId],
+  );
 
   if (feed.refreshing && !feed.hasDoneRequest) {
     return <div className="raf-loading-indicator">{smartRender<LoadingIndicatorProps>(LoadingIndicator)}</div>;

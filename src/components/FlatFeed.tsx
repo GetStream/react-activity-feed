@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { EnrichedActivity, UR } from 'getstream';
 import { LoadingIndicator as DefaultLoadingIndicator, LoadingIndicatorProps } from 'react-file-utils';
 
@@ -95,10 +95,6 @@ const FlatFeedInner = <
   const { t } = useTranslationContext();
 
   const refreshFeed = () => feed.refresh(options);
-
-  useEffect(() => {
-    refreshFeed();
-  }, [feed.feedGroup, feed.userId]);
 
   if (feed.refreshing && !feed.hasDoneRequest) {
     return <div className="raf-loading-indicator">{smartRender<LoadingIndicatorProps>(LoadingIndicator)}</div>;
