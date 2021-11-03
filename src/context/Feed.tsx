@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
+import React, { PropsWithChildren, useContext, useEffect, useMemo, useState, useRef } from 'react';
 import {
   Activity,
   GetFeedOptions,
@@ -15,7 +15,8 @@ import {
 
 import { FeedManager } from './FeedManager';
 import { DefaultAT, DefaultUT, useStreamContext } from './StreamApp';
-import { useDeepCompareEffect } from '../utils';
+// import { useDeepCompareEffect } from '../utils';
+import isEqual from 'lodash/isEqual';
 
 export type FeedContextValue<
   UT extends DefaultUT = DefaultUT,
@@ -152,6 +153,12 @@ export function Feed<
   const { feedGroup, userId, children, options, notify } = props;
   const [, setForceUpdateState] = useState(0);
 
+  const optionsReference = useRef<GetFeedOptions | undefined>();
+
+  if (!optionsReference.current || !isEqual(optionsReference.current, options)) {
+    optionsReference.current = options;
+  }
+
   const feedId = client?.feed(feedGroup, userId).id;
 
   const manager = useMemo(() => {
@@ -171,9 +178,15 @@ export function Feed<
     return () => manager?.unregister(forceUpdate);
   }, [manager, notify]);
 
-  useDeepCompareEffect(() => {
-    manager?.refresh(options);
-  }, [options]);
+  useEffect(() => {
+    if (!manager) return;
+
+    if (optionsReference.current) {
+      manager.options = optionsReference.current;
+    }
+
+    manager.refresh();
+  }, [manager, optionsReference.current]);
 
   if (!manager) return null;
 

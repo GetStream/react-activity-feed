@@ -146,6 +146,10 @@ export class FeedManager<
     this.state.lastReverseResponse = { next: previousUrl };
   }
 
+  set options(newOptions: Partial<GetFeedOptions>) {
+    this.props.options = this.getOptions(newOptions);
+  }
+
   register(callback: UpdateTriggeredCallback) {
     this.registeredCallbacks.push(callback);
     this.subscribe();
