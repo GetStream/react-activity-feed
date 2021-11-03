@@ -86,8 +86,6 @@ const NotificationFeedInner = <
   const refreshFeed = () => feed.refresh(options);
 
   useEffect(() => {
-    refreshFeed();
-
     return () => {
       feed.activities.clear();
       feed.activityOrder.splice(0, feed.activityOrder.length);

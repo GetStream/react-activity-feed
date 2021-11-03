@@ -7,7 +7,6 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { EnrichedUser, UR } from 'getstream';
 import { TDateTimeParser } from '../i18n/Streami18n';
 import { DefaultUT } from '../context/StreamApp';
-
 Dayjs.extend(utc);
 Dayjs.extend(minMax);
 Dayjs.extend(relativeTime);

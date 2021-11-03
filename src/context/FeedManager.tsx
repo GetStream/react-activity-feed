@@ -992,35 +992,35 @@ export class FeedManager<
     return this.setState(newState);
   };
 
+  // TODO: deprecate async in next major release
+  // eslint-disable-next-line require-await
   subscribe = async () => {
-    if (this.props.notify) {
-      const feed = this.feed();
-      await this.setState((prevState) => {
-        if (prevState.subscription) {
-          return {};
-        }
+    if (!this.props.notify) return;
 
-        const subscription = feed.subscribe((data) => {
-          this.setState((prevState) => {
-            const numActivityDiff = data.new.length - data.deleted.length;
+    const feed = this.feed();
+    this.setState((prevState) => {
+      if (prevState.subscription) return {};
 
-            return {
-              realtimeAdds: prevState.realtimeAdds.concat(data.new),
-              realtimeDeletes: prevState.realtimeDeletes.concat(data.deleted),
-              unread: prevState.unread + numActivityDiff,
-              unseen: prevState.unseen + numActivityDiff,
-            };
-          });
+      const subscription = feed.subscribe((data) => {
+        this.setState((prevState) => {
+          const numActivityDiff = data.new.length - data.deleted.length;
+
+          return {
+            realtimeAdds: prevState.realtimeAdds.concat(data.new),
+            realtimeDeletes: prevState.realtimeDeletes.concat(data.deleted),
+            unread: prevState.unread + numActivityDiff,
+            unseen: prevState.unseen + numActivityDiff,
+          };
         });
-
-        subscription.then(
-          () => console.log(`now listening to changes in realtime for ${this.feed().id}`),
-          (err) => console.error(err),
-        );
-
-        return { subscription };
       });
-    }
+
+      subscription.then(
+        () => console.log(`now listening to changes in realtime for ${this.feed().id}`),
+        (err) => console.error(err),
+      );
+
+      return { subscription };
+    });
   };
 
   unsubscribe = async () => {
@@ -1031,8 +1031,12 @@ export class FeedManager<
 
     try {
       await subscription;
+
+      this.setState({ subscription: null });
+
       // @ts-expect-error
       subscription?.cancel();
+
       console.log(`stopped listening to changes in realtime for ${this.feed().id}`);
     } catch (err) {
       console.error(err);
