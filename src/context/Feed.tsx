@@ -179,7 +179,7 @@ export function Feed<
     if (!manager) return;
 
     if (optionsReference.current) {
-      manager.setOptions(optionsReference.current);
+      manager.props.options = optionsReference.current;
     }
 
     manager.refresh();
