@@ -15,7 +15,6 @@ import {
 
 import { FeedManager } from './FeedManager';
 import { DefaultAT, DefaultUT, useStreamContext } from './StreamApp';
-// import { useDeepCompareEffect } from '../utils';
 import isEqual from 'lodash/isEqual';
 
 export type FeedContextValue<
@@ -155,9 +154,7 @@ export function Feed<
 
   const optionsReference = useRef<GetFeedOptions | undefined>();
 
-  if (!optionsReference.current || !isEqual(optionsReference.current, options)) {
-    optionsReference.current = options;
-  }
+  if (!isEqual(optionsReference.current, options)) optionsReference.current = options;
 
   const feedId = client?.feed(feedGroup, userId).id;
 
@@ -182,7 +179,7 @@ export function Feed<
     if (!manager) return;
 
     if (optionsReference.current) {
-      manager.options = optionsReference.current;
+      manager.setOptions(optionsReference.current);
     }
 
     manager.refresh();
