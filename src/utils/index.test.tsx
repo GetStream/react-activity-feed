@@ -86,16 +86,22 @@ describe('utils', () => {
   });
 
   describe('humanizeTimestamp', () => {
-    it('correct toISOString timestamp', () => {
+    it('correct toISOString timestamp with Z', () => {
       const now = new Date().toISOString();
       expect(humanizeTimestamp(now, Dayjs)).toEqual('a few seconds ago');
       expect(humanizeTimestamp(now, moment)).toEqual('a few seconds ago');
     });
 
-    it('toISOString timestamp with Z', () => {
+    it('correct toISOString no timestamp', () => {
       const now = new Date().toISOString();
       expect(humanizeTimestamp(now.substring(0, now.length - 2), Dayjs)).toEqual('a few seconds ago');
       expect(humanizeTimestamp(now.substring(0, now.length - 2), moment)).toEqual('a few seconds ago');
     });
+
+    it('correct toISOString timestamp with +00:00', () => {
+      const now = new Date().toISOString().replace('Z', '+00:00');
+      expect(humanizeTimestamp(now, Dayjs)).toEqual('a few seconds ago');
+      expect(humanizeTimestamp(now, moment)).toEqual('a few seconds ago');
+    })
   });
 });

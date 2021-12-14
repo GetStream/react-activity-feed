@@ -11,14 +11,18 @@ Dayjs.extend(utc);
 Dayjs.extend(minMax);
 Dayjs.extend(relativeTime);
 
+function isTimezoneAwareTimestamp(timestamp: string) {
+  return /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3,6}(Z$|[+-]\d{2}:\d{2}$)/.test(timestamp)
+}
+
 export function humanizeTimestamp(timestamp: string | number | Date, tDateTimeParser: TDateTimeParser) {
   let time;
   // Following calculation is based on assumption that tDateTimeParser()
   // either returns momentjs or dayjs object.
 
-  // When timestamp doesn't have z at the end, we are supposed to take it as UTC time.
+  // When timestamp is not timezone-aware, we are supposed to take it as UTC time.
   // Ideally we need to adhere to RFC3339. Unfortunately this needs to be fixed on backend.
-  if (typeof timestamp === 'string' && timestamp[timestamp.length - 1].toLowerCase() === 'z') {
+  if (typeof timestamp === 'string' && isTimezoneAwareTimestamp(timestamp)) {
     time = tDateTimeParser(timestamp);
   } else {
     time = tDateTimeParser(timestamp).add(Dayjs(timestamp).utcOffset(), 'minute'); // parse time as UTC
