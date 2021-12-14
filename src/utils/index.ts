@@ -11,8 +11,8 @@ Dayjs.extend(utc);
 Dayjs.extend(minMax);
 Dayjs.extend(relativeTime);
 
-function isTimezoneAwareTimestamp(timestamp: string) {
-  return /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3,6}(Z$|[+-]\d{2}:\d{2}$)/.test(timestamp)
+export function isTimezoneAwareTimestamp(timestamp: string) {
+  return /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3,6}(Z$|[+-]\d{2}:\d{2}$)/.test(timestamp);
 }
 
 export function humanizeTimestamp(timestamp: string | number | Date, tDateTimeParser: TDateTimeParser) {

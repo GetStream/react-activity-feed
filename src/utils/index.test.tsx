@@ -5,7 +5,14 @@ import moment from 'moment';
 
 Dayjs.extend(relativeTime);
 
-import { trimURL, sanitizeURL, inputValueFromEvent, userOrDefault, humanizeTimestamp } from './';
+import {
+  trimURL,
+  sanitizeURL,
+  inputValueFromEvent,
+  userOrDefault,
+  humanizeTimestamp,
+  isTimezoneAwareTimestamp,
+} from './';
 describe('utils', () => {
   describe('trimURL', () => {
     [
@@ -88,6 +95,7 @@ describe('utils', () => {
   describe('humanizeTimestamp', () => {
     it('correct toISOString timestamp with Z', () => {
       const now = new Date().toISOString();
+      // eslint-disable-next-line sonarjs/no-duplicate-string
       expect(humanizeTimestamp(now, Dayjs)).toEqual('a few seconds ago');
       expect(humanizeTimestamp(now, moment)).toEqual('a few seconds ago');
     });
@@ -102,6 +110,50 @@ describe('utils', () => {
       const now = new Date().toISOString().replace('Z', '+00:00');
       expect(humanizeTimestamp(now, Dayjs)).toEqual('a few seconds ago');
       expect(humanizeTimestamp(now, moment)).toEqual('a few seconds ago');
-    })
+    });
+  });
+
+  describe('isTimezoneAwareTimestamp', () => {
+    it('accepts correct timezone-aware timestamp with Z', () => {
+      const now = new Date().toISOString();
+      expect(isTimezoneAwareTimestamp(now)).toBeTruthy();
+    });
+
+    it('accepts correct timezone-aware timestamp with offset', () => {
+      let now = new Date().toISOString().replace('Z', '+01:00');
+      expect(isTimezoneAwareTimestamp(now)).toBeTruthy();
+      now = new Date().toISOString().replace('Z', '-01:00');
+      expect(isTimezoneAwareTimestamp(now)).toBeTruthy();
+    });
+
+    it('refuses UTC timestamp', () => {
+      const now = new Date().toUTCString();
+      expect(isTimezoneAwareTimestamp(now)).toBeFalsy();
+    });
+
+    it('refuses date string', () => {
+      const now = new Date().toDateString();
+      expect(isTimezoneAwareTimestamp(now)).toBeFalsy();
+    });
+
+    it('refuses time string', () => {
+      const now = new Date().toTimeString();
+      expect(isTimezoneAwareTimestamp(now)).toBeFalsy();
+    });
+
+    it('refuses ISO string timestamp missing Z or offset', () => {
+      const now = new Date().toISOString().replace('Z', '');
+      expect(isTimezoneAwareTimestamp(now)).toBeFalsy();
+    });
+
+    it('refuses incorrectly formatted timezone-aware timestamp with offset part', () => {
+      const now = new Date().toISOString();
+      expect(isTimezoneAwareTimestamp(now.replace('Z', '+00:001'))).toBeFalsy();
+      expect(isTimezoneAwareTimestamp(now.replace('Z', '+00:0'))).toBeFalsy();
+      expect(isTimezoneAwareTimestamp(now.replace('Z', '+'))).toBeFalsy();
+      expect(isTimezoneAwareTimestamp(now.replace('Z', '-00:001'))).toBeFalsy();
+      expect(isTimezoneAwareTimestamp(now.replace('Z', '-00:0'))).toBeFalsy();
+      expect(isTimezoneAwareTimestamp(now.replace('Z', '-'))).toBeFalsy();
+    });
   });
 });
