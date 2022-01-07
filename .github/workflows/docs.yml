@@ -1,0 +1,26 @@
+name: Docs
+
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/setup-node
+      - name: Cache .docz folder
+        uses: actions/cache@v2
+        with:
+          path: ./.docz
+          key: docz-${{ matrix.node }}-gatsby-v1-${{ github.run_id }}
+          restore-keys: docz-${{ matrix.node }}-gatsby-v1-
+      - name: Build Docs
+        run: yarn run docs-build

@@ -9,13 +9,22 @@ on:
       - '**.md'
       - '**.mdx'
 
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
   size:
     runs-on: ubuntu-latest
     env:
       CI_JOB_NUMBER: 1
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/setup-node
+        with:
+          node-version: 12
       - uses: andresz1/size-limit-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          skip_step: install
+          build_script: noop

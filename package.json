@@ -36,6 +36,7 @@
     "start": "yarn run types && rollup -c -w",
     "docs": "docz dev",
     "docs-build": "docz build",
+    "noop": "echo ''",
     "size": "size-limit",
     "analyze": "size-limit --why",
     "prepare": "yarn run build && husky install",

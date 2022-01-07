@@ -1,0 +1,16 @@
+name: Lint
+
+on: [push]
+
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/setup-node
+      - name: Lint
+        run: yarn run lint

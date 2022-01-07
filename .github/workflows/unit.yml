@@ -1,0 +1,25 @@
+name: Unit Test
+
+on: [push]
+
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [12, 14, 16, 17]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/setup-node
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Test unit
+        run: yarn test
+      - name: Validate Browser Bundle
+        run: yarn run test-browser-build
+      - name: Validate translation
+        run: yarn validate-translations
