@@ -2,6 +2,10 @@ name: Unit Test
 
 on: [push]
 
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
   unit:
     runs-on: ubuntu-latest
