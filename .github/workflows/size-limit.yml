@@ -9,6 +9,10 @@ on:
       - '**.md'
       - '**.mdx'
 
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
   size:
     runs-on: ubuntu-latest
