@@ -1,0 +1,36 @@
+# StreamApp
+
+The `StreamApp` component is a React Context provider that wraps the entire Activity Feed application. It provides the `StreamContext` to its children, which includes the StreamClient (`client`) instance. All other components within the library which need to be able to access `client` must be nested as children of `StreamApp` to maintain proper functionality.
+
+## Basic usage
+
+```tsx
+<StreamApp apiKey={apiKey} appId={appId} token={token}>
+	<StatusUpdateForm feedGroup="user" />
+	<FlatFeed feedGroup="user">
+</StreamApp>
+```
+
+Any child of the `StreamApp` component has access to the `StreamContext`. Each React Context in the component library can be accessed with one of our custom hooks, which must be imported individually.
+
+```ts
+import { useStreamContext } from 'react-activity-feed'; // available since version 1.0.0
+
+const { client } = useStreamContext();
+```
+
+Older versions of this SDK may be missing this custom hook but the context itself is still exported and can be used with `React.useContext`.
+
+```ts
+import { StreamContext } from 'react-activity-feed';
+
+// somewhere in your component
+const { client } = React.useContext(StreamContext);
+```
+
+## Properties
+
+<table>
+  <thead></thead>
+  <tbody></tbody>
+</table>
