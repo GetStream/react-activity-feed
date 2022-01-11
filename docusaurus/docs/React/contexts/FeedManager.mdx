@@ -1,0 +1,116 @@
+# FeedManager (refered to as manager)
+
+## Overview
+
+FeedManager is a core "component" of this SDK which with the help of [ImmutableJS]() manages the state of a single activity feed\*, takes care of the realtime data inputs and provides useful methods such as `onAddReaction`, `onRemoveReaction` or `onToggleReaction` and more. In the simplest of words it's a fancy wrapper for a Stream client from a [getstream](https://www.npmjs.com/package/getstream) library.
+
+\* based on a `feedSlug` and `userId` known as `feedId` which looks like this:
+
+```js
+${feedSlug}:${userId}
+```
+
+## How it works
+
+Whenever you render components [FlatFeed]() or [NotificationFeed]() the [Feed]() component is rendered within them and manager is either pulled from [sharedFeeds](#sharedFeeds) or instantiated in the background with all of the properties passed down to these components. Since FeedManager is not a React component the trigger function has to be registered from the outside to ensure the state change of the manager is propagated through the Feed context down to its consumers. Without this trigger the state within manager would change but visual part of your application would not.
+
+## `sharedFeeds`
+
+Shared feeds is a dictionary stored within [StreamApp]() context which holds instances of FeedManager. Each instance is stored under a specific `feedId` as stated previously. By default, if `sharedFeeds` are not provided by the user of the SDK, the notification feed is created with pre-selected options for your convenience. You can read more on `sharedFeeds` here.
+
+```tsx
+<StreamApp
+  sharedFeeds={[
+    {
+      feedGroup: 'notification',
+      notify: true,
+      options: {
+        mark_seen: true,
+      },
+    },
+  ]}
+>
+  ...
+</StreamApp>
+```
+
+## Properties
+
+<table>
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Type</th>
+			<th>Default value</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><code>notify</code.</td>
+			<td>boolean</td>
+			<td><code>false</code></td>
+			<td>Tells FeedManager to subscribe to a realtime data channel with a callback which then updates state values <code>unseen</code>, <code>unread</code>, <code>realtimeAdds</code> and <code>realtimeDeletes</code>.</td>
+		</tr>
+		<tr>
+			<td><code>feedGroup</code></td>
+			<td>string</td>
+			<td></td>
+			<td>Also known as <code>feedSlug</code> is a name of an activity feed which can be found in your <a href="https://dashboard.getstream.io/">Stream Dashboard</a>.</td>
+		</tr>
+		<tr>
+			<td><code>options</code></td>
+			<td>getstream.GetFeedOptions</td>
+			<td><code>{ withReactionCounts: true, withOwnReactions: true, limit: 10 }</code></td>
+			<td>Feed options which are then sent with every feed request (<code>FeedManager.doFeedRequest</code>) as query parameters.<br>Default value is always merged with user-specified options, add these to your own with different values to overwrite default behaviour.</td>
+		</tr>
+		<tr>
+			<td><code>doFeedRequest</code></td>
+			<td>function → Promise&lt;getstream.FeedAPIResponse&gt;</td>
+			<td><code>getstream.client.feed</code></td>
+			<td>A function that you can pass down to FeedManager to access or alter response data before returning. </td>
+		</tr>
+		<tr>
+			<td><code>doReactionAddRequest</code></td>
+			<td>function → Promise&lt;getstream.ReactionAPIResponse&gt;</td>
+			<td><code>getstream.client.reactions.add</code></td>
+			<td>-/-</td>
+		</tr>
+		<tr>
+			<td><code>doReactionDeleteRequest</code></td>
+			<td>function → Promise&lt;getstream.APIResponse&gt;</td>
+			<td><code>getstream.client.reactions.delete<code></td>
+			<td>-/-</td>
+		</tr>
+		<tr>
+			<td><code>doReactionsFilterRequest</code></td>
+			<td>function → Promise&lt;getstream.ReactionFilterAPIResponse&gt;</td>
+			<td><code>getstream.client.reactions.filter</code></td>
+			<td>-/-</td>
+		</tr>
+		<tr>
+			<td><code>doChildReactionAddRequest</code></td>
+			<td>function → Promise&lt;getstream.ReactionAPIResponse&gt;</td>
+			<td><code>getstream.client.reactions.addChild</code></td>
+			<td>-/-</td>
+		</tr>
+		<tr>
+			<td><code>doChildReactionDeleteRequest</code></td>
+			<td>function → Promise&lt;getstream.APIResponse&gt;</td>
+			<td><code>getstream.client.reactions.delete</code></td>
+			<td>-/-</td>
+		</tr>
+	</tbody>
+</table>
+
+### doFeedRequest
+
+### doReactionAddRequest
+
+### doReactionDeleteRequest
+
+### doReactionsFilterRequest
+
+### doChildReactionAddRequest
+
+### doChildReactionDeleteRequest
