@@ -1,0 +1,58 @@
+# React Activity Feeds version 2.0
+
+## New structure
+
+```tsx
+import { ActivityFeed, Feed, Lists } from '@stream-io/actvity-feed/react/core';
+import { StatusForm, TextForm, NotificationDropdown } from '@stream-io/activity-feed/react/ui';
+import { MyCustomContainer } from '../components';
+
+<ActivityFeed client={}>
+  <StatusForm feedSlug="user" onSubmit={(event, data) => {}} />
+
+  <MyCustomContainer>
+    <Feed schema={'?'} reactionKeys={['like', 'comment']} feedSlug="user" realTime={boolean | handler}>
+      <Lists.WithLoadMoreButton loadMoreButtonComponent={} activityComponent={} />
+      <Lists.InfiniteScroll activityComponent={} />
+    </Feed>
+  </MyCustomContainer>
+
+  <NotificationDropdown open={true | false}>
+    <Feed feedSlug="notification">
+      <Lists.WithLoadMoreButton activityComponent={} />
+    </Feed>
+  </NotificationDropdown>
+</ActivityFeed>;
+```
+
+## `ActivityFeed`
+
+- provider, takes care of the client, passes it downs
+
+## `Feed`
+
+- provider, {feedInstance, setNormalizedState, normalize}, state manager (normalized/denormalized state), real-time handler, Zustand
+
+## Hooks
+
+### Create
+
+- useAddActivity()
+- useAddReaction()
+
+### Update
+
+- useUpdateActivity()
+- useUpdateReaction()
+
+### Delete
+
+- useDeleteActvity()
+- useDeleteReaction()
+
+- { client } = useActivityFeed()
+
+## Schemas
+
+- user
+- aggregated
