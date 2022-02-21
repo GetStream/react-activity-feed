@@ -1,7 +1,7 @@
-import React, { useEffect, useState, PropsWithChildren, useRef, useCallback } from 'react';
+import React, { useEffect, useState, PropsWithChildren, useRef, useCallback, FormEventHandler } from 'react';
 
-import { capitalize } from 'lodash';
-import { EnrichedUser, UR } from 'getstream';
+import capitalize from 'lodash/capitalize';
+import { EnrichedUser, UR, EnrichedReaction } from 'getstream';
 
 import {
   StreamApp,
@@ -10,7 +10,6 @@ import {
   NotificationDropdown,
   Activity,
   ActivityFooter,
-  LikeButton,
   CommentField,
   CommentList,
   CommentItem,
@@ -19,7 +18,10 @@ import {
   Avatar,
   Button,
   useFeedContext,
+  ActivityFooterProps,
+  CommentItemProps,
 } from 'react-activity-feed';
+
 import 'react-activity-feed/dist/index.css';
 
 import './Root.css';
@@ -116,6 +118,66 @@ const ExposeRefresh = ({ setRefresh }: { setRefresh?: SetRefresh }) => {
   return null;
 };
 
+const CustomReplyList = ({ comment }: CommentItemProps<{ name: string }>) => {
+  const { onAddChildReaction } = useFeedContext();
+  const ref = useRef<null | HTMLInputElement>(null);
+
+  const replies = ((comment.latest_children['comment'] as unknown) as Array<EnrichedReaction>) ?? [];
+
+  const handleSubmit: FormEventHandler = (event) => {
+    event.preventDefault();
+
+    const text = ref.current?.value;
+
+    if (!text?.length) return;
+
+    onAddChildReaction('comment', comment, { text });
+  };
+
+  return (
+    <div style={{ paddingLeft: 33 }}>
+      <form onSubmit={handleSubmit}>
+        <input ref={ref} type="text" />
+        <button>Submit</button>
+      </form>
+
+      <h4>Replies:</h4>
+
+      {replies.map((child) => (
+        <div key={child.id}>
+          <div style={{ fontWeight: 'bold', fontSize: 12 }}>{(child.user?.data.name as unknown) as string}</div>
+          <div>{child.data?.text as string}</div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const CustomCommentItem = ({ comment }: CommentItemProps) => {
+  return (
+    <div className="ea-comment-item" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+      <CommentItem comment={comment} />
+      <CustomReplyList comment={comment} />
+      {/* <LikeButton targetFeeds={[`notification:${(activity.actor as EnrichedUser).id}`]} reaction={comment} /> */}
+    </div>
+  );
+};
+
+const CustomFooter = ({ activity, feedGroup, userId }: ActivityFooterProps) => {
+  return (
+    <>
+      <ActivityFooter
+        activity={activity}
+        feedGroup={feedGroup}
+        userId={userId}
+        targetFeeds={[`notification:${(activity.actor as EnrichedUser).id}`]}
+      />
+      <CommentField activity={activity} targetFeeds={[`notification:${(activity.actor as EnrichedUser).id}`]} />
+      <CommentList reverseOrder activityId={activity.id} CommentItem={CustomCommentItem} />
+    </>
+  );
+};
+
 const ExampleFlatFeed = ({ feedGroup: fg = 'user', setRefresh }: { feedGroup?: string; setRefresh?: SetRefresh }) => (
   <FlatFeed
     notify
@@ -128,35 +190,7 @@ const ExampleFlatFeed = ({ feedGroup: fg = 'user', setRefresh }: { feedGroup?: s
       </>
     )}
     Activity={({ activity, feedGroup, userId }) => (
-      <Activity
-        activity={activity}
-        feedGroup={feedGroup}
-        userId={userId}
-        Footer={() => (
-          <>
-            <ActivityFooter
-              activity={activity}
-              feedGroup={feedGroup}
-              userId={userId}
-              targetFeeds={[`notification:${(activity.actor as EnrichedUser).id}`]}
-            />
-            <CommentField activity={activity} targetFeeds={[`notification:${(activity.actor as EnrichedUser).id}`]} />
-            <CommentList
-              reverseOrder
-              activityId={activity.id}
-              CommentItem={({ comment }) => (
-                <div className="ea-comment-item">
-                  <CommentItem comment={comment} />
-                  <LikeButton
-                    targetFeeds={[`notification:${(activity.actor as EnrichedUser).id}`]}
-                    reaction={comment}
-                  />
-                </div>
-              )}
-            />
-          </>
-        )}
-      />
+      <Activity activity={activity} feedGroup={feedGroup} userId={userId} Footer={CustomFooter} />
     )}
   />
 );
@@ -223,7 +257,7 @@ export const Root = () => {
           className="ea-column__right"
         >
           <Header title="user feed" onTitleClick={() => setLeftColumnVisible(true)}>
-            <NotificationDropdown right />
+            <NotificationDropdown right notify />
           </Header>
 
           <ExampleContent>

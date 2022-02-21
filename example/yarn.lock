@@ -2165,9 +2165,9 @@
     "@xtuc/long" "4.2.2"
 
 "@webscopeio/react-textarea-autocomplete@^4.8.1":
-  version "4.9.1"
-  resolved "https://registry.yarnpkg.com/@webscopeio/react-textarea-autocomplete/-/react-textarea-autocomplete-4.9.1.tgz#0f34e7f22fad8c9759b09a4c0280ec8ad5a42ac4"
-  integrity sha512-g5cnRRXQQBGH5Km/0eSq8xFlnHZeG2WVRr+uu/3PKbHcgvNUIHKEy2tjOA9m4MK8KFzbFtfnj2MqdPf9R+5/Cw==
+  version "4.8.1"
+  resolved "https://registry.yarnpkg.com/@webscopeio/react-textarea-autocomplete/-/react-textarea-autocomplete-4.8.1.tgz#2209da4337135612b33b333aabe002fb14f88aaa"
+  integrity sha512-1toVv6rlvpzH5pgvkfuGRFTkYrhc+flLGMjQHpnkaaVBRp+7DCgGt2ou5NdHI52PBOdQtK6Pwar5coyF33Tj/Q==
   dependencies:
     custom-event "^1.0.1"
     textarea-caret "3.0.2"
@@ -7205,7 +7205,7 @@ loglevel@^1.6.8:
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.7.1.tgz#005fde2f5e6e47068f935ff28573e125ef72f197"
   integrity sha512-Hesni4s5UkWkwCGJMQGAh71PaLUmKFM60dHvq0zi/vDhhrzuk+4GgNbTXJ12YYQJn6ZKBDNIjYcuQGKudvqrIw==
 
-loose-envify@^1.0.0, loose-envify@^1.4.0:
+loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
   integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
@@ -9201,29 +9201,8 @@ raw-body@2.4.0:
     unpipe "1.0.0"
 
 "react-activity-feed@link:..":
-  version "1.3.4"
-  dependencies:
-    "@babel/runtime" "^7.14.0"
-    "@types/emoji-mart" "^3.0.4"
-    "@types/linkifyjs" "^2.1.3"
-    "@types/url-parse" "^1.4.3"
-    "@types/webscopeio__react-textarea-autocomplete" "^4.7.0"
-    "@webscopeio/react-textarea-autocomplete" "^4.8.1"
-    classnames "^2.3.1"
-    dayjs "^1.10.4"
-    emoji-mart "^3.0.1"
-    getstream "^7.2.11"
-    i18next "^20.2.2"
-    immutable "^4.0.0-rc.12"
-    linkifyjs "^2.1.9"
-    lodash "^4.17.21"
-    moment "^2.29.1"
-    react-file-utils "^1.1.7"
-    react-image-lightbox "^5.1.1"
-    stream-analytics "^3.4.2"
-    tslib "^2.3.1"
-    url-parse "^1.5.1"
-    use-debounce "^6.0.1"
+  version "0.0.0"
+  uid ""
 
 react-app-polyfill@^2.0.0:
   version "2.0.0"
@@ -9269,6 +9248,7 @@ react-dev-utils@^11.0.3:
 
 "react-dom@link:../node_modules/react-dom":
   version "0.0.0"
+  uid ""
 
 react-dropzone@11.3.4:
   version "11.3.4"
@@ -9397,6 +9377,7 @@ react-scripts@4.0.3:
 
 "react@link:../node_modules/react":
   version "0.0.0"
+  uid ""
 
 read-pkg-up@^2.0.0:
   version "2.0.0"
@@ -9903,6 +9884,14 @@ saxes@^5.0.1:
   integrity sha512-5LBh1Tls8c9xgGjw3QrMwETmTMVk0oFgvrFSvWx62llR2hcEInrKNZ2GZCCuuy2lvWrdl5jhbpeqc5hRYKFOcw==
   dependencies:
     xmlchars "^2.2.0"
+
+scheduler@^0.20.2:
+  version "0.20.2"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.20.2.tgz#4baee39436e34aa93b4874bddcbf0fe8b8b50e91"
+  integrity sha512-2eWfGgAqqWFGqtdMmcL5zCMK1U8KlXv8SQFGglL3CEtd0aDVDWgeF/YoCmvln55m5zSk3J/20hTaSBeSObsQDQ==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
 
 schema-utils@^1.0.0:
   version "1.0.0"
