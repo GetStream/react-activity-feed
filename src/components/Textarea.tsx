@@ -1,4 +1,4 @@
-import React, { TextareaHTMLAttributes, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import ReactTextareaAutocomplete, { TriggerType } from '@webscopeio/react-textarea-autocomplete';
 import { LoadingIndicator } from 'react-file-utils';
@@ -10,26 +10,25 @@ import EmojiIndex from 'emoji-mart/dist/utils/emoji-index/nimble-emoji-index';
 import defaultEmojiData from '../utils/emojiData';
 import { PropsWithElementAttributes } from '../utils';
 
-export type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> &
-  PropsWithElementAttributes<{
-    /** Override the default emoji dataset, library has a light set of emojis
-     * to show more emojis use your own or emoji-mart sets
-     * https://github.com/missive/emoji-mart#datasets
-     */
-    emojiData?: EmojiDataSet;
-    /** A ref that is bound to the textarea element */
-    innerRef?: React.MutableRefObject<HTMLTextAreaElement | undefined> | ((el: HTMLTextAreaElement) => void);
-    maxLength?: number;
-    onChange?: (event: React.SyntheticEvent<HTMLTextAreaElement>) => void;
-    onPaste?: (event: React.ClipboardEvent<HTMLTextAreaElement>) => void;
-    placeholder?: string;
-    rows?: number;
-    /** An extra trigger for ReactTextareaAutocomplete, this can be used to show
-     * a menu when typing @xxx or #xxx, in addition to the emoji menu when typing :xxx
-     */
-    trigger?: TriggerType<UR>;
-    value?: string;
-  }>;
+export type TextareaProps = PropsWithElementAttributes<{
+  /** Override the default emoji dataset, library has a light set of emojis
+   * to show more emojis use your own or emoji-mart sets
+   * https://github.com/missive/emoji-mart#datasets
+   */
+  emojiData?: EmojiDataSet;
+  /** A ref that is bound to the textarea element */
+  innerRef?: React.MutableRefObject<HTMLTextAreaElement | undefined> | ((el: HTMLTextAreaElement) => void);
+  maxLength?: number;
+  onChange?: (event: React.SyntheticEvent<HTMLTextAreaElement>) => void;
+  onPaste?: (event: React.ClipboardEvent<HTMLTextAreaElement>) => void;
+  placeholder?: string;
+  rows?: number;
+  /** An extra trigger for ReactTextareaAutocomplete, this can be used to show
+   * a menu when typing @xxx or #xxx, in addition to the emoji menu when typing :xxx
+   */
+  trigger?: TriggerType<UR>;
+  value?: string;
+}>;
 
 const emojiTrigger: (emojiData: EmojiDataSet) => TriggerType<BaseEmoji> = (emojiData) => {
   const emojiIndex = new EmojiIndex(emojiData);
@@ -56,7 +55,6 @@ const emojiTrigger: (emojiData: EmojiDataSet) => TriggerType<BaseEmoji> = (emoji
 };
 
 export const Textarea = ({
-  className,
   emojiData = defaultEmojiData,
   innerRef,
   maxLength,
@@ -64,16 +62,15 @@ export const Textarea = ({
   onPaste,
   placeholder = 'Share your opinion',
   rows = 3,
-  style,
   trigger = {},
   value,
-  ...rest
+  className,
+  style,
 }: TextareaProps) => {
   const emoji = useMemo(() => emojiTrigger(emojiData), []);
 
   return (
     <ReactTextareaAutocomplete
-      {...rest}
       loadingComponent={LoadingIndicator}
       // @ts-expect-error
       trigger={{ ...emoji, ...trigger }}
