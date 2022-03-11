@@ -5,11 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.4.0 - 2022-03-11
+
+### Feature
+
+- Handle string timestamps with timezone in format ±hh:mm by @danypype in #314
+- Allow use of custom Textarea component in StatusUpdateForm by @MartinCupela in #342
+
+### Fix
+
+- Token "-" causes the emoji search to fail in StatusUpdateForm by @MartinCupela in #336
+- Forward doReactionsFilterRequest prop within NotificationFeed by @MartinCupela in #320
+
+## 1.3.4 - 2021-11-04
+
+### Fix
+
+- Feed re-renders on options props change by @arnautov-anton in #313
+
 ## 1.3.3 - 2021-10-29
 
 ### Fix
 
-Removal of child reactions from latest_children #312
+- Removal of child reactions from latest_children #312
 
 ## 1.3.2 - 2021-10-28
 
