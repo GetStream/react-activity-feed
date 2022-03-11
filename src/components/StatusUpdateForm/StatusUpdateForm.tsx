@@ -1,21 +1,21 @@
 import React, { ReactNode } from 'react';
 import { Activity, NewActivity, UR } from 'getstream';
 import {
-  ImageUploadButton,
-  FileUploadButton,
-  ImagePreviewer,
   FilePreviewer,
-  ImageDropzone,
-  LoadingIndicator,
   FileUpload,
+  FileUploadButton,
+  ImageDropzone,
+  ImagePreviewer,
   ImageUpload,
+  ImageUploadButton,
+  LoadingIndicator,
 } from 'react-file-utils';
 
 import { DefaultAT, DefaultUT, useTranslationContext } from '../../context';
-import { PropsWithElementAttributes } from '../../utils';
+import { ElementOrComponentOrLiteralType, PropsWithElementAttributes, smartRender } from '../../utils';
 import { useStatusUpdateForm } from './useStatusUpdateForm';
-import { Panel, PanelContent, PanelHeading, PanelFooter } from '../Panel';
-import { Textarea, TextareaProps } from '../Textarea';
+import { Panel, PanelContent, PanelFooter, PanelHeading } from '../Panel';
+import { Textarea as DefaultTextarea, TextareaProps } from '../Textarea';
 import { Avatar } from '../Avatar';
 import { Card } from '../Card';
 import { Audio } from '../Audio';
@@ -58,6 +58,8 @@ export type StatusUpdateFormProps<AT extends DefaultAT = DefaultAT> = PropsWithE
   modifyActivityData?: (activity: NewActivity<AT>) => NewActivity<AT>;
   /** A callback to run after the activity is posted successfully */
   onSuccess?: (activity: Activity<AT>) => void;
+  /** Custom Textarea component implementation */
+  Textarea?: ElementOrComponentOrLiteralType<Omit<TextareaProps, 'maxLength' | 'rows'>>;
   /** An extra trigger for ReactTextareaAutocomplete, this can be used to show
    * a menu when typing @xxx or #xxx, in addition to the emoji menu when typing
    * :xxx  */
@@ -81,6 +83,7 @@ export function StatusUpdateForm<
   emojiI18n,
   Header,
   FooterItem,
+  Textarea = DefaultTextarea,
   trigger,
   doRequest,
   userId,
@@ -112,15 +115,15 @@ export function StatusUpdateForm<
                 </div>
               )}
 
-              <Textarea
-                innerRef={state.textInputRef}
-                placeholder={t('Type your post...')}
-                value={state.text}
-                onChange={state.onChange}
-                emojiData={emojiData}
-                trigger={trigger}
-                onPaste={state.onPaste}
-              />
+              {smartRender(Textarea, {
+                emojiData,
+                innerRef: state.textInputRef,
+                onChange: state.onChange,
+                onPaste: state.onPaste,
+                placeholder: t('Type your post...'),
+                trigger,
+                value: state.text,
+              })}
             </div>
 
             {state.isOgScraping && (
