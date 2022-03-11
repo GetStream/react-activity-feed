@@ -4,7 +4,7 @@ import ReactTextareaAutocomplete, { TriggerType } from '@webscopeio/react-textar
 import { LoadingIndicator } from 'react-file-utils';
 import { BaseEmoji } from 'emoji-mart';
 import { UR } from 'getstream';
-import { NimbleEmojiIndex, Data as EmojiDataSet } from 'emoji-mart';
+import { Data as EmojiDataSet } from 'emoji-mart';
 // @ts-expect-error
 import EmojiIndex from 'emoji-mart/dist/utils/emoji-index/nimble-emoji-index';
 import defaultEmojiData from '../utils/emojiData';
@@ -31,12 +31,18 @@ export type TextareaProps = PropsWithElementAttributes<{
 }>;
 
 const emojiTrigger: (emojiData: EmojiDataSet) => TriggerType<BaseEmoji> = (emojiData) => {
-  const emojiIndex = new EmojiIndex(emojiData) as NimbleEmojiIndex;
+  const emojiIndex = new EmojiIndex(emojiData);
 
   return {
     ':': {
       output: (item) => ({ key: item.id, text: item.native, caretPosition: 'next' }),
-      dataProvider: (token: string) => (emojiIndex.search(token) || []).slice(0, 10) as BaseEmoji[],
+      dataProvider: (token: string) => {
+        // condition extracted from emoji-mart to circumvent the bug in the emoji-mart package
+        if (['-', '-1'].includes(token)) {
+          return [emojiIndex.emojis['-1']];
+        }
+        return (emojiIndex.search(token) || []).slice(0, 10) as BaseEmoji[];
+      },
       component: function AutocompleteItem({ entity: { id, native } }) {
         return (
           <div>
