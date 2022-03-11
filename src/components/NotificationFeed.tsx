@@ -142,6 +142,7 @@ export const NotificationFeed = <
   doChildReactionDeleteRequest,
   doReactionAddRequest,
   doReactionDeleteRequest,
+  doReactionsFilterRequest,
   feedGroup = 'notification',
   notify = false,
   Group = Notification,
@@ -163,6 +164,7 @@ export const NotificationFeed = <
       doReactionDeleteRequest={doReactionDeleteRequest}
       doChildReactionAddRequest={doChildReactionAddRequest}
       doChildReactionDeleteRequest={doChildReactionDeleteRequest}
+      doReactionsFilterRequest={doReactionsFilterRequest}
     >
       <NotificationFeedInner<UT, AT, CT, RT, CRT, PT>
         Group={Group}
