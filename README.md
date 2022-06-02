@@ -8,6 +8,8 @@
 
 You can sign up for a Stream account at [Get Started](https://getstream.io/get_started/).
 
+Note: The user interface for the activity feed can vary widely across different apps. Most of our activity feed customers integrate with Stream via their backend and build their own UI. This takes advantage of Stream’s scalability while keeping full control over the UI. This library is only updated and improved sporadically.
+
 ## Install
 
 ```bash
