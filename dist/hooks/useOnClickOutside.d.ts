@@ -1,0 +1,2 @@
+export declare const useOnClickOutside: (ref: React.RefObject<HTMLElement>, handler: (event: MouseEvent | TouchEvent) => void, registerListeners?: boolean) => void;
+//# sourceMappingURL=useOnClickOutside.d.ts.map

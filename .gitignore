@@ -6,7 +6,6 @@ node_modules
 
 # builds
 /example/build
-dist
 lib
 .docz
 

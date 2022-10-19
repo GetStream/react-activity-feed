@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { UR } from 'getstream';
 
@@ -50,9 +50,13 @@ const NotificationDropdownInner = <
     feed.refreshUnreadUnseen();
   }, []);
 
+  const onIconBadgeClick = useCallback(() => {
+    setOpen((open) => !open);
+  }, []);
+
   return (
     <div className={classNames('raf-notification-dropdown', className)} style={style}>
-      <IconBadge showNumber unseen={feed.unseen} hidden={!feedProps.notify} onClick={() => setOpen(true)}>
+      <IconBadge showNumber unseen={feed.unseen} hidden={!feedProps.notify} onClick={onIconBadgeClick}>
         {Icon && smartRender(Icon)}
       </IconBadge>
 

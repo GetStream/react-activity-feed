@@ -1,0 +1,1 @@
+{"version":3,"file":"DataLabel.d.ts","sourceRoot":"","sources":["../../src/components/DataLabel.tsx"],"names":[],"mappings":";AAGA,OAAO,EAAE,0BAA0B,EAAE,MAAM,UAAU,CAAC;AAEtD,oBAAY,cAAc,GAAG,0BAA0B,CAAC;IACtD,IAAI,CAAC,EAAE,MAAM,GAAG,MAAM,CAAC;IACvB,KAAK,CAAC,EAAE,MAAM,CAAC;CAChB,CAAC,CAAC;AAEH,eAAO,MAAM,SAAS,sCAA0D,cAAc,gBAO7F,CAAC"}
