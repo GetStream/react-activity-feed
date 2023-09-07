@@ -45,8 +45,8 @@
     "postversion": "git push && git push --tags && npm publish"
   },
   "peerDependencies": {
-    "react": "^17.0.0 || ^16.8.0",
-    "react-dom": "^17.0.0 || ^16.8.0"
+    "react": "^17.0.0 || ^16.8.0 || ^18.2.0",
+    "react-dom": "^17.0.0 || ^16.8.0 || ^18.2.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.16",
