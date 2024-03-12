@@ -65,7 +65,7 @@ export const EmojiPicker = ({ emojiData = defaultEmojiData, i18n, onSelect, clas
           />
         </div>
       )}
-      <div role="button" onClick={() => setOpen(true)} className="raf-emoji-picker__button">
+      <div role="button" onClick={() => setOpen(true)} className="raf-emoji-picker__button" TabIndex={0} aria-label='Pick an emoji'>
         <EmojiIcon />
       </div>
     </div>
