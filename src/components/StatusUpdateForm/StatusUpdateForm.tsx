@@ -151,9 +151,8 @@ export function StatusUpdateForm<
                   <li
                     onClick={() => state.setActiveOg(url as string)}
                     key={url}
-                    className={`raf-status-update-form__url-list-item${
-                      url === state.ogActiveUrl ? ' raf-status-update-form__url-list-item--active' : ''
-                    }`}
+                    className={`raf-status-update-form__url-list-item${url === state.ogActiveUrl ? ' raf-status-update-form__url-list-item--active' : ''
+                      }`}
                   >
                     <BookmarkIcon
                       style={{
@@ -190,10 +189,10 @@ export function StatusUpdateForm<
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <div style={{ flex: 1 }}>
                 <div style={{ marginRight: '32px', display: 'inline-block' }}>
-                  <ImageUploadButton resetOnChange handleFiles={state.uploadNewFiles} multiple />
+                  <ImageUploadButton resetOnChange handleFiles={state.uploadNewFiles} multiple aria-label='Upload an image' />
                 </div>
                 <div style={{ marginRight: '32px', display: 'inline-block' }}>
-                  <FileUploadButton handleFiles={state.uploadNewFiles} multiple />
+                  <FileUploadButton handleFiles={state.uploadNewFiles} multiple aria-label='Upload a file' />
                 </div>
                 <EmojiPicker onSelect={state.onSelectEmoji} emojiData={emojiData} i18n={emojiI18n} />
                 {FooterItem}
