@@ -190,16 +190,16 @@ export function StatusUpdateForm<
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <div style={{ flex: 1 }}>
                 <div style={{ marginRight: '32px', display: 'inline-block' }}>
-                  <ImageUploadButton resetOnChange handleFiles={state.uploadNewFiles} multiple />
+                  <ImageUploadButton resetOnChange handleFiles={state.uploadNewFiles} multiple aria-label='Upload an image' />
                 </div>
                 <div style={{ marginRight: '32px', display: 'inline-block' }}>
-                  <FileUploadButton handleFiles={state.uploadNewFiles} multiple />
+                  <FileUploadButton handleFiles={state.uploadNewFiles} multiple aria-label='Upload a file' />
                 </div>
                 <EmojiPicker onSelect={state.onSelectEmoji} emojiData={emojiData} i18n={emojiI18n} />
                 {FooterItem}
               </div>
 
-              <Button type="submit" buttonStyle="primary" loading={state.submitting} disabled={!state.canSubmit()}>
+              <Button type="submit" buttonStyle="primary" loading={state.submitting} disabled={!state.canSubmit()} aria-label='Post'>
                 {t('Post')}
               </Button>
             </div>
