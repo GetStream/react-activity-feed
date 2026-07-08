@@ -10,6 +10,11 @@ concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
 
+permissions:
+  actions: write
+  contents: read
+  pull-requests: read
+
 jobs:
   build-docs:
     runs-on: ubuntu-latest
