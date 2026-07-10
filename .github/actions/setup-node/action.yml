@@ -14,7 +14,7 @@ runs:
       with:
         node-version: ${{ inputs.node-version }}
     - name: Cache Dependencies
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ./node_modules
         key: ${{ runner.os }}-${{ inputs.node-version }}-modules-${{ hashFiles('**/yarn.lock') }}
